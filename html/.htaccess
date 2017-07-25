@@ -1,0 +1,31 @@
+
+RewriteEngine On
+RewriteCond %{HTTP_REFERER} !^http(s)?://(.+)?visita\.(vegas|dev)/ [NC]
+RewriteCond %{HTTP_REFERER} !^$
+RewriteRule .*\.(bmp|txt|css|js|pdf|mp3|mp4|ttf|eot|svg|woff2?)$ - [F,L]
+
+RewriteEngine On
+RewriteCond %{REQUEST_URI} /(comments-post|activate)\.php$
+RewriteCond %{HTTP_REFERER} !.*(visita.vegas|visita.dev) [OR]
+RewriteRule (.*) - [F,L]
+
+SetEnvIf Origin "^(.*\.?(visita\.vegas|visita\.dev))$" ORIGIN_SUB_DOMAIN=$1
+<FilesMatch "\.(woff2?|ttf|eot|svg)$">
+  Header set Access-Control-Allow-Origin "%{ORIGIN_SUB_DOMAIN}e" env=ORIGIN_SUB_DOMAIN
+</FilesMatch>
+
+<FilesMatch "sw\.js">
+  Header set Service-Worker-Allowed: /
+</FilesMatch>
+
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+# END WordPress
