@@ -1,0 +1,9 @@
+.DS_Store
+.sass-cache
+npm-debug.log
+node_modules/
+webpack-dev-server
+log
+public
+.ftpconfig
+import/players.csv

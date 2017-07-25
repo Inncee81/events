@@ -1,0 +1,48 @@
+User-agent: *
+
+Disallow: /comments
+Disallow: /feed
+Disallow: */trackback
+Disallow: */comments
+Disallow: /*.txt
+
+Disallow: /_f/
+Disallow: /_rsc/
+Disallow: /ea.php
+Disallow: /signup
+Disallow: /warm.php
+Disallow: /cronlog.txt
+Disallow: /wp-login.php
+Disallow: /support/reply/*/feed
+Disallow: /src/
+Disallow: /level-1/
+Disallow: /readme.html
+
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/cache/*.dat
+Disallow: /wp-content/plugins/
+Disallow: /wp-content/themes/
+
+Allow: /index.php
+Allow: /wp-content/sites/
+Allow: /wp-content/uploads/
+Allow: /wp-content/plugins/*.js
+Allow: /wp-content/plugins/*.css
+Allow: /wp-content/plugins/*.jpg
+Allow: /wp-content/plugins/*.png
+
+Allow: /wp-content/themes/*.js
+Allow: /wp-content/themes/*.css
+Allow: /wp-content/themes/*.jpg
+Allow: /wp-content/themes/*.png
+Allow: /wp-content/themes/*.gif
+
+Allow: /wp-includes/*.css
+Allow: /wp-includes/*.js
+Allow: /wp-includes/*.jpg
+Allow: /wp-includes/*.png
+
+Allow: /wp-admin/*.gif
+Allow: /wp-admin/*.js
+Allow: /wp-admin/load-scripts.php
