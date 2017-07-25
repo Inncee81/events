@@ -252,7 +252,6 @@ function wp_cache_serve_cache_file() {
 				header( "Content-type: text/html; charset=UTF-8" );
 
 			header( "Vary: Accept-Encoding, Cookie" );
-			header( "Cache-Control: max-age=3, must-revalidate" );
 			$size = function_exists( 'mb_strlen' ) ? mb_strlen( $cachefiledata, '8bit' ) : strlen( $cachefiledata );
 			if ( $wp_cache_gzip_encoding ) {
 				header( "WP-Super-Cache: Served supercache gzip file from PHP" );
@@ -819,7 +818,7 @@ function wp_cache_confirm_delete( $dir ) {
 	if ( substr( $dir, 0, strlen( $rp_cache_path ) ) != $rp_cache_path )
 		return false;
 
-	if ( 
+	if (
 		$dir == $rp_cache_path ||
 		$dir == realpath( $blog_cache_dir ) ||
 		$dir == realpath( $blog_cache_dir . "meta/" ) ||

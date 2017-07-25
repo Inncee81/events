@@ -23,6 +23,9 @@ SetEnvIf Origin "^(.*\.?(visita\.vegas|visita\.dev))$" ORIGIN_SUB_DOMAIN=$1
 RewriteEngine On
 RewriteBase /
 RewriteRule ^index\.php$ - [L]
+RewriteRule ^access/? /wp-login.php [QSA,L]
+RewriteRule ^register/? /wp-signup.php [QSA,L]
+RewriteRule ^loggedout/? /wp-login.php?loggedout=true [QSA,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
