@@ -33,5 +33,4 @@ if ( !defined( 'ABSPATH' ) )
 
 if ( ! class_exists( 'VisitaCore' ) ){
 
-	$VisitaCore = new VisitaCore();
 }

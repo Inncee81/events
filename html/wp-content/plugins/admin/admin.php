@@ -248,6 +248,5 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 	}
 
 	//do that thing that you do
-	global $XparkMedia;
 	$XparkMedia = new XparkMedia( );
 }

@@ -2,16 +2,16 @@
   "name": "visita",
   "version": "0.2.0",
   "description": "visita.vegas site",
-  "main": "src/bundle.js",
+  "main": "src/build.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Xpark-Media/visita"
   },
   "scripts": {
-    "start": "NODE_ENV=production webpack --watch",
+    "start": "NODE_ENV=development webpack --watch --hide-modules",
     "lint": "eslint ."
   },
-  "author": "",
+  "author": "Hafid Trujillo",
   "license": "ISC",
   "devDependencies": {
     "cross-env": "^5.0.0",
@@ -34,7 +34,6 @@
     "foundation-datepicker": "^1.5.6",
     "foundation-sites": "~6.3.1",
     "html-webpack-plugin": "^2.28.0",
-    "jquery": "^3.1.1",
     "node-sass": "^4.5.0",
     "react": "~15.4.2",
     "react-dom": "~15.4.2",
