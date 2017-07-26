@@ -65,7 +65,10 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 
 			// completely disable xmlrpc for security reasons
 			// only enable if there is a need to use mobile native apps
-			add_filter('xmlrpc_enabled', '__return_false');
+			add_filter( 'xmlrpc_enabled', '__return_false' );
+
+			//
+			add_filter( 'rest_authentication_errors', array( $this, 'json_basic_auth_handler'), 30 );
 		}
 
 		/**
@@ -77,6 +80,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		function add_hooks( ) {
 
 			//clean up
+			remove_action( 'wp_head', 'rsd_link' );
 			remove_action( 'wp_head', 'wp_generator' );
       remove_action( 'wp_print_styles', 'print_emoji_styles' );
       remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
@@ -246,6 +250,36 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 			if ( ! wp_verify_nonce( $_POST['xm-register-nonce'], 'xwewerhg-register' ) ) {
 				wp_die( 'Security check failed' );
 			}
+		}
+
+		/**
+		* Restrict REST API to domain and authenticated users
+		*
+		* @return $user object
+		* @since 3.0.0
+		*/
+		function json_basic_auth_handler( $error ) {
+
+			if ( current_user_can( 'publish_posts' ) ) {
+				return $error;
+			}
+
+			foreach ( array('HTTP_X_FORWARDED_FOR', 'REMOTE_HOST' ) as $HTTP_HOST ) {
+				if ( isset( $_SERVER[$HTTP_HOST] ) && $_SERVER[$HTTP_HOST] == $_SERVER['HTTP_HOST']) {
+					return $error;
+				}
+			}
+
+			// Check that we're trying to authenticate
+			if ( ! isset( $_SERVER['PHP_AUTH_USER'] ) || ! isset( $_SERVER['PHP_AUTH_PW'] ) ) {
+				return new WP_Error( 'authentication_failed', __( 'Authentication is required', 'admin' ), array( 'status' => 401 ) );
+			}
+
+			if ( is_wp_error( wp_authenticate( $_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'] ) ) ) {
+				return new WP_Error( 'authentication_failed', __( 'Invalid username or password', 'admin' ), array( 'status' => 403 ) );
+			}
+
+			return $error;
 		}
 
 		/**
