@@ -54,12 +54,18 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		function __construct( ) {
 
 			//basics
-			add_action( 'init', array( &$this, 'add_hooks' ) );
-			add_action( 'init', array( &$this, 'force_gzip_compresion' ), 1 );
+			add_action( 'init', array( $this, 'add_hooks' ) );
+			add_action( 'init', array( $this, 'force_gzip_compresion' ), 1 );
+
+			define( 'XPARKMEDIA_ABSPATH', str_replace( "\\", "/", dirname( __FILE__ ) ) );
 
 			//
-			add_action( 'init', array( &$this, 'redirect_page_admin' ), -10 );
-			add_action( 'widgets_init', array( &$this, 'remove_default_wp_widgets' ), 100 );
+			add_action( 'init', array( $this, 'redirect_page_admin' ), -10 );
+			add_action( 'widgets_init', array( $this, 'remove_default_wp_widgets' ), 100 );
+
+			// completely disable xmlrpc for security reasons
+			// only enable if there is a need to use mobile native apps
+			add_filter('xmlrpc_enabled', '__return_false');
 		}
 
 		/**
@@ -80,40 +86,46 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 			add_post_type_support( 'page', 'excerpt' );
 
 			//branding
-			add_action( 'login_head', array( &$this, 'custom_login' ), 1 );
-			add_filter( 'wp_mail_from', array( &$this, 'mail_from' ), 100 );
-			add_filter( 'wp_mail_from_name', array( &$this, 'mail_from_name' ), 100 );
+			add_action( 'login_head', array( $this, 'custom_login' ), 1 );
+			add_filter( 'wp_mail_from', array( $this, 'mail_from' ), 100 );
+			add_filter( 'wp_mail_from_name', array( $this, 'mail_from_name' ), 100 );
 
 			//admin url modifications
-			add_filter( 'site_url', array( &$this, 'change_access_urls' ), 100, 2 );
-			add_filter( 'network_site_url', array( &$this, 'change_access_urls' ), 100, 2 );
+			add_filter( 'site_url', array( $this, 'change_access_urls' ), 100, 2 );
+			add_filter( 'network_site_url', array( $this, 'change_access_urls' ), 100, 2 );
 
 
 			if ( is_admin( ) ) {
 
-				add_filter( 'name_save_pre', array( &$this, 'seo_slugs'), 100 );
-				add_action( 'admin_init', array( &$this, 'enqueue_style' ), 30 );
+				add_filter( 'name_save_pre', array( $this, 'seo_slugs'), 100 );
+				add_action( 'admin_init', array( $this, 'enqueue_style' ), 30 );
+				add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
+				add_filter( 'tiny_mce_before_init', array( $this, 'extended_editor_valid_elements' ) );
 
 				return;
 			}
 
 			// login screen
-			add_action( 'login_head', array( &$this, 'custom_login' ), 1 );
-			add_filter( 'login_headerurl', array( &$this, 'change_wp_login_url' ) );
-			add_filter( 'login_headertitle', array( &$this, 'change_wp_login_title' ) );
+			add_action( 'login_head', array( $this, 'custom_login' ), 1 );
+			add_filter( 'login_headerurl', array( $this, 'change_wp_login_url' ) );
+			add_filter( 'login_headertitle', array( $this, 'change_wp_login_title' ) );
 
 			//rss filters
-			add_filter( 'rss2_ns', array(&$this, 'add_image_ns_rss'), 100, 2 );
-			add_filter( 'posts_where', array( &$this, 'publish_later_on_feed' ) );
-			add_filter( 'rss2_item', array(&$this, 'add_image_to_rss_item'), 100, 2 );
+			add_filter( 'rss2_ns', array( $this, 'add_image_ns_rss'), 100, 2 );
+			add_filter( 'posts_where', array( $this, 'publish_later_on_feed' ) );
+			add_filter( 'rss2_item', array( $this, 'add_image_to_rss_item'), 100, 2 );
 
 			// frontend hooks
-			add_filter( 'body_class', array( &$this, 'admin_body_classes' ), 100 );
-			add_filter( 'wp_get_attachment_image_attributes', array(&$this, 'add_alt_attribute'), 10, 2 );
+			add_filter( 'body_class', array( $this, 'admin_body_classes' ), 100 );
+			add_filter( 'wp_get_attachment_image_attributes', array( $this, 'validate_image_atttributes'), 10, 2 );
 
-			//comments
-			add_action( 'comment_form', array( &$this, 'add_comment_nonce' ) );
-			add_action( 'pre_comment_on_post', array( &$this, 'check_comment_nonce' ) );
+			//commentsxx
+			add_action( 'comment_form', array( $this, 'add_comment_nonce' ) );
+			add_action( 'pre_comment_on_post', array( $this, 'check_comment_nonce' ) );
+
+			if ( WP_CACHE == true ) {
+        add_action( 'template_redirect', array( $this, 'compress_html_markup' ), 1 );
+      }
 		}
 
 		/**
@@ -146,15 +158,29 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 
 		/**
 		* Custom long in screen wp-admin ( css )
+		*
+		* @return void
+		* @since 1.0.0
 		*/
 		function custom_login( ) {
-			printf( '<link href="%1$s" rel="stylesheet" type="text/css" media="all" />',
-				plugins_url( 'admin/login.css?v=' . $this->version, 'https' )
-			);
+			wp_enqueue_style( 'admin-login', plugins_url( 'css/login.css', __FILE__ ), NULL, $this->version );
+		}
+
+		/**
+		 * Add admin styles and scripts
+		 *
+		 * @return void
+		 * @since 3.0.0
+		 */
+		function admin_scripts( ) {
+			wp_enqueue_style( 'custom-admin', plugins_url( '/admin.css', __FILE__ ), NULL, $this->version );
 		}
 
 		/**
 		* Add nonce to comment form
+		*
+		* @return void
+		* @since 1.0.0
 		*/
 		function add_comment_nonce( ){
 			wp_nonce_field( 'xm_comment_form' );
@@ -180,7 +206,34 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		* Add nonce to registration to avoid spam
 		*/
 		function enqueue_style( ) {
-			wp_enqueue_style( 'adminext', plugins_url( "admin/admin.css" ), false, $this->version );
+			wp_enqueue_style( 'adminext', plugins_url( 'admin/admin.css' ), false, $this->version );
+		}
+
+    /**
+     * html markup compression
+		 *
+     * @return void
+     * @since 0.1.0
+     */
+    function compress_html_markup( ) {
+      ob_start( array( $this, 'html_minify_buffer') );
+    }
+
+		/**
+		* Minimize html output
+		*
+		* @param string $html page markup
+		* @return string
+		* @since 0.1.0
+		*/
+		function html_minify_buffer( $html ) {
+
+			//remove comments
+			$html = preg_replace('/<!--([^(\[>|<)])(?:(?!-->).)*-->/s', '', $html);
+			$html = preg_replace('/>\s+</', '><', $html);
+			$html = str_ireplace('<p></p>', '', $html);
+
+			return $html;
 		}
 
 		/**
@@ -190,7 +243,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		* @since 0.1.0
 		*/
 		function check_registration_nonce( ) {
-			if ( ! wp_verify_nonce($_POST['xm-register-nonce'], 'xwewerhg-register') ) {
+			if ( ! wp_verify_nonce( $_POST['xm-register-nonce'], 'xwewerhg-register' ) ) {
 				wp_die( 'Security check failed' );
 			}
 		}
@@ -203,10 +256,20 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		* @return array
 		* @since 0.1.7
 		*/
-		function add_alt_attribute( $attributes, $attachment ) {
+		function validate_image_atttributes( $attributes, $attachment ) {
+
 			if ( ! isset( $attributes['alt'] ) || '' === $attributes['alt'] ) {
 				$attributes['alt'] = get_the_title( $attachment->ID );
 			}
+
+			if ( ! empty( $attr['sizes'] ) && empty( $attr['srcset'] ) ){
+				if ( $attachment_meta = (object) wp_get_attachment_metadata( $attachment->ID ) ) {
+					$attr['srcset'] = wp_get_attachment_image_url( $attachment->ID, 'full' ) . " {$attachment_meta->width}w";
+				} else {
+					unset($attr['sizes']);
+				}
+			}
+
 			return $attributes;
 		}
 
@@ -216,14 +279,14 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		* @return void
 		* @since 3.0.0
 		*/
-		function add_image_ns_rss(){
+		function add_image_ns_rss( ) {
 			echo 'xmlns:media="http://search.yahoo.com/mrss/"' . "\n";
 		}
 
 		/**
 		* Delay the publication of RSS
 		*/
-		function publish_later_on_feed( $where ){
+		function publish_later_on_feed( $where ) {
 			if ( ! is_feed( ) ) {
 			 return $where;
 			}
@@ -242,7 +305,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		* @return void
 		* @since 0.2.7
 		*/
-		function add_image_to_rss_item() {
+		function add_image_to_rss_item( ) {
 
 			if ( ! has_post_thumbnail() ) {
 				return;
@@ -273,28 +336,14 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		 * Force GZip compression
 		 */
 		function force_gzip_compresion( ) {
-			if ( ! defined('WP_CACHE') || ! WP_CACHE ) {
-				return;
-			}
-
-			global
-			$compress_css,
-			$compress_scripts,
-			$concatenate_scripts;
-
-			$compress_css 				= 1;
-			$compress_scripts 		= 1;
-			$concatenate_scripts 	= 1;
 
 			// Dont use on /wp-admin/post ( tinymce )
-			if ( preg_match( '(/post.php|/post-new.php)i', $_SERVER['REQUEST_URI'] ) ) {
-				$concatenate_scripts = 0;
+			if ( preg_match( '(/post.php|/post-new.php)i', $_SERVER['REQUEST_URI']) || ! WP_CACHE ) {
+			  return;
 			}
 
-			define( 'ENFORCE_GZIP', true );
-			define( 'COMPRESS_CSS', true );
-			define( 'COMPRESS_SCRIPTS', true );
-			define( 'CONCATENATE_SCRIPTS', true );
+			global $compress_scripts, $concatenate_scripts, $compress_css;
+			$compress_css = $compress_scripts =  $concatenate_scripts = 1;
 		}
 
 		/*
@@ -364,6 +413,37 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 
 			return $classes;
 		}
+
+		/**
+     * Allow schema.org attributes and cleanup deprecated attributes
+     *
+     * @param $settings array
+     * @return $settings array
+     * @since 0.1.3
+     */
+    function extended_editor_valid_elements( $settings ) {
+      /**
+      *   Edit extended_valid_elements as needed. For syntax, see
+      *   http://www.tinymce.com/wiki.php/Configuration:valid_elements
+      *
+      *   NOTE: Adding an element to extended_valid_elements will cause TinyMCE to ignore
+      *   default attributes for that element.
+      *   Eg. a[title] would remove href unless included in new rule: a[title|href]
+      */
+      if (empty($settings['extended_valid_elements'])) {
+        $settings['extended_valid_elements'] = '';
+      }
+
+      $settings['extended_valid_elements'] .=
+      '@[id|class|style|title|itemscope|itemtype|itemprop|datetime|rel|data-*]' .
+      ',article,header,i,footer,div,dl,dt,dd,em,li,span,strong,bold,ul' .
+      ',a[href|name|target|target|charset|lang|tabindex|accesskey|type|download]'.
+      ',iframe[src|width|height|allowfullscreen|sandbox|name]' .
+      ',img[src|alt|width|height|align|srcset|crossorigin]';
+
+      $settings['paste_postprocess'] = 'function(pl, o){ o.node.innerHTML = o.node.innerHTML.replace(/(<(p|span)[^>]*>)\s?(<br\/?>|&nbsp;)/ig, "$1") }';
+      return $settings;
+    }
 
 		/**
 		* Remove words form url slug
