@@ -6,6 +6,8 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 export default {
   entry: {
     //'bundle.js': './src/index.js',
+    'themes/visita/visita.js': './src/themes/visita/visita.js',
+    
     'plugins/admin/css/admin.css': './src/plugins/admin/admin.scss',
     'plugins/admin/css/login.css': './src/plugins/admin/login.scss',
     'themes/visita/style.css': './src/themes/visita/style.scss',
