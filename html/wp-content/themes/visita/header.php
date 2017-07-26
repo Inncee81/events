@@ -29,15 +29,16 @@
 
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="manifest" href="<?php stylesheet_directory_uri('/manifest.json') ?>">
-<link rel="icon" type="image/png" sizes="192x192" href="<?php stylesheet_directory_uri('/icons/icon-192x192.png') ?>">
-<link rel="apple-touch-icon" href="<?php stylesheet_directory_uri('/icons/apple-icon-72x72.png') ?>" />
-<link rel="apple-touch-icon" sizes="72x72" href="<?php stylesheet_directory_uri('/icons/apple-icon-72x72.png') ?>" />
-<link rel="apple-touch-icon" sizes="114x114" href="<?php stylesheet_directory_uri('/icons/apple-icon-114x114.png') ?>" />
-<link rel="apple-touch-icon" sizes="144x144" href="<?php stylesheet_directory_uri('/icons/apple-icon-144x144.png') ?>" />
-<link rel="apple-touch-icon" sizes="180x180" href="<?php stylesheet_directory_uri('/icons/apple-icon-180x180.png') ?>" />
+<link rel="apple-touch-icon" href="<?php stylesheet_directory_uri('/icons/icon-72.png') ?>" />
+<link rel="apple-touch-icon" sizes="72x72" href="<?php stylesheet_directory_uri('/icons/icon-72.png') ?>" />
+<link rel="apple-touch-icon" sizes="114x114" href="<?php stylesheet_directory_uri('/icons/icon-114.png') ?>" />
+<link rel="apple-touch-icon" sizes="144x144" href="<?php stylesheet_directory_uri('/icons/icon-144.png') ?>" />
+<link rel="apple-touch-icon" sizes="192x192" href="<?php stylesheet_directory_uri('/icons/icon-192.png') ?>" />
+<link rel="shortcut icon" sizes="192x192" type="image/png" href="<?php stylesheet_directory_uri('/icons/favicon.png') ?>">
 
 <?php wp_head(); ?>
 
 </head>
-
 <body <?php body_class(); ?>>
+
+<?php visita_before_page(); ?>

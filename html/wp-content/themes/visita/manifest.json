@@ -10,31 +10,31 @@
   "start_url": "/",
   "icons": [
     {
-      "src": "/wp-content/themes/visita/_img/icon-48.png",
+      "src": "/wp-content/themes/visita/icons/icon-48.png",
       "type": "image/png",
       "sizes": "48x48",
       "density": 1.0
     },
     {
-      "src": "/wp-content/themes/visita/_img/icon-72.png",
+      "src": "/wp-content/themes/visita/icons/icon-72.png",
       "type": "image/png",
       "sizes": "72x72",
       "density": 1.5
     },
     {
-      "src": "/wp-content/themes/visita/_img/icon-96.png",
+      "src": "/wp-content/themes/visita/icons/icon-96.png",
       "type": "image/png",
       "sizes": "96x96",
       "density": 2.0
     },
     {
-      "src": "/wp-content/themes/visita/_img/icon-144.png",
+      "src": "/wp-content/themes/visita/icons/icon-144.png",
       "type": "image/png",
       "sizes": "144x144",
       "density": 3.0
     },
     {
-      "src": "/wp-content/themes/visita/_img/icon-192.png",
+      "src": "/wp-content/themes/visita/icons/icon-192.png",
       "type": "image/png",
       "sizes": "192x192",
       "density": 4.0

@@ -5,6 +5,7 @@ node_modules/
 webpack-dev-server
 log
 public
+ftpconfig
 .ftpconfig
 import/players.csv
 debug.log
