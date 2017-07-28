@@ -21,6 +21,11 @@ class VisitaEvents {
   /**
   *
   */
+  protected $caldera_form_id = 'CF563eab540f9fd';
+
+  /**
+  *
+  */
   private $ticketmater_key = 'WkqW7ahymoVavSl9ljqacoiG2dg4gxzJ';
 
   /**
@@ -28,6 +33,7 @@ class VisitaEvents {
   */
   protected $default_event = array(
     'ID'                  => false,
+    'image'               => false,
     'post_title'          => '',
     'post_author'         => 1,
     'post_status'         => 'draft',
@@ -49,8 +55,8 @@ class VisitaEvents {
       '_price_max'        => '',
       '_location'         => '',
       '_calle'            => '',
-      '_ciudad'           => '',
-      '_estado'           => '',
+      '_ciudad'           => 'Las Vegas',
+      '_estado'           => 'NV',
       '_codigo_postal'    => '',
       '_phone'            => '',
       '_disable_source'   => false,
@@ -78,6 +84,9 @@ class VisitaEvents {
     add_action( 'visita_activate', array( $this, 'activate' ) );
     add_action( 'visita_deactivate', array( $this, 'deactivate' ) );
     add_action( 'init', array( $this, 'register_event_post_type'), -5 );
+
+    //forms
+    add_action( 'caldera_forms_entry_saved', array( $this, 'save_user_event' ), 10 );
 
     //speed up wordpress
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
@@ -141,7 +150,22 @@ class VisitaEvents {
   * @since 1.0.0
   */
   function event_atts( $event ) {
-    $event = array_merge( $this->default_event, $event );
+    foreach( $this->default_event as $name => $default ) {
+
+      if ( in_array( $name, array( 'tax_input', 'meta_input') ) ) {
+        foreach( $default as $meta_key => $meta_value ) {
+          if ( ! isset( $event[$name][$meta_key] ) ) {
+            $event[$name][$meta_key] = $meta_value;
+          }
+        }
+      }
+
+      else if ( ! isset( $event[$name] ) ) {
+        $event[$name] = $default;
+      }
+    }
+
+    return $event;
   }
 
   /**
@@ -221,7 +245,33 @@ class VisitaEvents {
         )
       ) )
     );
+  }
 
+  /**
+  *
+  */
+  function save_user_event( ) {
+    if ( empty( $_POST['_cf_frm_id'] ) || $_POST['_cf_frm_id'] != $this->caldera_form_id ) {
+      return;
+    }
+
+    $this->insert_event( array(
+        'tax_input' => array(
+          'eventos' => $_POST['fld_5981410'],
+        ),
+        'post_title' => sanitize_text_field($_POST['fld_8453987']),
+        'post_content' => sanitize_text_field($_POST['fld_5489516']),
+        'meta_input' => array(
+          '_fecha' => sanitize_text_field($_POST['fld_2997934']),
+          '_hasta' => sanitize_text_field($_POST['fld_7610679']),
+          '_horario' => sanitize_text_field($_POST['fld_5010512']),
+          '_price' => sanitize_text_field($_POST['fld_598129']),
+          '_price_max' => sanitize_text_field($_POST['fld_8942633']),
+          '_location' => sanitize_text_field($_POST['fld_1347577']),
+          '_calle' => sanitize_text_field($_POST['fld_8698786']),
+          '_codigo_postal' => sanitize_text_field($_POST['fld_9899020']),
+        )
+    ) );
   }
 
   /**
@@ -230,8 +280,34 @@ class VisitaEvents {
   * @return void
   * @since 1.0.0
   */
-  function insert_event( ) {
+  function insert_event( $event ) {
+    $postid = wp_insert_post(
+      $event = $this->event_atts( $event ) 
+    );
 
+    if ( $postid && $event['image'] ) {
+
+      $media_type = wp_check_filetype( basename( $event['image'] ), null );
+      $file_data  = wp_upload_bits(
+        sanitize_file_name( $event['name'] . "." . $media_type['ext'] ),
+        null,
+        @file_get_contents( $event['image'] )
+      );
+
+      if ( $file_data['error'] ) return;
+
+      $file = $file_data['file'];
+      $wp_upload_dir = wp_upload_dir();
+
+      if ( $attach_id = wp_insert_attachment( array(
+        'post_mime_type' => $file_data['type'],
+        'guid'           => $wp_upload_dir['url'] . '/' . basename( $file  ),
+        'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file  ) ),
+      ), $file , $postid ) ) {
+        wp_update_attachment_metadata( $attach_id, wp_generate_attachment_metadata( $attach_id, $file ) );
+        set_post_thumbnail( $postid, $attach_id );
+      }
+    }
   }
 
   /**
