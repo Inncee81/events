@@ -13,8 +13,21 @@
 
 class VisitaEvents {
 
+  /**
+  *
+  */
+  protected $post_type = 'evento';
+
+  /**
+  *
+  */
   private $ticketmater_key = 'WkqW7ahymoVavSl9ljqacoiG2dg4gxzJ';
+
+  /**
+  *
+  */
   protected $default_event = array(
+    'ID'                  => false,
     'post_title'          => '',
     'post_author'         => 1,
     'post_status'         => 'draft',
@@ -42,6 +55,7 @@ class VisitaEvents {
       '_phone'            => '',
       '_disable_source'   => false,
       '_event_type'       => 'event',
+      '_event_id'         => 'event',
       '_priceCurrency'    => 'USD',
       '_availability'     => 'InStock',
       '_eventStatus'      => 'activate',
@@ -63,6 +77,7 @@ class VisitaEvents {
     //basics
     add_action( 'visita_activate', array( $this, 'activate' ) );
     add_action( 'visita_deactivate', array( $this, 'deactivate' ) );
+    add_action( 'init', array( $this, 'register_event_post_type'), -5 );
 
     //speed up wordpress
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
@@ -120,8 +135,107 @@ class VisitaEvents {
   }
 
   /**
-  * Expired events
-  * and delete unprocess orders
+  * Merge event data with default
+  *
+  * @return void
+  * @since 1.0.0
+  */
+  function event_atts( $event ) {
+    $event = array_merge( $this->default_event, $event );
+  }
+
+  /**
+  *
+  * @return void
+  * @since 3.0.0
+  */
+  function register_event_post_type( ) {
+
+    register_taxonomy( 'eventos', 'evento', array(
+      'show_in_rest'      => true,
+      'show_admin_column' => true,
+      'label'             => __( 'Eventos', 'inmigracion' ),
+      'rewrite'           => array( 'slug' => 'eventos' ),
+      'hierarchical'      => true,
+    ));
+
+    register_post_type( $this->post_type, array(
+      'labels'            => array(
+          'name'          => __( 'Eventos', 'visita' ),
+          'singular_name' => __( 'Evento', 'visita' ),
+        ),
+        'show_ui'         => true,
+        'public'          => true,
+        'hierarchical'    => false,
+        'menu_position'   => 22,
+        'has_archive'     => true,
+        'show_in_rest'    => true,
+        'capability_type' => 'post',
+        'taxonomies'      => array( 'eventos', 'artistas' ),
+        'rewrite'         => array( 'slug' => 'evento', 'with_front' => false ),
+        'supports'        => array(
+          'title',
+          'editor',
+          'comments',
+          'revisions',
+          'thumbnail',
+        )
+    ) );
+  }
+
+  /**
+  * Check if event exists
+  *
+  * @return bool
+  * @since 1.0.0
+  */
+  function event_exists( $event ) {
+
+    // check for imported id first
+    if ( get_post_meta( $event['ID'], '_event_id', true ) ) {
+      return true;
+    }
+
+    // check event by metadata
+    return count(
+      get_posts( array(
+        'post_status' => 'any',
+        'post_type' => $event['type'],
+        'meta_query' => array(
+          array(
+            'key'     => '_artista',
+            'value'   => $event['_artista'],
+          ),
+          array(
+            'key'     => '_fecha',
+            'value'   => $event['_fecha'],
+          ),
+          array(
+            'key'     => '_hasta',
+            'value'   => $event['_hasta'],
+          ),
+          array(
+            'key'     => '_ciudad',
+            'value'   => $event['_ciudad'],
+          ),
+        )
+      ) )
+    );
+
+  }
+
+  /**
+  * Save new event
+  *
+  * @return void
+  * @since 1.0.0
+  */
+  function insert_event( ) {
+
+  }
+
+  /**
+  * Import events from ticketmaster api
   *
   * @return void
   * @since 1.0.0

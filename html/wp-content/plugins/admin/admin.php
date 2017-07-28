@@ -293,14 +293,14 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		function validate_image_atttributes( $attributes, $attachment ) {
 
 			if ( ! isset( $attributes['alt'] ) || '' === $attributes['alt'] ) {
-				$attributes['alt'] = get_the_title( $attachment->ID );
+				$attributes['alt'] = trim( strip_tags( get_the_title( $attachment->ID ) ) );
 			}
 
-			if ( ! empty( $attr['sizes'] ) && empty( $attr['srcset'] ) ){
+			if ( ! empty( $attributes['sizes'] ) && empty( $attributes['srcset'] ) ){
 				if ( $attachment_meta = (object) wp_get_attachment_metadata( $attachment->ID ) ) {
-					$attr['srcset'] = wp_get_attachment_image_url( $attachment->ID, 'full' ) . " {$attachment_meta->width}w";
+					$attributes['srcset'] = wp_get_attachment_image_url( $attachment->ID, 'full' ) . " {$attachment_meta->width}w";
 				} else {
-					unset($attr['sizes']);
+					unset($attributes['sizes']);
 				}
 			}
 
