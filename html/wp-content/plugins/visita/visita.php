@@ -27,10 +27,17 @@
 */
 
 // Stop direct access to the file
-if ( !defined( 'ABSPATH' ) )
+if ( ! defined( 'ABSPATH' ) )
 	die( );
 
+define( 'VISITA_FILE_NAME', plugin_basename( __FILE__ ) );
+define( 'VISITA_ABSPATH', str_replace( "\\", "/", dirname( __FILE__ ) ) );
+define( 'VISITA_INC', VISITA_ABSPATH . "/includes");
 
 if ( ! class_exists( 'VisitaCore' ) ){
 
+	include_once( VISITA_INC . "/core.php" );
+	include_once( VISITA_INC . "/events.php" );
+
+	$VisitaCore = new VisitaCore();
 }
