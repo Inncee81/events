@@ -2,7 +2,7 @@
 
 class acf_field_wysiwyg extends acf_field
 {
-	
+
 	/*
 	*  __construct
 	*
@@ -11,7 +11,7 @@ class acf_field_wysiwyg extends acf_field
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-	
+
 	function __construct()
 	{
 		// vars
@@ -23,16 +23,16 @@ class acf_field_wysiwyg extends acf_field
 			'media_upload' 	=>	'yes',
 			'default_value'	=>	'',
 		);
-		
-		
+
+
 		// Create an acf version of the_content filter (acf_the_content)
 		if(	isset($GLOBALS['wp_embed']) ) {
-			
+
 			add_filter( 'acf_the_content', array( $GLOBALS['wp_embed'], 'run_shortcode' ), 8 );
 			add_filter( 'acf_the_content', array( $GLOBALS['wp_embed'], 'autoembed' ), 8 );
-			
+
 		}
-		
+
 		add_filter( 'acf_the_content', 'capital_P_dangit', 11 );
 		add_filter( 'acf_the_content', 'wptexturize' );
 		add_filter( 'acf_the_content', 'convert_smilies' );
@@ -41,19 +41,19 @@ class acf_field_wysiwyg extends acf_field
 		add_filter( 'acf_the_content', 'shortcode_unautop' );
 		//add_filter( 'acf_the_content', 'prepend_attachment' ); *should only be for the_content (causes double image on attachment page)
 		add_filter( 'acf_the_content', 'do_shortcode', 11);
-		
+
 
 		// do not delete!
     	parent::__construct();
-    	
-    	
+
+
 		// filters
     	add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'toolbars'), 1, 1 );
     	add_filter( 'mce_external_plugins', array( $this, 'mce_external_plugins'), 20, 1 );
-    	
+
 	}
-	
-	
+
+
 	/*
 	*  mce_external_plugins
 	*
@@ -66,28 +66,28 @@ class acf_field_wysiwyg extends acf_field
 	*  @param	$post_id (int)
 	*  @return	$post_id (int)
 	*/
-	
+
 	function mce_external_plugins( $plugins ){
-		
+
 		// global
    		global $wp_version;
-   		
-   		
+
+
    		// WP 3.9 an above
    		if( version_compare($wp_version, '3.9', '>=' ) ) {
-			
+
 			// add code
 			$plugins['code'] = apply_filters('acf/get_info', 'dir') . 'js/tinymce.code.min.js';
-		
+
 		}
-		
-		
+
+
 		// return
 		return $plugins;
-		
+
 	}
-	
-	
+
+
 	/*
 	*  toolbars()
 	*
@@ -101,74 +101,74 @@ class acf_field_wysiwyg extends acf_field
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-	
+
    	function toolbars( $toolbars ) {
-   		
+
    		// global
    		global $wp_version;
-   		
-   		
+
+
    		// vars
    		$editor_id = 'acf_settings';
-   		
-   		
+
+
    		if( version_compare($wp_version, '3.9', '>=' ) ) {
-   		
+
    			// Full
 	   		$toolbars['Full'] = array(
-	   			
+
 	   			1 => apply_filters( 'mce_buttons', array('bold', 'italic', 'strikethrough', 'bullist', 'numlist', 'blockquote', 'hr', 'alignleft', 'aligncenter', 'alignright', 'link', 'unlink', 'wp_more', 'spellchecker', 'fullscreen', 'wp_adv' ), $editor_id ),
-	   			
+
 	   			2 => apply_filters( 'mce_buttons_2', array( 'formatselect', 'underline', 'alignjustify', 'forecolor', 'pastetext', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo', 'wp_help', 'code' ), $editor_id ),
-	   			
+
 	   			3 => apply_filters('mce_buttons_3', array(), $editor_id),
-	   			
+
 	   			4 => apply_filters('mce_buttons_4', array(), $editor_id),
-	   			
-	   		);
-	   		
-	   		
-	   		// Basic
-	   		$toolbars['Basic'] = array(
-	   			
-	   			1 => apply_filters( 'teeny_mce_buttons', array('bold', 'italic', 'underline', 'blockquote', 'strikethrough', 'bullist', 'numlist', 'alignleft', 'aligncenter', 'alignright', 'undo', 'redo', 'link', 'unlink', 'fullscreen'), $editor_id ),
-	   			
-	   		);
-	   		  		
-   		} else {
-	   		
-	   		// Full
-	   		$toolbars['Full'] = array(
-	   			
-	   			1 => apply_filters( 'mce_buttons', array('bold', 'italic', 'strikethrough', 'bullist', 'numlist', 'blockquote', 'justifyleft', 'justifycenter', 'justifyright', 'link', 'unlink', 'wp_more', 'spellchecker', 'fullscreen', 'wp_adv' ), $editor_id ),
-	   			
-	   			2 => apply_filters( 'mce_buttons_2', array( 'formatselect', 'underline', 'justifyfull', 'forecolor', 'pastetext', 'pasteword', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo', 'wp_help', 'code' ), $editor_id ),
-	   			
-	   			3 => apply_filters('mce_buttons_3', array(), $editor_id),
-	   			
-	   			4 => apply_filters('mce_buttons_4', array(), $editor_id),
-	   			
+
 	   		);
 
-	   		
+
 	   		// Basic
 	   		$toolbars['Basic'] = array(
-	   			
-	   			1 => apply_filters( 'teeny_mce_buttons', array('bold', 'italic', 'underline', 'blockquote', 'strikethrough', 'bullist', 'numlist', 'justifyleft', 'justifycenter', 'justifyright', 'undo', 'redo', 'link', 'unlink', 'fullscreen'), $editor_id ),
-	   			
+
+	   			1 => apply_filters( 'teeny_mce_buttons', array('bold', 'italic', 'underline', 'blockquote', 'strikethrough', 'bullist', 'numlist', 'alignleft', 'aligncenter', 'alignright', 'undo', 'redo', 'link', 'unlink', 'fullscreen'), $editor_id ),
+
 	   		);
-	   		
+
+   		} else {
+
+	   		// Full
+	   		$toolbars['Full'] = array(
+
+	   			1 => apply_filters( 'mce_buttons', array('bold', 'italic', 'strikethrough', 'bullist', 'numlist', 'blockquote', 'justifyleft', 'justifycenter', 'justifyright', 'link', 'unlink', 'wp_more', 'spellchecker', 'fullscreen', 'wp_adv' ), $editor_id ),
+
+	   			2 => apply_filters( 'mce_buttons_2', array( 'formatselect', 'underline', 'justifyfull', 'forecolor', 'pastetext', 'pasteword', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo', 'wp_help', 'code' ), $editor_id ),
+
+	   			3 => apply_filters('mce_buttons_3', array(), $editor_id),
+
+	   			4 => apply_filters('mce_buttons_4', array(), $editor_id),
+
+	   		);
+
+
+	   		// Basic
+	   		$toolbars['Basic'] = array(
+
+	   			1 => apply_filters( 'teeny_mce_buttons', array('bold', 'italic', 'underline', 'blockquote', 'strikethrough', 'bullist', 'numlist', 'justifyleft', 'justifycenter', 'justifyright', 'undo', 'redo', 'link', 'unlink', 'fullscreen'), $editor_id ),
+
+	   		);
+
    		}
-   		
-   		
-   		
+
+
+
    		// Custom - can be added with acf/fields/wysiwyg/toolbars filter
-   	
-   		
+
+
 	   	return $toolbars;
    	}
-   	
-   	
+
+
    	/*
 	*  input_admin_head()
 	*
@@ -180,12 +180,12 @@ class acf_field_wysiwyg extends acf_field
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-   	
+
    	function input_admin_head()
    	{
    		add_action( 'admin_footer', array( $this, 'admin_footer') );
    	}
-   	
+
    	function admin_footer()
    	{
 	   	?>
@@ -194,8 +194,8 @@ class acf_field_wysiwyg extends acf_field
 </div>
 	   	<?php
    	}
-   	
-   	
+
+
    	/*
 	*  create_field()
 	*
@@ -207,62 +207,62 @@ class acf_field_wysiwyg extends acf_field
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-	
+
 	function create_field( $field ) {
-		
+
 		// global
    		global $wp_version;
-		
-		
+
+
 		// vars
 		//$id = uniqid('acf-editor-');
 		$id = 'wysiwyg-' . $field['id'] . '-' . uniqid();
 		$default_editor = 'tinymce';
-				
-		
+
+
 		// filter value for editor
 		remove_filter( 'acf_the_editor_content', 'format_for_editor', 10, 2 );
 		remove_filter( 'acf_the_editor_content', 'wp_htmledit_pre', 10, 1 );
 		remove_filter( 'acf_the_editor_content', 'wp_richedit_pre', 10, 1 );
-		
-		
+
+
 		// WP 4.3
 		if( version_compare($wp_version, '4.3', '>=' ) ) {
-			
+
 			add_filter( 'acf_the_editor_content', 'format_for_editor', 10, 2 );
-			
-			
+
+
 		// WP < 4.3
 		} else {
-			
+
 			$function = user_can_richedit() ? 'wp_richedit_pre' : 'wp_htmledit_pre';
-			
+
 			add_filter('acf_the_editor_content', $function, 10, 1);
-			
+
 		}
-		
-		
+
+
 		// filter
 		$field['value'] = apply_filters( 'acf_the_editor_content', $field['value'], $default_editor );
-		
+
 		?>
-		<div id="wp-<?php echo $id; ?>-wrap" class="acf_wysiwyg wp-core-ui wp-editor-wrap tmce-active" data-toolbar="<?php echo $field['toolbar']; ?>" data-upload="<?php echo $field['media_upload']; ?>">
-			<div id="wp-<?php echo $id; ?>-editor-tools" class="wp-editor-tools hide-if-no-js">
+		<div id="wp-<?php echo esc_attr($id); ?>-wrap" class="acf_wysiwyg wp-core-ui wp-editor-wrap tmce-active" data-toolbar="<?php echo esc_attr($field['toolbar']); ?>" data-upload="<?php echo esc_attr($field['media_upload']); ?>">
+			<div id="wp-<?php echo esc_attr($id); ?>-editor-tools" class="wp-editor-tools hide-if-no-js">
 				<?php if( user_can_richedit() && $field['media_upload'] == 'yes' ): ?>
-				<div id="wp-<?php echo $id; ?>-media-buttons" class="wp-media-buttons">
+				<div id="wp-<?php echo esc_attr($id); ?>-media-buttons" class="wp-media-buttons">
 					<?php do_action( 'media_buttons', $id ); ?>
 				</div>
 				<?php endif; ?>
 			</div>
-			<div id="wp-<?php echo $id; ?>-editor-container" class="wp-editor-container">
-				<textarea id="<?php echo $id; ?>" class="wp-editor-area" name="<?php echo $field['name']; ?>"><?php echo $field['value']; ?></textarea>
+			<div id="wp-<?php echo esc_attr($id); ?>-editor-container" class="wp-editor-container">
+				<textarea id="<?php echo esc_attr($id); ?>" class="wp-editor-area" name="<?php echo esc_attr($field['name']); ?>"><?php echo esc_textarea($field['value']); ?></textarea>
 			</div>
 		</div>
 		<?php
-			
+
 	}
-	
-	
+
+
 	/*
 	*  create_options()
 	*
@@ -275,38 +275,38 @@ class acf_field_wysiwyg extends acf_field
 	*
 	*  @param	$field	- an array holding all the field's data
 	*/
-	
+
 	function create_options( $field )
 	{
 		// vars
 		$key = $field['name'];
-		
+
 		?>
-<tr class="field_option field_option_<?php echo $this->name; ?>">
+<tr class="field_option field_option_<?php echo esc_attr($this->name); ?>">
 	<td class="label">
-		<label><?php _e("Default Value",'acf'); ?></label>
-		<p><?php _e("Appears when creating a new post",'acf') ?></p>
+		<label><?php esc_html_e("Default Value",'acf'); ?></label>
+		<p><?php esc_html_e("Appears when creating a new post",'acf') ?></p>
 	</td>
 	<td>
-		<?php 
+		<?php
 		do_action('acf/create_field', array(
 			'type'	=>	'textarea',
-			'name'	=>	'fields['.$key.'][default_value]',
+			'name'	=>	'fields['. esc_attr($key) .'][default_value]',
 			'value'	=>	$field['default_value'],
 		));
 		?>
 	</td>
 </tr>
-<tr class="field_option field_option_<?php echo $this->name; ?>">
+<tr class="field_option field_option_<?php echo esc_attr($this->name); ?>">
 	<td class="label">
-		<label><?php _e("Toolbar",'acf'); ?></label>
+		<label><?php esc_html_e("Toolbar",'acf'); ?></label>
 	</td>
 	<td>
 		<?php
-		
+
 		$toolbars = apply_filters( 'acf/fields/wysiwyg/toolbars', array() );
 		$choices = array();
-		
+
 		if( is_array($toolbars) )
 		{
 			foreach( $toolbars as $k => $v )
@@ -314,14 +314,14 @@ class acf_field_wysiwyg extends acf_field
 				$label = $k;
 				$name = sanitize_title( $label );
 				$name = str_replace('-', '_', $name);
-				
+
 				$choices[ $name ] = $label;
 			}
 		}
-		
+
 		do_action('acf/create_field', array(
 			'type'	=>	'radio',
-			'name'	=>	'fields['.$key.'][toolbar]',
+			'name'	=>	'fields['. esc_attr($key) .'][toolbar]',
 			'value'	=>	$field['toolbar'],
 			'layout'	=>	'horizontal',
 			'choices' => $choices
@@ -329,15 +329,15 @@ class acf_field_wysiwyg extends acf_field
 		?>
 	</td>
 </tr>
-<tr class="field_option field_option_<?php echo $this->name; ?>">
+<tr class="field_option field_option_<?php echo esc_attr($this->name); ?>">
 	<td class="label">
-		<label><?php _e("Show Media Upload Buttons?",'acf'); ?></label>
+		<label><?php esc_html_e("Show Media Upload Buttons?",'acf'); ?></label>
 	</td>
 	<td>
-		<?php 
+		<?php
 		do_action('acf/create_field', array(
 			'type'	=>	'radio',
-			'name'	=>	'fields['.$key.'][media_upload]',
+			'name'	=>	'fields['. esc_attr($key) .'][media_upload]',
 			'value'	=>	$field['media_upload'],
 			'layout'	=>	'horizontal',
 			'choices' => array(
@@ -350,8 +350,8 @@ class acf_field_wysiwyg extends acf_field
 </tr>
 		<?php
 	}
-		
-	
+
+
 	/*
 	*  format_value_for_api()
 	*
@@ -367,20 +367,20 @@ class acf_field_wysiwyg extends acf_field
 	*
 	*  @return	$value	- the modified value
 	*/
-	
+
 	function format_value_for_api( $value, $post_id, $field )
 	{
 		// apply filters
 		$value = apply_filters( 'acf_the_content', $value );
-		
-		
+
+
 		// follow the_content function in /wp-includes/post-template.php
 		$value = str_replace(']]>', ']]&gt;', $value);
-		
-	
+
+
 		return $value;
 	}
-	
+
 }
 
 new acf_field_wysiwyg();

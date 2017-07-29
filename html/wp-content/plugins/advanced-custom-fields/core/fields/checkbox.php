@@ -11,7 +11,7 @@ class acf_field_checkbox extends acf_field
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-	
+
 	function __construct()
 	{
 		// vars
@@ -23,13 +23,13 @@ class acf_field_checkbox extends acf_field
 			'choices'		=>	array(),
 			'default_value'	=>	'',
 		);
-		
-		
+
+
 		// do not delete!
     	parent::__construct();
 	}
-		
-	
+
+
 	/*
 	*  create_field()
 	*
@@ -41,7 +41,7 @@ class acf_field_checkbox extends acf_field
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-	
+
 	function create_field( $field )
 	{
 		// value must be array
@@ -58,30 +58,30 @@ class acf_field_checkbox extends acf_field
 				$field['value'] = array( $field['value'] );
 			}
 		}
-		
-		
+
+
 		// trim value
 		$field['value'] = array_map('trim', $field['value']);
-		
-		
+
+
 		// vars
 		$i = 0;
 		$e = '<input type="hidden" name="' .  esc_attr($field['name']) . '" value="" />';
 		$e .= '<ul class="acf-checkbox-list ' . esc_attr($field['class']) . ' ' . esc_attr($field['layout']) . '">';
-		
-		
+
+
 		// checkbox saves an array
 		$field['name'] .= '[]';
-		
-		
+
+
 		// foreach choices
 		foreach( $field['choices'] as $key => $value )
 		{
 			// vars
 			$i++;
 			$atts = '';
-			
-			
+
+
 			if( in_array($key, $field['value']) )
 			{
 				$atts = 'checked="yes"';
@@ -90,27 +90,27 @@ class acf_field_checkbox extends acf_field
 			{
 				$atts .= ' disabled="true"';
 			}
-			
-			
+
+
 			// each checkbox ID is generated with the $key, however, the first checkbox must not use $key so that it matches the field's label for attribute
 			$id = $field['id'];
-			
+
 			if( $i > 1 )
 			{
 				$id .= '-' . $key;
 			}
-			
-			$e .= '<li><label><input id="' . esc_attr($id) . '" type="checkbox" class="' . esc_attr($field['class']) . '" name="' . esc_attr($field['name']) . '" value="' . esc_attr($key) . '" ' . $atts . ' />' . $value . '</label></li>';
+
+			$e .= '<li><label><input id="' . esc_attr($id) . '" type="checkbox" class="' . esc_attr($field['class']) . '" name="' . esc_attr($field['name']) . '" value="' . esc_attr($key) . '" ' . $atts . ' />' . esc_html( $value ) . '</label></li>';
 		}
-		
+
 		$e .= '</ul>';
-		
-		
+
+
 		// return
 		echo $e;
 	}
-	
-	
+
+
 	/*
 	*  create_options()
 	*
@@ -123,86 +123,86 @@ class acf_field_checkbox extends acf_field
 	*
 	*  @param	$field	- an array holding all the field's data
 	*/
-	
+
 	function create_options( $field )
 	{
 		// vars
 		$key = $field['name'];
-		
-		
+
+
 		// implode checkboxes so they work in a textarea
 		if( is_array($field['choices']) )
-		{		
+		{
 			foreach( $field['choices'] as $k => $v )
 			{
 				$field['choices'][ $k ] = $k . ' : ' . $v;
 			}
 			$field['choices'] = implode("\n", $field['choices']);
 		}
-		
+
 		?>
-<tr class="field_option field_option_<?php echo $this->name; ?>">
+<tr class="field_option field_option_<?php echo esc_attr($this->name); ?>">
 	<td class="label">
-		<label for=""><?php _e("Choices",'acf'); ?></label>
-		<p><?php _e("Enter each choice on a new line.",'acf'); ?></p>
-		<p><?php _e("For more control, you may specify both a value and label like this:",'acf'); ?></p>
-		<p><?php _e("red : Red",'acf'); ?><br /><?php _e("blue : Blue",'acf'); ?></p>
+		<label for=""><?php esc_html_e("Choices",'acf'); ?></label>
+		<p><?php esc_html_e("Enter each choice on a new line.",'acf'); ?></p>
+		<p><?php esc_html_e("For more control, you may specify both a value and label like this:",'acf'); ?></p>
+		<p><?php esc_html_e("red : Red",'acf'); ?><br /><?php esc_html_e("blue : Blue",'acf'); ?></p>
 	</td>
 	<td>
 		<?php
-		
+
 		do_action('acf/create_field', array(
 			'type'	=>	'textarea',
 			'class' => 	'textarea field_option-choices',
-			'name'	=>	'fields['.$key.'][choices]',
+			'name'	=>	'fields['. esc_attr($key) .'][choices]',
 			'value'	=>	$field['choices'],
 		));
-		
+
 		?>
 	</td>
 </tr>
-<tr class="field_option field_option_<?php echo $this->name; ?>">
+<tr class="field_option field_option_<?php echo esc_attr($this->name); ?>">
 	<td class="label">
-		<label><?php _e("Default Value",'acf'); ?></label>
-		<p class="description"><?php _e("Enter each default value on a new line",'acf'); ?></p>
+		<label><?php esc_html_e("Default Value", 'acf'); ?></label>
+		<p class="description"><?php esc_html_e("Enter each default value on a new line",'acf'); ?></p>
 	</td>
 	<td>
 		<?php
-		
+
 		do_action('acf/create_field', array(
 			'type'	=>	'textarea',
-			'name'	=>	'fields['.$key.'][default_value]',
+			'name'	=>	'fields['. esc_attr($key) .'][default_value]',
 			'value'	=>	$field['default_value'],
 		));
-		
+
 		?>
 	</td>
 </tr>
-<tr class="field_option field_option_<?php echo $this->name; ?>">
+<tr class="field_option field_option_<?php echo esc_attr($this->name) ?>">
 	<td class="label">
-		<label for=""><?php _e("Layout",'acf'); ?></label>
+		<label for=""><?php esc_html_e("Layout",'acf'); ?></label>
 	</td>
 	<td>
 		<?php
-		
+
 		do_action('acf/create_field', array(
 			'type'	=>	'radio',
-			'name'	=>	'fields['.$key.'][layout]',
+			'name'	=>	'fields['. esc_attr($key) .'][layout]',
 			'value'	=>	$field['layout'],
-			'layout' => 'horizontal', 
+			'layout' => 'horizontal',
 			'choices' => array(
-				'vertical' => __("Vertical",'acf'), 
+				'vertical' => __("Vertical",'acf'),
 				'horizontal' => __("Horizontal",'acf')
 			)
 		));
-		
+
 		?>
 	</td>
 </tr>
 		<?php
-		
+
 	}
-	
+
 }
 
 new acf_field_checkbox();

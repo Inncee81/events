@@ -2,7 +2,7 @@
 
 class acf_field_message extends acf_field
 {
-	
+
 	/*
 	*  __construct
 	*
@@ -11,7 +11,7 @@ class acf_field_message extends acf_field
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-	
+
 	function __construct()
 	{
 		// vars
@@ -21,13 +21,13 @@ class acf_field_message extends acf_field
 		$this->defaults = array(
 			'message'	=>	'',
 		);
-		
-		
+
+
 		// do not delete!
     	parent::__construct();
 	}
-	
-	
+
+
 	/*
 	*  create_field()
 	*
@@ -39,13 +39,13 @@ class acf_field_message extends acf_field
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-	
+
 	function create_field( $field )
 	{
 		echo wpautop( $field['message'] );
 	}
-	
-	
+
+
 	/*
 	*  create_options()
 	*
@@ -58,34 +58,34 @@ class acf_field_message extends acf_field
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-	
+
 	function create_options( $field )
 	{
 		// vars
 		$key = $field['name'];
-		
+
 		?>
-<tr class="field_option field_option_<?php echo $this->name; ?>">
+<tr class="field_option field_option_<?php echo esc_attr($this->name); ?>">
 	<td class="label">
-		<label for=""><?php _e("Message",'acf'); ?></label>
-		<p class="description"><?php _e("Text &amp; HTML entered here will appear inline with the fields",'acf'); ?><br /><br />
-		<?php _e("Please note that all text will first be passed through the wp function ",'acf'); ?><a href="http://codex.wordpress.org/Function_Reference/wpautop" target="_blank">wpautop</a></p>
+		<label for=""><?php esc_html_e("Message",'acf'); ?></label>
+		<p class="description"><?php esc_html_e("Text &amp; HTML entered here will appear inline with the fields",'acf'); ?><br /><br />
+		<?php esc_html_e("Please note that all text will first be passed through the wp function ",'acf'); ?><a href="http://codex.wordpress.org/Function_Reference/wpautop" target="_blank">wpautop</a></p>
 	</td>
 	<td>
-		<?php 
+		<?php
 		do_action('acf/create_field', array(
 			'type'	=>	'textarea',
 			'class' => 	'textarea',
-			'name'	=>	'fields['.$key.'][message]',
+			'name'	=>	'fields['. esc_attr($key) .'][message]',
 			'value'	=>	$field['message'],
 		));
 		?>
 	</td>
 </tr>
 		<?php
-		
+
 	}
-	
+
 }
 
 new acf_field_message();
