@@ -140,7 +140,7 @@ function visita_style_enqueues( ) {
   wp_localize_script( 'visita', 'visita', array(
     'C' => __( 'celsius', 'visita' ),
     'F' => __( 'freiheit', 'visita' ),
-  ));
+  ) );
 
 }
 add_action( 'wp_enqueue_scripts', 'visita_style_enqueues' );

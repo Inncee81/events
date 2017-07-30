@@ -77,7 +77,7 @@ function visita_share_botton( ) {
     'su' => array( 'name' => __( 'StumbleUpon', 'visita' ), 'url' => 'http://www.stumbleupon.com/submit?url=%s&title=%s' ),
   );
 
-  foreach( $sharelinks as $share => $data ) {
+  foreach ( $sharelinks as $share => $data ) {
     $links .= sprintf(
       '<a href="%1$s" title="%2$s" class="%3$s" target="_blank" rel="nofollow">%2$s</a>',
       esc_attr( sprintf( $data['url'], urlencode( get_permalink() ), urlencode( get_the_title() ) ) ),

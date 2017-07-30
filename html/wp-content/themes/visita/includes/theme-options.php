@@ -17,13 +17,13 @@ function visita_customize_register( $wp_customize ) {
     'section'  				=> 'visita_layout',
     'settings' 				=> 'visita_theme_options[page_width]',
     'label'    				=> __( 'Maximum page width', 'visita' ),
-  ));
+  ) );
 
   $wp_customize->add_setting( 'visita_theme_options[content_width]', array(
     'default'      			=> '',
     'type'          		=> 'option',
     'capability'  			=> 'edit_theme_options',
     'sanitize_callback'		=> 'visita_get_css_units',
-  ));
+  ) );
 }
 add_action( 'customize_register', 'visita_customize_register' );

@@ -8,3 +8,7 @@ Author URI: http://xparkmedia.com/
 Copyright (C) 2015-2018 Hafid R. Trujillo - Xpark Media
 Text Domain: admin
 !*/
+
+.field_type-true_false {
+  display: inline-block;
+}

@@ -44,27 +44,22 @@ class VisitaEvents {
       '_keywords'         => array(
         'espanol', 'musica',
       ),
-      '_artista'          => 0,
       '_description'      => '',
-      '_fecha'            => '', //start date
-      '_horario'          => '', //start time
-      '_hasta'            => '', //end date
-      '_cierran'          => '', //end time
-      '_link'             => '',
-      '_price'            => '',
-      '_price_max'        => '',
+      '_starts'           => '', //start date
+      '_ends'             => '', //start time
       '_location'         => '',
-      '_calle'            => '',
-      '_ciudad'           => 'Las Vegas',
-      '_estado'           => 'NV',
-      '_codigo_postal'    => '',
+      '_street'           => '',
+      '_link'             => '',
+      '_city'             => 'Las Vegas',
+      '_state'            => 'NV',
+      '_zip'              => '',
       '_phone'            => '',
+      '_permanent'        => false,
       '_disable_source'   => false,
-      '_event_type'       => 'event',
-      '_event_id'         => 'event',
-      '_priceCurrency'    => 'USD',
-      '_availability'     => 'InStock',
-      '_eventStatus'      => 'activate',
+      '_event_type'       => 'Event',
+      '_event_id'         => false,
+      '_offers'           => array(),
+      '_performers'       => array(),
     )
   );
 
@@ -83,10 +78,14 @@ class VisitaEvents {
     //basics
     add_action( 'visita_activate', array( $this, 'activate' ) );
     add_action( 'visita_deactivate', array( $this, 'deactivate' ) );
-    add_action( 'init', array( $this, 'register_event_post_type'), -5 );
+    add_action( 'init', array( $this, 'register_event_post_type' ), -5 );
 
     //forms
-    add_action( 'caldera_forms_entry_saved', array( $this, 'save_user_event' ), 10 );
+    add_action( 'caldera_forms_entry_saved', array( $this, 'save_user_event' ), 10, 2 );
+
+    //acf
+    add_action( 'acf/register_fields', array( $this, 'register_acf_fields' ) );
+    add_action( 'acf/register_fields', array( $this, 'add_event_field_group' ) );
 
     //speed up wordpress
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
@@ -94,7 +93,7 @@ class VisitaEvents {
     }
 
     if ( ! is_admin() ) {
-      add_action( 'template_redirect', array( $this, 'redirect_404'), 20, 100 );
+      add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
     }
   }
 
@@ -150,10 +149,11 @@ class VisitaEvents {
   * @since 1.0.0
   */
   function event_atts( $event ) {
-    foreach( $this->default_event as $name => $default ) {
+
+    foreach ( $this->default_event as $name => $default ) {
 
       if ( in_array( $name, array( 'tax_input', 'meta_input') ) ) {
-        foreach( $default as $meta_key => $meta_value ) {
+        foreach ( $default as $meta_key => $meta_value ) {
           if ( ! isset( $event[$name][$meta_key] ) ) {
             $event[$name][$meta_key] = $meta_value;
           }
@@ -173,20 +173,30 @@ class VisitaEvents {
   * @return void
   * @since 3.0.0
   */
+  function register_acf_fields() {
+    include_once( VISITA_ABSPATH . '/fields/repeater_datetime.php');
+    include_once( VISITA_ABSPATH . '/fields/repeater_performer.php');
+  }
+
+  /**
+  *
+  * @return void
+  * @since 3.0.0
+  */
   function register_event_post_type( ) {
 
     register_taxonomy( 'eventos', 'evento', array(
       'show_in_rest'      => true,
       'show_admin_column' => true,
-      'label'             => __( 'Eventos', 'inmigracion' ),
+      'label'             => __( 'Events', 'inmigracion' ),
       'rewrite'           => array( 'slug' => 'eventos' ),
       'hierarchical'      => true,
-    ));
+    ) );
 
     register_post_type( $this->post_type, array(
       'labels'            => array(
-          'name'          => __( 'Eventos', 'visita' ),
-          'singular_name' => __( 'Evento', 'visita' ),
+          'name'          => __( 'Events', 'visita' ),
+          'singular_name' => __( 'Event', 'visita' ),
         ),
         'show_ui'         => true,
         'public'          => true,
@@ -205,6 +215,12 @@ class VisitaEvents {
           'thumbnail',
         )
     ) );
+  }
+
+
+  function add_event_field_group() {
+
+
   }
 
   /**
@@ -227,20 +243,20 @@ class VisitaEvents {
         'post_type' => $event['type'],
         'meta_query' => array(
           array(
-            'key'     => '_artista',
-            'value'   => $event['_artista'],
+            'key'     => '_performer',
+            'value'   => $event['_performer'],
           ),
           array(
-            'key'     => '_fecha',
-            'value'   => $event['_fecha'],
+            'key'     => '_date',
+            'value'   => $event['_date'],
           ),
           array(
-            'key'     => '_hasta',
-            'value'   => $event['_hasta'],
+            'key'     => '_to',
+            'value'   => $event['_to'],
           ),
           array(
-            'key'     => '_ciudad',
-            'value'   => $event['_ciudad'],
+            'key'     => '_city',
+            'value'   => $event['_city'],
           ),
         )
       ) )
@@ -250,8 +266,9 @@ class VisitaEvents {
   /**
   *
   */
-  function save_user_event( ) {
-    if ( empty( $_POST['_cf_frm_id'] ) || $_POST['_cf_frm_id'] != $this->caldera_form_id ) {
+  function save_user_event( $entry_id, $form ) {
+
+    if ( $form['form_id'] != $this->caldera_form_id ) {
       return;
     }
 
@@ -262,14 +279,14 @@ class VisitaEvents {
         'post_title' => sanitize_text_field($_POST['fld_8453987']),
         'post_content' => sanitize_text_field($_POST['fld_5489516']),
         'meta_input' => array(
-          '_fecha' => sanitize_text_field($_POST['fld_2997934']),
-          '_hasta' => sanitize_text_field($_POST['fld_7610679']),
-          '_horario' => sanitize_text_field($_POST['fld_5010512']),
+          '_date' => sanitize_text_field($_POST['fld_2997934']),
+          '_to' => sanitize_text_field($_POST['fld_7610679']),
+          '_time' => sanitize_text_field($_POST['fld_5010512']),
           '_price' => sanitize_text_field($_POST['fld_598129']),
           '_price_max' => sanitize_text_field($_POST['fld_8942633']),
           '_location' => sanitize_text_field($_POST['fld_1347577']),
-          '_calle' => sanitize_text_field($_POST['fld_8698786']),
-          '_codigo_postal' => sanitize_text_field($_POST['fld_9899020']),
+          '_street' => sanitize_text_field($_POST['fld_8698786']),
+          '_zip' => sanitize_text_field($_POST['fld_9899020']),
         )
     ) );
   }
@@ -281,8 +298,9 @@ class VisitaEvents {
   * @since 1.0.0
   */
   function insert_event( $event ) {
+
     $postid = wp_insert_post(
-      $event = $this->event_atts( $event ) 
+      $event = $this->event_atts( $event )
     );
 
     if ( $postid && $event['image'] ) {
