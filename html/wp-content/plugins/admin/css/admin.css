@@ -9,6 +9,35 @@ Copyright (C) 2015-2018 Hafid R. Trujillo - Xpark Media
 Text Domain: admin
 !*/
 
-.field_type-true_false {
+.field_type-true_false.acf-tab_group-show {
   display: inline-block;
+}
+
+.field_key-field_performer {
+  margin-right: -2%;
+}
+
+.field_key-field_performer .label,
+.field_key-field_performer .acf-input-wrap,
+.field_key-field_performer .field_option-choices {
+  display: inline-block;
+  margin: 0 2% 0 0 !important;
+  vertical-align: top;
+  width: 48% !important;
+}
+
+@media screen and (max-width: 782px) {
+  .acf_postbox .field input[type="text"],
+  .acf_postbox .field input[type="number"],
+  .acf_postbox .field input[type="password"],
+  .acf_postbox .field input[type="email"] {
+    height: 34px;
+    padding: 8px 5px;
+  }
+}
+
+@media screen and (max-width: 782px) {
+  ul.acf-checkbox-list li input {
+    width: 25px !important;
+  }
 }

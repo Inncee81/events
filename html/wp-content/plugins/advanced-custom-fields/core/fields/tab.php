@@ -39,7 +39,7 @@ class acf_field_tab extends acf_field
 
 	function create_field( $field )
 	{
-		echo '<div class="acf-tab">' . esc_hml($field['label']) . '</div>';
+		echo '<div class="acf-tab">' . esc_html($field['label']) . '</div>';
 	}
 
 
@@ -62,12 +62,12 @@ class acf_field_tab extends acf_field
 		?>
 		<tr class="field_option field_option_<?php echo esc_attr($this->name); ?>">
 			<td class="label">
-				<label><?php esc_hml_e("Instructions",'acf'); ?></label>
+				<label><?php esc_html_e("Instructions",'acf'); ?></label>
 			</td>
 			<td>
-				<p><?php esc_hml_e("Use \"Tab Fields\" to better organize your edit screen by grouping your fields together under separate tab headings.",'acf'); ?></p>
-				<p><?php esc_hml_e("All the fields following this \"tab field\" (or until another \"tab field\" is defined) will be grouped together.",'acf'); ?></p>
-				<p><?php esc_hml_e("Use multiple tabs to divide your fields into sections.",'acf'); ?></p>
+				<p><?php esc_html_e("Use \"Tab Fields\" to better organize your edit screen by grouping your fields together under separate tab headings.",'acf'); ?></p>
+				<p><?php esc_html_e("All the fields following this \"tab field\" (or until another \"tab field\" is defined) will be grouped together.",'acf'); ?></p>
+				<p><?php esc_html_e("Use multiple tabs to divide your fields into sections.",'acf'); ?></p>
 			</td>
 		</tr>
 		<?php
