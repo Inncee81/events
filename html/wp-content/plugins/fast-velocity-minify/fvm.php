@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.1.6
+Version: 2.1.7
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -116,8 +116,6 @@ $exclude_defer_login = false;		 # Disable defer js on the login page
 $preload = array();                  # urls to preload before anything else
 $preconnect = array();               # domains to preconnect to
 $fvm_fix_editor = false;        	 # enable production mode by default?
-$fvm_nomerge_inline_css = false; 
-
 
 $send_css_to_footer = false;         # force defer for css
 $critical_path_css = false;      	 # critical path for homepage
@@ -155,7 +153,6 @@ if(is_admin()) {
 	$preload = array_map('trim', explode("\n", get_option('fastvelocity_min_preload')));
 	$preconnect = array_map('trim', explode("\n", get_option('fastvelocity_min_preconnect')));
 	$fvm_fix_editor = get_option('fastvelocity_min_fvm_fix_editor');
-	$fvm_nomerge_inline_css = get_option('fastvelocity_min_nomerge_inline_css');
 	$send_css_to_footer = get_option('fastvelocity_min_send_css_to_footer');
 	$critical_path_css = get_option('fastvelocity_min_critical_path_css');
 	
@@ -285,7 +282,6 @@ function fastvelocity_min_register_settings() {
 	register_setting('fvm-group', 'fastvelocity_min_fvm_fix_editor');
 	register_setting('fvm-group', 'fastvelocity_min_fvm_enable_cdn');
 	register_setting('fvm-group', 'fastvelocity_min_fvm_cdn_url');
-	register_setting('fvm-group', 'fastvelocity_min_nomerge_inline_css');
 	
 	# pro version (for private usage... or if you know what you're doing)
 	register_setting('fvm-group-pro', 'fastvelocity_min_defer_for_pagespeed_css');
@@ -474,10 +470,6 @@ Disable minification on CSS files <span class="note-info">[ If selected, CSS fil
 <label for="fastvelocity_min_skip_cssorder">
 <input name="fastvelocity_min_skip_cssorder" type="checkbox" id="fastvelocity_min_skip_cssorder" value="1" <?php echo checked(1 == get_option('fastvelocity_min_skip_cssorder'), true, false); ?> >
 Preserve the order of CSS files <span class="note-info">[ If selected, you will have better CSS compatibility but possibly more CSS files]</span></label>
-<br />
-<label for="fastvelocity_min_nomerge_inline_css">
-<input name="fastvelocity_min_nomerge_inline_css" type="checkbox" id="fastvelocity_min_nomerge_inline_css" value="1" <?php echo checked(1 == get_option('fastvelocity_min_nomerge_inline_css'), true, false); ?> >
-Preserve the styles CSS code <span class="note-info">[ Select this, if your plugins need to print unique inline style tags on each page ]</span></label>
 <br />
 <label for="fastvelocity_min_remove_print_mediatypes">
 <input name="fastvelocity_min_remove_print_mediatypes" type="checkbox" id="fastvelocity_min_remove_print_mediatypes" value="1" <?php echo checked(1 == get_option('fastvelocity_min_remove_print_mediatypes'), true, false); ?> >
@@ -1046,7 +1038,7 @@ if (stripos($src, '?ver') !== false) {
 if($exclude_defer_login == true && stripos($_SERVER["SCRIPT_NAME"], strrchr(wp_login_url(), '/')) !== false){ return $tag; }
 
 # reprocess the ignore list to remove the /fvm/cache/ from the list (else won't defer)
-$nignore = array(); foreach ($ignore as $i) { if($i != '/fvm/cache/') { $nignore[] = $i; } }
+if(is_array($ignore)) { $nignore = array(); foreach ($ignore as $i) { if($i != '/fvm/cache/') { $nignore[] = $i; } } }
 
 # when to defer, order matters
 $defer = 0; if($enable_defer_js == true) { $defer = 1; }
@@ -1094,7 +1086,7 @@ return $tag;
 # process header css ######################
 ###########################################
 function fastvelocity_min_merge_header_css() {
-global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css, $force_inline_googlefonts, $send_css_to_footer, $critical_path_css, $fvm_nomerge_inline_css;
+global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css, $force_inline_googlefonts, $send_css_to_footer, $critical_path_css;
 if(!is_object($wp_styles)) { return false; }
 $ctime = get_option('fvm-last-cache-update', '0'); 
 $styles = wp_clone($wp_styles);
@@ -1356,7 +1348,7 @@ $wp_styles->done = $done;
 # process css in the footer ###############
 ###########################################
 function fastvelocity_min_merge_footer_css() {
-global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css_footer, $force_inline_googlefonts, $send_css_to_footer, $fvm_nomerge_inline_css;
+global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css_footer, $force_inline_googlefonts, $send_css_to_footer;
 if(!is_object($wp_styles)) { return false; }
 $ctime = get_option('fvm-last-cache-update', '0'); 
 $styles = wp_clone($wp_styles);
@@ -1632,6 +1624,9 @@ add_filter('style_loader_src', 'fastvelocity_remove_cssjs_ver', 10, 2);
 
 # enable html minification
 if(!$skip_html_minification) {
-add_action('get_header', 'fastvelocity_min_html_compression_start'); 
-} 
+# do this is steps
+add_action('template_redirect', 'fastvelocity_min_buffer_start', 0);
+add_action('wp_head', 'fastvelocity_min_buffer_end', PHP_INT_MAX-1);
+add_action('wp_head', 'fastvelocity_min_buffer_start', PHP_INT_MAX);
+}
 

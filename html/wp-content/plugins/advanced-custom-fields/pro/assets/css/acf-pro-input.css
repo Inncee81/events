@@ -43,7 +43,6 @@
 }
 .acf-repeater .acf-row-handle {
   width: 16px;
-  text-align: center !important;
   vertical-align: middle !important;
   position: relative;
   /* icons */
@@ -53,12 +52,13 @@
 .acf-repeater .acf-row-handle .acf-icon {
   display: none;
   position: absolute;
-  top: 0;
-  margin: -8px 0 0 -2px;
+  top: 2%;
+  margin: 0;
   /* minus icon */
 }
 .acf-repeater .acf-row-handle .acf-icon.-minus {
-  top: 50%;
+  top: inherit;
+  bottom: 2%;
   /* ie fix */
 }
 body.browser-msie .acf-repeater .acf-row-handle .acf-icon.-minus {

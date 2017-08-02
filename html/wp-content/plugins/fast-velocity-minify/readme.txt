@@ -2,7 +2,7 @@
 Contributors: Alignak
 Tags: merge, combine, concatenate, PHP Minify, YUI Compressor, CSS, javascript, JS, minification, minify, optimization, optimize, stylesheet, aggregate, cache, CSS, html, minimize, pagespeed, performance, speed, GTmetrix, pingdom
 Requires at least: 4.5
-Stable tag: 2.1.6
+Stable tag: 2.1.7
 Tested up to: 4.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -43,7 +43,7 @@ I can offer you aditional `custom made` optimization on top of this plugin. If y
 *	Support for multisite installations
 *	Support for gzip_static on Nginx
 *	Support for the CDN Enabler plugin
-*	Auto purging of cache files on W3 Total Cache, WP Supercache, WP Rocket, Wp Fastest Cache, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, SG Optimizer, Godaddy Managed WordPress Hosting and WP Engine (read the FAQs)
+*	Auto purging of cache files on W3 Total Cache, WP Supercache, WP Rocket, Wp Fastest Cache, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, Nginx Cache (by Till Krüss ), SG Optimizer, Godaddy Managed WordPress Hosting and WP Engine (read the FAQs)
 *	Support for preconnect and preload headers
 *	and some more...
 
@@ -273,6 +273,11 @@ Note: Kindly purge the plugin cache as well as your server /plugin cache after u
 
 
 == Changelog ==
+
+= 2.1.7 [2017.07.17] =
+* improved html minification speed and response time to the first byte
+* fixed a random bug with the html minification library on large html pages (white pages)
+* added support for the "Nginx Cache" plugin purge, by Till Krüss
 
 = 2.1.6 [2017.07.17] =
 * fixed a php notice in debug mode

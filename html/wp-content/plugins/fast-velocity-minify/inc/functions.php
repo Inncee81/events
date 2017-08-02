@@ -87,15 +87,6 @@ return $hurl;
 }
 
 
-# alternative html minification, minimal
-function fastvelocity_min_minify_alt_html($html) {
-$html = trim(preg_replace('/\v(?:[\t\v\h]+)/', "\n", $html));
-$html = trim(preg_replace('/\t(?:[\t\v\h]+)/', ' ', $html));
-$html = trim(preg_replace('/\h(?:[\t\v\h]+)/', ' ', $html));
-return $html;
-}
-
-
 # check if it's an internal url or not
 function fvm_internal_url($hurl, $wp_home) {
 if (substr($hurl, 0, strlen($wp_home)) === $wp_home) { return true; }
@@ -107,20 +98,12 @@ return false;
 }
 
 
-# functions, minify html
-function fastvelocity_min_minify_html($html) {
-$use_alt_html_minification = get_option('fastvelocity_min_use_alt_html_minification', '0');
-if($use_alt_html_minification == '1') { return fastvelocity_min_minify_alt_html($html); }
-else { return trim(fastvelocity_min_Minify_HTML::minify($html)); }
-}
-
-
 # case-insensitive in_array() wrapper
 function fastvelocity_min_in_arrayi($hurl, $ignore){
 	$hurl = str_ireplace(array('http://', 'https://'), '//', $hurl); # better compatibility
 	$hurl = strtok(urldecode(rawurldecode($hurl)), '?'); # no query string, decode entities
 	
-	if (!empty($hurl)) { 
+	if (!empty($hurl) && is_array($ignore)) { 
 		foreach ($ignore as $i) {
 		$i = str_ireplace(array('http://', 'https://'), '//', $i); # better compatibility
 		$i = strtok(urldecode(rawurldecode($i)), '?'); # no query string, decode entities
@@ -222,10 +205,33 @@ return fvm_compat_urls($js);
 
 
 # functions to minify HTML
-function fastvelocity_min_html_compression_finish($html) { return fastvelocity_min_minify_html($html); }
-function fastvelocity_min_html_compression_start() { 
-ob_start('fastvelocity_min_html_compression_finish'); 
+function fastvelocity_min_buffer_start() { ob_start("fastvelocity_min_minify_html"); }
+function fastvelocity_min_buffer_end() { ob_end_flush(); }
+
+# functions, minify html
+function fastvelocity_min_minify_html($html) {
+return $html;
 }
+
+# alternative html minification, minimal
+function fastvelocity_min_minify_alt_html($html) {
+$html = trim(preg_replace('/\v(?:[\t\v\h]+)/', "\n", $html));
+$html = trim(preg_replace('/\t(?:[\t\v\h]+)/', ' ', $html));
+$html = trim(preg_replace('/\h(?:[\t\v\h]+)/', ' ', $html));
+return $html;
+}
+
+# functions, minify html
+function fastvelocity_min_html($html) {
+while(@ob_end_clean());
+ob_start();
+$use_alt_html_minification = get_option('fastvelocity_min_use_alt_html_minification', '0');
+if($use_alt_html_minification == '1') { return fastvelocity_min_minify_alt_html($html); }
+else { return trim(fastvelocity_min_Minify_HTML::minify($html)); }
+}
+
+
+
 
 
 # remove all cache files
@@ -778,6 +784,11 @@ function fastvelocity_godaddy_request( $method, $url = null ) {
 
 
 function fastvelocity_purge_others(){
+	
+# wodpress default cache
+if (function_exists('wp_cache_flush')) {
+wp_cache_flush();
+}
 	
 # Purge all W3 Total Cache
 if (function_exists('w3tc_pgcache_flush')) {
