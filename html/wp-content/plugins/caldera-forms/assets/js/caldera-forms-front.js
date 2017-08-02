@@ -1,4 +1,324 @@
-/*! GENERATED SOURCE FILE caldera-forms - v1.5.2.1 - 2017-07-05 *//*
+/*! GENERATED SOURCE FILE caldera-forms - v1.5.3.1 - 2017-07-26 *//**
+ * Simple event bindings for form state
+ *
+ * In general, access through CFState.events() not directly.
+ *
+ * @since 1.5.3
+ *
+ * @param state {CFState} State object to subscribe to
+ * @constructor
+ */
+function CFEvents(state) {
+	var events = {};
+
+	/**
+	 * Attach an event (add_action)
+	 *
+	 * @since 1.5.3
+	 *
+	 * @param id {String} Any string, but generally input ID
+	 * @param callback {Function} The callback function
+	 */
+	this.subscribe = function (id, callback) {
+		if (!hasEvents(id)) {
+			events[id] = [];
+		}
+		events[id].push(callback);
+	};
+
+	/**
+	 * Trigger an event (do_action)
+	 *
+	 * @since 1.5.3
+	 *
+	 * @param id {String} Any string, but generally input ID
+	 * @param value {*} The value to pass to callback
+	 */
+	this.trigger = function (id, value) {
+		if (!hasEvents(id)) {
+			return;
+		}
+
+		events[id].forEach(function (callback) {
+			callback(state.getState(id));
+		});
+
+	};
+
+	/**
+	 * Detach a bound event (remove_action)
+	 *
+	 * @since 1.5.3
+	 *
+	 * @param id {String} Any string, but generally input ID
+	 * @param callback {Function|null} The callback function you wish to detatch or null to detach all events.
+	 */
+	this.detach = function(id,callback){
+		if( hasEvents(id)){
+			if( null === callback ){
+				delete events[id];
+			}else{
+				for (var key in events[id]) {
+					if (callback === key) {
+						events[id].splice(key, 1);
+					}
+				}
+			}
+
+		}
+	};
+
+	/**
+	 * Check if there are events attatched to an identifier
+	 *
+	 * @since 1.5.23
+	 *
+	 *
+	 * @param id {String} Identifying string
+	 * @returns {boolean}
+	 */
+	function hasEvents(id) {
+		return events.hasOwnProperty(id);
+	}
+
+}
+
+
+
+/**
+ * State management for front-end
+ *
+ * @since 1.5.3
+ *
+ * @param formId {String} ID of form this is tracking state for.
+ * @param $ {jquery} jQuery
+ *
+ * @constructor
+ */
+function CFState(formId, $ ){
+
+	var
+		self = this,
+		fields = {},
+		events = new CFEvents(this),
+		unBound = {},
+		fieldVals  = {};
+
+
+	/**
+	 * Initialized ( or re-initialize) state with specific fields.
+	 *
+	 * @since 1.5.3
+	 *
+	 * @param formFields {Object} Should be flat field ID attribute : Field default
+	 */
+	this.init = function (formFields) {
+		var $field,
+			$el;
+		for ( var id in formFields ){
+			if( bindField(id)){
+				fieldVals[id] = formFields[id];
+			}else{
+				fieldVals[id] = '';
+				unBound[id] = true;
+			}
+
+		}
+
+	};
+
+	/**
+	 * Get current state for a field
+	 *
+	 * @since 1.5.3
+	 *
+	 * @param id {String} Field id attribute
+	 * @returns {String|Array}
+	 */
+	this.getState = function(id){
+		if( ! inState(id) ){
+			return false;
+		}
+
+		return fieldVals[id];
+	};
+
+	/**
+	 * Change state for a field
+	 *
+	 * @since 1.5.3
+	 *
+	 * @param id {String} Field id attribute
+	 * @param value {String|Array} New value
+	 */
+	this.mutateState = function(id, value ){
+
+		if( ! inState(id) ){
+			return false;
+		}
+
+		if( fieldVals[id] != value ){
+			fieldVals[id] = value;
+			events.trigger(id,value);
+		}
+
+		return true;
+	};
+
+	/**
+	 * Unbind field -- used when hiding via conditional logic
+	 *
+	 * @since 1.5.3
+	 *
+	 * @param id {String} Field id attribute
+	 */
+	this.unbind = function(id){
+		self.mutateState(id,'');
+		unBound[id] = true;
+	};
+
+	/**
+	 * Rebind field -- used when unhiding via conditional logic
+	 *
+	 * @since 1.5.3
+	 *
+	 * @param id {String} Field id attribute
+	 */
+	this.rebind = function(id){
+		bindField(id);
+		delete unBound[id];
+	};
+
+	/**
+	 * Accessor for the CFEvents object used for this state
+	 *
+	 * @since 1.5.3
+	 *
+	 * @returns {{subscribe: subscribe, detach: detach}}
+	 */
+	this.events = function(){
+		return {
+			/**
+			 * Attach an event to change of an input in the state
+			 *
+			 * @since 1.5.3
+			 *
+			 * @param id {String} Field ID attribute
+			 * @param callback {Function} The callback function
+			 */
+			subscribe: function( id, callback ){
+				if( inState(id)){
+					events.subscribe(id,callback);
+
+				}
+
+			},
+			/**
+			 * Detach an event to change of an input in the state
+			 *
+			 * @since 1.5.3
+			 *
+			 * @param id {String} Field ID attribute
+			 * @param callback {Function|null} The callback function. Pass null to detach all.
+			 */
+			detach: function(id,callback){
+				events.detach(id,callback);
+			}
+		}
+	};
+
+
+	/**
+	 * Check if value is tracked in state
+	 *
+	 * @since 1.5.3
+	 *
+	 * @param id {String} Field ID attribute
+	 *
+	 * @returns {boolean}
+	 */
+	function inState(id){
+		return fieldVals.hasOwnProperty(id);
+	}
+
+	/**
+	 * Bind a field's change events
+	 *
+	 * @since 1.5.3
+	 *
+	 * @param id {String}
+	 * @returns {boolean}
+	 */
+	function bindField(id) {
+		var $field = $('#' + id);
+		if ($field.length) {
+			$field.on('change keyup', function () {
+				var $el = $(this);
+				self.mutateState([$el.attr('id')],$el.val());
+			});
+			return true;
+		} else {
+			$field = $('.' + id);
+			if ($field.length) {
+
+
+				$field.on('change', function () {
+					var val = [];
+					var $el = $(this),
+					 	id,
+						$collection,
+						type = $el.attr( 'type' );
+
+					switch ( type ){
+						case 'radio' :
+							id = $el.data( 'radio-field' );
+							$collection = $( '[data-radio-field=' + id +']' );
+							val = '';
+							break;
+						case 'checkbox' :
+							id = $el.data( 'checkbox-field' );
+							$collection = $( '[data-checkbox-field=' + id +']' );
+							break;
+						default :
+							id = $el.data( 'field' );
+							$collection = $( '[data-field=' + id +']' );
+							break;
+					}
+
+
+					$collection.each( function( i, el ){
+						var $this = $( el );
+
+						if( $this.prop( 'checked' ) ){
+							if( 'radio' === type ){
+								val = $this.val();
+							}else{
+
+								val.push($this.val());
+
+							}
+						}
+					});
+
+
+					self.mutateState(id,val);
+
+				});
+				return true;
+			}
+
+
+		}
+
+		self.unbind(id);
+
+		return false;
+
+	}
+
+
+}
+/*
  * jQuery miniColors: A small color selector
  *
  * Copyright 2011 Cory LaViska for A Beautiful Site, LLC. (http://abeautifulsite.net/)
@@ -4857,10 +5177,12 @@ function toggle_button_init(id, el){
  *
  * @param configs
  * @param $form
- * @param $
+ * @param $ {jQuery}
+ * @param state {CFState} @since 1.5.3
+ *
  * @constructor
  */
- function Caldera_Forms_Field_Config( configs, $form, $ ){
+ function Caldera_Forms_Field_Config( configs, $form, $, state ){
      var self = this;
 
      var fields = {};
@@ -4927,6 +5249,21 @@ function toggle_button_init(id, el){
          $submits.prop( 'disabled',false).attr( 'aria-disabled', false  );
      }
 
+     function debounce(func, wait, immediate) {
+        var timeout;
+        return function() {
+            var context = this, args = arguments;
+            var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    };
+
 
      /**
       * Handler for button fields
@@ -4955,87 +5292,61 @@ function toggle_button_init(id, el){
              return;
          }
 
-         var templates = {},
-             list = fieldConfig.binds,
-			 theBindFields = [];
+		 var templates = {},
+			 bindMap = fieldConfig.bindFields,
+			 templateSystem,
+			 $target = $( document.getElementById( fieldConfig.contentId ) ),
+			 regex = {};
+		 templateSystem = function () {
 
-         /**
-          * The actual template system for HTML/summary fields
-          *
-          * @since 1.5.0
-          */
-         function templateSystem() {
-             if( undefined == templates[ fieldConfig.tmplId ] ){
-                 templates[ fieldConfig.tmplId ] = $( document.getElementById( fieldConfig.tmplId ) ).html()
-             }
-
-
-             var template = templates[ fieldConfig.tmplId ],
+		     if( ! $target.length ){
                  $target = $( document.getElementById( fieldConfig.contentId ) );
-
-             for (var i = 0; i < list.length; i++) {
-
-				 var $field = $form.find('[data-field="' + list[i] + '"]'),
-                     value = [];
-				 if( ! $field.length ){
-				 	$field = $form.find('[data-field="' + list[i] + '_' + formInstance + '"]');
-				 }
-				 if( $field.length ){
-					 theBindFields.push( $field );
-				 }
-
-				 for (var f = 0; f < $field.length; f++) {
-                     if ($($field[f]).is(':radio,:checkbox')) {
-                         if (!$($field[f]).prop('checked')) {
-                             continue;
-                         }
-                     }
-                     if ($($field[f]).is('input:file')) {
-                         var file_parts = $field[f].value.split('\\');
-                         value.push(file_parts[file_parts.length - 1]);
-                     } else {
-                         if ($field[f].value) {
-                             value.push($field[f].value);
-                         }
-                     }
-                 }
-
-                 value = value.join(', ');
-                 if( 'string' === typeof  value ){
-                     value = value.replace(/(?:\r\n|\r|\n)/g, '<br />');
-                 }
-
-                 template = template.replace(new RegExp("\{\{" + list[i] + "\}\}", "g"), value );
              }
 
-             $target.html(template).trigger('change');
+             if( ! $target.length ){
+                 return;
+             }
 
-         }
+			 if (undefined == templates[fieldConfig.tmplId]) {
+				 templates[fieldConfig.tmplId] = $(document.getElementById(fieldConfig.tmplId)).html();
+			 }
+			 var output = templates[fieldConfig.tmplId];
 
-         /**
-          * On change/keyup events of fields that are used by this field.
-          *
-          * @since 1.5.0.7 -based on legacy code
-          */
-         function bindFields() {
-			 theBindFields.forEach( function ($field) {
-				 $field.on('click keyup change', templateSystem);
-             });
-         }
-
-         /**
-          * Rebind on conditional and page nav
-          */
-         $(document).on('cf.pagenav cf.add cf.disable', function () {
-             bindFields();
-         });
-
-		 templateSystem();
-
-		 bindFields();
+			 var value;
+			 for (var i = 0; i <= bindMap.length; i++) {
+			 	if( 'object' === typeof   bindMap[i] &&  bindMap[i].hasOwnProperty( 'to' ) && bindMap[i].hasOwnProperty( 'tag' )){
 
 
-     };
+					value = state.getState(bindMap[i].to);
+
+					if( 'string' === typeof  value ){
+						value = value.replace(/(?:\r\n|\r|\n)/g, '<br />');
+					}else  if( ! value || undefined == value.join || undefined === value || 'undefined' == typeof value){
+						value = '';
+					} else{
+						value = value.join(', ');
+					}
+					output = output.replace( bindMap[i].tag, value );
+
+				}
+
+
+			 }
+
+			 $target.html(output).trigger('change');
+		 };
+
+		 (function bind() {
+			 for (var i = 0; i <= bindMap.length; i++) {
+			 	if( 'object' === typeof  bindMap[i] && bindMap[i].hasOwnProperty( 'to' ) ){
+					state.events().subscribe(bindMap[i].to, templateSystem);
+				}
+			 }
+             $(document).on('cf.pagenav cf.modal', templateSystem );
+		 }());
+
+         templateSystem();
+	 };
 
      /**
       * Handler to summary fields
@@ -5060,7 +5371,15 @@ function toggle_button_init(id, el){
      this.range_slider = function( field ){
          var $el = $(document.getElementById(field.id));
 
+         function setCss($el){
+             $el.parent().find('.rangeslider').css('backgroundColor', field.trackcolor);
+             $el.parent().find('.rangeslider__fill').css('backgroundColor', field.color);
+             $el.parent().find('.rangeslider__handle').css('backgroundColor', field.handle).css('borderColor', field.handleborder);
+         }
+
          function init() {
+
+
              if ('object' != rangeSliders[field.id]) {
                  rangeSliders[field.id] = {
                      value: field.default,
@@ -5069,63 +5388,57 @@ function toggle_button_init(id, el){
                  };
              }
 
+
+
              var init = {
 				 onSlide: function (position, value) {
-					 if (!$el.is(':visible') || ! rangeSliders[field.id].inited ) {
-						 return;
-					 }
-					 rangeSliders[field.id].value = value;
-					 value = value.toFixed(field.value);
-					 $('#' + field.id + '_value').html(value);
+                     state.mutateState(field.id, value );
+                     rangeSliders[field.id].value = value;
 				 },
                  onInit: function () {
-					 if (!$el.is(':visible')) {
-						 return;
-					 }
+                     this.value = state.getState(field.id);
 					 rangeSliders[field.id].inited = true;
-                     this.value = rangeSliders[field.id].value;
-                     $el.parent().find('.rangeslider').css('backgroundColor', field.trackcolor);
-                     $el.parent().find('.rangeslider__fill').css('backgroundColor', field.color);
-                     $el.parent().find('.rangeslider__handle').css('backgroundColor', field.handle).css('borderColor', field.handleborder);
+                     setCss($el);
                  },
                  polyfill: false
              };
 
-             $el.rangeslider(init);
              rangeSliders[field.id].init = init;
+             state.events().subscribe(field.id, function (value) {
+                 $('#' + field.id + '_value').html(value);
+             });
+
+             if( ! $el.is( ':visible') ){
+                 return;
+             }
+
+             $el.rangeslider(init);
 
 
          }
 
 
-         $el.on('change', function () {
-             $('#' + field.id + '_value').html(this.value);
-			 rangeSliders[field.id].value = this.value;
-         }).css("width", "100%");
+
+
 
 
          $(document).on('cf.pagenav cf.add cf.disable cf.modal', function () {
              var el = document.getElementById(field.id);
              if (null != el) {
+
                  var $el = $(el),
-					 doChange = false,
-                     val = $el.val();
-				 if (!$el.is(':visible')) {
-					 return;
-				 }
+                     val = rangeSliders[field.id].value;
+                 if( ! $el.is( ':visible') ){
+                     return;
+                 }
 
-				 if( rangeSliders[field.id].inited ){
-				 	doChange = true;
-				 }
-
+                 $el.val( val );
 				 $el.rangeslider('destroy');
 				 $el.rangeslider(rangeSliders[field.id].init);
-				 if ( doChange ) {
-					 $el.val(val).change();
-				 }else{
-					 $el.val(field.default).change();
-				 }
+                 $el.val( val ).change();
+                 setCss($el);
 
+                 state.mutateState(field.id, val );
              }
          });
 
@@ -5598,11 +5911,18 @@ var cf_jsfields_init, cf_presubmit;
 			fields =  $('#caldera_form_' + instance + ' [data-formpage="' + current_page + '"] [data-field]'  );
 
 			var this_field,
-				valid;
+				valid,
+				_valid;
 			for (var f = 0; f < fields.length; f++) {
 				this_field = $(fields[f]);
-				this_field.parsley().validate();
+				_valid = this_field.parsley().validate();
 				valid = this_field.parsley().isValid({force: true});
+
+				//@see https://github.com/CalderaWP/Caldera-Forms/issues/1765
+				if( ! valid && true === _valid && 'email' === this_field.attr( 'type' ) ){
+					continue;
+				}
+
 				if (true === valid) {
 					continue;
 				}
@@ -5773,10 +6093,11 @@ window.addEventListener("load", function(){
 
 		/** Check nonce **/
 		if( 'object' === typeof CF_API_DATA ) {
-			var nonceCheckers = {};
-			var formId;
+			var nonceCheckers = {},
+				$el, formId;
 			$('.caldera_forms_form').each(function (i, el) {
-				formId = $(el).data( 'form-id' );
+				$el = $(el);
+				formId = $el.data( 'form-id' );
 				nonceCheckers[ formId ] = new CalderaFormsResetNonce( formId, CF_API_DATA, $ );
 				nonceCheckers[ formId ].init();
 			});
@@ -5785,20 +6106,36 @@ window.addEventListener("load", function(){
 
 		/** Setup forms */
 		if( 'object' === typeof CFFIELD_CONFIG ) {
-			var form_id, config_object, config, instance, $el;
+			var form_id, config_object, config, instance, $el, state, protocolCheck, jQueryCheck;
 			$('.caldera_forms_form').each(function (i, el) {
 				$el = $(el);
 				form_id = $el.attr('id');
 				instance = $el.data('instance');
 
 				if ('object' === typeof CFFIELD_CONFIG[instance] ) {
-					config = CFFIELD_CONFIG[instance];
-					config_object = new Caldera_Forms_Field_Config( config, $(document.getElementById(form_id)), $);
+					//check for protocol mis-match on submit url
+					protocolCheck = new CalderaFormsCrossOriginWarning( $el, $, CFFIELD_CONFIG[instance].error_strings );
+					protocolCheck.maybeWarn();
+					//check for old jQuery
+					jQueryCheck = new CalderaFormsJQueryWarning( $el, $, CFFIELD_CONFIG[instance].error_strings );
+					jQueryCheck.maybeWarn();
+
+					config = CFFIELD_CONFIG[instance].configs;
+
+					var state = new CFState(formId, $ );
+					state.init( CFFIELD_CONFIG[instance].fields.defaults );
+
+					if( 'object' !== typeof window.cfstate ){
+						window.cfstate = {};
+					}
+					window.cfstate[ form_id ] = state;
+					config_object = new Caldera_Forms_Field_Config( config, $(document.getElementById(form_id)), $, state );
 					config_object.init();
 				}
 			});
 
 		}
+
 
 	})( jQuery );
 
@@ -5917,3 +6254,121 @@ function CalderaFormsResetNonce( formId, config, $ ){
 	}
 }
 
+/**
+ * Check if URL is same protocol as same page
+ *
+ * @since 1.5.3
+ *
+ * @param url {String} Url to compare against
+ *
+ * @returns {boolean} True if same protocol, false if not
+ */
+function caldera_forms_check_protocol( url ){
+	var pageProtocol = window.location.protocol;
+	var parser = document.createElement('a');
+	parser.href = url;
+	return parser.protocol === pageProtocol;
+
+}
+
+/**
+ * Add a warning about cross-origin requests
+ *
+ * @since 1.5.3
+ *
+ * @param $form {jQuery} Form element
+ * @param $ {jQuery}
+ * @param errorStrings {Object} Localized error strings for this form
+ * @constructor
+ */
+function CalderaFormsCrossOriginWarning( $form, $, errorStrings ){
+
+	/**
+	 * Do the check and warn if needed
+	 *
+	 * @since 1.5.3
+	 */
+	this.maybeWarn = function () {
+		if( $form.find( '[name="cfajax"]').length ){
+			var url = $form.data( 'request' );
+			if( ! caldera_forms_check_protocol( url ) ){
+				showNotice();
+			}
+
+		}
+
+	};
+
+	/**
+	 * Append notice
+	 *
+	 * @since 1.5.3
+	 */
+	function showNotice() {
+		var $target = $( $form.data( 'target' ) );
+		$target.append( '<div class="alert alert-warning">' + errorStrings.mixed_protocol + '</div>' );
+	}
+}
+
+/**
+ * Add a warning about bad jQuery versions
+ *
+ * @since 1.5.3
+ *
+ * @param $form {jQuery} Form element
+ * @param $ {jQuery}
+ * @param errorStrings {Object} Localized error strings for this form
+ * @constructor
+ */
+function CalderaFormsJQueryWarning( $form, $, errorStrings ){
+
+	/**
+	 * Do the check and warn if needed
+	 *
+	 * @since 1.5.3
+	 */
+	this.maybeWarn = function () {
+		var version =  $.fn.jquery;
+;		if(  'string' === typeof  version && '1.12.4' != version ) {
+			if( isOld( version ) ){
+				showNotice();
+			}
+		}
+
+	};
+
+	/**
+	 * Append notice
+	 *
+	 * @since 1.5.3
+	 */
+	function showNotice() {
+		var $target = $( $form.data( 'target' ) );
+		$target.append( '<div class="alert alert-warning">' + errorStrings.jquery_old + '</div>' );
+	}
+
+	/**
+	 * Check if version is older than 1.12.4
+	 *
+	 * @since 1.5.3
+	 *
+	 * @param version
+	 * @returns {boolean}
+	 */
+	function isOld(version) {
+		var split = version.split( '.' );
+		if( 1 == split[0] ){
+			if( 12 > split[2] ){
+				return true;
+			}
+
+			if( 4 > split[2]){
+				return true;
+			}
+
+		}
+
+		return false;
+
+	}
+}

@@ -33,12 +33,12 @@ $modal_new_form = esc_html__('Create Form', 'caldera-forms').'|{"data-action" : 
 			<?php echo CFCORE_VER; ?>
 		</li>
 		<li class="caldera-forms-toolbar-item">
-			<a class="button button-primary ajax-trigger cf-new-form-button" data-request="start_new_form" data-modal-no-buttons='<?php echo $modal_new_form; ?>' data-modal-width="70%" data-modal-height="80%" data-load-class="none" data-modal="new_form" data-nonce="<?php echo wp_create_nonce( 'cf_create_form' ); ?>" data-modal-title="<?php echo __('Create New Form', 'caldera-forms'); ?>" data-template="#new-form-tmpl">
-		    	<?php echo __('New Form', 'caldera-forms'); ?>
+			<a class="button button-primary ajax-trigger cf-new-form-button" data-request="start_new_form" data-modal-no-buttons='<?php echo esc_attr($modal_new_form) ?>' data-modal-width="70%" data-modal-height="80%" data-load-class="none" data-modal="new_form" data-nonce="<?php echo wp_create_nonce( 'cf_create_form' ); ?>" data-modal-title="<?php esc_attr_e('Create New Form', 'caldera-forms'); ?>" data-template="#new-form-tmpl">
+		    	<?php esc_html_e('New Form', 'caldera-forms'); ?>
 			</a>
 		</li>
 		<li class="caldera-forms-toolbar-item">
-			<a class="button ajax-trigger" data-request="start_new_form" data-modal-width="400" data-modal-height="192" data-modal-element="div" data-load-class="none" data-modal="import_form" data-template="#import-form-tmpl" data-modal-title="<?php echo __('Import Form', 'caldera-forms'); ?>" ><?php echo __('Import', 'caldera-forms'); ?></a>
+			<a class="button ajax-trigger" data-request="start_new_form" data-modal-width="400" data-modal-height="192" data-modal-element="div" data-load-class="none" data-modal="import_form" data-template="#import-form-tmpl" data-modal-title="<?php esc_attr_e('Import Form', 'caldera-forms'); ?>" ><?php esc_html_e('Import', 'caldera-forms'); ?></a>
 		</li>
 		<li class="caldera-forms-toolbar-item separator">&nbsp;&nbsp;</li>
 		<li class="caldera-forms-toolbar-item" id="cf-email-settings-item">
@@ -51,7 +51,7 @@ $modal_new_form = esc_html__('Create Form', 'caldera-forms').'|{"data-action" : 
 		</li>
 		<li class="caldera-forms-toolbar-item separator">&nbsp;&nbsp;</li>
 		<li class="caldera-forms-toolbar-item">
-			<a class="button ajax-trigger cf-general-settings" data-request="toggle_front_end_settings" data-modal-width="400" data-modal-height="400" data-modal-element="div" data-load-class="none" data-modal="front_settings" data-template="#front-settings-tmpl" data-callback="toggle_front_end_settings" data-modal-title="<?php echo __('General Settings', 'caldera-forms'); ?>" title="<?php echo __('General Settings', 'caldera-forms'); ?>" >
+			<a class="button ajax-trigger cf-general-settings" data-request="toggle_front_end_settings" data-modal-width="400" data-modal-height="405" data-modal-element="div" data-load-class="none" data-modal="front_settings" data-template="#front-settings-tmpl" data-callback="toggle_front_end_settings" data-modal-title="<?php esc_attr_e('General Settings', 'caldera-forms'); ?>" title="<?php  esc_attr_e( 'General Settings', 'caldera-forms' ); ?>" >
 			<?php
 				printf( '<span title="%s">%s</span>',
 					esc_attr__( 'Click to modify Caldera Forms general settings', 'caldera-forms'  ),
@@ -125,7 +125,7 @@ $modal_new_form = esc_html__('Create Form', 'caldera-forms').'|{"data-action" : 
 						<?php } ?>
 
 						<div class="row-actions">
-						<?php if( empty( $form['_external_form'] ) ){ ?><span class="edit"><a class="form-control" href="admin.php?page=caldera-forms&edit=<?php echo trim( $form_id ); ?>"><?php echo __('Edit'); ?></a> | </span>
+						<?php if( empty( $form['_external_form'] ) ){ ?><span class="edit"><a class="form-control" href="<?php echo esc_url( Caldera_Forms_Admin::form_edit_link( $form_id ) ); ?>"><?php echo __('Edit'); ?></a> | </span>
 						<span class="edit"><a class="form-control ajax-trigger" href="#entres"
 						data-load-element="<?php echo esc_attr( '#form_row_' . trim( $form_id ) ); ?>"
 						data-action="toggle_form_state"
@@ -201,32 +201,48 @@ $modal_new_form = esc_html__('Create Form', 'caldera-forms').'|{"data-action" : 
 			</p>
 
 		</div>
-		<?php
-			// check db and only show the upgrade if db version is not there since its confusing
-			$db_version = get_option( 'CF_DB', 0 );
-			if( CF_DB > $db_version ) {
-			?>
-			<div id="cf-upgrade-maybe-fail">
+		<div class="caldera-forms-clippy-zone-inner-wrap">
+			<div class="caldera-forms-clippy">
+				<h2>
+					<?php esc_html_e( 'New To Caldera Forms?', 'caldera-forms' ); ?>
+				</h2>
 				<p>
-					<?php
-					echo __( sprintf( 'If you recently updated Caldera Forms and can no longer see saved forms, %s',
-						sprintf( '<a href="https://calderaforms.com/doc/caldera-forms-form-config-changes/" target="_blank"><strong>%s</strong></a>.', esc_html__( 'no data is lost. Click here for more information', 'caldera-forms' ),  'caldera-forms' ) ) ); ?>
+					<?php esc_html_e( 'We have a complete getting started guide for new users.', 'caldera-forms' ); ?>
 				</p>
-				<p>
-					<?php printf( '<a href="%s" class="button">%s</a>', esc_url( add_query_arg( array( 'page' => 'caldera-forms', 'cal_db_update' => wp_create_nonce() ) ) ), esc_html__( 'Run The Updater', 'caldera-forms' ) ); ?>
-				</p>
+
+				<a href="https://calderaforms.com/getting-started?utm-source=wp-admin&utm_campaign=clippy&utm_term=no-forms" target="_blank" class="bt-btn btn btn-orange">
+					<?php esc_html_e( 'Read Now', 'caldera-forms' ); ?>
+				</a
+
 			</div>
-			<?php } ?>
+		</div>
+
 		<?php } ?>
 	</div>
 	</div>
 	<div id="caldera-forms-admin-page-right">
 		<div id="caldera-forms-clippy">
-			<div class="caldera-forms-clippy-zone" id="caldera-forms-clippy-p1" style="background-image: url( '<?php echo esc_url( CFCORE_URL . '/assets/images/caldera-globe-logo-sm.png' ); ?>' );">
-			</div>
-			<div class="caldera-forms-clippy-zone" id="caldera-forms-clippy-p2" style="background-image: url( '<?php echo esc_url( CFCORE_URL . '/assets/images/caldera-globe-logo-sm.png' ); ?>' );" >
-			</div>
-			<div class="caldera-forms-clippy-zone" id="caldera-forms-clippy-p3" style="background-image: url( '<?php echo esc_url( CFCORE_URL . '/assets/images/caldera-globe-logo-sm.png' ); ?>' );">
+			<docs :important="importantDocs"></docs>
+			<extend :product="product" :title="extendTitle"></extend>
+			<div class="caldera-forms-clippy-zone" style="background-image: url( '<?php echo esc_url( CFCORE_URL . 'assets/images/caldera-globe-logo-sm.png' ); ?>' );">
+				<div class="caldera-forms-clippy-zone-inner-wrap">
+					<div class="caldera-forms-clippy">
+						<h2>
+							<?php esc_html_e( 'Need Support? Or Found A Bug?', 'caldera-forms' ); ?>
+						</h2>
+						<p>
+							<?php esc_html_e( 'In addition to our documentation, we have support licneses to get you extra help.', 'caldera-forms' ); ?>
+						</p>
+						<a href="https://calderaforms.com/support?utm-source=wp-admin&utm_campaign=clippy&utm_term=support" target="_blank" class="bt-btn btn btn-green">
+							<?php esc_html_e( 'Learn About Our Support Options', 'caldera-forms' ); ?>
+						</a>
+
+
+						<a href="https://github.com/calderawp/caldera-forms/issues" target="_blank" class="bt-btn btn btn-green">
+							<?php esc_html_e( 'Report A Bug', 'caldera-forms' ); ?>
+						</a>
+					</div>
+				</div>
 			</div>
 		</div>
 		<?php echo Caldera_Forms_Entry_Viewer::full_viewer(); ?>

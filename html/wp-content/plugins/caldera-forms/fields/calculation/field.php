@@ -26,13 +26,16 @@ $decimal_separator = $field['config']['decimal_separator'];
 $current_form_count = Caldera_Forms_Render_Util::get_current_form_count();
 $target_id = Caldera_Forms_Field_Util::get_base_id( $field, $current_form_count, $form );
 $form_id_atr = $form['ID' ] . '_' . $current_form_count;
+
+$value_field_id = $target_id . '-value';
 $attrs = array(
-	'type' => 'hidden',
-	'name' => $field_name,
-	'value' => 0,
-	'data-field' => $target_id,
+	'type'            => 'hidden',
+	'name'            => $field_name,
+	'value'           => 0,
+	'data-field'      => $target_id,
 	'data-calc-field' => $field[ 'ID' ],
-	'data-type' => 'calculation'
+	'data-type'       => 'calculation',
+	'id'              => $value_field_id
 );
 $attr_string =  caldera_forms_field_attributes( $attrs, $field, $form );
 
@@ -40,8 +43,8 @@ $attr_string =  caldera_forms_field_attributes( $attrs, $field, $form );
 ?><?php echo $wrapper_before; ?>
 	<?php echo $field_label; ?>
 	<?php echo $field_before; ?>
-		<<?php echo $elementType . $field_structure['aria']; ?> class="<?php echo $field['config']['classes']; ?>"><?php echo $field['config']['before']; ?>
-			<span id="<?php echo esc_attr( $field_id ); ?>"><?php echo $field_value; ?></span><?php echo $field['config']['after']; ?></<?php echo $elementType; ?>>
+		<<?php echo $elementType . $field_structure['aria']; ?> class="<?php echo esc_attr( $field['config']['classes']) ?>"><?php echo $field['config']['before']; ?>
+			<span id="<?php echo esc_attr( $field_id ); ?>" data-calc-display="<?php echo esc_attr( $value_field_id ); ?>"><?php echo $field_value; ?></span><?php echo $field['config']['after']; ?></<?php echo $elementType; ?>>
 				<input type="hidden" <?php echo $attr_string; ?> >
 		<?php echo $field_caption; ?>
 	<?php echo $field_after; ?>
@@ -120,7 +123,7 @@ foreach ( Caldera_Forms_Forms::get_fields( $form, false ) as $fid => $c_field ) 
 		}
 		$binds[] = $bind;
 		// include a conditional wrapper
-		$binds_wrap[] = "#conditional_".$fid;		
+		$binds_wrap[] = "#conditional_".$fid;
 	}
 }
 
@@ -132,6 +135,22 @@ if(!empty($binds)){
 ?>
 <script type="text/javascript">
 	window.addEventListener("load", function(){
+
+		//temporary
+		 function cf_debounce(func, wait, immediate) {
+			var timeout;
+			return function() {
+				var context = this, args = arguments;
+				var later = function() {
+					timeout = null;
+					if (!immediate) func.apply(context, args);
+				};
+				var callNow = immediate && !timeout;
+				clearTimeout(timeout);
+				timeout = setTimeout(later, wait);
+				if (callNow) func.apply(context, args);
+			};
+		}
 
 		function checked_total_<?php echo $target_id; ?>(items){
 			var sum = 0;
@@ -185,19 +204,19 @@ if(!empty($binds)){
 			jQuery('[data-field="<?php echo esc_attr( $target_id ); ?>"]').val( total ).trigger('change');
 
 		}
-		jQuery('body').on('change keyup', '<?php echo implode(',', $bindtriggers); ?>', function(e){
+		jQuery('body').on('change keyup', '<?php echo implode(',', $bindtriggers); ?>',  cf_debounce(function(e){
 			docalc_<?php echo $target_id; ?>();
-		});
-		jQuery( document ).on('cf.remove cf.add', function( e ){
+		}));
+		jQuery( document ).on('cf.remove cf.add', cf_debounce(function( e ){
+
 			docalc_<?php echo $target_id; ?>();
-		});
+		}));
 		docalc_<?php echo $target_id; ?>();
 	});
-	
+
 </script>
-<?php 
+<?php
 
 	$script_template = ob_get_clean();
 	Caldera_Forms_Render_Util::add_inline_data( $script_template, $form );
 }
-
