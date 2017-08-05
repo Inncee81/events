@@ -15,9 +15,8 @@ export default {
       filename: '[name]',
     }),
     new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery'
+      $: 'jQuery',
+      jQuery: 'jQuery',
     }),
     new HtmlWebpackPlugin({
       inject: false,

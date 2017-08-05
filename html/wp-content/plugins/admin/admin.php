@@ -102,7 +102,6 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 			if ( is_admin( ) ) {
 
 				add_filter( 'name_save_pre', array( $this, 'seo_slugs'), 100 );
-				add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 100 );
 				add_filter( 'tiny_mce_before_init', array( $this, 'extended_editor_valid_elements' ) );
 
 				return;
@@ -167,17 +166,6 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		*/
 		function custom_login( ) {
 			wp_enqueue_style( 'admin-login', plugins_url( 'css/login.css', __FILE__ ), NULL, $this->version );
-		}
-
-		/**
-		 * Add admin styles and scripts
-		 *
-		 * @return void
-		 * @since 3.0.0
-		 */
-		function admin_scripts( ) {
-			if ( ! is_admin() ) return;
-			wp_enqueue_style( 'custom-admin', plugins_url( 'css/admin.css', __FILE__ ), NULL, $this->version );
 		}
 
 		/**

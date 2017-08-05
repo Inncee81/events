@@ -1,0 +1,62 @@
+.acf-field-performer {
+  .acf-label {
+    width: 19%;
+  }
+
+  .acf-input {
+    width: 80%;
+  }
+
+  .acf-input,
+  .acf-label {
+    display: inline-block;
+    margin: 0.5em 0;
+  }
+}
+
+.acf-postbox .acf-field input[type="email"],
+.acf-postbox .acf-field input[type="number"],
+.acf-postbox .acf-field input[type="password"],
+.acf-postbox .acf-field input[type="text"] {
+  @media screen and (max-width: 782px) {
+    height: 34px;
+    padding: 8px 5px;
+  }
+}
+
+.acf-postbox > .inside {
+  padding-bottom: 10px !important;
+}
+
+.acf-field-true-false {
+  display: inline-block;
+}
+
+.acf-field- {
+  &-city,
+  &-currency,
+  &-duration,
+  &-phone,
+  &-price,
+  &-price-max,
+  &-state,
+  &-zip {
+    width: 24.433%;
+    display: inline-block;
+
+    @media screen and (max-width: $mobile) {
+      width: 49.333%;
+    }
+  }
+
+  &-time,
+  &-date,
+  &-availability {
+    width: 30.433%;
+    display: inline-block;
+
+    @media screen and (max-width: $mobile) {
+      width: 49.333%;
+    }
+  }
+}

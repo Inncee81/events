@@ -5,12 +5,12 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default {
   entry: {
-    'bundle.js': './src/index.js',
     'themes/visita/js/visita.js': './src/themes/visita/visita.js',
+    'plugins/visita/js/admin.js': './src/plugins/visita/admin.js',
 
-    'plugins/admin/css/admin.css': './src/plugins/admin/admin.scss',
     'plugins/admin/css/login.css': './src/plugins/admin/login.scss',
     'themes/visita/style.css': './src/themes/visita/style.scss',
+    'plugins/visita/css/admin.css': './src/plugins/visita/admin.scss',
     'themes/visita/editor-style.css': './src/themes/visita/editor-style.scss',
   },
   output: {
@@ -18,7 +18,8 @@ export default {
     path: resolve('./html/wp-content/'),
   },
   externals: {
-    jquery: 'jquery'
+    $: 'jQuery',
+    jQuery: 'jQuery',
   },
   module: {
     rules: [
@@ -65,11 +66,11 @@ export default {
       'node_modules',
     ],
     alias: {
-      'static': resolve('./src/static'),
       'plugins': resolve('./src/plugins'),
       'themes': resolve('./src/template'),
       'foundation': resolve('./node_modules/foundation-sites'),
       'font-awesome': resolve('./node_modules/font-awesome'),
+      'wickedpicker': resolve('./node_modules/wickedpicker/src/wickedpicker'),
     }
   }
 };

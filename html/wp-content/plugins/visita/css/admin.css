@@ -43,13 +43,11 @@ Text Domain: admin
 
 .acf-field--city,
 .acf-field--currency,
-.acf-field--date,
 .acf-field--duration,
 .acf-field--phone,
 .acf-field--price,
 .acf-field--price-max,
 .acf-field--state,
-.acf-field--time,
 .acf-field--zip {
   width: 24.433%;
   display: inline-block;
@@ -58,21 +56,36 @@ Text Domain: admin
 @media screen and (max-width: 782px) {
   .acf-field--city,
   .acf-field--currency,
-  .acf-field--date,
   .acf-field--duration,
   .acf-field--phone,
   .acf-field--price,
   .acf-field--price-max,
   .acf-field--state,
-  .acf-field--time,
   .acf-field--zip {
     width: 49.333%;
   }
 }
 
+.acf-field--time,
+.acf-field--date,
+.acf-field--availability {
+  width: 30.433%;
+  display: inline-block;
+}
+
+@media screen and (max-width: 782px) {
+  .acf-field--time,
+  .acf-field--date,
+  .acf-field--availability {
+    width: 49.333%;
+  }
+}
+
 .wickedpicker {
-  box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.12);
+  user-select: none;
+  box-shadow: 0 2px 3px 1px rgba(0, 0, 0, 0.12);
   background: #fefefe;
+  margin: 0 auto;
   width: 220px;
   height: 110px;
   display: none;
@@ -82,13 +95,12 @@ Text Domain: admin
   position: relative;
   background: #f2f2f2;
   margin: 0 auto;
-  border-bottom: 1px solid #e5e5e5;
   padding: 12px 11px 10px 15px;
 }
 
 .wickedpicker__close {
   position: absolute;
-  top: 25%;
+  top: 15%;
   right: 10px;
   color: #34495e;
   cursor: pointer;
@@ -98,9 +110,15 @@ Text Domain: admin
   content: '\D7';
 }
 
+.wickedpicker :focus {
+  outline: none;
+  border-color: #5b9dd9;
+  box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
+}
+
 .wickedpicker__controls {
   padding: 10px 0;
-  line-height: normal;
+  text-align: center;
   margin: 0;
 }
 
@@ -108,13 +126,12 @@ Text Domain: admin
 .wickedpicker__controls__control--separator {
   vertical-align: middle;
   display: inline-block;
-  font-size: inherit;
   margin: 0 auto;
-  width: 50px;
+  width: 60px;
 }
 
-.wickedpicker__controls__control-down,
-.wickedpicker__controls__control-up {
+.wickedpicker__controls__control-up,
+.wickedpicker__controls__control-down {
   color: #34495e;
   position: relative;
   display: block;
@@ -127,36 +144,16 @@ Text Domain: admin
   content: '\25B4';
 }
 
-.wickedpicker__controls__control-down:after {
+.wickedpicker__controls__control-down:before {
   content: '\25BE';
+}
+
+.wickedpicker__controls__control--hours,
+.wickedpicker__controls__control--minutes,
+.wickedpicker__controls__control--meridiem {
+  padding: 1px 6px;
 }
 
 .wickedpicker__controls__control--separator {
   width: 5px;
-}
-
-.text-center,
-.wickedpicker__controls,
-.wickedpicker__controls__control {
-  text-align: center;
-}
-
-.hover-state {
-  color: #3498db;
-}
-
-.clearable-picker {
-  position: relative;
-  display: inline-block;
-}
-
-.clearable-picker > .hasWickedpicker {
-  padding-right: 1em;
-}
-
-.clearable-picker :focus {
-  outline: none;
-  border-color: #5b9dd9;
-  -webkit-box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
-  box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
 }

@@ -1,0 +1,79 @@
+.wickedpicker {
+  user-select: none;
+  box-shadow: 0 2px 3px 1px rgba(0,0,0,.12);
+  background: #fefefe;
+  margin: 0 auto;
+  width: 220px;
+  height: 110px;
+  display: none;
+
+  &__title {
+    position: relative;
+    background: #f2f2f2;
+    margin: 0 auto;
+    padding: 12px 11px 10px 15px;
+  }
+
+  &__close {
+    position: absolute;
+    top: 15%;
+    right: 10px;
+    color: #34495e;
+    cursor: pointer;
+
+    &:before {
+      content: '\00d7';
+    }
+  }
+
+  :focus {
+    outline: none;
+    border-color: #5b9dd9;
+    box-shadow: 0 0 2px rgba(30,140,190,.8);
+  }
+}
+
+.wickedpicker__controls {
+  padding: 10px 0;
+  text-align: center;
+  margin: 0;
+
+  &__control,
+  &__control--separator {
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0 auto;
+    width: 60px;
+  }
+
+  &__control {
+
+    &-up,
+    &-down {
+      color: #34495e;
+      position: relative;
+      display: block;
+      margin: 3px auto;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    &-up:before {
+      content: '\25B4';
+    }
+
+    &-down:before {
+      content: '\25BE';
+    }
+
+    &--hours,
+    &--minutes,
+    &--meridiem  {
+      padding: 1px 6px;
+    }
+  }
+
+  &__control--separator {
+    width: 5px;
+  }
+}
