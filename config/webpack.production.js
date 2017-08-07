@@ -7,7 +7,6 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default {
   ...defaultConfig,
-  devtool: 'source-map',
   plugins: [
     new ExtractTextPlugin({
       allChunks: true,
@@ -22,13 +21,16 @@ export default {
       excludeJSChunks: 'style',
     }),
     new webpack.optimize.UglifyJsPlugin({
-      output: {comments: false},
-      compress: {warnings: false}
+      output: { comments: false },
+      compress: { warnings: false }
     }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
     })
   ]
 };

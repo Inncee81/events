@@ -425,7 +425,6 @@ html[dir="rtl"] .acf-c0 {
 }
 .acf-input-wrap {
   position: relative;
-  overflow: hidden;
 }
 .acf-input-wrap input {
   height: 28px;

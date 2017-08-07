@@ -14,6 +14,11 @@
 class VisitaCore {
 
   /**
+  *
+  */
+  protected $version = '3.0.0';
+
+  /**
    * Constructor
    *
    * @return void
@@ -26,7 +31,10 @@ class VisitaCore {
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
 
     //subclasses
-    $this->events = new VisitaEvents();
+    $this->events = new VisitaEvents( $this->version );
+
+    //disable acf save hook
+    add_action( 'acf/init', array( $this, 'disable_save_action' ) );
 
     //speed up wordpress
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
@@ -35,10 +43,12 @@ class VisitaCore {
 
     if ( ! is_admin() ) {
       add_filter( 'locale', array( $this, 'change_language'), 500 );
+      return;
     }
 
     //
     add_filter( 'srm_max_redirects', array( $this, 'srm_max_redirects' ) );
+    add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 100 );
 
     //register hooks
     register_activation_hook( VISITA_FILE_NAME, array( $this, 'activate' ) );
@@ -92,6 +102,8 @@ class VisitaCore {
 
   /**
   * increase number or redirects
+  *
+  * @since 1.0.1
   */
   function srm_max_redirects( ) {
     return 350;
@@ -112,5 +124,26 @@ class VisitaCore {
         fclose( $fh );
       }
     }
+  }
+
+  /**
+  * Disable ACF save hook to improve dabase performance
+  *
+  * @return void
+  * @since 3.0.0
+  */
+  function disable_save_action( ) {
+    remove_action( 'acf/save_post', array( acf()->input, 'save_post' ), 10, 2 );
+  }
+
+  /**
+   * Add admin styles and scripts
+   *
+   * @return void
+   * @since 3.0.0
+   */
+  function admin_scripts( ) {
+    if ( ! is_admin() ) return;
+    wp_enqueue_style( 'visita-admin', plugins_url( 'css/admin.css', VISITA_FILE_NAME ), NULL, $this->version );
   }
 }

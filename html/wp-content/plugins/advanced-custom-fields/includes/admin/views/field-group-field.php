@@ -42,7 +42,7 @@ $atts['class'] = str_replace('_', '-', $atts['class']);
 			</li>
 			<li class="li-field-label">
 				<strong>
-					<a class="edit-field" title="<?php esc_attr_e("Edit field",'acf'); ?>" href="#"><?php echo esc_html(acf_get_field_label($field)); ?></a>
+					<a class="edit-field" title="<?php esc_attr_e("Edit field",'acf'); ?>" href="#"><?php echo acf_get_field_label($field); ?></a>
 				</strong>
 				<div class="row-options">
 					<a class="edit-field" title="<?php esc_attr_e("Edit field",'acf'); ?>" href="#"><?php esc_html_e("Edit",'acf'); ?></a>
@@ -53,7 +53,7 @@ $atts['class'] = str_replace('_', '-', $atts['class']);
 			</li>
 			<li class="li-field-name"><?php echo esc_html_e($field['name']); ?></li>
 			<li class="li-field-key"><?php echo esc_html_e($field['key']); ?></li>
-			<li class="li-field-type"><?php echo esc_html(acf_get_field_type_label($field['type'])); ?></li>
+			<li class="li-field-type"><?php echo acf_get_field_type_label($field['type']); ?></li>
 		</ul>
 	</div>
 

@@ -106,54 +106,6 @@ class acf_updates {
 	*/
 
 	function request( $query = 'index.php', $body = array() ) {
-
-		// vars
-		$url = 'https://connect.advancedcustomfields.com/' . $query;
-
-
-		// test
-		if( $this->dev ) $url = 'http://connect/' . $query;
-
-
-		// log
-		//acf_log('acf connect: '. $url);
-
-
-		// post
-		$raw_response = wp_remote_post( $url, array(
-			'timeout'	=> 10,
-			'body'		=> $body
-		));
-
-
-		// wp error
-		if( is_wp_error($raw_response) ) {
-
-			return $raw_response;
-
-		// http error
-		} elseif( wp_remote_retrieve_response_code($raw_response) != 200 ) {
-
-			return new WP_Error( 'server_error', wp_remote_retrieve_response_message($raw_response) );
-
-		}
-
-
-		// decode response
-		$json = json_decode( wp_remote_retrieve_body($raw_response), true );
-
-
-		// allow non json value
-		if( $json === null ) {
-
-			return wp_remote_retrieve_body($raw_response);
-
-		}
-
-
-		// return
-		return $json;
-
 	}
 
 
@@ -187,10 +139,6 @@ class acf_updates {
 		// try transient
 		$transient = get_transient($transient_name);
 		if( $transient !== false ) return $transient;
-
-
-		// connect
-		$response = $this->request('v2/plugins/get-info?p='.$id);
 
 
 		// update transient
@@ -269,9 +217,6 @@ class acf_updates {
 			);
 
 
-			// connect
-			$this->updates = $this->request('v2/plugins/update-check', $post);
-
 		}
 
 
@@ -288,8 +233,7 @@ class acf_updates {
 
 
 		// return
-        return $transient;
-
+    return $transient;
 	}
 
 

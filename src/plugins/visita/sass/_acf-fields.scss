@@ -1,3 +1,14 @@
+.ui-timepicker-div.ui-timepicker-oneLine {
+  dl {
+    text-align: center;
+  }
+
+  .ui-widget-header,
+  .ui_tpicker_time_label {
+    display: none;
+  }
+}
+
 .acf-field-performer {
   .acf-label {
     width: 19%;
@@ -54,6 +65,7 @@
   &-availability {
     width: 30.433%;
     display: inline-block;
+    vertical-align: middle;
 
     @media screen and (max-width: $mobile) {
       width: 49.333%;

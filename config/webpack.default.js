@@ -11,6 +11,7 @@ export default {
     'plugins/admin/css/login.css': './src/plugins/admin/login.scss',
     'themes/visita/style.css': './src/themes/visita/style.scss',
     'plugins/visita/css/admin.css': './src/plugins/visita/admin.scss',
+    'plugins/visita/css/fields.css': './src/plugins/visita/fields.scss',
     'themes/visita/editor-style.css': './src/themes/visita/editor-style.scss',
   },
   output: {
@@ -45,7 +46,6 @@ export default {
             {
               loader: 'sass-loader',
               options: {
-                style: 'compressed',
                 includePaths: [
                   './node_modules/foundation-sites/scss',
                   './node_modules/font-awesome',
@@ -68,9 +68,8 @@ export default {
     alias: {
       'plugins': resolve('./src/plugins'),
       'themes': resolve('./src/template'),
-      'foundation': resolve('./node_modules/foundation-sites'),
       'font-awesome': resolve('./node_modules/font-awesome'),
-      'wickedpicker': resolve('./node_modules/wickedpicker/src/wickedpicker'),
+      'foundation': resolve('./node_modules/foundation-sites'),
     }
   }
 };
