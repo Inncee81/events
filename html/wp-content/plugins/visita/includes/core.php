@@ -48,6 +48,7 @@ class VisitaCore {
 
     //
     add_filter( 'srm_max_redirects', array( $this, 'srm_max_redirects' ) );
+    add_action( 'admin_menu', array( $this, 'remove_unwanted_menus'), 100 );
     add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 100 );
 
     //register hooks
@@ -144,6 +145,21 @@ class VisitaCore {
    */
   function admin_scripts( ) {
     if ( ! is_admin() ) return;
+    wp_dequeue_style( 'select2' );
     wp_enqueue_style( 'visita-admin', plugins_url( 'css/admin.css', VISITA_FILE_NAME ), NULL, $this->version );
+  }
+
+  /**
+   * Remove admin menus
+   *
+   * @return void
+   * @since 3.0.0
+   */
+  function remove_unwanted_menus() {
+    remove_menu_page( 'amp-plugin-options' );
+    
+    remove_submenu_page( 'caldera-forms', 'cf-pro' );
+    remove_submenu_page( 'caldera-forms', 'caldera-form-support' );
+    remove_submenu_page( 'caldera-forms', 'caldera-forms-extend' );
   }
 }

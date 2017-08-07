@@ -125,7 +125,7 @@ $modal_new_form = esc_html__('Create Form', 'caldera-forms').'|{"data-action" : 
 						<?php } ?>
 
 						<div class="row-actions">
-						<?php if( empty( $form['_external_form'] ) ){ ?><span class="edit"><a class="form-control" href="<?php echo esc_url( Caldera_Forms_Admin::form_edit_link( $form_id ) ); ?>"><?php  esc_html_e__('Edit'); ?></a> | </span>
+						<?php if( empty( $form['_external_form'] ) ){ ?><span class="edit"><a class="form-control" href="<?php echo esc_url( Caldera_Forms_Admin::form_edit_link( $form_id ) ); ?>"><?php  esc_html_e('Edit'); ?></a> | </span>
 						<span class="edit"><a class="form-control ajax-trigger" href="#entres"
 						data-load-element="<?php echo esc_attr( '#form_row_' . trim( $form_id ) ); ?>"
 						data-action="toggle_form_state"
@@ -134,7 +134,7 @@ $modal_new_form = esc_html__('Create Form', 'caldera-forms').'|{"data-action" : 
 						data-callback="set_form_state"
 						data-form="<?php echo esc_attr( trim( $form_id ) ); ?>"
 
-						><?php if( !empty( $form['form_draft'] ) ) { esc_html_e__('Enable', 'caldera-forms'); }else{ esc_html_e('Disable', 'caldera-forms'); } ?></a> | </span><?php } ?>
+						><?php if( !empty( $form['form_draft'] ) ) { esc_html_e('Enable', 'caldera-forms'); }else{ esc_html_e('Disable', 'caldera-forms'); } ?></a> | </span><?php } ?>
 
 						<?php if(!empty($form['db_support'])) { ?>
 							<span class="edit">

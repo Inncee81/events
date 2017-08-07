@@ -154,7 +154,10 @@ class VisitaEvents extends VisitaEventFields {
   }
 
   /**
+  * Create event from user input
   *
+  * @return bool|unit
+  * @since 1.0.0
   */
   function save_user_event( $entry_id, $form ) {
 
@@ -162,6 +165,32 @@ class VisitaEvents extends VisitaEventFields {
       return;
     }
 
+    $date = sanitize_text_field($_POST['fld_2997934']);
+    $time = sanitize_text_field($_POST['fld_5010512']);
+    $end  = sanitize_text_field($_POST['fld_7610679']);
+
+    return wp_insert_post( array_replace_recursive( $this->event, array(
+        'post_status' => 'pending',
+        'tax_input' => array(
+          'eventos' => $_POST['fld_5981410']
+        ),
+        'post_title'    => sanitize_text_field($_POST['fld_8453987']),
+        'post_content'  => sanitize_text_field($_POST['fld_5489516']),
+        'meta_input'    => array(
+          '_times'      => array( array(
+            '_date'     => $date,
+            '_time'     => $time,
+          ) ),
+          '_starts'     => strtotime( "$date $time" ),
+          '_ends'       => strtotime( $end ? "$date $end" : $end ),
+          '_location'   => sanitize_text_field($_POST['fld_1347577']),
+          '_street'     => sanitize_text_field($_POST['fld_8698786']),
+          '_zip'        => sanitize_text_field($_POST['fld_9899020']),
+          '_price'      => sanitize_text_field($_POST['fld_598129']),
+          '_price_max'  => sanitize_text_field($_POST['fld_8942633']),
+        )
+      )
+    ) );
   }
 
   /**

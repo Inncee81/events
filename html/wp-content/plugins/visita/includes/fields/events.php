@@ -36,9 +36,7 @@ class VisitaEventFields {
     'post_type'           => 'evento',
     'tax_input'           => array(),
     'meta_input'          => array(
-      '_keywords'         => array(
-        'espanol', 'musica',
-      ),
+      '_keywords'         => 'espanol, musica',
       '_description'      => '',
       '_starts'           => '', //start date
       '_ends'             => '', //start time
@@ -49,6 +47,8 @@ class VisitaEventFields {
       '_zip'              => '',
       '_phone'            => '',
       '_link'             => '',
+      '_price'            => '',
+      '_price_max'        => '',
       '_permanent'        => false,
       '_disable_source'   => false,
       '_event_type'       => 'Event',
@@ -57,13 +57,13 @@ class VisitaEventFields {
       '_currency'         => 'USD',
       '_times'            => array( array(
         '_date'           => '',
-        '_time'           => '7:30 PM',
+        '_time'           => '',
         '_date_link'      => '',
         '_availability'   => 'InStock',
       ) ),
       '_performers'       => array( array(
-        '_name'            => 's',
-        '_type'            => 's',
+        '_name'           => '',
+        '_type'           => '',
       ) ),
     )
   );
