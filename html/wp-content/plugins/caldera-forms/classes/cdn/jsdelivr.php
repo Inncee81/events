@@ -54,7 +54,7 @@ class Caldera_Forms_CDN_Jsdelivr extends Caldera_Forms_CDN {
 	 * @since 1.5.3
 	 */
 	public function radar_tag(){
-		echo '<script async src="' . esc_attr($this->protocol . '//radar.cedexis.com/1/11475/radar.js') . '"></script>';
+		echo '<script async src="' . $this->protocol . '//radar.cedexis.com/1/11475/radar.js"></script>';
 	}
 
 

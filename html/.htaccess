@@ -1,8 +1,7 @@
 
 RewriteEngine On
 RewriteCond %{HTTP_REFERER} !^http(s)?://(.+)?visita\.(vegas|dev)/ [NC]
-RewriteCond %{HTTP_REFERER} !^$
-RewriteRule .*\.(bmp|txt|css|js|pdf|mp3|mp4|ttf|eot|svg|woff2?)$ - [F,L]
+RewriteRule /.+(bmp|txt|css|js|pdf|mp3|mp4|scss|md|patch|log|less|po)$ - [F,L]
 
 RewriteEngine On
 RewriteCond %{REQUEST_URI} /(comments-post|activate)\.php$

@@ -43,7 +43,7 @@ $attr_string =  caldera_forms_field_attributes( $attrs, $field, $form );
 ?><?php echo $wrapper_before; ?>
 	<?php echo $field_label; ?>
 	<?php echo $field_before; ?>
-		<<?php echo $elementType . $field_structure['aria']; ?> class="<?php echo esc_attr( $field['config']['classes']) ?>"><?php echo $field['config']['before']; ?>
+		<<?php echo $elementType . $field_structure['aria']; ?> class="<?php echo esc_attr($field['config']['classes']); ?>"><?php echo $field['config']['before']; ?>
 			<span id="<?php echo esc_attr( $field_id ); ?>" data-calc-display="<?php echo esc_attr( $value_field_id ); ?>"><?php echo $field_value; ?></span><?php echo $field['config']['after']; ?></<?php echo $elementType; ?>>
 				<input type="hidden" <?php echo $attr_string; ?> >
 		<?php echo $field_caption; ?>
