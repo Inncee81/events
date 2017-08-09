@@ -69,6 +69,26 @@ class VisitaEventFields {
   );
 
   /**
+   *
+   */
+  function add_admin_pages() {
+    add_management_page(
+      __( 'Event Import', 'visita' ),
+      __( 'Event Import', 'visita' ),
+      'manage_options',
+      'event-import',
+      array( $this, 'event_import_page' )
+    );
+  }
+
+  /**
+   *
+   */
+  function event_import_page(){
+    include_once( VISITA_INC . "/import.php");
+  }
+
+  /**
   *
   * @return bool
   * @since 3.0.0
@@ -174,7 +194,7 @@ class VisitaEventFields {
           'name' => '_keywords',
           'type' => 'text',
           'label' => __( 'Keywords', 'visita' ),
-          'default_value' => implode( ',', $fields['_keywords'] )
+          'default_value' => $fields['_keywords'],
         ),
         array(
           'key' => 'tap_location',

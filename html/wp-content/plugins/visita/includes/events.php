@@ -62,6 +62,7 @@ class VisitaEvents extends VisitaEventFields {
       return;
     }
 
+    add_action( 'admin_menu', array( $this, 'add_admin_pages' ) );
     add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 100 );
   }
 
@@ -170,9 +171,9 @@ class VisitaEvents extends VisitaEventFields {
     $end  = sanitize_text_field($_POST['fld_7610679']);
 
     return wp_insert_post( array_replace_recursive( $this->event, array(
-        'post_status' => 'pending',
-        'tax_input' => array(
-          'eventos' => $_POST['fld_5981410']
+        'post_status'   => 'pending',
+        'tax_input'     => array(
+          'eventos'     => $_POST['fld_5981410']
         ),
         'post_title'    => sanitize_text_field($_POST['fld_8453987']),
         'post_content'  => sanitize_text_field($_POST['fld_5489516']),
@@ -204,7 +205,7 @@ class VisitaEvents extends VisitaEventFields {
     $data = json_decode( file_get_contents(
       'https://app.ticketmaster.com/discovery/v2/events.json?' .
       http_build_query( array(
-        'size'      => 35,
+        'size'      => 2,
         'stateCode' => 'nv',
         'apikey'    => $this->ticketmater_key,
         'keyword'   => ( empty( $keyword ) ? 'latin' : $keyword ),
@@ -215,10 +216,83 @@ class VisitaEvents extends VisitaEventFields {
       return;
     }
 
-    $events = array();
     foreach ( $data->_embedded->events as $event ) {
 
+      // don't add / update already imported items
+      if ( $this->get_id_by_metadata( '_event_id', $event->id ) ) {
+        continue;
+      }
+
+      // scan images for image that will best fit the theme
+      foreach( $event->images as $image ){
+        if( $image->ratio == '16_9' && $image->width > 800 && $image->width < 1136 ){
+          $event->image = $image->url;
+        }
+      }
+
+      // try to save event
+      $post_id = wp_insert_post(
+        array_replace_recursive( $this->event, array(
+          'post_title'          => $event->name,
+          'post_status'         => 'publish',
+          'tax_input'           => array(
+            'eventos'           =>  20
+          ),
+          'meta_input'          => array(
+            '_event_id'         => $event->id,
+            '_location'         => $event->_embedded->venues[0]->name,
+            '_street'           => $event->_embedded->venues[0]->address->line1,
+            '_state'            => $event->_embedded->venues[0]->state->stateCode,
+            '_city'             => $event->_embedded->venues[0]->city->name,
+            '_zip'              => $event->_embedded->venues[0]->postalCode,
+            '_link'             => $event->url,
+            '_price'            => $event->priceRanges[0]->min,
+            '_price_max'        => $event->priceRanges[0]->max,
+            '_times'            => array( array(
+              '_date'           => $event->dates->start->localDate,
+              '_time'           => $event->dates->start->localTime,
+              '_date_link'      => '',
+              '_availability'   => 'InStock',
+            ) )
+          ),
+        ) )
+      );
+
+      // post or image could not be created or download it, move on.
+      if ( is_wp_error( $post_id ) || is_wp_error( $tmp = download_url( $event->image ) ) ) {
+        continue;
+      }
+
+      // generate image sizes
+      $filetype   = wp_check_filetype( $tmp );
+      $attach_id  = media_handle_sideload( array(
+        'error'    => 0,
+        'tmp_name' => $tmp,
+        'size'     => filesize( $tmp ),
+        'type'     => $filetype['type'],
+        'name'     => basename( $event->image ),
+      ), $post_id );
+
+      // attach image
+      set_post_thumbnail( $post_id, $attach_id );
     }
+  }
+
+  /**
+  * Get Post ID by using meta_key and media_value
+  *
+  * @return bool|unit
+  * @since 3.0.0
+  */
+  function get_id_by_metadata( $meta_key, $media_value ) {
+
+    global $wpdb;
+
+    return $wpdb->get_var( $wpdb->prepare(
+      "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = %s AND meta_value = %s",
+      $meta_key,
+      $media_value
+    ) );
   }
 
   /**
@@ -231,4 +305,5 @@ class VisitaEvents extends VisitaEventFields {
   function expire_events( ) {
 
   }
+
 }
