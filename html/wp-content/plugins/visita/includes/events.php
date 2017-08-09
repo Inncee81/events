@@ -185,7 +185,7 @@ class VisitaEvents extends VisitaEventFields {
             '_time'       => $time,
           ) ),
           '_starts'       => strtotime( "$date $time" ),
-          '_ends'         => strtotime( $end ? "$date $end" : $end ),
+          '_ends'         => strtotime( $end ? "$date $end" : "$date $time + 120 minutes" ),
           '_location'     => sanitize_text_field($_POST['fld_1347577']),
           '_street'       => sanitize_text_field($_POST['fld_8698786']),
           '_zip'          => sanitize_text_field($_POST['fld_9899020']),
@@ -258,6 +258,9 @@ class VisitaEvents extends VisitaEventFields {
         );
       }
 
+      $date     = $event->dates->start->localDate;
+      $time     = $event->dates->start->localTime;
+
       // try to save event
       $post_id = wp_insert_post(
         array_replace_recursive( $this->event, array(
@@ -276,6 +279,8 @@ class VisitaEvents extends VisitaEventFields {
             '_link'             => $event->url,
             '_price'            => $event->priceRanges[0]->min,
             '_price_max'        => $event->priceRanges[0]->max,
+            '_starts'           => strtotime( "$date $time" ),
+            '_ends'             => strtotime( "$date $time + 120 minutes" ),
             '_times'            => array( array(
               '_date'           => $event->dates->start->localDate,
               '_time'           => $event->dates->start->localTime,
@@ -337,6 +342,25 @@ class VisitaEvents extends VisitaEventFields {
   */
   function expire_events( ) {
 
-  }
+    $posts = get_post( array(
+      'post_status'  => 'any',
+      'posts_per_page' => -1,
+      'post_type'    => $this->post_type,
+      'meta_query'   => array(
+    		array(
+    			'key'      => '_ends',
+          'compare'  => '<=',
+    			'value'    => strtotime( 'Today' ),
+    		),
+        array(
+          'value'    => 0,
+    			'key'      => '_permanente',
+    		)
+    	)
+    ) );
 
+    foreach( $posts as $post ) {
+      wp_delete_post( $post->ID, true );
+    }
+  }
 }

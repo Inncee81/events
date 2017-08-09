@@ -356,9 +356,8 @@ class VisitaEventFields {
         foreach ( $meta_value as $time ) {
           $time = strtotime( "{$time['_date']} {$time['_time']}");
 
-          $ends = ( $time > $ends || ! $ends ) ? $time : $ends;
           $starts = ( $time < $starts || ! $starts ) ? $time : $starts;
-
+          $ends = ( $time >= $ends || ! $ends ) ? ( $time + ( $values['_duration'] * 60 ) ) : $ends;
         }
 
         update_post_meta( $post_id, '_ends', $ends );
