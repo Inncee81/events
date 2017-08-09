@@ -166,32 +166,51 @@ class VisitaEvents extends VisitaEventFields {
       return;
     }
 
-    $date = sanitize_text_field($_POST['fld_2997934']);
-    $time = sanitize_text_field($_POST['fld_5010512']);
-    $end  = sanitize_text_field($_POST['fld_7610679']);
+    $date     = sanitize_text_field($_POST['fld_2997934']);
+    $time     = sanitize_text_field($_POST['fld_5010512']);
+    $end      = sanitize_text_field($_POST['fld_7610679']);
+    $title    = sanitize_text_field($_POST['fld_8453987']);
+    $location = sanitize_text_field($_POST['fld_1347577']);
 
     return wp_insert_post( array_replace_recursive( $this->event, array(
-        'post_status'   => 'pending',
-        'tax_input'     => array(
-          'eventos'     => $_POST['fld_5981410']
+        'post_status'     => 'pending',
+        'tax_input'       => array(
+          'eventos'       => $_POST['fld_5981410']
         ),
-        'post_title'    => sanitize_text_field($_POST['fld_8453987']),
-        'post_content'  => sanitize_text_field($_POST['fld_5489516']),
-        'meta_input'    => array(
-          '_times'      => array( array(
-            '_date'     => $date,
-            '_time'     => $time,
+        'post_title'      => $title,
+        'post_content'    => sanitize_text_field($_POST['fld_5489516']),
+        'meta_input'      => array(
+          '_times'        => array( array(
+            '_date'       => $date,
+            '_time'       => $time,
           ) ),
-          '_starts'     => strtotime( "$date $time" ),
-          '_ends'       => strtotime( $end ? "$date $end" : $end ),
-          '_location'   => sanitize_text_field($_POST['fld_1347577']),
-          '_street'     => sanitize_text_field($_POST['fld_8698786']),
-          '_zip'        => sanitize_text_field($_POST['fld_9899020']),
-          '_price'      => sanitize_text_field($_POST['fld_598129']),
-          '_price_max'  => sanitize_text_field($_POST['fld_8942633']),
+          '_starts'       => strtotime( "$date $time" ),
+          '_ends'         => strtotime( $end ? "$date $end" : $end ),
+          '_location'     => sanitize_text_field($_POST['fld_1347577']),
+          '_street'       => sanitize_text_field($_POST['fld_8698786']),
+          '_zip'          => sanitize_text_field($_POST['fld_9899020']),
+          '_price'        => sanitize_text_field($_POST['fld_598129']),
+          '_price_max'    => sanitize_text_field($_POST['fld_8942633']),
+          '_description'  => $this->get_description( "$title $location", $date, $time ),
         )
       )
     ) );
+  }
+
+  /**
+  * Format event description for SEO
+  *
+  * @return string
+  * @since 3.0.0
+  */
+  function get_description( $title, $date, $time, $city = 'Las Vegas' ) {
+    return ucwords( strtolower( $title ) )
+    . " de $city, "
+    . sprintf(
+       date_i18n( 'l j %\s F Y %\s g:i a.', strtotime( "$date $time" ) ),
+       __( 'de', 'visita' ),
+       __( 'a las', 'visita' )
+    );
   }
 
   /**
@@ -205,7 +224,7 @@ class VisitaEvents extends VisitaEventFields {
     $data = json_decode( file_get_contents(
       'https://app.ticketmaster.com/discovery/v2/events.json?' .
       http_build_query( array(
-        'size'      => 2,
+        'size'      => 20,
         'stateCode' => 'nv',
         'apikey'    => $this->ticketmater_key,
         'keyword'   => ( empty( $keyword ) ? 'latin' : $keyword ),
@@ -228,6 +247,15 @@ class VisitaEvents extends VisitaEventFields {
         if( $image->ratio == '16_9' && $image->width > 800 && $image->width < 1136 ){
           $event->image = $image->url;
         }
+      }
+
+      if ( empty( $event->priceRanges ) ) {
+        $event->priceRanges = array(
+          (object) array(
+            'min' => '',
+            'max' => '',
+          )
+        );
       }
 
       // try to save event
@@ -253,7 +281,12 @@ class VisitaEvents extends VisitaEventFields {
               '_time'           => $event->dates->start->localTime,
               '_date_link'      => '',
               '_availability'   => 'InStock',
-            ) )
+            ) ),
+            '_description'      => $this->get_description(
+                                    "{$event->name} {$event->_embedded->venues[0]->name}",
+                                    $event->dates->start->localDate,
+                                    $event->dates->start->localTime
+            ),
           ),
         ) )
       );
