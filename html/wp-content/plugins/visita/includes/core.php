@@ -14,11 +14,6 @@
 class VisitaCore {
 
   /**
-  *
-  */
-  protected $version = '3.0.0';
-
-  /**
    * Constructor
    *
    * @return void
@@ -31,7 +26,8 @@ class VisitaCore {
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
 
     //subclasses
-    $this->events = new VisitaEvents( $this->version );
+    $this->shows = new VisitaShows();
+    //$this->events = new VisitaEvents();
 
     //disable acf save hook
     add_action( 'acf/init', array( $this, 'disable_save_action' ) );
@@ -148,7 +144,7 @@ class VisitaCore {
   function admin_scripts( ) {
     if ( ! is_admin() ) return;
     wp_dequeue_style( 'select2' );
-    wp_enqueue_style( 'visita-admin', plugins_url( 'css/admin.css', VISITA_FILE_NAME ), NULL, $this->version );
+    wp_enqueue_style( 'visita-admin', plugins_url( 'css/admin.css', VISITA_FILE_NAME ), NULL, VISITA_VERSION );
   }
 
   /**

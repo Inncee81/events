@@ -30,14 +30,18 @@
 if ( ! defined( 'ABSPATH' ) )
 	die( );
 
+define( 'VISITA_VERSION', '3.0.0' );
 define( 'VISITA_FILE_NAME', plugin_basename( __FILE__ ) );
 define( 'VISITA_ABSPATH', str_replace( "\\", "/", dirname( __FILE__ ) ) );
-define( 'VISITA_INC', VISITA_ABSPATH . "/includes");
+define( 'VISITA_INC', VISITA_ABSPATH . '/includes' );
 
 if ( ! class_exists( 'VisitaCore' ) ){
 
 	include_once( VISITA_INC . "/core.php" );
-	include_once( VISITA_INC . "/events.php" );
+	include_once( VISITA_INC . "/base.php" );
+	include_once( VISITA_INC . "/shows.php" );
+
+	//include_once( VISITA_INC . "/events.php" );
 
 	$VisitaCore = new VisitaCore();
 }

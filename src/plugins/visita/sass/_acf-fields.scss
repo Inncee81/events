@@ -44,6 +44,9 @@
 }
 
 .acf-field- {
+  &-to,
+  &-day,
+  &-from,
   &-city,
   &-currency,
   &-duration,
@@ -60,6 +63,9 @@
     }
   }
 
+  &-to,
+  &-day,
+  &-from,
   &-time,
   &-date,
   &-availability {
