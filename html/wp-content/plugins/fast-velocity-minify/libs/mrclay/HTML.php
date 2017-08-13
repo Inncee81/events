@@ -80,6 +80,18 @@ class fastvelocity_min_Minify_HTML {
         $this->_replacementHash = 'MINIFYHTML' . md5($_SERVER['REQUEST_TIME']);
         $this->_placeholders = array();
         
+        // replace SCRIPTs (and minify) with placeholders
+        $this->_html = preg_replace_callback(
+            '/(\\s*)<script(\\b[^>]*?>)([\\s\\S]*?)<\\/script>(\\s*)/i'
+            ,array($this, '_removeScriptCB')
+            ,$this->_html);
+        
+        // replace STYLEs (and minify) with placeholders
+        $this->_html = preg_replace_callback(
+            '/\\s*<style(\\b[^>]*>)([\\s\\S]*?)<\\/style>\\s*/i'
+            ,array($this, '_removeStyleCB')
+            ,$this->_html);
+        
         // remove HTML comments (not containing IE conditional comments).
 		global $strip_htmlcomments;
 		if($strip_htmlcomments) { 

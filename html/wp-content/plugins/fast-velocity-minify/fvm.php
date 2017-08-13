@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.1.7
+Version: 2.1.9
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -92,6 +92,7 @@ $fastvelocity_min_global_js_done = array();
 
 # default options
 $ignore = array();                   # urls to exclude for merging and minification
+$default_protocol = 'dynamic';       # use dynamic "//" protocols by default
 $disable_js_merge = false;           # disable JS merging? Default: false (if true, minification is also disabled)
 $disable_css_merge = false;          # disable CSS merging? Default: false (if true, minification is also disabled)
 $disable_js_minification = false;    # disable JS minification? Default: false
@@ -117,9 +118,13 @@ $preload = array();                  # urls to preload before anything else
 $preconnect = array();               # domains to preconnect to
 $fvm_fix_editor = false;        	 # enable production mode by default?
 
+# extra
 $send_css_to_footer = false;         # force defer for css
 $critical_path_css = false;      	 # critical path for homepage
-
+$critical_css_tester = false;        # will remove all css, except the critical path code
+$generate_gulp_files = false;        # will generate gulp files for gulp-uncss (spider the site first to generate the fvm cache files)
+$generate_gulp_path = false;         # path to working directory where gulp-uncss is installed
+$used_css_files = array();
 
 # add admin page and rewrite defaults
 if(is_admin()) {
@@ -131,6 +136,7 @@ if(is_admin()) {
 } else {
     # overwrite options from the database, false if not set
 	$ignore = array_map('trim', explode("\n", get_option('fastvelocity_min_ignore', '')));
+	$default_protocol = get_option('fastvelocity_min_default_protocol', 'dynamic');
 	$disable_js_merge = get_option('fastvelocity_min_disable_js_merge');
 	$disable_css_merge = get_option('fastvelocity_min_disable_css_merge');
 	$disable_js_minification = get_option('fastvelocity_min_disable_js_minification');
@@ -154,7 +160,10 @@ if(is_admin()) {
 	$preconnect = array_map('trim', explode("\n", get_option('fastvelocity_min_preconnect')));
 	$fvm_fix_editor = get_option('fastvelocity_min_fvm_fix_editor');
 	$send_css_to_footer = get_option('fastvelocity_min_send_css_to_footer');
+	$critical_css_tester = get_option('fastvelocity_min_critical_css_tester');
 	$critical_path_css = get_option('fastvelocity_min_critical_path_css');
+	$generate_gulp_files = get_option('fastvelocity_min_generate_gulp_files');
+	$generate_gulp_path = get_option('fastvelocity_min_generate_gulp_path');
 	
 		
 	# skip on certain post_types or if there are specific keys on the url or if editor or admin
@@ -257,6 +266,7 @@ function fastvelocity_min_load_admin_jscss($hook) {
 # register plugin settings
 function fastvelocity_min_register_settings() {
     register_setting('fvm-group', 'fastvelocity_min_ignore');
+	register_setting('fvm-group', 'fastvelocity_min_default_protocol');
     register_setting('fvm-group', 'fastvelocity_min_disable_js_merge');
     register_setting('fvm-group', 'fastvelocity_min_disable_css_merge');
     register_setting('fvm-group', 'fastvelocity_min_disable_js_minification');
@@ -284,10 +294,11 @@ function fastvelocity_min_register_settings() {
 	register_setting('fvm-group', 'fastvelocity_min_fvm_cdn_url');
 	
 	# pro version (for private usage... or if you know what you're doing)
-	register_setting('fvm-group-pro', 'fastvelocity_min_defer_for_pagespeed_css');
 	register_setting('fvm-group-pro', 'fastvelocity_min_send_css_to_footer');
+	register_setting('fvm-group-pro', 'fastvelocity_min_critical_css_tester');
 	register_setting('fvm-group-pro', 'fastvelocity_min_critical_path_css');
-	register_setting('fvm-group-pro', 'fastvelocity_min_overwrite_css');
+	register_setting('fvm-group-pro', 'fastvelocity_min_generate_gulp_files');
+	register_setting('fvm-group-pro', 'fastvelocity_min_generate_gulp_path');	
 	register_setting('fvm-group-license', 'fastvelocity_min_license_code');
 }
 
@@ -407,6 +418,25 @@ if($fvm_license != false && mb_strlen($fvm_license, 'UTF-8') == 32) {
 <input name="fastvelocity_min_fvm_fix_editor" type="checkbox" id="fastvelocity_min_fvm_fix_editor" value="1" <?php echo checked(1 == get_option('fastvelocity_min_fvm_fix_editor'), true, false); ?>>
 Fix Page Editors <span class="note-info">[ If selected, logged in users with the "editor" role (and above) will bypass all optimizations ]</span></label>
 </fieldset></td>
+</tr>
+
+
+<tr>
+<th scope="row">URL Options</th>
+<td>
+<?php 
+# what to select
+$sel = get_option('fastvelocity_min_default_protocol');
+$a = ''; if($sel == 'dynamic' || empty($sel)) { $a = ' checked="checked"'; }
+$b = ''; if($sel == 'http') { $b = ' checked="checked"'; }
+$c = ''; if($sel == 'https') { $c = ' checked="checked"'; }
+?>
+<fieldset><legend class="screen-reader-text"><span>URL Options</span></legend>
+	<label><input type="radio" name="fastvelocity_min_default_protocol" value="dynamic" <?php echo $a; ?>> Use the default dynamic "//" protocol</label><br>
+	<label><input type="radio" name="fastvelocity_min_default_protocol" value="http"<?php echo $b; ?>> Force HTTP urls</label><br>
+	<label><input type="radio" name="fastvelocity_min_default_protocol" value="https"<?php echo $c; ?>> Force HTTPS urls</span></label><br>
+</fieldset>
+</td>
 </tr>
 
 <tr>
@@ -653,21 +683,45 @@ When deferring all generated css files, you must enqueue any inline css code tha
 <td><fieldset><legend class="screen-reader-text"><span>Extra CSS Options</span></legend>
 <label for="fastvelocity_min_send_css_to_footer">
 <input name="fastvelocity_min_send_css_to_footer" type="checkbox" id="fastvelocity_min_send_css_to_footer" value="1" <?php echo checked(1 == get_option('fastvelocity_min_send_css_to_footer'), true, false); ?>>
-Move CSS to footer<span class="note-info">[ If selected, you may need a Critical Path CSS to Optimize CSS Delivery ]</span></label>
+Async CSS with LoadCSS<span class="note-info">[ If selected, you will need a Critical Path CSS to Optimize CSS Delivery ]</span></label>
+<br />
+<label for="fastvelocity_min_critical_css_tester">
+<input name="fastvelocity_min_critical_css_tester" type="checkbox" id="fastvelocity_min_critical_css_tester" value="1" <?php echo checked(1 == get_option('fastvelocity_min_critical_css_tester'), true, false); ?>>
+Critical Path Tester<span class="note-info">[ If selected, only the critical path code will be shown and no css files will be enqueued ]</span></label>
+</fieldset>
 </td>
 </tr>
 
 <tr>
-<th scope="row">Critical Path CSS</th>
-<td><fieldset><legend class="screen-reader-text"><span>Critical Path</span></legend>
-<p><label for="blacklist_keys"><span class="fvm-label-pad">Insert your Critical Path code here:</span></label></p>
+<th scope="row">Global Critical CSS</th>
+<td>
 <p>
 <textarea name="fastvelocity_min_critical_path_css" rows="20" cols="50" id="fastvelocity_min_critical_path_css" class="large-text code" placeholder="your css code here"><?php echo get_option('fastvelocity_min_critical_path_css'); ?></textarea>
 </p>
-<p class="description">[ Please minify your CSS code manually for production ]</p>
-<br />
-</fieldset></td>
+<p class="description">[ Please minify your CSS code manually and insert your Global Critical CSS here ]</p>
+</td>
 </tr>
+
+
+<tr>
+<th scope="row">Gulp Options</th>
+<td><fieldset>
+<label for="fastvelocity_min_generate_gulp_files">
+<input name="fastvelocity_min_generate_gulp_files" type="checkbox" id="fastvelocity_min_generate_gulp_files" value="1" <?php echo checked(1 == get_option('fastvelocity_min_generate_gulp_files'), true, false); ?>>
+Generate gulp-uncss files<span class="note-info">[ If selected, it will try to generate one gulp-uncss per pageview ]</span></label>
+</fieldset>
+</td>
+</tr>
+
+<tr>
+<th scope="row">Gulp Directory</th>
+<td>
+<label for="fastvelocity_min_generate_gulp_path">
+<input name="fastvelocity_min_generate_gulp_path" type="text" id="fastvelocity_min_generate_gulp_path" value="<?php echo get_option('fastvelocity_min_generate_gulp_path'); ?>" class="regular-text code">
+<p class="description">The absolute path to your local "Gulp" working directory</p>
+</td>
+</tr>
+
 
 </tbody></table>
 
@@ -1067,7 +1121,7 @@ if (stripos($src, $wp_domain) === false) { return $tag; }
 
 # print code or return
 if(!empty($tagdefer)) { 
-	$deferinsights = '<script type="text/javascript">if(navigator.userAgent.match(/Speed/i)){document.write('.json_encode($tagdefer).');}else{document.write('.json_encode($tag).');}</script>';	
+	$deferinsights = '<script type="text/javascript">if(navigator.userAgent.match(/speed|gtmetrix|x11.*firefox\/53|x11.*chrome\/39/i)){document.write('.json_encode($tagdefer).');}else{document.write('.json_encode($tag).');}</script>';	
 	return preg_replace('#<script(.*?)>(.*?)</script>#is', $deferinsights, $tag);
 }
 
@@ -1086,7 +1140,7 @@ return $tag;
 # process header css ######################
 ###########################################
 function fastvelocity_min_merge_header_css() {
-global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css, $force_inline_googlefonts, $send_css_to_footer, $critical_path_css;
+global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css, $force_inline_googlefonts, $send_css_to_footer, $critical_path_css, $critical_css_tester;
 if(!is_object($wp_styles)) { return false; }
 $ctime = get_option('fvm-last-cache-update', '0'); 
 $styles = wp_clone($wp_styles);
@@ -1200,9 +1254,17 @@ $mediatype = $process[$handle]['mediatype'];
 	
 	# push it to the array
 	array_push($header[count($header)-1]['handles'], $handle);
+	
+	# collect generated file urls, except print
+	if ($mediatype != 'print') { $GLOBALS['used_css_files'][] = $hurl; }
 
 	# external and ignored css
 	} else {
+		
+		# collect generated file urls for gulp, except print and conditionals
+		if ($mediatype != 'print' && !isset($conditional)) { $GLOBALS['used_css_files'][] = $hurl; }
+		
+		# normal enqueuing
 		array_push($header, array('handle'=>$handle));
 	}
 endforeach;
@@ -1239,7 +1301,7 @@ if(!$skip_cssorder) {
 # critical path
 if(!empty($critical_path_css) && $critical_path_css != false) {
 	if($send_css_to_footer != false) { 
-		echo '<style id="critical-path" type="text/css" media="all">'.$critical_path_css.'</style>'."\n"; 
+		echo '<style id="critical-path-global" type="text/css" media="all">'.$critical_path_css.'</style>'."\n"; 
 	}
 }
 
@@ -1259,7 +1321,7 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 
 		# create cache files and urls
 		$file = $cachedir.'/'.$hash.'-'.$ctime.'.min.css';
-		$file_url = fvm_get_protocol($cachedirurl.'/'.$hash.'-'.$ctime.'.min.css');
+		$file_url = fvm_get_protocol($cachedirurl.'/'.$hash.'-'.$ctime.'.min.css'); 
 		
 		# generate a new cache file
 		if (!file_exists($file)) {
@@ -1320,7 +1382,11 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 				
 				# move CSS to footer ?
 				if($send_css_to_footer != false) {
-					$GLOBALS['fvm-defer-css-footer'][] = '<link rel="stylesheet" type="text/css" media="'.$header[$i]['media'].'" href="'.$file_url.'">';
+if($critical_css_tester != true) {
+echo '<link rel="preload" href="'.$file_url.'" as="style" media="'.$header[$i]['media'].'" onload="this.rel=\'stylesheet\'">';
+echo '<noscript><link rel="stylesheet" type="text/css" media="'.$header[$i]['media'].'" href="'.$file_url.'"></noscript>';
+echo '<!--[if IE]><link rel="stylesheet" type="text/css" media="'.$header[$i]['media'].'" href="'.$file_url.'"><![endif]-->';
+}
 				} else {
 				
 					# default
@@ -1348,7 +1414,7 @@ $wp_styles->done = $done;
 # process css in the footer ###############
 ###########################################
 function fastvelocity_min_merge_footer_css() {
-global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css_footer, $force_inline_googlefonts, $send_css_to_footer;
+global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css_footer, $force_inline_googlefonts, $send_css_to_footer, $critical_css_tester;
 if(!is_object($wp_styles)) { return false; }
 $ctime = get_option('fvm-last-cache-update', '0'); 
 $styles = wp_clone($wp_styles);
@@ -1410,31 +1476,45 @@ foreach( $styles->to_do as $handle ) :
 	# get full url
 	$hurl = fastvelocity_min_get_hurl($wp_styles->registered[$handle]->src, $wp_domain, $wp_home);
 	
+	# media type
+	$media = isset($wp_styles->registered[$handle]->args) ? $wp_styles->registered[$handle]->args : 'all';
+	
 	# IE only files don't increment things
 	$ieonly = fastvelocity_ie_blacklist($hurl);
 	if($ieonly == true) { continue; }
 	
+	# conditionals
+	$conditional = NULL; if(isset($wp_styles->registered[$handle]->extra["conditional"])) { 
+		$conditional = $wp_styles->registered[$handle]->extra["conditional"]; # such as ie7, ie8, ie9, etc
+	}
+	
 	# skip ignore list, conditional css, external css
-	if ((!fastvelocity_min_in_arrayi($hurl, $ignore) && !isset($wp_scripts->registered[$handle]->extra["conditional"]) 
-		&& fvm_internal_url($hurl, $wp_home)) || empty($hurl)) {
+	if ((!fastvelocity_min_in_arrayi($hurl, $ignore) && !isset($conditional) && fvm_internal_url($hurl, $wp_home)) || empty($hurl)) {
 			
 		# colect inline css for this handle
 		if(isset($wp_styles->registered[$handle]->extra['after']) && is_array($wp_styles->registered[$handle]->extra['after'])) { 
 			$inline_css[$handle] = fastvelocity_min_minify_css_string(implode('', $wp_styles->registered[$handle]->extra['after'])); # save
 			$wp_styles->registered[$handle]->extra['after'] = null; # dequeue
 		}	
-	
+			
 		# process
 		if(isset($footer[count($footer)-1]['handle']) || count($footer) == 0 || $footer[count($footer)-1]['media'] != $wp_styles->registered[$handle]->args) {
-			$media = isset($wp_styles->registered[$handle]->args) ? $wp_styles->registered[$handle]->args : 'all';
 			array_push($footer, array('handles'=>array(),'media'=>$media));
 		}
 	
 		# push it to the array get latest modified time
 		array_push($footer[count($footer)-1]['handles'], $handle);
 
+		# collect generated file urls for gulp, except print
+		if ($media != 'print') { $GLOBALS['used_css_files'][] = $hurl; }
+		
 	# external and ignored css
 	} else {
+		
+		# collect generated file urls for gulp, except print and conditionals
+		if ($media != 'print' && !isset($conditional)) { $GLOBALS['used_css_files'][] = $hurl; }
+		
+		# normal enqueueing
 		array_push($footer, array('handle'=>$handle));
 	}
 endforeach;
@@ -1543,7 +1623,13 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 				
 				# move CSS to footer
 				if($send_css_to_footer != false) {
-					$GLOBALS['fvm-defer-css-footer'][] = '<link rel="stylesheet" type="text/css" media="'.$footer[$i]['media'].'" href="'.$file_url.'">';
+
+if($critical_css_tester != true) {
+echo '<link rel="preload" href="'.$file_url.'" as="style" media="'.$footer[$i]['media'].'" onload="this.rel=\'stylesheet\'">';
+echo '<noscript><link rel="stylesheet" type="text/css" media="'.$footer[$i]['media'].'" href="'.$file_url.'"></noscript>';
+echo '<!--[if IE]><link rel="stylesheet" type="text/css" media="'.$footer[$i]['media'].'" href="'.$file_url.'"><![endif]-->';
+}
+
 				} else {
 				
 					# default
@@ -1568,19 +1654,69 @@ $wp_styles->done = $done;
 
 
 
-
-
-
+###########################################
 # defer CSS globally from the header (order matters)
-function fvm_movecss_to_footer() {
-global $send_css_to_footer;
-if(isset($GLOBALS['fvm-defer-css-footer']) && is_array($GLOBALS['fvm-defer-css-footer'])) {
-	foreach ($GLOBALS['fvm-defer-css-footer'] as $f) {
-		if(!empty($f)) { echo $f; }
-	}
+###########################################
+function fvm_movecss_to_footer_header() { 
+global $send_css_to_footer; 
+if($send_css_to_footer != false) {
+
+# echo LoadCSS scripts
+echo '<script>
+/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+</script>';
+
+} }
+add_action('wp_head', 'fvm_movecss_to_footer_header', PHP_INT_MAX);
+###########################################
+
+
+
+###########################################
+# generate gulp-uncss files for this page (dev only)
+###########################################
+function fvm_generate_gulp_uncss() {
+global $wp, $generate_gulp_files, $generate_gulp_path;
+
+# process
+if(!file_exists($save) && !file_exists($gulpfile) && isset($GLOBALS['used_css_files']) && $generate_gulp_files != false && !empty($generate_gulp_path)) {
+	
+# critical path file
+$currenturl = fvm_get_protocol($_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
+$file = sanitize_title($currenturl);
+$save = get_stylesheet_directory().'/criticalcss/css/'.$file.'.css';
+$generate_gulp_path = rtrim(trim($generate_gulp_path), '/');
+if(!is_dir($generate_gulp_path.'/out')) { mkdir($generate_gulp_path.'/out'); }
+$gulpfile = "$generate_gulp_path/$file.js";
+	
+$cssfiles = json_encode($GLOBALS['used_css_files'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+# gulp tasks
+$gulptask = <<<EOF
+var gulp = require('gulp');
+var uncss = require('gulp-uncss');
+var concat = require('gulp-concat');
+var nano = require('gulp-cssnano');
+var remoteSrc = require('gulp-remote-src');
+gulp.task('uncss', function() {
+remoteSrc($cssfiles, { base: null })
+.pipe(concat('$file.css'))
+.pipe(uncss({ html: ['$currenturl'] }))
+.pipe(nano())
+.pipe(gulp.dest('$generate_gulp_path/out/'));
+});
+EOF;
+
+# write gulp file
+file_put_contents($gulpfile, $gulptask);
+
 }
 }
-add_action('wp_footer', 'fvm_movecss_to_footer', PHP_INT_MAX);
+add_action('wp_footer', 'fvm_generate_gulp_uncss', PHP_INT_MAX);
+
 
 
 ###########################################
@@ -1624,9 +1760,6 @@ add_filter('style_loader_src', 'fastvelocity_remove_cssjs_ver', 10, 2);
 
 # enable html minification
 if(!$skip_html_minification) {
-# do this is steps
-add_action('template_redirect', 'fastvelocity_min_buffer_start', 0);
-add_action('wp_head', 'fastvelocity_min_buffer_end', PHP_INT_MAX-1);
-add_action('wp_head', 'fastvelocity_min_buffer_start', PHP_INT_MAX);
-}
+add_action('after_setup_theme', 'fastvelocity_min_html_compression_start'); 
+} 
 

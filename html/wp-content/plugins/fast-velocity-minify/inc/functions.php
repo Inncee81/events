@@ -203,34 +203,20 @@ $js = "\n/*! Fast Velocity Minify: Minification of the following section has fai
 return fvm_compat_urls($js);
 }
 
-
-# functions to minify HTML
-function fastvelocity_min_buffer_start() { ob_start("fastvelocity_min_minify_html"); }
-function fastvelocity_min_buffer_end() { ob_end_flush(); }
-
 # functions, minify html
 function fastvelocity_min_minify_html($html) {
-return $html;
+return trim(fastvelocity_min_Minify_HTML::minify($html));
 }
 
-# alternative html minification, minimal
-function fastvelocity_min_minify_alt_html($html) {
-$html = trim(preg_replace('/\v(?:[\t\v\h]+)/', "\n", $html));
-$html = trim(preg_replace('/\t(?:[\t\v\h]+)/', ' ', $html));
-$html = trim(preg_replace('/\h(?:[\t\v\h]+)/', ' ', $html));
-return $html;
-}
-
-# functions, minify html
-function fastvelocity_min_html($html) {
-while(@ob_end_clean());
-ob_start();
+# functions to minify HTML
+function fastvelocity_min_html_compression_finish($html) { return fastvelocity_min_minify_html($html); }
+function fastvelocity_min_html_compression_start() { 
+ 
 $use_alt_html_minification = get_option('fastvelocity_min_use_alt_html_minification', '0');
-if($use_alt_html_minification == '1') { return fastvelocity_min_minify_alt_html($html); }
-else { return trim(fastvelocity_min_Minify_HTML::minify($html)); }
+if($use_alt_html_minification == '1') { ob_start('fastvelocity_min_minify_alt_html'); }
+else { ob_start('fastvelocity_min_html_compression_finish'); }
+
 }
-
-
 
 
 
@@ -284,6 +270,7 @@ return array('size'=>fastvelocity_format_filesize($size), 'count'=>$count);
 
 # minify css on demand (one file at one time, for compatibility)
 function fastvelocity_min_get_css($url, $css, $disable_css_minification) {
+global $wp_domain;
 
 # remove BOM
 $css = fastvelocity_min_remove_utf8_bom($css); 
@@ -300,6 +287,13 @@ if(!$disable_css_minification) {
 	$css = fastvelocity_min_minify_css_string($css); 
 } else {
 	$css = fvm_compat_urls($css); 
+}
+
+# cdn urls
+$fvm_cdn_url = get_option('fastvelocity_min_fvm_cdn_url');
+if(!empty($fvm_cdn_url) && filter_var($fvm_cdn_url, FILTER_VALIDATE_URL) !== FALSE) {
+$fvm_cdn_url = trim(trim(str_ireplace(array('http://', 'https://'), '', trim($fvm_cdn_url, '/'))), '/');
+$css = str_ireplace($wp_domain, $fvm_cdn_url, $css);
 }
 
 # return html
@@ -600,22 +594,23 @@ function fastvelocity_remove_cssjs_ver( $src ) {
 
 
 # rewrite cache files to http, https or dynamic
-function fvm_get_protocol($cache_url) {
-	$cache_url = '//'.ltrim(str_ireplace(array('http://', 'https://'), '', $cache_url), '/'); # better compatibility
-	
+function fvm_get_protocol($url) {
+	$url = ltrim(str_ireplace(array('http://', 'https://'), '', $url), '/'); # better compatibility
+
 	# cdn support
 	$fvm_cdn_url = get_option('fastvelocity_min_fvm_cdn_url');
 	if(!empty($fvm_cdn_url) && filter_var($fvm_cdn_url, FILTER_VALIDATE_URL) !== FALSE) {
-		$su = '//'.ltrim(str_ireplace(array('http://', 'https://'), '', rtrim(site_url(), '/')), '/');   # better compatibility
-		$hu = '//'.ltrim(str_ireplace(array('http://', 'https://'), '', rtrim(home_url(), '/')), '/');   # better compatibility
-		$fv = '//'.ltrim(str_ireplace(array('http://', 'https://'), '', rtrim($fvm_cdn_url, '/')), '/'); # better compatibility
-		$cache_url = trim(str_ireplace(array($su, $hu), $fv, $cache_url));
+	$fvm_cdn_url = trim(trim(str_ireplace(array('http://', 'https://'), '', trim($fvm_cdn_url, '/'))), '/');
+	$url = str_ireplace($wp_domain, $fvm_cdn_url, $url);
 	}
+
+	# enforce protocol if needed
+	$fp = get_option('fastvelocity_min_default_protocol', 'dynamic'); 
+	if($fp == 'http') { $url = 'http://'.$url; } elseif($fp == 'https') { $url = 'https://'.$url; } else { $url = '//'.$url; }
 	
 	# return
-	return $cache_url;
+	return $url;
 }
-
 
 # keep track of transients, whenever we save a transient.
 function fvm_update_transient_keys($new_transient_key) {

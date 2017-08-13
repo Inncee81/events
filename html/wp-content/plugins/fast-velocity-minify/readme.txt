@@ -2,8 +2,8 @@
 Contributors: Alignak
 Tags: merge, combine, concatenate, PHP Minify, YUI Compressor, CSS, javascript, JS, minification, minify, optimization, optimize, stylesheet, aggregate, cache, CSS, html, minimize, pagespeed, performance, speed, GTmetrix, pingdom
 Requires at least: 4.5
-Stable tag: 2.1.7
-Tested up to: 4.8
+Stable tag: 2.1.9
+Tested up to: 4.8.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -273,6 +273,13 @@ Note: Kindly purge the plugin cache as well as your server /plugin cache after u
 
 
 == Changelog ==
+
+= 2.1.9 [2017.08.11] =
+* fixed a devolopment bug
+
+= 2.1.8 [2017.08.11] =
+* fixed the html minification not working
+* added support for the cdn enabler plugin (force http or https method)
 
 = 2.1.7 [2017.07.17] =
 * improved html minification speed and response time to the first byte
