@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.1.9
+Version: 2.2.0
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -1670,7 +1670,8 @@ echo '<script>
 </script>';
 
 } }
-add_action('wp_head', 'fvm_movecss_to_footer_header', PHP_INT_MAX);
+
+if (!is_admin()) { add_action('wp_head', 'fvm_movecss_to_footer_header', PHP_INT_MAX); }
 ###########################################
 
 
@@ -1681,16 +1682,19 @@ add_action('wp_head', 'fvm_movecss_to_footer_header', PHP_INT_MAX);
 function fvm_generate_gulp_uncss() {
 global $wp, $generate_gulp_files, $generate_gulp_path;
 
-# process
-if(!file_exists($save) && !file_exists($gulpfile) && isset($GLOBALS['used_css_files']) && $generate_gulp_files != false && !empty($generate_gulp_path)) {
-	
-# critical path file
+if(isset($GLOBALS['used_css_files']) && $generate_gulp_files != false && !empty($generate_gulp_path)) {
+
+# some paths and urls
 $currenturl = fvm_get_protocol($_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
 $file = sanitize_title($currenturl);
 $save = get_stylesheet_directory().'/criticalcss/css/'.$file.'.css';
 $generate_gulp_path = rtrim(trim($generate_gulp_path), '/');
-if(!is_dir($generate_gulp_path.'/out')) { mkdir($generate_gulp_path.'/out'); }
+$generate_gulp_path_out = $generate_gulp_path.'/out/';
+if(!is_dir($generate_gulp_path_out) && is_writable($generate_gulp_path_out)) { mkdir($generate_gulp_path_out); }
 $gulpfile = "$generate_gulp_path/$file.js";
+
+# process
+if(!file_exists($save) && !file_exists($gulpfile) && is_dir($generate_gulp_path_out)) {
 	
 $cssfiles = json_encode($GLOBALS['used_css_files'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
@@ -1715,7 +1719,9 @@ file_put_contents($gulpfile, $gulptask);
 
 }
 }
-add_action('wp_footer', 'fvm_generate_gulp_uncss', PHP_INT_MAX);
+}
+
+if (!is_admin()) { add_action('wp_footer', 'fvm_generate_gulp_uncss', PHP_INT_MAX); }
 
 
 
@@ -1759,7 +1765,7 @@ add_filter('style_loader_src', 'fastvelocity_remove_cssjs_ver', 10, 2);
 }
 
 # enable html minification
-if(!$skip_html_minification) {
-add_action('after_setup_theme', 'fastvelocity_min_html_compression_start'); 
+if(!$skip_html_minification && !is_admin()) {
+add_action('get_header', 'fastvelocity_min_html_compression_start', PHP_INT_MAX); 
 } 
 
