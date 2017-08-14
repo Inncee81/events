@@ -439,7 +439,7 @@ class acf_field_flexible_content extends acf_field {
 					if( $sub_field['wrapper']['width'] ) {
 
 						$atts['data-width'] = $sub_field['wrapper']['width'];
-						$atts['style'] = 'width: ' . $sub_field['wrapper']['width'] . '%;';
+						$atts['style'] = 'width: ' . esc_attr($sub_field['wrapper']['width']) . '%;';
 
 					}
 
@@ -447,7 +447,7 @@ class acf_field_flexible_content extends acf_field {
 					<th <?php echo acf_esc_attr( $atts ); ?>>
 						<?php echo acf_get_field_label( $sub_field ); ?>
 						<?php if( $sub_field['instructions'] ): ?>
-							<p class="description"><?php echo esc_html($sub_field['instructions']); ?></p>
+							<p class="description"><?php echo $sub_field['instructions']; ?></p>
 						<?php endif; ?>
 					</th>
 

@@ -775,7 +775,7 @@ class acf_field_clone extends acf_field {
 			<th <?php acf_esc_attr_e( $atts ); ?>>
 				<?php echo acf_get_field_label( $sub_field ); ?>
 				<?php if( $sub_field['instructions'] ): ?>
-					<p class="description"><?php echo esc_html($sub_field['instructions']); ?></p>
+					<p class="description"><?php echo $sub_field['instructions']; ?></p>
 				<?php endif; ?>
 			</th>
 		<?php endforeach; ?>

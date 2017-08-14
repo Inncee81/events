@@ -524,14 +524,14 @@ function acf_render_field_wrap( $field, $el = 'div', $instruction = 'label' ) {
 	<<?php echo sanitize_title( $elements[ $el ] ); ?> class="acf-label">
 		<label for="<?php echo $field['id']; ?>"><?php echo acf_get_field_label($field); ?></label>
 <?php if( $instruction == 'label' && $field['instructions'] ): ?>
-		<p class="description"><?php echo esc_html($field['instructions']); ?></p>
+		<p class="description"><?php echo $field['instructions']; ?></p>
 <?php endif; ?>
 	</<?php echo sanitize_title($elements[ $el ]); ?>>
 <?php endif; ?>
 	<<?php echo sanitize_title($elements[ $el ]); ?> class="acf-input">
 		<?php acf_render_field( $field ); ?>
 <?php if( $instruction == 'field' && $field['instructions'] ): ?>
-		<p class="description"><?php echo esc_html($field['instructions']); ?></p>
+		<p class="description"><?php echo $field['instructions']; ?></p>
 <?php endif; ?>
 	</<?php echo sanitize_title($elements[ $el ]); ?>>
 <?php if( !empty($field['conditional_logic'])): ?>

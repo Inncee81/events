@@ -26,8 +26,8 @@ class VisitaCore {
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
 
     //subclasses
+    $this->events = new VisitaEvents();
     $this->shows = new VisitaShows();
-    //$this->events = new VisitaEvents();
 
     //disable acf save hook
     add_action( 'acf/init', array( $this, 'disable_save_action' ) );
@@ -43,6 +43,7 @@ class VisitaCore {
     }
 
     //
+    add_action( 'admin_menu', array( $this, 'add_admin_pages' ) );
     add_filter( 'srm_max_redirects', array( $this, 'srm_max_redirects' ) );
 
     //actions
@@ -159,5 +160,31 @@ class VisitaCore {
     remove_submenu_page( 'caldera-forms', 'cf-pro' );
     remove_submenu_page( 'caldera-forms', 'caldera-form-support' );
     remove_submenu_page( 'caldera-forms', 'caldera-forms-extend' );
+  }
+
+  /**
+  * Add Import admin page
+  *
+  * @return void
+  * @since 3.0.0
+  */
+  function add_admin_pages( ) {
+    add_management_page(
+      __( 'Visita Import', 'visita' ),
+      __( 'Visita Import', 'visita' ),
+      'manage_options',
+      'visita-import',
+      array( $this, 'import_page' )
+    );
+  }
+
+  /**
+  * Load Import page
+  *
+  * @return void
+  * @since 3.0.0
+  */
+  function import_page( ) {
+    include_once( VISITA_INC . "/import.php");
   }
 }

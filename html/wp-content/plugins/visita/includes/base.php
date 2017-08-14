@@ -320,9 +320,47 @@ class VisitaBase {
   * Save ACF fields
   *
   * @param $post_id int
+  * @param $values array
   * @return void
   * @since 3.0.0
   */
   function save_acf_data( $post_id, $values ) {
+    if ( get_current_screen()->post_type !== $this->post_type ) {
+      return;
+    }
+
+    //save each field
+    foreach ( $values as $meta_key => $meta_value ) {
+      update_post_meta( $post_id, $meta_key, $meta_value );
+    }
+  }
+
+  /**
+  * Return _times field values
+  *
+  * @param $post_id mix
+  * @param $post_id int
+  * @param $field array acf filed array
+  * @return array / mix
+  * @since 3.0.0
+  */
+  function load_repeater_values( $value, $post_id, $field ) {
+
+    if ( empty( $field['sub_fields'] ) ) return $value;
+    if ( get_post_type( $post_id ) !== $this->post_type ) return $value;
+
+    $rows = array();
+    $data = get_post_meta( $post_id, $field['key'], true );
+
+    foreach ( (array) $data as $index => $values ) {
+      foreach ( $field['sub_fields'] as $sub_field ) {
+        $key = $sub_field['key'];
+        if ( isset( $values[ $key ] ) ) {
+          $rows[$index][ $key ] = $values[ $key ];
+        }
+      }
+    }
+
+    return array_values( $rows );
   }
 }

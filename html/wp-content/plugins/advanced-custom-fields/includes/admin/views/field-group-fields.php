@@ -11,7 +11,7 @@
 	<div class="acf-field-list">
 
 		<div class="no-fields-message" <?php if( $fields ){ echo 'style="display:none;"'; } ?>>
-			<?php esc_html_e("No fields. Click the <strong>+ Add Field</strong> button to create your first field.",'acf'); ?>
+			<?php _e("No fields. Click the <strong>+ Add Field</strong> button to create your first field.",'acf'); ?>
 		</div>
 
 		<?php if( $fields ):

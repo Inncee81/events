@@ -40,8 +40,7 @@ if ( ! class_exists( 'VisitaCore' ) ){
 	include_once( VISITA_INC . "/core.php" );
 	include_once( VISITA_INC . "/base.php" );
 	include_once( VISITA_INC . "/shows.php" );
-
-	//include_once( VISITA_INC . "/events.php" );
+	include_once( VISITA_INC . "/events.php" );
 
 	$VisitaCore = new VisitaCore();
 }
