@@ -293,6 +293,40 @@ class VisitaShows extends VisitaBase {
       return;
     }
 
+    add_action( 'visita_import_page', array( $this, 'import_form' ), 3 );
     add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 100 );
+  }
+
+  /**
+  *
+  *
+  * @return void
+  * @since 3.0.0
+  */
+  function import_form( ) {
+    printf(
+      '<form class="inside" method="post">
+        <p class="mf_field_wrapper">
+          <textarea class="widefat" name="shows-json" rows="5" placeholder="%1$s"></textarea>
+        </p>
+        <p><input type="submit" class="button-primary" value="%2$s" /></p>
+        <input type="hidden" name="page" value="visita-import" />  %3$s
+      </form>',
+      esc_attr__( 'json...', 'visita' ),
+      esc_attr__( 'Shows', 'visita' ),
+      wp_nonce_field( 'visita-import', 'visita-import', false )
+    );
+  }
+
+  /**
+  * Save ACF fields
+  *
+  * @return void
+  * @since 3.0.0
+  */
+  function save_import_data( ) {
+    if ( isset( $_REQUEST['shows-json'] ) ) {
+      $json = json_decode( stripslashes( $_REQUEST['shows-json'] ) );
+    }
   }
 }

@@ -637,10 +637,11 @@ class VisitaEvents extends VisitaBase {
   			<p class="mf_field_wrapper">
   				<textarea class="widefat" name="json" rows="5" placeholder="%2$s"></textarea>
   			</p>
-  			<input type="submit" name="json-import" class="button-primary" value="Import" /> %3$s
+  			<input type="submit" name="json-import" class="button-primary" value="%3$s" /> %4$s
     	</form>',
       esc_attr__( 'site url..', 'visita' ),
       esc_attr__( 'json...', 'visita' ),
+      esc_attr__( 'Events', 'visita' ),
       wp_nonce_field( 'visita-import', 'visita-import', false )
     );
   }
@@ -657,7 +658,7 @@ class VisitaEvents extends VisitaBase {
 
     	$json = ( ! empty( $_REQUEST['url'] ) )
               ? $this->json_data_from_url( $_REQUEST['url'] )
-              : json_decode( $_REQUEST['json'] );
+              : json_decode( stripslashes( $_REQUEST['json'] ) );
       $this->json_import( $json );
     }
 
