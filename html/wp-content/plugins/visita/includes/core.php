@@ -28,6 +28,7 @@ class VisitaCore {
     //subclasses
     $this->events = new VisitaEvents();
     $this->shows = new VisitaShows();
+    $this->clubs = new VisitaClubs();
 
     //disable acf save hook
     add_action( 'acf/init', array( $this, 'disable_save_action' ) );
