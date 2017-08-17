@@ -1,27 +1,27 @@
 <?php
 /**
-* Visita - Shows Class
+* Visita - Hotels Class
 *
-* @file shows.php
+* @file hotels.php
 * @package visita
 * @author Hafid Trujillo
 * @copyright 2010-2018 Xpark Media
 * @version release: 1.0.0
-* @filesource  wp-content/plugins/visita/includes/shows.php
+* @filesource  wp-content/plugins/visita/includes/hotels.php
 * @since available since 0.1.0
 */
 
-class VisitaClubs extends VisitaBase {
+class VisitaHotels extends VisitaBase {
 
   /**
   *
   */
-  protected $post_type = 'club';
+  protected $post_type = 'hotel';
 
   /**
   *
   */
-  protected $taxonomy = 'clubs';
+  protected $taxonomy = 'hotels';
 
   /**
    * Constructor
@@ -31,30 +31,24 @@ class VisitaClubs extends VisitaBase {
    */
   function __construct( ) {
 
-    $this->position = 28;
-    $this->slug = __( 'club', 'visita' );
-    $this->name = __( 'Clubs', 'visita' );
-    $this->singular = __( 'Club', 'visita' );
-    $this->taxonomy_slug = __( 'clubs', 'visita' );
-    $this->taxonomy_label = __( 'Clubs', 'visita' );
+    $this->position = 29;
+    $this->slug = __( 'hotel', 'visita' );
+    $this->name = __( 'Hotels', 'visita' );
+    $this->singular = __( 'Hotel', 'visita' );
+    $this->taxonomy_slug = __( 'hotels', 'visita' );
+    $this->taxonomy_label = __( 'Hotels', 'visita' );
 
-    $this->club_data = array_replace_recursive( $this->default_data, array(
+    $this->hotel_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,
       'meta_input'        => array(
-        '_days'           => array( array(
-          '_to'           => '',
-          '_from'         => '',
-          '_day_link'     => '',
-          '_availability' => 'InStock',
-        ) ),
-        '_business_type'  => 'NightClub',
-        '_keywords'       => __( 'antro, night club', 'visita' ),
+        '_business_type'  => 'Hotel',
+        '_keywords'       => __( 'hotel, casino', 'visita' ),
       )
     ) );
 
-    $defaults = $this->club_data['meta_input'];
+    $defaults = $this->hotel_data['meta_input'];
     $this->fields = array_replace_recursive( $this->fields, array(
-      'title' => __( 'Show Details', 'visita' ),
+      'title' => __( 'Hotel Details', 'visita' ),
       'location' => array (
         array (
           array (
@@ -103,8 +97,9 @@ class VisitaClubs extends VisitaBase {
           'default_value' => 'Event',
           'label' => __( 'Business Type', 'visita' ),
           'choices' => array(
-            'NightClub' => __( 'Night Club', 'visita' ),
-            'ComedyClub' => __( 'Comedy Club', 'visita' ),
+            'Hotel' => __( 'Hotel', 'visita' ),
+            'Resort' => __( 'Resort', 'visita' ),
+            'Casino' => __( 'Casino', 'visita' ),
           ),
         ),
         array(
@@ -161,66 +156,6 @@ class VisitaClubs extends VisitaBase {
           'label' => __( 'Phone', 'visita'  ),
           'type' => 'text',
           'formatting' => 'phone',
-        ),
-        array(
-          'key' => 'tap_times',
-          'label' => __( 'Business Hours', 'visita' ),
-          'type' => 'tab',
-        ),
-        array(
-          'min'=> 1,
-          'key' => '_days',
-          'name' => '_days',
-          'type' => 'repeater',
-          'layout' => 'block',
-          'sub_fields' => array(
-            array(
-              'key' => '_from',
-              'name' => '_from',
-              'type' => 'select',
-              'label' => __( 'From', 'visita' ),
-              'choices' => array(
-                __( 'All', 'visita' ),
-                __( 'Monday', 'visita' ),
-                __( 'Tuesday', 'visita' ),
-                __( 'Wednesday', 'visita' ),
-                __( 'Thursday', 'visita' ),
-                __( 'Friday', 'visita' ),
-                __( 'Saturday', 'visita' ),
-                __( 'Sunday', 'visita' ),
-              )
-            ),
-            array(
-              'key' => '_to',
-              'name' => '_to',
-              'type' => 'select',
-              'label' => __( 'To', 'visita' ),
-              'choices' => array(
-                __( 'All', 'visita' ),
-                __( 'Monday', 'visita' ),
-                __( 'Tuesday', 'visita' ),
-                __( 'Wednesday', 'visita' ),
-                __( 'Thursday', 'visita' ),
-                __( 'Friday', 'visita' ),
-                __( 'Saturday', 'visita' ),
-                __( 'Sunday', 'visita' ),
-              )
-            ),
-            array(
-              'key' => '_time',
-              'name' => '_time',
-              'type' => 'time_picker',
-              'display_format' => 'g:i A',
-              'label' => __( 'Time', 'visita' ),
-              'default_value' => $defaults['_times'][0]['_time'],
-            ),
-            array(
-              'key' => '_day_link',
-              'name' => '_day_link',
-              'type' => 'text',
-              'label' => __( 'Link', 'visita' ),
-            ),
-          ),
         ),
       )
     ) );

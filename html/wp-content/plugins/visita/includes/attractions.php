@@ -11,17 +11,17 @@
 * @since available since 0.1.0
 */
 
-class VisitaShows extends VisitaBase {
+class VisitaAttractions extends VisitaBase {
 
   /**
   *
   */
-  protected $post_type = 'show';
+  protected $post_type = 'attraction';
 
   /**
   *
   */
-  protected $taxonomy = 'shows';
+  protected $taxonomy = 'attractions';
 
   /**
    * Constructor
@@ -31,14 +31,14 @@ class VisitaShows extends VisitaBase {
    */
   function __construct( ) {
 
-    $this->position = 27;
-    $this->slug = __( 'show', 'visita' );
-    $this->name = __( 'Shows', 'visita' );
-    $this->singular = __( 'Show', 'visita' );
-    $this->taxonomy_slug = __( 'shows', 'visita' );
-    $this->taxonomy_label = __( 'Shows', 'visita' );
+    $this->position = 30;
+    $this->slug = __( 'attraction', 'visita' );
+    $this->name = __( 'Attractions', 'visita' );
+    $this->singular = __( 'Attraction', 'visita' );
+    $this->taxonomy_slug = __( 'attractions', 'visita' );
+    $this->taxonomy_label = __( 'Attractions', 'visita' );
 
-    $this->show_data = array_replace_recursive( $this->default_data, array(
+    $this->club_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,
       'meta_input'        => array(
         '_days'           => array( array(
@@ -47,12 +47,12 @@ class VisitaShows extends VisitaBase {
           '_day_link'     => '',
           '_availability' => 'InStock',
         ) ),
-        '_event_type'     => 'TheaterEvent',
-        '_keywords'       => __( 'show, espectaculo', 'visita' ),
+        '_business_type'  => 'NightClub',
+        '_keywords'       => __( 'antro, night club', 'visita' ),
       )
     ) );
 
-    $defaults = $this->show_data['meta_input'];
+    $defaults = $this->club_data['meta_input'];
     $this->fields = array_replace_recursive( $this->fields, array(
       'title' => __( 'Show Details', 'visita' ),
       'location' => array (
@@ -97,31 +97,21 @@ class VisitaShows extends VisitaBase {
           'type' => 'text',
         ),
         array(
-          'key' => '_duration',
-          'name' => '_duration',
-          'type' => 'number',
-          'label' => __( 'Duration (Minutes)', 'visita' ),
-          'default_value' => $defaults['_duration'],
-          'min' => 1,
-        ),
-        array(
-          'key' => '_event_type',
-          'name' => '_event_type',
+          'key' => '_business_type',
+          'name' => '_business_type',
           'type' => 'select',
           'default_value' => 'Event',
-          'label' => __( 'Event Type', 'visita' ),
+          'label' => __( 'Business Type', 'visita' ),
           'choices' => array(
-            'Event' => __( 'Event', 'visita' ),
-            'ComedyEvent' => __( 'Comedy', 'visita' ),
-            'DanceEvent' => __( 'Dance', 'visita' ),
-            'FoodEvent' => __( 'Food', 'visita' ),
-            'Festival' => __( 'Festival', 'visita' ),
-            'ExhibitionEvent' => __( 'Exhibition', 'visita' ),
-            'MusicEvent' => __( 'Music', 'visita' ),
-            'SportsEvent' => __( 'Sports', 'visita' ),
-            'TheaterEvent' => __( 'Theater', 'visita' ),
-            'ScreeningEvent' => __( 'Screening', 'visita' ),
-            'EducationEvent' => __( 'Education', 'visita' ),
+            'Park' => __( 'Park', 'visita' ),
+            'Museum' => __( 'Museum', 'visita' ),
+            'Aquarium' => __( 'Aquarium', 'visita' ),
+            'EventVenue' => __( 'Event Venue', 'visita' ),
+            'ArtGallery' => __( 'Art Gallery', 'visita' ),
+            'MovieTheater' => __( 'Movie Theater', 'visita' ),
+            'AmusementPark' => __( 'Amusement Park', 'visita' ),
+            'ShoppingCenter' => __( 'Shopping Center', 'visita' ),
+            'EntertainmentBusiness' => __( 'Entertainment', 'visita' ),
           ),
         ),
         array(
@@ -239,39 +229,6 @@ class VisitaShows extends VisitaBase {
             ),
           ),
         ),
-        array(
-          'key' => 'tap_performers',
-          'label' => __( 'Performers', 'visita' ),
-          'type' => 'tab',
-        ),
-        array(
-          'min'=> 1,
-          'key' => '_performers',
-          'name' => '_performers',
-          'type' => 'repeater',
-          'sub_fields' => array(
-            array(
-              'key' => '_name',
-              'name' => '_name',
-              'type' => 'text',
-              'label' => __( 'Performer', 'visita' ),
-            ),
-            array(
-              'key' => '_type',
-              'name' => '_type',
-              'type' => 'select',
-              'label' => __( 'Performe Type', 'visita' ),
-              'default_value' => $defaults['_performers'][0]['_type'],
-              'choices' => array(
-                'Person' => __( 'Person', 'visita' ),
-                'SportsTeam'=> __( 'Sports Team', 'visita' ),
-                'MusicGroup' => __( 'Music Group', 'visita' ),
-                'DanceGroup' => __( 'Dance Group', 'visita' ),
-                'TheaterGroup' => __( 'Theater Group', 'visita' ),
-              )
-            ),
-          ),
-        ),
       )
     ) );
 
@@ -280,7 +237,6 @@ class VisitaShows extends VisitaBase {
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
     add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 10, 2 );
     add_filter( 'acf/load_value/key=_days', array( $this, 'load_repeater_values' ), 50, 3 );
-    add_filter( 'acf/load_value/key=_performers', array( $this, 'load_repeater_values' ), 50, 4 );
 
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
       return;
@@ -291,40 +247,6 @@ class VisitaShows extends VisitaBase {
       return;
     }
 
-    add_action( 'visita_import_page', array( $this, 'import_form' ), 3 );
     add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 100 );
-  }
-
-  /**
-  *
-  *
-  * @return void
-  * @since 3.0.0
-  */
-  function import_form( ) {
-    printf(
-      '<form class="inside" method="post">
-        <p class="mf_field_wrapper">
-          <textarea class="widefat" name="shows-json" rows="5" placeholder="%1$s"></textarea>
-        </p>
-        <p><input type="submit" class="button-primary" value="%2$s" /></p>
-        <input type="hidden" name="page" value="visita-import" />  %3$s
-      </form>',
-      esc_attr__( 'json...', 'visita' ),
-      esc_attr__( 'Shows', 'visita' ),
-      wp_nonce_field( 'visita-import', 'visita-import', false )
-    );
-  }
-
-  /**
-  * Save ACF fields
-  *
-  * @return void
-  * @since 3.0.0
-  */
-  function save_import_data( ) {
-    if ( isset( $_REQUEST['shows-json'] ) ) {
-      $json = json_decode( stripslashes( $_REQUEST['shows-json'] ) );
-    }
   }
 }

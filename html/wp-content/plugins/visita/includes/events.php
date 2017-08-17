@@ -41,7 +41,7 @@ class VisitaEvents extends VisitaBase {
    */
   function __construct( ) {
 
-    $this->position = 25;
+    $this->position = 26;
     $this->slug = __( 'event', 'visita' );
     $this->name = __( 'Events', 'visita' );
     $this->singular = __( 'Event', 'visita' );

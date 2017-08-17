@@ -42,6 +42,8 @@ if ( ! class_exists( 'VisitaCore' ) ){
 	include_once( VISITA_INC . "/shows.php" );
 	include_once( VISITA_INC . "/events.php" );
 	include_once( VISITA_INC . "/clubs.php" );
+	include_once( VISITA_INC . "/hotels.php" );
+	include_once( VISITA_INC . "/attractions.php" );
 
 	$VisitaCore = new VisitaCore();
 }

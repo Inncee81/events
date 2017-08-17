@@ -26,9 +26,11 @@ class VisitaCore {
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
 
     //subclasses
-    $this->events = new VisitaEvents();
     $this->shows = new VisitaShows();
     $this->clubs = new VisitaClubs();
+    $this->events = new VisitaEvents();
+    $this->hotels = new VisitaHotels();
+    $this->attractions = new VisitaAttractions();
 
     //disable acf save hook
     add_action( 'acf/init', array( $this, 'disable_save_action' ) );
