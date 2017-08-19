@@ -33,12 +33,12 @@ $modal_new_form = esc_html__('Create Form', 'caldera-forms').'|{"data-action" : 
 			<?php echo CFCORE_VER; ?>
 		</li>
 		<li class="caldera-forms-toolbar-item">
-			<a class="button button-primary ajax-trigger cf-new-form-button" data-request="start_new_form" data-modal-no-buttons='<?php echo esc_attr($modal_new_form); ?>' data-modal-width="70%" data-modal-height="80%" data-load-class="none" data-modal="new_form" data-nonce="<?php echo wp_create_nonce( 'cf_create_form' ); ?>" data-modal-title="<?php esc_attr_e('Create New Form', 'caldera-forms'); ?>" data-template="#new-form-tmpl">
-		    	<?php esc_html_e('New Form', 'caldera-forms'); ?>
+			<a class="button button-primary ajax-trigger cf-new-form-button" data-request="start_new_form" data-modal-no-buttons='<?php echo $modal_new_form; ?>' data-modal-width="70%" data-modal-height="80%" data-load-class="none" data-modal="new_form" data-nonce="<?php echo wp_create_nonce( 'cf_create_form' ); ?>" data-modal-title="<?php echo __('Create New Form', 'caldera-forms'); ?>" data-template="#new-form-tmpl">
+		    	<?php echo __('New Form', 'caldera-forms'); ?>
 			</a>
 		</li>
 		<li class="caldera-forms-toolbar-item">
-			<a class="button ajax-trigger" data-request="start_new_form" data-modal-width="400" data-modal-height="192" data-modal-element="div" data-load-class="none" data-modal="import_form" data-template="#import-form-tmpl" data-modal-title="<?php esc_attr_e('Import Form', 'caldera-forms'); ?>" ><?php esc_html_e('Import', 'caldera-forms'); ?></a>
+			<a class="button ajax-trigger" data-request="start_new_form" data-modal-width="400" data-modal-height="192" data-modal-element="div" data-load-class="none" data-modal="import_form" data-template="#import-form-tmpl" data-modal-title="<?php echo __('Import Form', 'caldera-forms'); ?>" ><?php echo __('Import', 'caldera-forms'); ?></a>
 		</li>
 		<li class="caldera-forms-toolbar-item separator">&nbsp;&nbsp;</li>
 		<li class="caldera-forms-toolbar-item" id="cf-email-settings-item">
@@ -93,8 +93,8 @@ $modal_new_form = esc_html__('Create Form', 'caldera-forms').'|{"data-action" : 
 		<table class="widefat fixed">
 			<thead>
 				<tr>
-					<th><?php esc_html_e('Form', 'caldera-forms'); ?></th>
-					<th style="width:5em; text-align:center;"><?php esc_html_e('Entries', 'caldera-forms'); ?></th>
+					<th><?php _e('Form', 'caldera-forms'); ?></th>
+					<th style="width:5em; text-align:center;"><?php _e('Entries', 'caldera-forms'); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -118,14 +118,14 @@ $modal_new_form = esc_html__('Create Form', 'caldera-forms').'|{"data-action" : 
 
 				<tr id="<?php  echo esc_attr( trim( 'form_row_' . $form_id ) ); ?>" class="<?php echo $class; ?> form_entry_row">
 					<td class="<?php if( !empty( $form['form_draft'] ) ) { echo 'draft-form'; }else{ echo 'active-form'; } ?>">
-						<span class="cf-form-name-preview"><?php esc_html_e( $form[ 'name' ] ); ?></span> <input readonly type="text" class="cf-shortcode-preview" value="<?php echo esc_attr( '[caldera_form id="' . esc_attr(trim( $form[ 'ID' ] )) . '"]'); ?>"> <span class="cf-form-shortcode-preview"><?php echo esc_html__( 'Get Shortcode', 'caldera-forms' ); ?></span>
+						<span class="cf-form-name-preview"><?php esc_html_e( $form[ 'name' ] ); ?></span> <input readonly type="text" class="cf-shortcode-preview" value="<?php echo esc_attr( '[caldera_form id="' . trim( $form[ 'ID' ] ) . '"]'); ?>"> <span class="cf-form-shortcode-preview"><?php echo esc_html__( 'Get Shortcode', 'caldera-forms' ); ?></span>
 
 						<?php if( !empty( $form['debug_mailer'] ) ) { ?>
-						<span style="color: rgb(207, 0, 0);" class="description"><?php esc_html_e('Mailer Debug enabled.', 'caldera-forms') ;?></span>
+						<span style="color: rgb(207, 0, 0);" class="description"><?php _e('Mailer Debug enabled.', 'caldera-forms') ;?></span>
 						<?php } ?>
 
 						<div class="row-actions">
-						<?php if( empty( $form['_external_form'] ) ){ ?><span class="edit"><a class="form-control" href="<?php echo esc_url( Caldera_Forms_Admin::form_edit_link( $form_id ) ); ?>"><?php  esc_html_e('Edit'); ?></a> | </span>
+						<?php if( empty( $form['_external_form'] ) ){ ?><span class="edit"><a class="form-control" href="<?php echo esc_url( Caldera_Forms_Admin::form_edit_link( $form_id ) ); ?>"><?php echo __('Edit'); ?></a> | </span>
 						<span class="edit"><a class="form-control ajax-trigger" href="#entres"
 						data-load-element="<?php echo esc_attr( '#form_row_' . trim( $form_id ) ); ?>"
 						data-action="toggle_form_state"
@@ -134,7 +134,7 @@ $modal_new_form = esc_html__('Create Form', 'caldera-forms').'|{"data-action" : 
 						data-callback="set_form_state"
 						data-form="<?php echo esc_attr( trim( $form_id ) ); ?>"
 
-						><?php if( !empty( $form['form_draft'] ) ) { esc_html_e('Enable', 'caldera-forms'); }else{ esc_html_e('Disable', 'caldera-forms'); } ?></a> | </span><?php } ?>
+						><?php if( !empty( $form['form_draft'] ) ) { echo __('Enable', 'caldera-forms'); }else{ echo __('Disable', 'caldera-forms'); } ?></a> | </span><?php } ?>
 
 						<?php if(!empty($form['db_support'])) { ?>
 							<span class="edit">

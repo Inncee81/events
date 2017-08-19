@@ -1,6 +1,6 @@
 &nbsp;
-<a class="add-new-h2 caldera-add-group caldera-add-page ajax-trigger"
-
+<a class="add-new-h2 caldera-add-group caldera-add-page ajax-trigger" 
+	
 	data-addtitle="<?php echo __('Page', 'caldera-forms'); ?>"
 	data-template="#grid-page-tmpl"
 	data-target-insert="append"
@@ -18,7 +18,7 @@
 	</span>
 	<div class="drag-handle">
 		<div class="field_preview"></div>
-	</div><input value="" type="hidden" class="field-location">
+	</div><input value="" type="hidden" class="field-location">	
 </div>
 
 <?php
@@ -31,10 +31,10 @@
 $haspointer = get_user_meta( get_current_user_id() , 'cf_pointer_add_element' );
 if(empty($haspointer)){ ?>
 <script>
-
+	
 	jQuery(document).ready( function($) {
 		$( '#new-form-element' ).pointer( {
-			content: '<h3><?php esc_html_e( 'Form Elements & Fields', 'caldera-forms' ); ?></h3><p><img src="<?php echo CFCORE_URL . 'assets/images/howto.gif'; ?>"></p>',
+			content: '<h3><?php _e( 'Form Elements & Fields', 'caldera-forms' ); ?></h3><p><img src="<?php echo CFCORE_URL . 'assets/images/howto.gif'; ?>"></p>',
 			position: {
 				edge: 'top',
 				align: 'left'

@@ -135,11 +135,11 @@ class Caldera_Forms {
 
 		//emails
 		add_action( 'caldera_forms_core_init', array( 'Caldera_Forms_Email_Settings', 'maybe_add_hooks' ) );
-		add_action( 'caldera_forms_admin_footer', array( 'Caldera_Forms_Email_Settings', 'ui' ) );
 		add_filter( 'pre_update_option__caldera_forms_email_api_settings', array(
 			'Caldera_Forms_Email_Settings',
 			'sanitize_save'
 		) );
+
 		if ( current_user_can( Caldera_Forms::get_manage_cap( 'admin' ) ) ) {
 			add_action( 'wp_ajax_cf_email_save', array( 'Caldera_Forms_Email_Settings', 'save' ) );
 		}
@@ -201,7 +201,7 @@ class Caldera_Forms {
 		//initialize settings
 		Caldera_Forms_Settings_Init::load();
 
-		/**
+        /**
 		 * Runs after Caldera Forms core is initialized
 		 *
 		 * @since 1.3.5.3
@@ -545,14 +545,14 @@ class Caldera_Forms {
 	 */
 	public static function star_rating_viewer( $value, $field, $form ) {
 
-		$out = "<div style=\"color: " . esc_attr($field[ 'config' ][ 'color' ]) . "; font-size: 10px;display: inline;\" >";
+		$out = "<div style=\"color: " . $field[ 'config' ][ 'color' ] . "; font-size: 10px;display: inline;\" >";
 		if ( ! empty( $field[ 'config' ][ 'number' ] ) ) {
 			for ( $i = 1; $i <= $field[ 'config' ][ 'number' ]; $i ++ ) {
 				$star = 'raty-' . $field[ 'config' ][ 'type' ] . '-off';
 				if ( $i <= $value ) {
 					$star = 'raty-' . $field[ 'config' ][ 'type' ] . '-on';
 				}
-				$out .= '<span data-alt="' . esc_attr($i) . '" class="' . esc_attr($star) . '" title="' . esc_attr($i) . '" style="margin-right: -2px;"></span> ';
+				$out .= '<span data-alt="' . $i . '" class="' . $star . '" title="' . $i . '" style="margin-right: -2px;"></span> ';
 			}
 		}
 		$out .= '</div>';
@@ -572,7 +572,7 @@ class Caldera_Forms {
 	public static function handle_file_view( $value, $field, $form ) {
 		$out = array();
 		foreach ( (array) $value as $file_url ) {
-			$out[] = '<a href="' . esc_url($file_url) . '" target="_blank">' . esc_html( basename( $file_url )) . '</a>';
+			$out[] = '<a href="' . $file_url . '" target="_blank">' . basename( $file_url ) . '</a>';
 		}
 
 		return implode( ', ', $out );
@@ -992,9 +992,9 @@ class Caldera_Forms {
 							parse_str( $redirect[ 'query' ], $redirect[ 'query' ] );
 							$base_redirect = explode( '?', $base_redirect, 2 );
 							$query_vars    = array_merge( $redirect[ 'query' ], $query_vars );
-							$redirect      = $base_redirect[ 0 ] . '?' . http_build_query( $query_vars );
+							$redirect      = add_query_arg( $query_vars, $base_redirect[ 0 ] );
 						} else {
-							$redirect = $base_redirect . '?' . http_build_query( $query_vars );
+							$redirect      = add_query_arg( $query_vars, $base_redirect );
 						}
 
 						return $redirect;
@@ -2597,33 +2597,16 @@ class Caldera_Forms {
 			$form_instance_number = $_POST[ '_cf_frm_ct' ];
 		}
 
-		// check honey
-		if ( isset( $form[ 'check_honey' ] ) ) {
-			// use multiple honey words
-			$honey_words = apply_filters( 'caldera_forms_get_honey_words', array(
-				'web_site',
-				'url',
-				'email',
-				'company',
-				'name'
-			) );
-			foreach ( $_POST as $honey_word => $honey_value ) {
+		// check honeypot
+        if ( Caldera_Forms_Field_Honey::active( $form ) ) {
+            $passed = Caldera_Forms_Field_Honey::check( $_POST, $form );
+            if( ! $passed ){
+                $url = Caldera_Forms_Field_Honey::redirect_url( $referrer, $form_instance_number, $process_id);
+                return self::form_redirect( 'complete', $url, $form, uniqid( '_cf_bliss_' ) );
+            }
 
-				if ( ! is_array( $honey_value ) && strlen( $honey_value ) && in_array( $honey_word, $honey_words ) ) {
-					// yupo - bye bye
-					$referrer[ 'query' ][ 'cf_su' ] = $form_instance_number;
-					$query_str                      = array(
-						'cf_er' => $process_id
-					);
-					if ( ! empty( $referrer[ 'query' ] ) ) {
-						$query_str = array_merge( $referrer[ 'query' ], $query_str );
-					}
-					$referrer = $referrer[ 'path' ] . '?' . http_build_query( $query_str );
+        }
 
-					return self::form_redirect( 'complete', $referrer, $form, uniqid( '_cf_bliss_' ) );
-				}
-			}
-		}
 		// init filter
 		$form = apply_filters( 'caldera_forms_submit_get_form', $form );
 
@@ -3788,16 +3771,16 @@ class Caldera_Forms {
 			"field"             => $field,
 			"id"                => $field[ 'ID' ],//'fld_' . $field['slug'],
 			"name"              => $field[ 'ID' ],//$field['slug'],
-			"wrapper_before"    => "<div data-field-wrapper=\"" . esc_attr($field[ 'ID' ]) . "\" class=\"" . esc_attr($field_wrapper_class) . "\" id=\"" . esc_attr($field_id_attr) . "-wrap\">\r\n",
-			"field_before"      => "<div class=\"" . esc_attr($field_input_class) . "\">\r\n",
-			"label_before"      =>  "<label id=\"" . esc_attr($field[ 'ID' ]) . "Label\" for=\"" . esc_attr($field_id_attr) . "\" class=\"" . esc_attr(implode( ' ', $field_classes[ 'field_label' ] )) . "\">",
+			"wrapper_before"    => "<div role=\"field\" data-field-wrapper=\"" . $field[ 'ID' ] . "\" class=\"" . $field_wrapper_class . "\" id=\"" . $field_id_attr . "-wrap\">\r\n",
+			"field_before"      => "<div class=\"" . $field_input_class . "\">\r\n",
+			"label_before"      =>  "<label id=\"" . $field[ 'ID' ] . "Label\" for=\"" . $field_id_attr. "\" class=\"" . implode( ' ', $field_classes[ 'field_label' ] ) . "\">",
 			"label"             =>  $field[ 'label' ],
-			"label_required"    => ( empty( $field[ 'hide_label' ] ) ? ( ! empty( $field[ 'required' ] ) ? " <span aria-hidden=\"true\" role=\"presentation\" class=\"" . esc_attr(implode( ' ', $field_classes[ 'field_required_tag' ] )) . "\" style=\"color:#ee0000;\">*</span>" : "" ) : null ),
+			"label_required"    => ( empty( $field[ 'hide_label' ] ) ? ( ! empty( $field[ 'required' ] ) ? " <span aria-hidden=\"true\" role=\"presentation\" class=\"" . implode( ' ', $field_classes[ 'field_required_tag' ] ) . "\" style=\"color:#ee0000;\">*</span>" : "" ) : null ),
 			"label_after"       => "</label>",
 			"field_placeholder" => ( ! empty( $field[ 'hide_label' ] ) ? 'placeholder="' . htmlentities( $field[ 'label' ] ) . '"' : null ),
 			"field_required"    => ( ! empty( $field[ 'required' ] ) ? 'required="required"' : null ),
 			"field_value"       => null,
-			"field_caption"     => ( ! empty( $field[ 'caption' ] ) ? "<span id=\"" . esc_attr($field[ 'ID' ]) . "Caption\" class=\"" . esc_attr(implode( ' ', $field_classes[ 'field_caption' ] )) . "\">" . esc_html( $field[ 'caption' ]) . "</span>\r\n" : "" ),
+			"field_caption"     => ( ! empty( $field[ 'caption' ] ) ? "<span id=\"" . $field[ 'ID' ] . "Caption\" class=\"" . implode( ' ', $field_classes[ 'field_caption' ] ) . "\">" . $field[ 'caption' ] . "</span>\r\n" : "" ),
 			"field_after"       => "</div>\r\n",
 			"wrapper_after"     => "</div>\r\n",
 			"aria"              => array()
@@ -3953,7 +3936,7 @@ class Caldera_Forms {
 				}
 
 			} else {
-				echo '<div class="caldera-grid"><p class="alert alert-error alert-danger">' . esc_html__( 'Form is currently not active.', 'caldera-forms' ) . '</p></div>';
+				echo '<div class="caldera-grid"><p class="alert alert-error alert-danger">' . __( 'Form is currently not active.', 'caldera-forms' ) . '</p></div>';
 			}
 		}
 
@@ -4031,6 +4014,7 @@ class Caldera_Forms {
 		$form_attributes = array(
 			'method'	=>	'POST',
 			'enctype'	=>	'multipart/form-data',
+			'role'		=>	'form',
 			'id'		=>	$form['ID'] . '_' . $current_form_count
 		);
 
@@ -4502,30 +4486,13 @@ class Caldera_Forms {
 				$out .= "</ol></span>\r\n";
 			}
 
-			// sticky sticky honey
-			if ( isset( $form[ 'check_honey' ] ) ) {
-				$out .= "<div class=\"hide\" style=\"display:none; overflow:hidden;height:0;width:0;\">\r\n";
+            // sticky sticky honey
+            if ( Caldera_Forms_Field_Honey::active( $form ) ) {
+                $out .= Caldera_Forms_Field_Honey::field( $form );
+            }
 
-				/**
-				 * Change which words are used to form honey pot
-				 *
-				 * @since unknown
-				 *
-				 * @param array $words An array of words.
-				 */
-				$honey_words = apply_filters( 'caldera_forms_get_honey_words', array(
-					'web_site',
-					'url',
-					'email',
-					'company',
-					'name'
-				) );
-				$word        = $honey_words[ rand( 0, count( $honey_words ) - 1 ) ];
-				$out .= "<label>" . ucwords( str_replace( '_', ' ', $word ) ) . "</label><input type=\"text\" name=\"" . $word . "\" value=\"\" autocomplete=\"off\">\r\n";
-				$out .= "</div>";
-			}
 
-			$out .= $form[ 'grid_object' ]->renderLayout();
+            $out .= $form[ 'grid_object' ]->renderLayout();
 
 			$out .= "</" . $form_element . ">\r\n";
 		}

@@ -43,7 +43,7 @@ $attr_string =  caldera_forms_field_attributes( $attrs, $field, $form );
 ?><?php echo $wrapper_before; ?>
 	<?php echo $field_label; ?>
 	<?php echo $field_before; ?>
-		<<?php echo $elementType . $field_structure['aria']; ?> class="<?php echo esc_attr($field['config']['classes']); ?>"><?php echo $field['config']['before']; ?>
+		<<?php echo $elementType . $field_structure['aria']; ?> class="<?php echo $field['config']['classes']; ?>"><?php echo $field['config']['before']; ?>
 			<span id="<?php echo esc_attr( $field_id ); ?>" data-calc-display="<?php echo esc_attr( $value_field_id ); ?>"><?php echo $field_value; ?></span><?php echo $field['config']['after']; ?></<?php echo $elementType; ?>>
 				<input type="hidden" <?php echo $attr_string; ?> >
 		<?php echo $field_caption; ?>
@@ -123,7 +123,7 @@ foreach ( Caldera_Forms_Forms::get_fields( $form, false ) as $fid => $c_field ) 
 		}
 		$binds[] = $bind;
 		// include a conditional wrapper
-		$binds_wrap[] = "#conditional_".$fid;
+		$binds_wrap[] = "#conditional_".$fid;		
 	}
 }
 
@@ -213,10 +213,11 @@ if(!empty($binds)){
 		}));
 		docalc_<?php echo $target_id; ?>();
 	});
-
+	
 </script>
-<?php
+<?php 
 
 	$script_template = ob_get_clean();
 	Caldera_Forms_Render_Util::add_inline_data( $script_template, $form );
 }
+

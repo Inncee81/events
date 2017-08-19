@@ -5,9 +5,9 @@ if( !empty( $element['conditional_groups']['fields'] ) ){
 	unset( $element['conditional_groups']['fields'] );
 }
 ?>
-<button style="width:250px;" id="new-conditional" class="button ajax-trigger" data-request="cf_new_condition_group" data-template="#conditions-tmpl" data-target="#caldera-forms-conditions-panel" type="button"><?php esc_html_e( 'Add Conditional Group', 'caldera-forms' ); ?></button>
+<button style="width:250px;" id="new-conditional" class="button ajax-trigger" data-request="cf_new_condition_group" data-template="#conditions-tmpl" data-target="#caldera-forms-conditions-panel" type="button"><?php _e( 'Add Conditional Group', 'caldera-forms' ); ?></button>
 <input type="hidden" name="_magic" value="<?php echo esc_attr( json_encode( $magic_tags['system']['tags'] ) ); ?>">
-<input type="hidden" id="cf-conditions-db" name="config[conditional_groups]" value="<?php echo esc_attr( json_encode( $element['conditional_groups'] ) ); ?>"
+<input type="hidden" id="cf-conditions-db" name="config[conditional_groups]" value="<?php echo esc_attr( json_encode( $element['conditional_groups'] ) ); ?>" 
 class="ajax-trigger"
 data-event="rebuild-conditions"
 data-request="#cf-conditions-db"
@@ -24,7 +24,7 @@ data-autoload="true"
 			{{#each conditions}}
 				<li class="caldera-condition-nav {{#is @root/_open_condition value=id}}active{{/is}} caldera-forms-condition-group condition-point-{{id}}" style="">
 					<input type="hidden" name="conditions[{{id}}][id]" value="{{id}}">
-					{{#if name}}
+					{{#if name}}			
 						{{#is @root/_open_condition not=id}}
 							<input type="hidden" name="conditions[{{id}}][name]" value="{{name}}">
 							<input type="hidden" name="conditions[{{id}}][type]" value="{{type}}">
@@ -54,43 +54,43 @@ data-autoload="true"
 			{{#if name}}
 				<div class="condition-point-{{id}}" style="width: 550px; float: left;">
 					<div class="caldera-config-group">
-						<label for="{{id}}_lable"><?php esc_html_e( 'Name', 'caldera-forms' ); ?></label>
+						<label for="{{id}}_lable"><?php _e( 'Name', 'caldera-forms' ); ?></label>
 						<div class="caldera-config-field">
 							<input type="text" name="conditions[{{id}}][name]" id="condition-group-name-{{id}}" data-sync="#condition-group-{{id}}" value="{{name}}" required class="required block-input">
 						</div>
 					</div>
-
+					
 					<div class="caldera-config-group">
 						<label for="{{id}}_lable">Type</label>
 						<div class="caldera-config-field">
 							<select name="conditions[{{id}}][type]" data-live-sync="true">
 								<option value=""></option>
-								<option value="show" {{#is type value="show"}}selected="selected"{{/is}}><?php esc_html_e('Show', 'caldera-forms'); ?></option>
-								<option value="hide" {{#is type value="hide"}}selected="selected"{{/is}}><?php esc_html_e('Hide', 'caldera-forms'); ?></option>
-								<option value="disable" {{#is type value="disable"}}selected="selected"{{/is}}><?php esc_html_e('Disable', 'caldera-forms'); ?></option>
+								<option value="show" {{#is type value="show"}}selected="selected"{{/is}}><?php _e('Show', 'caldera-forms'); ?></option>
+								<option value="hide" {{#is type value="hide"}}selected="selected"{{/is}}><?php _e('Hide', 'caldera-forms'); ?></option>
+								<option value="disable" {{#is type value="disable"}}selected="selected"{{/is}}><?php _e('Disable', 'caldera-forms'); ?></option>
 							</select>
 							{{#if type}}
-								<button type="button" data-add-group="{{id}}" class="pull-right button button-small"><?php esc_html_e('Add Conditional Line', 'caldera-forms'); ?></button>
+								<button type="button" data-add-group="{{id}}" class="pull-right button button-small"><?php echo __('Add Conditional Line', 'caldera-forms'); ?></button>
 							{{/if}}
 						</div>
 					</div>
 					{{#each group}}
 						{{#unless @first}}
-							<span style="display: block; margin: 0px 0px 8px;"><?php esc_html_e( 'or', 'caldera-forms' ); ?></span>
+							<span style="display: block; margin: 0px 0px 8px;"><?php _e( 'or', 'caldera-forms' ); ?></span>
 						{{/unless}}
 						<div class="caldera-condition-group caldera-condition-lines">
 						{{#each this}}
 							<div class="caldera-condition-line condition-line-{{@key}}">
 								<input type="hidden" name="conditions[{{../../id}}][group][{{parent}}][{{@key}}][parent]" value="{{parent}}">
 								<span style="display:inline-block;">{{#if @first}}
-									<?php esc_html_e( 'if', 'caldera-forms' ); ?>
+									<?php _e( 'if', 'caldera-forms' ); ?>
 								{{else}}
-									<?php esc_html_e( 'and', 'caldera-forms' ); ?>
+									<?php _e( 'and', 'caldera-forms' ); ?>
 								{{/if}}</span>
 								<input type="hidden" name="conditions[{{../../../id}}][fields][{{@key}}]" value="{{field}}" id="condition-bound-field-{{@key}}" data-live-sync="true">
 								<select style="max-width:120px;vertical-align: inherit;" name="conditions[{{../../id}}][group][{{parent}}][{{@key}}][field]" data-sync="#condition-bound-field-{{@key}}">
 									<option></option>
-									<optgroup label="<?php esc_attr_e('Fields', 'caldera-forms'); ?>">
+									<optgroup label="<?php _e('Fields', 'caldera-forms'); ?>">
 									{{#each @root/fields}}
 										<option value="{{ID}}" {{#is ../field value=ID}}selected="selected"{{/is}} {{#is conditions/type value=../../../id}}disabled="disabled"{{/is}}>{{label}} [{{slug}}]</option>
 									{{/each}}
@@ -102,13 +102,13 @@ data-autoload="true"
 									</optgroup>*/ ?>
 								</select>
 								<select style="max-width:110px;vertical-align: inherit;" name="conditions[{{../../id}}][group][{{parent}}][{{@key}}][compare]">
-									<option value="is" {{#is compare value="is"}}selected="selected"{{/is}}><?php esc_html_e( 'is', 'caldera-forms' ); ?></option>
-									<option value="isnot" {{#is compare value="isnot"}}selected="selected"{{/is}}><?php esc_html_e( 'is not', 'caldera-forms' ); ?></option>
-									<option value="greater" {{#is compare value="greater"}}selected="selected"{{/is}}><?php esc_html_e( 'is greater than', 'caldera-forms' ); ?></option>
-									<option value="smaller" {{#is compare value="smaller"}}selected="selected"{{/is}}><?php esc_html_e( 'is less than', 'caldera-forms' ); ?></option>
-									<option value="startswith" {{#is compare value="startswith"}}selected="selected"{{/is}}><?php esc_html_e( 'starts with', 'caldera-forms' ); ?></option>
-									<option value="endswith" {{#is compare value="endswith"}}selected="selected"{{/is}}><?php esc_html_e( 'ends with', 'caldera-forms' ); ?></option>
-									<option value="contains" {{#is compare value="contains"}}selected="selected"{{/is}}><?php esc_html_e( 'contains', 'caldera-forms' ); ?></option>
+									<option value="is" {{#is compare value="is"}}selected="selected"{{/is}}><?php _e( 'is', 'caldera-forms' ); ?></option>
+									<option value="isnot" {{#is compare value="isnot"}}selected="selected"{{/is}}><?php _e( 'is not', 'caldera-forms' ); ?></option>
+									<option value="greater" {{#is compare value="greater"}}selected="selected"{{/is}}><?php _e( 'is greater than', 'caldera-forms' ); ?></option>
+									<option value="smaller" {{#is compare value="smaller"}}selected="selected"{{/is}}><?php _e( 'is less than', 'caldera-forms' ); ?></option>
+									<option value="startswith" {{#is compare value="startswith"}}selected="selected"{{/is}}><?php _e( 'starts with', 'caldera-forms' ); ?></option>
+									<option value="endswith" {{#is compare value="endswith"}}selected="selected"{{/is}}><?php _e( 'ends with', 'caldera-forms' ); ?></option>
+									<option value="contains" {{#is compare value="contains"}}selected="selected"{{/is}}><?php _e( 'contains', 'caldera-forms' ); ?></option>
 								</select>
 								<span data-value="" class="caldera-conditional-field-value" style="padding: 0 12px 0; display:inline-block; width:200px;">
 								{{#find @root/fields field}}
@@ -129,20 +129,20 @@ data-autoload="true"
 								<button class="button pull-right" data-remove-line="{{@key}}" type="button"><i class="icon-join"></i></button>
 							</div>
 						{{/each}}
-						<div style="margin: 12px 0 0;"><button class="button button-small" data-add-line="{{@key}}" data-group="{{../id}}" type="button"><?php esc_html_e( 'Add Condition', 'caldera-forms' ); ?></button></div>
+						<div style="margin: 12px 0 0;"><button class="button button-small" data-add-line="{{@key}}" data-group="{{../id}}" type="button"><?php _e( 'Add Condition', 'caldera-forms' ); ?></button></div>
 						</div>
 					{{/each}}
 
-					<button style="margin: 12px 0 12px;" type="button" class="block-input button" data-confirm="<?php echo esc_attr( __('Are you sure you want to remove this condition?', 'caldera forms') ); ?>" data-remove-group="{{id}}"><?php esc_html_e( 'Remove Condition', 'caldera-forms' ); ?></button>
+					<button style="margin: 12px 0 12px;" type="button" class="block-input button" data-confirm="<?php echo esc_attr( __('Are you sure you want to remove this condition?', 'caldera forms') ); ?>" data-remove-group="{{id}}"><?php _e( 'Remove Condition', 'caldera-forms' ); ?></button>
 				</div>
 				<div style="float: left; width: 288px; padding-left: 12px;">
 				{{#if @root/fields}}
-					<h4 style="border-bottom: 1px solid rgb(191, 191, 191); margin: 0px 0px 6px; padding: 0px 0px 6px;"><?php esc_html_e('Applied Fields', 'caldera-forms'); ?></h4>
-					<p class="description"><?php esc_html_e('Select the fields to apply this condition to.', 'caldera-forms' ); ?></p>
+					<h4 style="border-bottom: 1px solid rgb(191, 191, 191); margin: 0px 0px 6px; padding: 0px 0px 6px;"><?php _e('Applied Fields', 'caldera-forms'); ?></h4>
+					<p class="description"><?php _e('Select the fields to apply this condition to.', 'caldera-forms' ); ?></p>
 					{{#each @root/fields}}
 
 						<label style="display: block; margin-left: 20px;{{#find ../../fields ID}}opacity:0.7;{{/find}}"><input style="margin-left: -20px;" type="checkbox" data-bind-condition="#field-condition-type-{{ID}}" value="{{../id}}" {{#is conditions/type value=../id}}checked="checked"{{else}}{{#find @root/conditions conditions/type}}disabled="disabled"{{/find}}{{/is}} {{#find ../../fields ID}}disabled="disabled"{{/find}}>{{label}} [{{slug}}]</label>
-
+						
 					{{/each}}
 				{{/if}}
 				</div>
@@ -200,9 +200,9 @@ data-autoload="true"
 				data.conditions[pid].group = {};
 			}
 			if( !data.conditions[pid].group[id] ){
-				data.conditions[pid].group[id] = {};
+				data.conditions[pid].group[id] = {};	
 			}
-
+			
 			// initial line
 			data.conditions[pid].group[id][cid] = {
 				parent		:	id
@@ -234,9 +234,9 @@ data-autoload="true"
 				data.conditions[pid].group = {};
 			}
 			if( !data.conditions[pid].group[id] ){
-				data.conditions[pid].group[id] = {};
+				data.conditions[pid].group[id] = {};	
 			}
-
+			
 			// initial line
 			data.conditions[pid].group[id][cid] = {
 				parent		:	id
@@ -252,7 +252,7 @@ data-autoload="true"
 			}
 			var db = $('#cf-conditions-db'),
 				data = get_base_form();
-
+			
 			data._open_condition = id;
 
 			db.val( JSON.stringify( data ) ).trigger( 'rebuild-conditions' );
@@ -263,7 +263,7 @@ data-autoload="true"
 				db = $('#cf-conditions-db');
 
 			db.val( JSON.stringify( data ) ).trigger( 'rebuild-conditions' );
-
+			
 		});
 
         $( document ).on( 'click', '#tab_conditions' , function(){
@@ -299,7 +299,7 @@ data-autoload="true"
 		$( document ).on('click', '[data-remove-line]', function(){
 			var clicked = $( this ),
 				id = clicked.data('removeLine');
-
+			
 			$('.condition-line-' + id).remove();
 
 			var db = $('#cf-conditions-db'),
@@ -311,7 +311,7 @@ data-autoload="true"
 		$( document ).on('click', '[data-remove-group]', function(){
 			var clicked = $( this ),
 				id = clicked.data('removeGroup');
-
+			
 			if( clicked.data('confirm') ){
 				if( !confirm( clicked.data('confirm') ) ){
 					return;
@@ -322,7 +322,7 @@ data-autoload="true"
 
 			var db = $('#cf-conditions-db'),
 				data = get_base_form();
-
+			
 			data._open_condition = '';
 
 			db.val( JSON.stringify( data ) ).trigger( 'rebuild-conditions' );
@@ -338,7 +338,7 @@ data-autoload="true"
 			}
 		});
 		$( document ).on( 'change', '[data-bind-condition]', function(){
-
+			
 			$(document).trigger('show.fieldedit');
 
 			var clicked = $(this),
@@ -377,14 +377,14 @@ data-autoload="true"
 					if( true === run ){
 						var sel = '',
 							line = '<option value="' + con + '" ' + ( selected === con ? 'selected="selected"' : '' ) + '>' + data.conditions[con].name + '</option>';
-
+						
 						select.append( line );
 					}
 				}
 
 			});
 		});
-
+		
 
 	} );
 

@@ -151,22 +151,22 @@ class Caldera_Forms_Render_Modals {
 			$content = $form[ 'name' ];
 		}
 
-		$tag_atts = sprintf( 'data-form="%1s"', esc_attr($form[ 'ID' ] ));
+		$tag_atts = sprintf( 'data-form="%1s"', $form[ 'ID' ] );
 
 		if ( ! empty( $atts[ 'width' ] ) ) {
-			$tag_atts .= sprintf( ' data-width="%1s"', esc_attr($atts[ 'width' ]) );
+			$tag_atts .= sprintf( ' data-width="%1s"', $atts[ 'width' ] );
 		}
 		if ( ! empty( $atts[ 'height' ] ) ) {
-			$tag_atts .= sprintf( ' data-height="%1s"', esc_attr($atts[ 'height' ] ));
+			$tag_atts .= sprintf( ' data-height="%1s"', $atts[ 'height' ] );
 		}
 
 
 		$title = sprintf( __( 'Click to open the form %s in a modal', 'caldera-forms' ), $form[ 'name' ] );
 		if ( ! empty( $atts[ 'type' ] ) && $atts[ 'type' ] == 'button' ) {
-			$tag_atts .= sprintf( 'data-remodal-target="%1s"', esc_attr($modal_id) );
-			return sprintf( '<button class="caldera-forms-modal" %s title="%s">%s</button>', $tag_atts, esc_attr($title), $content );
+			$tag_atts .= sprintf( 'data-remodal-target="%1s"', $modal_id );
+			return sprintf( '<button class="caldera-forms-modal" %s title="%s">%s</button>', $tag_atts, $title, $content );
 		} else {
-			return sprintf( '<a href="%s" class="caldera-forms-modal" %s title="%s">%s</a>', '#' . esc_attr($modal_id), $tag_atts, esc_attr( $title ), $content );
+			return sprintf( '<a href="%s" class="caldera-forms-modal" %s title="%s">%s</a>', '#' . $modal_id, $tag_atts, esc_attr( $title ), $content );
 		}
 	}
 
