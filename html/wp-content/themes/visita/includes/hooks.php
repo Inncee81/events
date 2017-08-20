@@ -133,15 +133,8 @@ function visita_style_enqueues( ) {
 
   $theme 	= wp_get_theme();
 
-  wp_enqueue_style( 'Karla', 'https://fonts.googleapis.com/css?family=Karla:400,700' );
-  wp_enqueue_style( 'font-roboto', 'https://fonts.googleapis.com/css?family=Roboto:300,400,700' );
+  wp_enqueue_style( 'font-open-sans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,700' );
   wp_enqueue_style( 'visita', get_template_directory_uri() . "/style.css", false, $theme->version, 'all' );
-
-  wp_localize_script( 'visita', 'visita', array(
-    'C' => __( 'celsius', 'visita' ),
-    'F' => __( 'freiheit', 'visita' ),
-  ) );
-
 }
 add_action( 'wp_enqueue_scripts', 'visita_style_enqueues' );
 
@@ -176,7 +169,13 @@ function visita_scripts_enqueues( ) {
   $wp_scripts->add_data( 'visita-html5', 'conditional', ' lt IE 9' );
 
   // Loads JavaScript file with functionality specific to Twenty Thirteen.
-  wp_enqueue_script( 'visita-script', get_template_directory_uri() . '/js/visita.js', array( 'jquery' ), $theme->version, true );
+  wp_enqueue_script( 'visita', get_template_directory_uri() . '/js/visita.js', array( 'jquery' ), $theme->version, true );
+
+  wp_localize_script( 'visita', 'visita', array(
+    'C' => __( 'celsius', 'visita' ),
+    'F' => __( 'freiheit', 'visita' ),
+    'tabletstyles' => get_template_directory_uri() . "/tablet.css?ver=" . $theme->version,
+  ) );
 }
 add_action( 'wp_enqueue_scripts', 'visita_scripts_enqueues' );
 

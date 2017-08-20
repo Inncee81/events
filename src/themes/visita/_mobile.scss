@@ -1,0 +1,26 @@
+
+:focus {
+  outline: none;
+}
+
+.button {
+  border: 0;
+}
+
+.header {
+  height: 260px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 1px 5px -1px $darker-gray;
+}
+
+.site {
+  padding-top: 8%;
+}
+
+.search {
+  &-form {
+    max-width: 86%;
+    margin: auto;
+  }
+}

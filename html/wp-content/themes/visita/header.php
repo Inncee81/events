@@ -42,3 +42,31 @@
 <body <?php body_class(); ?>>
 
 <?php visita_before_page(); ?>
+
+<div class="page">
+
+  <header class="header">
+    <div class="row">
+      <div class="small-12 columns">
+
+        <h1 class="strong site">Visita Las Vegas</h1>
+        <form class="search-form" method="get">
+
+          <div class="row collapse">
+            <div class="small-10 columns">
+              <input type="search" class="search-field" name="s" />
+            </div>
+            <div class="small-2 columns">
+              <button class="button expanded search-button">O</button>
+            </div>
+          </div>
+
+          <div class="search-filter">
+
+          </div>
+
+        </form>
+
+      </div>
+    </div> <!--.row  -->
+  </header> <!--.header  -->

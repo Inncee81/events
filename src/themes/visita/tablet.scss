@@ -16,7 +16,6 @@ https://pixabay.com/en/las-vegas-night-lights-strip-573600/
 https://pixabay.com/en/architecture-buildings-casino-city-1846684/
 !*/
 
-@import '../_vendor/normalize-scss/sass/normalize';
 @import '../_vendor/sassy-lists/stylesheets/helpers/missing-dependencies';
 @import '../_vendor/sassy-lists/stylesheets/helpers/true';
 @import '../_vendor/sassy-lists/stylesheets/functions/purge';
@@ -27,7 +26,8 @@ https://pixabay.com/en/architecture-buildings-casino-city-1846684/
 // Sass utilities
 @import 'util/util';
 
-$breakpoint-classes: (small medium);
+$print-breakpoint: large;
+$breakpoint-classes: (large xlarge);
 
 // Global variables and styles
 @import 'variables';
@@ -36,33 +36,30 @@ $breakpoint-classes: (small medium);
 // Components
 @import 'grid/grid';
 @import 'typography/typography';
-@import 'forms/forms';
-@import 'components/visibility';
-@import 'components/float';
-@import 'components/button';
-@import 'components/button-group';
-@import 'components/card';
-@import 'components/label';
-@import 'components/menu';
 @import 'components/pagination';
+@import 'components/visibility';
 @import 'components/table';
 
-@include foundation-global-styles;
-@include foundation-typography-base;
-@include foundation-typography-helpers;
 @include foundation-text-alignment;
 @include foundation-grid;
-@include foundation-forms;
-@include foundation-button;
 
-@include foundation-button-group;
-@include foundation-card;
-@include foundation-menu;
-@include foundation-label;
-@include foundation-pagination;
-@include foundation-table;
-@include foundation-visibility-classes;
-@include foundation-float-classes;
+// Responsive visibility classes
+@each $size in $breakpoint-classes {
+  @if $size != $-zf-zero-breakpoint {
+    .hide-for-#{$size} {
+      @include hide-for($size);
+    }
 
-@import 'site';
-@import 'mobile';
+    .show-for-#{$size} {
+      @include show-for($size);
+    }
+  }
+
+  .hide-for-#{$size}-only {
+    @include hide-for-only($size);
+  }
+
+  .show-for-#{$size}-only {
+    @include show-for-only($size);
+  }
+}
