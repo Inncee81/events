@@ -45,7 +45,6 @@ $breakpoint-classes: (large xlarge);
 @import 'grid/classes';
 @import 'grid/layout';
 
-
 // Responsive visibility classes
 @each $size in $breakpoint-classes {
   @if $size != $-zf-zero-breakpoint {

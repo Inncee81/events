@@ -1,0 +1,50 @@
+
+.nav-links {
+  padding: 5px 0;
+  font-size: 0.9em;
+	text-align: center;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+
+  .current {
+    background-color: $primary-color;
+    border-color: $primary-color;
+    color: $white;
+  }
+
+	.page-numbers {
+    border: solid 1px $gray-medium;
+    display: inline-block;
+    margin: 0 4px;
+		padding: 4px 12px;
+
+    &:hover, &:focus {
+      @extend .current;
+    }
+	}
+
+	.dots {
+		border: none;
+	}
+
+	.next, .prev {
+    border-color: transparent;
+
+    &:hover, &:focus {
+      color: inherit;
+      border-color: $gray-medium;
+      background-color: transparent;
+    }
+	}
+
+	.next:after {
+    content: $fa-var-angle-right;
+    font-family: FontAwesome;
+	}
+
+	.prev:before {
+    content: $fa-var-angle-left;
+    font-family: FontAwesome;
+	}
+}

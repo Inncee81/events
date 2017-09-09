@@ -139,10 +139,10 @@ function visita_content_nav( $css ) { ?>
     <h3 class="screen-reader-text"><?php esc_html_e( 'Navigation', 'visita' ); ?></h3>
     <div class="nav-links">
 
-      <?php echo paginate_links(array(
+      <?php echo paginate_links( array(
         'mid_size' => 1,
-        'prev_text'=> __('Previous'),
-        'next_text' => __('Next'),
+        'prev_text'=> '',
+        'next_text' => '',
       )) ?>
 
     </div><!-- .nav-links -->

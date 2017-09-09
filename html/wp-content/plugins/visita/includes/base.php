@@ -156,11 +156,11 @@ class VisitaBase {
   */
   function get_description( $title, $date, $time, $city = 'Las Vegas' ) {
     return ucwords( strtolower( $title ) )
-    . " de $city, "
+    . " en $city, "
     . sprintf(
        date_i18n( 'l j %\s F Y %\s g:i a.', strtotime( "$date $time" ) ),
-       __( 'de', 'visita' ),
-       __( 'a las', 'visita' )
+       __( 'from', 'visita' ),
+       __( 'to', 'visita' )
     );
   }
 

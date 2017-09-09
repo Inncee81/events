@@ -4,18 +4,18 @@
 }
 
 .menu-social li a {
-  background-color: $light-gray;
+  background-color: $gray-light;
   margin: 0 6px;
   padding: 0.7rem .85rem;
 }
 
 #nav {
   background-color: $primary-color;
-  color: $lightest-gray;
+  color: $gray-lightest;
   margin-top: .85rem;
 
   a {
-    color: $lightest-gray;
+    color: $gray-lightest;
 
     @include breakpoint(medium down) {
       border-bottom: $menu-mobile-border;

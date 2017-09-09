@@ -107,7 +107,7 @@ class VisitaCore {
   */
   function add_rewrite_rules( ) {
     global $wp_rewrite;
-    $wp_rewrite->pagination_base = __( 'page', 'admin' );
+    $wp_rewrite->pagination_base = __( 'page', 'visita' );
   }
 
   /**
