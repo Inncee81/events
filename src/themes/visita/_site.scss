@@ -1,0 +1,18 @@
+
+:focus {
+  outline: #4d0ff1 solid 1px;
+}
+
+.button {
+  border: 0;
+}
+
+.screen-reader-text {
+  @extend .show-on-focus;
+}
+
+.entry-title {
+  color: $primary-color;
+  margin-top: .5em;
+  text-shadow: 1px 1px 0px #fff;
+}

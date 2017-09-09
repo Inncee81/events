@@ -48,7 +48,7 @@ class VisitaClubs extends VisitaBase {
           '_availability' => 'InStock',
         ) ),
         '_business_type'  => 'NightClub',
-        '_keywords'       => __( 'antro, night club', 'visita' ),
+        '_keywords'       => __( 'club, night club', 'visita' ),
       )
     ) );
 

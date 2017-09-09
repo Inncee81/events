@@ -16,12 +16,12 @@ class VisitaEvents extends VisitaBase {
   /**
   *
   */
-  protected $post_type = 'evento';
+  protected $post_type = 'event';
 
   /**
   *
   */
-  protected $taxonomy = 'eventos';
+  protected $taxonomy = 'events';
 
   /**
   *
@@ -42,6 +42,7 @@ class VisitaEvents extends VisitaBase {
   function __construct( ) {
 
     $this->position = 26;
+    $this->is_home = true;
     $this->slug = __( 'event', 'visita' );
     $this->name = __( 'Events', 'visita' );
     $this->singular = __( 'Event', 'visita' );
@@ -301,6 +302,7 @@ class VisitaEvents extends VisitaBase {
     }
 
     if ( ! is_admin() ) {
+      add_action( 'pre_get_posts', array( $this, 'pre_get_posts') );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
       return;
     }
@@ -698,3 +700,7 @@ class VisitaEvents extends VisitaBase {
     }
   }
 }
+
+// UPDATE `visit_posts` set post_type = 'event' WHERE post_type = 'evento'
+// UPDATE `visit_term_taxonomy`  SET taxonomy = 'events' WHERE taxonomy = 'eventos'
+// UPDATE `visit_postmeta` SET meta_value = 'events' WHERE meta_key = '_menu_item_object' AND meta_value = 'eventos';

@@ -46,27 +46,41 @@
 <div class="page">
 
   <header class="header">
+
     <div class="row">
       <div class="small-12 columns">
 
-        <h1 class="strong site">Visita Las Vegas</h1>
-        <form class="search-form" method="get">
+        <h1 class="site-logo">
+          <a href="/" title="<?php esc_attr( get_bloginfo( 'name' ) ) ?>" rel="home"><?php bloginfo( 'name' ) ?></a>
+        </h1>
 
+        <form class="search-form" method="get">
           <div class="row collapse">
             <div class="small-10 columns">
-              <input type="search" class="search-field" name="s" />
+              <input type="search" class="search-field" name="s" placeholder="<?php esc_attr_e('Search: events, shows, hotels...') ?>" />
             </div>
             <div class="small-2 columns">
               <button class="button expanded search-button">O</button>
             </div>
           </div>
-
-          <div class="search-filter">
-
-          </div>
-
         </form>
+
+        <nav id="nav-social">
+  				<a class="screen-reader-text" href="#nav" role="button" rel="nofollow" title="<?php esc_attr_e( 'Skip to navigation', 'visita' ) ?>"><?php esc_html_e( 'Skip to top navigation', 'visita' ) ?></a>
+  				<?php wp_nav_menu( array( 'theme_location' => 'social', 'menu_class' => 'menu menu-social align-center ', 'fallback_cb' => 'visita_default_social_menu' ) ); ?>
+        </nav><!--#social-nav-->
 
       </div>
     </div> <!--.row  -->
+
+    <nav id="nav" class="text-left">
+      <div class="row">
+        <a class="screen-reader-text skip-link" href="#main" role="button" rel="nofollow" title="<?php esc_attr_e( 'Skip to content', 'visita' ) ?>"><?php esc_html_e( 'Skip to content', 'visita' ) ?></a>
+        <div class="menu-toggle"><a href="#main-menu" rel="nofollow"><?php esc_html_e( 'Menu', 'visita' ) ?></a></div>
+        <?php wp_nav_menu( array( 'theme_location' => 'primary', 'id' => 'menu-main', 'menu_class' => 'menu-main' ) ); ?>
+      </div> <!--.row  -->
+    </nav><!--#nav-->
+
   </header> <!--.header  -->
+
+  <main itemscope itemtype="http://schema.org/WebPage">

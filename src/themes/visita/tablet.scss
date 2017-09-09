@@ -36,12 +36,15 @@ $breakpoint-classes: (large xlarge);
 // Components
 @import 'grid/grid';
 @import 'typography/typography';
-@import 'components/pagination';
 @import 'components/visibility';
-@import 'components/table';
+@import 'font-awesome/scss/variables';
 
 @include foundation-text-alignment;
-@include foundation-grid;
+
+@import 'grid/column';
+@import 'grid/classes';
+@import 'grid/layout';
+
 
 // Responsive visibility classes
 @each $size in $breakpoint-classes {
@@ -61,5 +64,50 @@ $breakpoint-classes: (large xlarge);
 
   .show-for-#{$size}-only {
     @include show-for-only($size);
+  }
+}
+
+
+@include breakpoint(large up) {
+  .menu-main {
+
+    text-align: center;
+
+    .sub-menu {
+      position: absolute;
+      width: 200px;
+
+      li {
+        text-align: left;
+      }
+
+    }
+
+    &:after {
+      content: '';
+      clear: both;
+      display: block;
+    }
+
+    li {
+      display: inline-block;
+
+      a {
+        display: block;
+        padding: .65rem 1.35em !important;
+      }
+
+      &.show {
+        background-color: lighten( $primary-color, 6 );
+      }
+    }
+
+    .menu-item-has-children {
+      > a:after {
+        content: $fa-var-angle-down !important;
+        position: relative;
+        right: -.75em;
+      }
+    }
   }
 }

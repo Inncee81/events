@@ -46,11 +46,19 @@ $breakpoint-classes: (small medium);
 @import 'components/menu';
 @import 'components/pagination';
 @import 'components/table';
+@import 'components/flex';
+
+@import 'font-awesome/scss/variables';
+@import 'font-awesome/scss/mixins';
+@import 'font-awesome/scss/path';
+@import 'font-awesome/scss/core';
+@import 'icons';
 
 @include foundation-global-styles;
 @include foundation-typography-base;
 @include foundation-typography-helpers;
 @include foundation-text-alignment;
+@include foundation-flex-classes;
 @include foundation-grid;
 @include foundation-forms;
 @include foundation-button;
@@ -65,4 +73,5 @@ $breakpoint-classes: (small medium);
 @include foundation-float-classes;
 
 @import 'site';
+@import 'menus';
 @import 'mobile';

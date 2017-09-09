@@ -133,7 +133,7 @@ function visita_style_enqueues( ) {
 
   $theme 	= wp_get_theme();
 
-  wp_enqueue_style( 'font-open-sans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,700' );
+  wp_enqueue_style( 'font-open-sans', 'https://fonts.googleapis.com/css?family=Poppins:300,500' );
   wp_enqueue_style( 'visita', get_template_directory_uri() . "/style.css", false, $theme->version, 'all' );
 }
 add_action( 'wp_enqueue_scripts', 'visita_style_enqueues' );
@@ -227,7 +227,7 @@ add_filter( 'visita_after_content', 'visita_add_scroll_up_button' );
 *
 * @return void.
 */
-function organization_schema( ) {
+function visita_organization_schema( ) {
 
   // add it only to the home page
   if ( ! is_front_page() ) {
@@ -260,4 +260,17 @@ function organization_schema( ) {
     )
   );
 }
-add_action ( 'wp_footer',  'organization_schema', 5 );
+add_action( 'wp_footer', 'visita_organization_schema', 5 );
+
+/**
+*
+*
+* @return void.
+*/
+function visita_get_the_archive_title( $title ) {
+  if ( is_post_type_archive() ) {
+    return post_type_archive_title( '', false ) ;
+  }
+  return $title;
+}
+add_filter( 'get_the_archive_title', 'visita_get_the_archive_title' );

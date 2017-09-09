@@ -35,21 +35,20 @@ export default {
         use: 'file-loader?limit=500&name=themes/visita/img/[name].[ext]&publicPath=/wp-content/',
       },
       {
-        test: /\.(ttf|eot|svg|woff(2)?)$/,
-        use: 'file-loader?limit=10000&name=fonts/[name].[ext]&publicPath=/'
-      },
-      {
         test: /\.scss?$/,
         use: ExtractTextPlugin.extract({
           use: [
-            { loader: 'css-loader' },
-            { loader: 'resolve-url-loader' },
+            { loader: 'css-loader',
+              options: {
+                url: false,
+              }
+            },
             {
               loader: 'sass-loader',
               options: {
                 includePaths: [
                   './node_modules/foundation-sites/scss',
-                  './node_modules/font-awesome',
+                  './node_modules/font-awesome/',
                   './node_modules/',
                   './sass'
                 ]

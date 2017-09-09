@@ -20,6 +20,25 @@ $breakpoints: (
   xxlarge: 1440px,
 );
 
+$header-styles: (
+  small: (
+    'h1': ('font-size': 24),
+    'h2': ('font-size': 20),
+    'h3': ('font-size': 19),
+    'h4': ('font-size': 18),
+    'h5': ('font-size': 17),
+    'h6': ('font-size': 16),
+  ),
+  medium: (
+    'h1': ('font-size': 32),
+    'h2': ('font-size': 28),
+    'h3': ('font-size': 24),
+    'h4': ('font-size': 22),
+    'h5': ('font-size': 20),
+    'h6': ('font-size': 16),
+  ),
+);
+
 $lightest-gray: #f5f5f5;
 $light-gray: #e6e6e6;
 $medium-gray: #cacaca;
@@ -28,9 +47,16 @@ $darker-gray: #3a3a3a;
 $black: #0a0a0a;
 $white: #fefefe;
 
+$button-padding: 0.85em 1em;
+
 $body-background: $lightest-gray;
 $body-font-color: $darker-gray;
-$body-font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+$body-font-family: Helvetica, Arial, sans-serif;
 
+$fa-font-path: 'fonts';
+$font-sans: 'Poppins', sans-serif;
 
+$input-border: 1px solid $light-gray;
 $input-shadow-focus: '';
+
+$menu-mobile-border: 1px solid lighten( #200042, 15 );

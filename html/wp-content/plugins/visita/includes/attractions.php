@@ -48,7 +48,7 @@ class VisitaAttractions extends VisitaBase {
           '_availability' => 'InStock',
         ) ),
         '_business_type'  => 'NightClub',
-        '_keywords'       => __( 'antro, night club', 'visita' ),
+        '_keywords'       => __( 'attraction, activity', 'visita' ),
       )
     ) );
 
@@ -250,3 +250,7 @@ class VisitaAttractions extends VisitaBase {
     add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 100 );
   }
 }
+
+// UPDATE `visit_posts` set post_type = 'attraction' WHERE post_type = 'atraccion';
+// UPDATE `visit_term_taxonomy`  SET taxonomy = 'attractions' WHERE taxonomy = 'atracciones';
+// UPDATE `visit_postmeta` SET meta_value = 'attractions' WHERE meta_key = '_menu_item_object' AND meta_value = 'atracciones';

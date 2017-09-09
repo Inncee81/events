@@ -11,7 +11,7 @@
 * @since available since 0.1.0
 */
 ?>
-
+  </main> <!--main  -->
 </div> <!-- .page -->
 <?php wp_footer(); ?>
 </body>

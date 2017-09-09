@@ -88,3 +88,63 @@ function visita_share_botton( ) {
 
   return '<span class="share_button" tabindex="0"><span class="sh-links">' . $links . '</span></span>';
 }
+
+/**
+* Display default social navigation
+*
+* uses xclusive_render_menu()
+* @param array $args menu argumens see: http://codex.wordpress.org/Function_Reference/wp_nav_menu#Usage
+* @return string HTML
+*/
+function visita_default_social_menu( $args = array() ){
+  if( $args['theme_location'] != 'social' || empty( $args ) ) {
+    return $args;
+  }
+
+  $links 			  = '';
+  $social_links = array(
+    'Email'     => 'mailto:support@visita.vegas',
+    'Facebook'  => '//www.facebook.com/VisitaVegas/',
+    'Twitter'   => '//twitter.com/visita_vegas',
+    'RSS'       => '/feed/',
+  );
+
+  foreach( $social_links as $name => $link ){
+    $links .= sprintf(
+      '<li class="social-%2$s">
+        <a class="fa fa-%2$s" href="%1$s" title="%2$s" rel="nofollow" target="_blank"></a>
+      </li>',
+      esc_url( $link ),
+      esc_attr( strtolower( $name ) ),
+      esc_html( $name )
+    );
+  }
+
+  printf(
+    '<ul class="%1$s">%2$s</ul>',
+    esc_attr( $args['menu_class'] ),
+    $links
+  );
+}
+
+/**
+* Display default social navigation
+*
+* uses paginate_links()
+* @param string $css additional class
+* @return string HTML
+*/
+function visita_content_nav( $css ) { ?>
+  <nav class="<?php echo esc_attr("navigation paging-navigation $css")?>">
+    <h3 class="screen-reader-text"><?php esc_html_e( 'Navigation', 'visita' ); ?></h3>
+    <div class="nav-links">
+
+      <?php echo paginate_links(array(
+        'mid_size' => 1,
+        'prev_text'=> __('Previous'),
+        'next_text' => __('Next'),
+      )) ?>
+
+    </div><!-- .nav-links -->
+  </nav><!-- .navigation --><?php
+}

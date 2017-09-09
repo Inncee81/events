@@ -1,26 +1,29 @@
 
-:focus {
-  outline: none;
-}
-
-.button {
-  border: 0;
-}
-
 .header {
-  height: 260px;
   position: relative;
   text-align: center;
   box-shadow: 0 1px 5px -1px $darker-gray;
+
+  > .row {
+    padding-top: .85rem;
+  }
 }
 
-.site {
-  padding-top: 8%;
+.site-logo {
+  font: 300 1.3em $font-sans;
+
+  @include breakpoint(medium up) {
+    font-size: 1.5em;
+  }
 }
 
 .search {
   &-form {
     max-width: 86%;
     margin: auto;
+  }
+
+  &-button.expanded {
+    margin-left: -1px;
   }
 }

@@ -61,6 +61,11 @@ class VisitaBase {
   /**
   *
   */
+  protected $is_home = false;
+
+  /**
+  *
+  */
   protected $fields = array(
     'key' => '',
     'title' => '',
@@ -183,7 +188,7 @@ class VisitaBase {
       'show_in_rest'      => true,
       'show_admin_column' => true,
       'label'             => $this->taxonomy_label,
-      'rewrite'           => array( 'slug' => $this->taxonomy_slug ),
+      'rewrite'           => array( 'slug' => trim( $this->taxonomy_slug ) ),
       'hierarchical'      => true,
     ) );
 
@@ -198,7 +203,7 @@ class VisitaBase {
         'show_in_rest'    => true,
         'capability_type' => 'post',
         'menu_position'   => $this->position,
-        'has_archive'     => $this->taxonomy,
+        'has_archive'     => $this->taxonomy_slug,
         'taxonomies'      => array( $this->taxonomy ),
         'rewrite'         => array( 'slug' => $this->slug, 'with_front' => false ),
         'supports'        => array(
@@ -362,5 +367,27 @@ class VisitaBase {
     }
 
     return array_values( $rows );
+  }
+
+  /**
+  *
+  *
+  *
+  * @return void
+  * @since 0.5.0
+  */
+  function pre_get_posts( $query ) {
+    if ( ! $query->is_main_query() ) {
+      return;
+    }
+
+    if ( ( is_home() && $this->is_home ) ) {
+      $query->is_post_type_archive = true;
+      $query->set( 'post_type', $this->post_type );
+    }
+
+    if ( is_post_type_archive( $this->post_type )) {
+      $query->set( 'posts_per_page', 15 );
+    }
   }
 }

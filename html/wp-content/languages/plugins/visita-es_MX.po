@@ -1,0 +1,905 @@
+# Translation of Twenty Fifteen in Spanish (Mexico)
+# This file is distributed under the same license as the Twenty Fifteen package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Twenty Fifteen\n"
+"POT-Creation-Date: 2017-09-09 00:00-0700\n"
+"PO-Revision-Date: 2017-09-09 01:22-0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_MX\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 2.0.2\n"
+"X-Poedit-Basepath: ../../plugins/visita\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_c:2c,1;_nx:4c,1,2;"
+"_n_noop:1,2;_nx_noop:4c,1,2;esc_attr__;esc_attr_x:1,2c;esc_attr_e;"
+"esc_html__\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: ../../themes/visita/node_modules\n"
+
+#: includes/attractions.php:35
+msgid "attraction"
+msgstr "atraccion"
+
+#: includes/attractions.php:36 includes/attractions.php:39
+msgid "Attractions"
+msgstr "Atracciones"
+
+#: includes/attractions.php:37
+msgid "Attraction"
+msgstr "Atraccion"
+
+#: includes/attractions.php:38
+msgid "attractions"
+msgstr "atracciones"
+
+#: includes/attractions.php:51
+msgid "attraction, activity"
+msgstr "atracción, actividad"
+
+#: includes/attractions.php:57 includes/clubs.php:57 includes/shows.php:57
+msgid "Show Details"
+msgstr "Mostrar detalles"
+
+#: includes/attractions.php:68 includes/clubs.php:68 includes/events.php:68
+#: includes/hotels.php:62 includes/shows.php:68
+msgid "General"
+msgstr ""
+
+#: includes/attractions.php:74 includes/attractions.php:228
+#: includes/clubs.php:74 includes/clubs.php:221 includes/events.php:86
+#: includes/events.php:241 includes/hotels.php:68 includes/shows.php:74
+#: includes/shows.php:238
+msgid "Link"
+msgstr ""
+
+#: includes/attractions.php:82 includes/clubs.php:82 includes/events.php:94
+#: includes/hotels.php:76 includes/shows.php:82
+msgid "Price"
+msgstr ""
+
+#: includes/attractions.php:89 includes/clubs.php:89 includes/events.php:101
+#: includes/hotels.php:83 includes/shows.php:89
+msgid "Max Price"
+msgstr ""
+
+#: includes/attractions.php:95 includes/clubs.php:95 includes/events.php:107
+#: includes/hotels.php:89 includes/shows.php:95
+msgid "Currency"
+msgstr ""
+
+#: includes/attractions.php:104 includes/clubs.php:104 includes/hotels.php:98
+msgid "Business Type"
+msgstr ""
+
+#: includes/attractions.php:106
+msgid "Park"
+msgstr ""
+
+#: includes/attractions.php:107
+msgid "Museum"
+msgstr ""
+
+#: includes/attractions.php:108
+msgid "Aquarium"
+msgstr ""
+
+#: includes/attractions.php:109
+msgid "Event Venue"
+msgstr ""
+
+#: includes/attractions.php:110
+msgid "Art Gallery"
+msgstr ""
+
+#: includes/attractions.php:111
+msgid "Movie Theater"
+msgstr ""
+
+#: includes/attractions.php:112
+msgid "Amusement Park"
+msgstr ""
+
+#: includes/attractions.php:113
+msgid "Shopping Center"
+msgstr ""
+
+#: includes/attractions.php:114
+msgid "Entertainment"
+msgstr ""
+
+#: includes/attractions.php:121 includes/clubs.php:114 includes/events.php:143
+#: includes/hotels.php:109 includes/shows.php:131
+msgid "Keywords"
+msgstr ""
+
+#: includes/attractions.php:126 includes/clubs.php:119 includes/events.php:148
+#: includes/hotels.php:114 includes/shows.php:136
+msgid "Location"
+msgstr ""
+
+#: includes/attractions.php:132 includes/clubs.php:125 includes/events.php:154
+#: includes/hotels.php:120 includes/shows.php:142
+msgid "Name"
+msgstr ""
+
+#: includes/attractions.php:138 includes/clubs.php:131 includes/events.php:160
+#: includes/hotels.php:126 includes/shows.php:148
+msgid "Addresss"
+msgstr ""
+
+#: includes/attractions.php:144 includes/clubs.php:137 includes/events.php:166
+#: includes/hotels.php:132 includes/shows.php:154
+msgid "City"
+msgstr ""
+
+#: includes/attractions.php:152 includes/clubs.php:145 includes/events.php:174
+#: includes/hotels.php:140 includes/shows.php:162
+msgid "State"
+msgstr ""
+
+#: includes/attractions.php:160 includes/clubs.php:153 includes/events.php:182
+#: includes/hotels.php:148 includes/shows.php:170
+msgid "Zip Code"
+msgstr ""
+
+#: includes/attractions.php:168 includes/clubs.php:161 includes/events.php:190
+#: includes/hotels.php:156 includes/shows.php:178
+msgid "Phone"
+msgstr ""
+
+#: includes/attractions.php:174 includes/clubs.php:167 includes/shows.php:184
+msgid "Business Hours"
+msgstr ""
+
+#: includes/attractions.php:188 includes/clubs.php:181 includes/shows.php:198
+msgid "From"
+msgstr "Del"
+
+#: includes/attractions.php:190 includes/attractions.php:206
+#: includes/clubs.php:183 includes/clubs.php:199 includes/shows.php:200
+#: includes/shows.php:216
+msgid "All"
+msgstr "Todo"
+
+#: includes/attractions.php:191 includes/attractions.php:207
+#: includes/clubs.php:184 includes/clubs.php:200 includes/shows.php:201
+#: includes/shows.php:217
+msgid "Monday"
+msgstr ""
+
+#: includes/attractions.php:192 includes/attractions.php:208
+#: includes/clubs.php:185 includes/clubs.php:201 includes/shows.php:202
+#: includes/shows.php:218
+msgid "Tuesday"
+msgstr ""
+
+#: includes/attractions.php:193 includes/attractions.php:209
+#: includes/clubs.php:186 includes/clubs.php:202 includes/shows.php:203
+#: includes/shows.php:219
+msgid "Wednesday"
+msgstr ""
+
+#: includes/attractions.php:194 includes/attractions.php:210
+#: includes/clubs.php:187 includes/clubs.php:203 includes/shows.php:204
+#: includes/shows.php:220
+msgid "Thursday"
+msgstr ""
+
+#: includes/attractions.php:195 includes/attractions.php:211
+#: includes/clubs.php:188 includes/clubs.php:204 includes/shows.php:205
+#: includes/shows.php:221
+msgid "Friday"
+msgstr ""
+
+#: includes/attractions.php:196 includes/attractions.php:212
+#: includes/clubs.php:189 includes/clubs.php:205 includes/shows.php:206
+#: includes/shows.php:222
+msgid "Saturday"
+msgstr "Sábado"
+
+#: includes/attractions.php:197 includes/attractions.php:213
+#: includes/clubs.php:190 includes/clubs.php:206 includes/shows.php:207
+#: includes/shows.php:223
+msgid "Sunday"
+msgstr ""
+
+#: includes/attractions.php:204 includes/clubs.php:197 includes/shows.php:214
+msgid "To"
+msgstr "Hasta"
+
+#: includes/attractions.php:221 includes/clubs.php:214 includes/events.php:219
+#: includes/shows.php:231
+msgid "Time"
+msgstr ""
+
+#: includes/base.php:157
+msgid "de"
+msgstr ""
+
+#: includes/base.php:158
+msgid "a las"
+msgstr ""
+
+#: includes/clubs.php:35
+msgid "club"
+msgstr ""
+
+#: includes/clubs.php:36 includes/clubs.php:39
+msgid "Clubs"
+msgstr "Clubs"
+
+#: includes/clubs.php:37
+msgid "Club"
+msgstr "Club"
+
+#: includes/clubs.php:38
+msgid "clubs"
+msgstr "clubs"
+
+#: includes/clubs.php:51
+msgid "club, night club"
+msgstr "antro, night club"
+
+#: includes/clubs.php:106
+msgid "Night Club"
+msgstr ""
+
+#: includes/clubs.php:107
+msgid "Comedy Club"
+msgstr ""
+
+#: includes/core.php:103
+msgid "page"
+msgstr "pagina"
+
+#: includes/core.php:176 includes/core.php:177
+msgid "Visita Import"
+msgstr ""
+
+#: includes/events.php:45
+msgid "event"
+msgstr "evento"
+
+#: includes/events.php:46 includes/events.php:49 includes/events.php:644
+msgid "Events"
+msgstr "Eventos"
+
+#: includes/events.php:47 includes/events.php:126 includes/shows.php:114
+msgid "Event"
+msgstr "Evento"
+
+#: includes/events.php:48
+msgid "events"
+msgstr "eventos"
+
+#: includes/events.php:57
+msgid "Event Details"
+msgstr "Detalles del Evento"
+
+#: includes/events.php:75
+msgid "Permanent"
+msgstr ""
+
+#: includes/events.php:81
+msgid "Disable UTM"
+msgstr ""
+
+#: includes/events.php:115 includes/shows.php:103
+msgid "Duration (Minutes)"
+msgstr ""
+
+#: includes/events.php:124 includes/shows.php:112
+msgid "Event Type"
+msgstr "Tipo de Evento"
+
+#: includes/events.php:127 includes/shows.php:115
+msgid "Comedy"
+msgstr ""
+
+#: includes/events.php:128 includes/shows.php:116
+msgid "Dance"
+msgstr ""
+
+#: includes/events.php:129 includes/shows.php:117
+msgid "Food"
+msgstr ""
+
+#: includes/events.php:130 includes/shows.php:118
+msgid "Festival"
+msgstr ""
+
+#: includes/events.php:131 includes/shows.php:119
+msgid "Exhibition"
+msgstr ""
+
+#: includes/events.php:132 includes/shows.php:120
+msgid "Music"
+msgstr ""
+
+#: includes/events.php:133 includes/shows.php:121
+msgid "Sports"
+msgstr ""
+
+#: includes/events.php:134 includes/shows.php:122
+msgid "Theater"
+msgstr ""
+
+#: includes/events.php:135 includes/shows.php:123
+msgid "Screening"
+msgstr ""
+
+#: includes/events.php:136 includes/shows.php:124
+msgid "Education"
+msgstr ""
+
+#: includes/events.php:196
+msgid "Show Times"
+msgstr "Horarios"
+
+#: includes/events.php:212
+msgid "Date"
+msgstr ""
+
+#: includes/events.php:226
+msgid "Availability"
+msgstr ""
+
+#: includes/events.php:229 includes/events.php:230
+msgid "Pre Sale"
+msgstr ""
+
+#: includes/events.php:231
+msgid "In Stock"
+msgstr ""
+
+#: includes/events.php:232
+msgid "Out Of Stock"
+msgstr ""
+
+#: includes/events.php:233
+msgid "Online Only"
+msgstr ""
+
+#: includes/events.php:234
+msgid "Limited Availability"
+msgstr ""
+
+#: includes/events.php:247 includes/shows.php:244
+msgid "Performers"
+msgstr ""
+
+#: includes/events.php:260 includes/shows.php:257
+msgid "Performer"
+msgstr ""
+
+#: includes/events.php:266 includes/shows.php:263
+msgid "Performe Type"
+msgstr ""
+
+#: includes/events.php:269 includes/shows.php:266
+msgid "Person"
+msgstr ""
+
+#: includes/events.php:270 includes/shows.php:267
+msgid "Sports Team"
+msgstr ""
+
+#: includes/events.php:271 includes/shows.php:268
+msgid "Music Group"
+msgstr ""
+
+#: includes/events.php:272 includes/shows.php:269
+msgid "Dance Group"
+msgstr ""
+
+#: includes/events.php:273 includes/shows.php:270
+msgid "Theater Group"
+msgstr ""
+
+#: includes/events.php:619
+msgid "keyword.."
+msgstr ""
+
+#: includes/events.php:642
+msgid "site url.."
+msgstr ""
+
+#: includes/events.php:643 includes/shows.php:313
+msgid "json..."
+msgstr ""
+
+#: includes/hotels.php:35
+msgid "hotel"
+msgstr "hotel"
+
+#: includes/hotels.php:36 includes/hotels.php:39
+msgid "Hotels"
+msgstr "Hoteles"
+
+#: includes/hotels.php:37 includes/hotels.php:100
+msgid "Hotel"
+msgstr "Hotel"
+
+#: includes/hotels.php:38
+msgid "hotels"
+msgstr "hoteles"
+
+#: includes/hotels.php:45
+msgid "hotel, casino"
+msgstr ""
+
+#: includes/hotels.php:51
+msgid "Hotel Details"
+msgstr "Detalles del Hotel"
+
+#: includes/hotels.php:101
+msgid "Resort"
+msgstr ""
+
+#: includes/hotels.php:102
+msgid "Casino"
+msgstr ""
+
+#: includes/import.php:10
+msgid "You do not have sufficient permissions to import content in this site."
+msgstr ""
+
+#: includes/import.php:14
+msgid "Submission timeout, please refreh page."
+msgstr ""
+
+#: includes/shows.php:35
+msgid "show"
+msgstr "show"
+
+#: includes/shows.php:36 includes/shows.php:39 includes/shows.php:314
+msgid "Shows"
+msgstr "Shows"
+
+#: includes/shows.php:37
+msgid "Show"
+msgstr "Show"
+
+#: includes/shows.php:38
+msgid "shows"
+msgstr "shows"
+
+#: includes/shows.php:51
+msgid "show, espectaculo"
+msgstr "show, espectaculo"
+
+#~ msgid "Search: events, shows, hotels..."
+#~ msgstr "Buscar: eventos, shows, hoteles…"
+
+#, fuzzy
+#~| msgid "Posts navigation"
+#~ msgid "Skip to navigation"
+#~ msgstr "Navegacíon"
+
+#~ msgid "Skip to content"
+#~ msgstr "Ir al contenido"
+
+#~ msgid "Previous"
+#~ msgstr "Anterior"
+
+#~ msgid "Next"
+#~ msgstr "Siguiente"
+
+#~ msgid "Social Menu"
+#~ msgstr "Menú de enlaces sociales"
+
+#~ msgid "Header Menu"
+#~ msgstr "Menú principal"
+
+#~ msgid "Main Widget Area"
+#~ msgstr "Área de widgets"
+
+#~ msgid "celsius"
+#~ msgstr "centigrados"
+
+#~ msgid "freiheit"
+#~ msgstr "freiheit"
+
+#~ msgid "Blog"
+#~ msgstr "Blog"
+
+#~ msgid "This is somewhat embarrassing, isn&rsquo;t it?"
+#~ msgstr "No lo vas a creer, pero…"
+
+#~ msgid "Page not found"
+#~ msgstr "La página no existe"
+
+#~ msgid ""
+#~ "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+#~ "searching can help."
+#~ msgstr ""
+#~ "Parece que no podemos encontrar lo que estás buscando. Tal vez la "
+#~ "búsqueda te pueda ayudar."
+
+#~ msgctxt "label"
+#~ msgid "Search for:"
+#~ msgstr "Buscar:"
+
+#~ msgctxt "placeholder"
+#~ msgid "Search &hellip;"
+#~ msgstr "Buscar  &hellip;"
+
+#~ msgid "Price in USA dollars"
+#~ msgstr "Precios en d&oacute;lares estadounidenses"
+
+#~ msgid "Navigation"
+#~ msgstr "Navigación"
+
+#~ msgctxt "label"
+#~ msgid "Event, Show, Attraction"
+#~ msgstr "Evento, Show, Atracción"
+
+#~ msgctxt "label"
+#~ msgid "Search"
+#~ msgstr "Buscar"
+
+#~ msgid " Acending"
+#~ msgstr " Ascendente"
+
+#~ msgid " Decending"
+#~ msgstr " Decendiente"
+
+#~ msgid "Mobile"
+#~ msgstr "Móvil"
+
+#~ msgid "Back to top"
+#~ msgstr "Subir"
+
+#~ msgctxt "Used between list items, there is a space after the comma."
+#~ msgid ", "
+#~ msgstr ", "
+
+#~ msgid "Categories: %s"
+#~ msgstr "Categorías: %s"
+
+#~ msgid "%s"
+#~ msgstr "%s"
+
+#~ msgid "Tags: %s"
+#~ msgstr "Etiquetas: %s"
+
+#~ msgid "Link to %s"
+#~ msgstr "Enlace a %s"
+
+#~ msgid "Edit"
+#~ msgstr "Editar"
+
+#~ msgid "Continue <span class=\"meta-nav\">&rarr;</span>"
+#~ msgstr "Continuar <span class=\"meta-nav\">&rarr;</span>"
+
+#~ msgid "<span class=\"page-links-title\">P&aacute;ginas:</span>"
+#~ msgstr "<span class=\"page-links-title\">P&aacute;ginas:</span>"
+
+#~ msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
+#~ msgstr "Continuear leyendo<span class=\"meta-nav\">&rarr;</span>"
+
+#~ msgid "<span class=\"page-links-title\">Pages:</span>"
+#~ msgstr "<span class=\"page-links-title\">Páginas:</span>"
+
+#~ msgid "Nothing Found"
+#~ msgstr "No se ha encontrado nada"
+
+#~ msgid ""
+#~ "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+#~ msgstr ""
+#~ "¿Preparado para publicar tu primera entrada? <a href=\"%1$s\">Empieza "
+#~ "aquí</a>."
+
+#~ msgid ""
+#~ "Sorry, but nothing matched your search terms. Please try again with "
+#~ "different keywords."
+#~ msgstr ""
+#~ "Lo sentimos, pero no se encuentra nada con estos términos de búsqueda. "
+#~ "Por favor, inténtalo de nuevo con diferentes palabras clave o asegúrate "
+#~ "que haz añadido una."
+
+#~ msgid "Permalink to %s"
+#~ msgstr "Enlace a %s"
+
+#~ msgid "Continue reading"
+#~ msgstr "Continuar"
+
+#~ msgid "Leave a comment"
+#~ msgstr "Dejar un comentario"
+
+#~ msgid "One comment"
+#~ msgstr "Un comentario"
+
+#~ msgid "% comments"
+#~ msgstr "% comentarios"
+
+#~ msgid "visita.vegas by"
+#~ msgstr "visita.vegas creado por"
+
+#~ msgid "http://xparkmedia.com"
+#~ msgstr "http://xparkmedia.com"
+
+#~ msgid "Search Results for: %s"
+#~ msgstr "Resultados por: %s"
+
+#~ msgctxt "label"
+#~ msgid "From:"
+#~ msgstr "Desde:"
+
+#~ msgctxt "label"
+#~ msgid "To:"
+#~ msgstr "Hasta:"
+
+#~ msgid "Continuar <span class=\"meta-nav\">&rarr;</span>"
+#~ msgstr "Continuar <span class=\"meta-nav\">&rarr;</span>"
+
+#~ msgid "Editar"
+#~ msgstr "Editar"
+
+#~ msgid "Enlace a %s"
+#~ msgstr "Enlace a %s"
+
+#~ msgid "required"
+#~ msgstr "requerido"
+
+#~ msgid "choices:"
+#~ msgstr "opciones:"
+
+#~ msgid "Examples:"
+#~ msgstr "Ejemplos:"
+
+#~ msgid "number"
+#~ msgstr "numero"
+
+#~ msgid "<span class=\"meta-nav\">&larr;</span> M&aacute;s"
+#~ msgstr "<span class=\"meta-nav\">&larr;</span> M&aacute;s"
+
+#~ msgid "Anteriores<span class=\"meta-nav\">&rarr;</span>"
+#~ msgstr "Anteriores<span class=\"meta-nav\">&rarr;</span>"
+
+#~ msgctxt "placeholder"
+#~ msgid "Search events &hellip;"
+#~ msgstr "Buscar eventos &hellip;"
+
+#~ msgid "Category: %s"
+#~ msgstr "Categoria: %s"
+
+#~ msgid ""
+#~ "<span class=\"powered\">%1$s</span> <a href=\"%2$s\" title=\"%3$s\" "
+#~ "target=\"_blank\">%3$s</a>"
+#~ msgstr ""
+#~ "<span class=“powered”>%1$s</span> <a href=\"%2$s\" title=\"%3$s\" target="
+#~ "\"_blank\">%3$s</a>"
+
+#~ msgid "Powered by"
+#~ msgstr "Creado por"
+
+#~ msgid "Eventos"
+#~ msgstr "Eventos"
+
+#~ msgctxt "value"
+#~ msgid "Buscar"
+#~ msgstr "Buscar"
+
+#~ msgctxt "placeholder"
+#~ msgid "Submit"
+#~ msgstr "Buscar"
+
+#~ msgid "Search for:"
+#~ msgstr "Buscar:"
+
+#~ msgid "Submit"
+#~ msgstr "Enviar"
+
+#~ msgid "Search …"
+#~ msgstr "Buscar &hellip;"
+
+#~ msgid "Comments"
+#~ msgstr "Commentarios"
+
+#~ msgid "the WordPress team"
+#~ msgstr "El equipo de WordPress"
+
+#~ msgid "https://wordpress.org/themes/twentyfifteen/"
+#~ msgstr "https://wordpress.org/themes/twentyfifteen/"
+
+#~ msgid ""
+#~ "Our 2015 default theme is clean, blog-focused, and designed for clarity. "
+#~ "Twenty Fifteen's simple, straightforward typography is readable on a wide "
+#~ "variety of screen sizes, and suitable for multiple languages. We designed "
+#~ "it using a mobile-first approach, meaning your content takes center-"
+#~ "stage, regardless of whether your visitors arrive by smartphone, tablet, "
+#~ "laptop, or desktop computer."
+#~ msgstr ""
+#~ "Nuestro tema por defecto de 2015 es limpio, enfocado a los blogs y con un "
+#~ "diseño claro. La tipografía de Twenty Finten es sencilla, clara y legible "
+#~ "en una gran variedad de tamaños de pantalla, además de disponible en "
+#~ "multitud de idiomas. Lo hemos diseñado pensando primero en su uso móvil, "
+#~ "lo que implica que tu contenido ocupará el centro de la escena "
+#~ "independientemente de como lleguen tus visitantes, ya sea desde un móvil "
+#~ "inteligente, una tableta, un portátil o un ordenador de escritorio."
+
+#~ msgid "Twenty Fifteen"
+#~ msgstr "Twenty Fifteen"
+
+#~ msgid "Previous post:"
+#~ msgstr "Entrada anterior:"
+
+#~ msgid "Next post:"
+#~ msgstr "Siguiente entrada:"
+
+#~ msgid "% Comments"
+#~ msgstr "% comentarios"
+
+#~ msgid "1 Comment"
+#~ msgstr "1 comentario"
+
+#~ msgctxt "Used before full size attachment link."
+#~ msgid "Full size"
+#~ msgstr "Tamaño completo"
+
+#~ msgctxt "Used before tag names."
+#~ msgid "Tags"
+#~ msgstr "Etiquetas"
+
+#~ msgctxt "Used before category names."
+#~ msgid "Categories"
+#~ msgstr "Categorías"
+
+#~ msgctxt "Used before post author name."
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#~ msgctxt "Used before post format."
+#~ msgid "Format"
+#~ msgstr "Formato"
+
+#~ msgctxt "Used before publish date."
+#~ msgid "Posted on"
+#~ msgstr "Publicado el"
+
+#~ msgid "Newer Comments"
+#~ msgstr "Comentarios más recientes"
+
+#~ msgid "Older Comments"
+#~ msgstr "Comentarios anteriores"
+
+#~ msgid "Comment navigation"
+#~ msgstr "Navegación de comentarios"
+
+#~ msgid "Blue"
+#~ msgstr "Azul"
+
+#~ msgid "Purple"
+#~ msgstr "Morado"
+
+#~ msgid "Pink"
+#~ msgstr "Rosa"
+
+#~ msgid "Yellow"
+#~ msgstr "Amarillo"
+
+#~ msgid "Dark"
+#~ msgstr "Oscuro"
+
+#~ msgid "Default"
+#~ msgstr "Por defecto"
+
+#~ msgid "Header and Sidebar Background Color"
+#~ msgstr "Color de fondo de la cabecera y barra lateral"
+
+#~ msgid ""
+#~ "Applied to the header on small screens and the sidebar on wide screens."
+#~ msgstr ""
+#~ "Aplicado a la cabecera en pantallas pequeñas y a la barra lateral en "
+#~ "pantallas anchas."
+
+#~ msgid "Base Color Scheme"
+#~ msgstr "Esquema de color básico"
+
+#~ msgid "Header and Sidebar Text Color"
+#~ msgstr "Color de texto de cabecera y barra lateral"
+
+#~ msgid ""
+#~ "Twenty Fifteen requires at least WordPress version 4.1. You are running "
+#~ "version %s. Please upgrade and try again."
+#~ msgstr ""
+#~ "Twenty Fifteen requiere al menos la versión 4.1 de WordPress. Estás "
+#~ "ejecutando la versión %s. Por favor, actualiza e inténtalo de nuevo."
+
+#~ msgctxt "Parent post link"
+#~ msgid ""
+#~ "<span class=\"meta-nav\">Published in</span><span class=\"post-title\">"
+#~ "%title</span>"
+#~ msgstr ""
+#~ "<span class=\"meta-nav\">Publicado en</span><span class=\"post-title\">"
+#~ "%title</span>"
+
+#~ msgid "Next Image"
+#~ msgstr "Imagen siguiente"
+
+#~ msgid "Menu and widgets"
+#~ msgstr "Menú y widgets"
+
+#~ msgid "Previous Image"
+#~ msgstr "Imagen anterior"
+
+#~ msgid "collapse child menu"
+#~ msgstr "plegar menú inferior"
+
+#~ msgid "expand child menu"
+#~ msgstr "expande el menú inferior"
+
+#~ msgctxt "Add new subset (greek, cyrillic, devanagari, vietnamese)"
+#~ msgid "no-subset"
+#~ msgstr "sin derivada"
+
+#~ msgctxt "Inconsolata font: on or off"
+#~ msgid "on"
+#~ msgstr "activa"
+
+#~ msgctxt "Noto Serif font: on or off"
+#~ msgid "on"
+#~ msgstr "activa"
+
+#~ msgctxt "Noto Sans font: on or off"
+#~ msgid "on"
+#~ msgstr "activa"
+
+#~ msgid "Add widgets here to appear in your sidebar."
+#~ msgstr "Añade aquí los widgets para que aparezca en la barra lateral."
+
+#~ msgid "Proudly powered by %s"
+#~ msgstr "Creado con %s"
+
+#~ msgid "https://wordpress.org/"
+#~ msgstr "https://wordpress.org/"
+
+#~ msgid ""
+#~ "Sorry, but nothing matched your search terms. Please try again with some "
+#~ "different keywords."
+#~ msgstr ""
+#~ "Lo siento pero no hay nada que se ajuste a tus criterios de búsqueda. Por "
+#~ "favor, inténtalo de nuevo con palabras claves distintas."
+
+#~ msgid "Pages:"
+#~ msgstr "Páginas:"
+
+#~ msgid "Continue reading %s"
+#~ msgstr "Continúa leyendo %s"
+
+#~ msgid "Comments are closed."
+#~ msgstr "Los comentarios están cerrados."
+
+#~ msgctxt "comments title"
+#~ msgid "One thought on &ldquo;%2$s&rdquo;"
+#~ msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+#~ msgstr[0] "Un comentario sobre &ldquo;%2$s&rdquo;"
+#~ msgstr[1] "%1$s comentarios sobre &ldquo;%2$s&rdquo;"
+
+#~ msgid "View all posts by %s"
+#~ msgstr "Lee todas las entradas de %s"
+
+#~ msgid "Published by"
+#~ msgstr "Publicado por"
+
+#~ msgid "Page"
+#~ msgstr "Página"
+
+#~ msgid "Next page"
+#~ msgstr "Próxima página"
+
+#~ msgid "Previous page"
+#~ msgstr "Página anterior"
+
+#~ msgid ""
+#~ "It looks like nothing was found at this location. Maybe try a search?"
+#~ msgstr "Parece que no hay nada en esa ubicación ¿quieres probar a buscar?"
+
+#~ msgid "Oops! That page can&rsquo;t be found."
+#~ msgstr "¡Vaya! No se pudo encontrar esa página."
