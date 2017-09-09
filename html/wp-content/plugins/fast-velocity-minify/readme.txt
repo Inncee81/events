@@ -2,7 +2,7 @@
 Contributors: Alignak
 Tags: merge, combine, concatenate, PHP Minify, YUI Compressor, CSS, javascript, JS, minification, minify, optimization, optimize, stylesheet, aggregate, cache, CSS, html, minimize, pagespeed, performance, speed, GTmetrix, pingdom
 Requires at least: 4.5
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 Tested up to: 4.8.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -273,6 +273,10 @@ Note: Kindly purge the plugin cache as well as your server /plugin cache after u
 
 
 == Changelog ==
+
+= 2.2.1 [2017.08.21] =
+* added unicode support to the alternative html minification option
+* improved some options description
 
 = 2.2.0 [2017.08.13] =
 * fixed some debug notices

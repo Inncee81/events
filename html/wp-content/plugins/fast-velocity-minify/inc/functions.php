@@ -221,11 +221,12 @@ else { ob_start('fastvelocity_min_html_compression_finish'); }
 
 # alternative html minification, minimal
 function fastvelocity_min_minify_alt_html($html) {
-$html = trim(preg_replace('/\v(?:[\t\v\h]+)/', "\n", $html));
-$html = trim(preg_replace('/\t(?:[\t\v\h]+)/', ' ', $html));
-$html = trim(preg_replace('/\h(?:[\t\v\h]+)/', ' ', $html));
+$html = trim(preg_replace('/\v(?:[\t\v\h]+)/iu', "\n", $html));
+$html = trim(preg_replace('/\t(?:[\t\v\h]+)/iu', ' ', $html));
+$html = trim(preg_replace('/\h(?:[\t\v\h]+)/iu', ' ', $html));
 return $html;
 }
+
 
 # remove all cache files
 function fastvelocity_rrmdir($dir) { 

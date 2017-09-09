@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.2.0
+Version: 2.2.1
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -307,7 +307,7 @@ function fastvelocity_min_register_settings() {
 # add settings link on plugin page
 function fastvelocity_min_settings_link($links) {
 if (is_plugin_active(plugin_basename( __FILE__ ))) { 
-$settings_link = '<a href="options-general.php?page=fastvelocity-min">Settings</a>'; 
+$settings_link = '<a href="options-general.php?page=fastvelocity-min&tab=settings">Settings</a>'; 
 array_unshift($links, $settings_link); 
 }
 return $links;
@@ -413,7 +413,9 @@ if($fvm_license != false && mb_strlen($fvm_license, 'UTF-8') == 32) {
 
 <tr>
 <th scope="row">Troubleshooting</th>
-<td><fieldset><legend class="screen-reader-text"><span>Troubleshooting</span></legend>
+<td>
+<p class="fvm-bold-green fvm-rowintro">It's recommended that you enable this, if your theme comes with some sort of visual frontend editor.</p>
+<fieldset>
 <label for="fastvelocity_min_fvm_fix_editor">
 <input name="fastvelocity_min_fvm_fix_editor" type="checkbox" id="fastvelocity_min_fvm_fix_editor" value="1" <?php echo checked(1 == get_option('fastvelocity_min_fvm_fix_editor'), true, false); ?>>
 Fix Page Editors <span class="note-info">[ If selected, logged in users with the "editor" role (and above) will bypass all optimizations ]</span></label>
@@ -431,8 +433,9 @@ $a = ''; if($sel == 'dynamic' || empty($sel)) { $a = ' checked="checked"'; }
 $b = ''; if($sel == 'http') { $b = ' checked="checked"'; }
 $c = ''; if($sel == 'https') { $c = ' checked="checked"'; }
 ?>
-<fieldset><legend class="screen-reader-text"><span>URL Options</span></legend>
-	<label><input type="radio" name="fastvelocity_min_default_protocol" value="dynamic" <?php echo $a; ?>> Use the default dynamic "//" protocol</label><br>
+<p class="fvm-bold-green fvm-rowintro">You may need to force http or https, for some CDN plugins to work:</p>
+<fieldset>
+	<label><input type="radio" name="fastvelocity_min_default_protocol" value="dynamic" <?php echo $a; ?>> Use the dynamic "//" protocol</label><br>
 	<label><input type="radio" name="fastvelocity_min_default_protocol" value="http"<?php echo $b; ?>> Force HTTP urls</label><br>
 	<label><input type="radio" name="fastvelocity_min_default_protocol" value="https"<?php echo $c; ?>> Force HTTPS urls</span></label><br>
 </fieldset>
@@ -441,20 +444,23 @@ $c = ''; if($sel == 'https') { $c = ' checked="checked"'; }
 
 <tr>
 <th scope="row">HTML Options</th>
-<td><fieldset><legend class="screen-reader-text"><span>HTML Options</span></legend>
+<td>
+<p class="fvm-bold-green fvm-rowintro">The HTML minification is ON by default, but you can:</p>
+
+<fieldset>
 <label for="fastvelocity_min_skip_html_minification">
 <input name="fastvelocity_min_skip_html_minification" type="checkbox" id="fastvelocity_min_skip_html_minification" value="1" <?php echo checked(1 == get_option('fastvelocity_min_skip_html_minification'), true, false); ?>>
-Disable minification on HTML <span class="note-info">[ Normally, it's safe to leave HTML minification enabled ]</span></label>
-<br />
-
-<label for="fastvelocity_min_use_alt_html_minification">
-<input name="fastvelocity_min_use_alt_html_minification" type="checkbox" id="fastvelocity_min_use_alt_html_minification" value="1" <?php echo checked(1 == get_option('fastvelocity_min_use_alt_html_minification'), true, false); ?>>
-Use the alternative HTML minification <span class="note-info">[ Select this, if you have some problem with some spaces disappearing ]</span></label>
+Disable HTML Minification <span class="note-info">[ This will disable HTML minification ]</span></label>
 <br />
 
 <label for="fastvelocity_min_strip_htmlcomments">
 <input name="fastvelocity_min_strip_htmlcomments" type="checkbox" id="fastvelocity_min_strip_htmlcomments" value="1" <?php echo checked(1 == get_option('fastvelocity_min_strip_htmlcomments'), true, false); ?>>
-Strip HTML comments <span class="note-info">[ Some plugins need HTML comments to work properly ]</span></label>
+Strip HTML comments <span class="note-info">[ Only works with the default HTML minification, but note that some plugins need HTML comments to work properly ]</span></label>
+<br />
+
+<label for="fastvelocity_min_use_alt_html_minification">
+<input name="fastvelocity_min_use_alt_html_minification" type="checkbox" id="fastvelocity_min_use_alt_html_minification" value="1" <?php echo checked(1 == get_option('fastvelocity_min_use_alt_html_minification'), true, false); ?>>
+Use the alternative HTML minification <span class="note-info">[ Select this, ONLY if you have trouble with the default HTML minification ]</span></label>
 <br />
 
 </fieldset></td>
@@ -463,7 +469,9 @@ Strip HTML comments <span class="note-info">[ Some plugins need HTML comments to
 
 <tr>
 <th scope="row">Fonts Options</th>
-<td><fieldset><legend class="screen-reader-text"><span>Fonts Options</span></legend>
+<td>
+<p class="fvm-bold-green fvm-rowintro">It's recommended that you enable the "Inline Google Fonts CSS" option.</p>
+<fieldset>
 <label for="fastvelocity_min_skip_emoji_removal">
 <input name="fastvelocity_min_skip_emoji_removal" type="checkbox" id="fastvelocity_min_skip_emoji_removal" class="jsprocessor" value="1" <?php echo checked(1 == get_option('fastvelocity_min_skip_emoji_removal'), true, false); ?> >
 Stop removing Emojis and smileys <span class="note-info">[ If selected, Emojis will be left alone and won't be removed from wordpress ]</span></label>
@@ -487,8 +495,10 @@ Inline Google Fonts CSS <span class="note-info">[ If selected, Google Fonts CSS 
 
 <tr>
 <th scope="row">CSS Options</th>
-<td><fieldset><legend class="screen-reader-text"><span>CSS Options</span></legend>
+<td>
+<p class="fvm-bold-green fvm-rowintro">It's recommended that you Inline all CSS files, if they are small enough.</p>
 
+<fieldset>
 <label for="fastvelocity_min_disable_css_merge">
 <input name="fastvelocity_min_disable_css_merge" type="checkbox" id="fastvelocity_min_disable_css_merge" value="1" <?php echo checked(1 == get_option('fastvelocity_min_disable_css_merge'), true, false); ?>>
 Disable CSS processing<span class="note-info">[ If selected, this plugin will ignore CSS files completely ]</span></label>
@@ -519,7 +529,9 @@ Inline all footer CSS files <span class="note-info">[ If selected, the footer CS
 
 <tr>
 <th scope="row">JavaScript Options</th>
-<td><fieldset><legend class="screen-reader-text"><span>JavaScript Options</span></legend>
+<td>
+<p class="fvm-bold-green fvm-rowintro">Try to disable minification (and purge the cache), if you have trouble with JavaScript in the frontend.</p>
+<fieldset>
 <label for="fastvelocity_min_disable_js_merge">
 <input name="fastvelocity_min_disable_js_merge" type="checkbox" id="fastvelocity_min_disable_js_merge" value="1" <?php echo checked(1 == get_option('fastvelocity_min_disable_js_merge'), true, false); ?> >
 Disable JavaScript processing <span class="note-info">[ If selected, this plugin will ignore JS files completely ]</span></label>

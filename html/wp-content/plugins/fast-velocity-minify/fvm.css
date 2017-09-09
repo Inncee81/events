@@ -20,6 +20,7 @@ h3.hndle { background: #F7F7F7; color: #000;}
 .fvm-bold-green { font-weight: 600; color: #1196A3; }
 .fvm-label-special { line-height: 38px; }
 .fvm-label-pad { line-height: 21px; }
+.fvm-rowintro { padding-bottom: 10px; }
 
 @media screen and (max-width:520px) {
 #fastvelocity-min .processed li .filename{width: 100%;float:none;}
