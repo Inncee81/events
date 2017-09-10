@@ -193,7 +193,7 @@ class VisitaEvents extends VisitaBase {
           'formatting' => 'phone',
         ),
         array(
-          'key' => 'tap_times',
+          'key' => 'tap_show_times',
           'label' => __( 'Show Times', 'visita' ),
           'type' => 'tab',
         ),

@@ -55,7 +55,8 @@ $body-font-color: $gray-darker;
 $body-font-family: Helvetica, Arial, sans-serif;
 
 $fa-font-path: 'fonts';
-$font-sans: 'Poppins', sans-serif;
+$font-sans: 'Roboto', sans-serif;
+$header-font-family: $font-sans;
 
 $input-border: 1px solid $gray-light;
 $input-shadow-focus: '';

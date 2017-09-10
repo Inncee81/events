@@ -1,0 +1,29 @@
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+figure {
+  margin: 0;
+}
+
+.hmedia figcaption.fn {
+  position: absolute;
+  clip: rect(0 0 0 0);
+}
+
+.archive .hentry {
+  position: relative;
+  margin: 0 .25em 10px;
+  box-shadow: 0 2px 1px rgba(93,93,93,.26);
+
+  @include breakpoint(small down) {
+    height: 110px;
+    overflow: hidden;
+  }
+
+  .hmedia a {
+    display: block;
+  }
+}

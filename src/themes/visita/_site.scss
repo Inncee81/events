@@ -1,18 +1,66 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  background: #fff;
+  box-shadow: 0 1px 3px 0 rgba(90,90,90,.3);
+  padding-bottom: 1em;
+}
 
 :focus {
   outline: #4d0ff1 solid 1px;
 }
 
-.button {
+body .button {
   border: 0;
+  padding: 0.835em 1em;
 }
 
 .screen-reader-text {
   @extend .show-on-focus;
 }
 
-.entry-title {
+h1.entry-title {
   color: $primary-color;
-  margin-top: .5em;
-  text-shadow: 1px 1px 0px #fff;
+  letter-spacing: -.05em;
+  margin: .5em 0 0;
+}
+
+.hidden,
+.search-hidden {
+  display: none;
+}
+
+.taxonomy-description {
+  color: $gray-dark;
+  font-size: .8em;
+
+  p {
+    line-height: normal;
+  }
+}
+
+.footer {
+  clear: both;
+  padding: 1em;
+  font-size: .9em;
+}
+
+.site-credits {
+  font-size: .9em;
+}
+
+.window-scroll-up {
+  display: block;
+  line-height: normal;
+  padding: 18px 0 0;
+  text-align: center;
+
+  &:before {
+    content: $fa-var-chevron-up;
+    font-family: FontAwesome;
+    display: block;
+  }
 }

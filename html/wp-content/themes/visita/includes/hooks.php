@@ -38,6 +38,11 @@ function visita_theme_setup( ) {
     $content_width = 640;
 
   /**
+  * Global time date format
+  */
+  $visita_options['date_time_format'] = get_option('date_format') . ' ' . get_option('time_format');
+
+  /**
   * Add your files into /languages/ directory.
   * @see http://codex.wordpress.org/Function_Reference/load_theme_textdomain
   */
@@ -133,10 +138,24 @@ function visita_style_enqueues( ) {
 
   $theme 	= wp_get_theme();
 
-  wp_enqueue_style( 'font-open-sans', 'https://fonts.googleapis.com/css?family=Poppins:300,500' );
-  wp_enqueue_style( 'visita', get_template_directory_uri() . "/style.css", false, $theme->version, 'all' );
+  wp_register_style( 'font-open-sans', 'https://fonts.googleapis.com/css?family=Roboto:300,400,500' );
+  wp_register_style( 'visita', get_template_directory_uri() . "/style.css", false, $theme->version, 'all' );
 }
 add_action( 'wp_enqueue_scripts', 'visita_style_enqueues' );
+
+/**
+*
+*/
+function visita_inline_styles( ) {
+
+  if ( $content = file_get_contents( get_template_directory() . "/inline.css") ) {
+    echo "<style>{$content}</style>";
+  }
+
+  echo "<noscript>\n"; wp_print_styles( 'font-open-sans' ); wp_print_styles( 'visita' ); echo "</noscript>\n";
+}
+add_action( 'wp_head', 'visita_inline_styles', 100 );
+
 
 /**
 * Load theme's JavaScript
@@ -174,7 +193,9 @@ function visita_scripts_enqueues( ) {
   wp_localize_script( 'visita', 'visita', array(
     'C' => __( 'celsius', 'visita' ),
     'F' => __( 'freiheit', 'visita' ),
-    'tabletstyles' => get_template_directory_uri() . "/tablet.css?ver=" . $theme->version,
+    'fonts' => "https://fonts.googleapis.com/css?family=Roboto:300,400,500",
+    'styles' => get_template_directory_uri() . "/style.css?ver=" . $theme->version,
+    'tablet' => get_template_directory_uri() . "/tablet.css?ver=" . $theme->version,
   ) );
 }
 add_action( 'wp_enqueue_scripts', 'visita_scripts_enqueues' );
@@ -219,8 +240,24 @@ function visita_add_scroll_up_button( ) {
     esc_attr__( 'Move Up', 'visita' )
   );
 }
-add_filter( 'visita_after_content', 'visita_add_scroll_up_button' );
+add_filter( 'visita_after_main', 'visita_add_scroll_up_button' );
 
+/**
+* Dynamic loading images
+*/
+function visita_attachment_image_attributes( $attr, $attachment, $size ){
+  if ( $size == 'post-thumbnail' ) {
+    $attr['src'] = get_stylesheet_directory_uri() . '/img/1x1.trans.gif';
+
+    if ( $mobile = wp_get_attachment_image_src($attachment->ID, 'featured-mobile') ) {
+      $attr['data-src'] = $mobile[0];
+    }
+
+    unset( $attr['srcset'] );
+  }
+  return $attr;
+}
+add_filter( 'wp_get_attachment_image_attributes', 'visita_attachment_image_attributes', 50, 3 );
 
 /**
 * Add schema.org data

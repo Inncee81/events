@@ -6,13 +6,13 @@
 .menu-social li a {
   background-color: $gray-light;
   margin: 0 6px;
-  padding: 0.7rem .85rem;
+  padding: 0.7em .85em;
 }
 
 #nav {
   background-color: $primary-color;
   color: $gray-lightest;
-  margin-top: .85rem;
+  margin-top: .85em;
 
   a {
     color: $gray-lightest;
@@ -20,7 +20,7 @@
     @include breakpoint(medium down) {
       border-bottom: $menu-mobile-border;
       display: block;
-      padding: .65rem;
+      padding: .5em .65em;
     }
   }
 }
@@ -29,7 +29,7 @@
 
   a:after {
     float: right;
-    margin-right: .5rem;
+    margin-right: .5em;
     font-family: FontAwesome;
     content: $fa-var-bars;
   }
@@ -63,7 +63,7 @@
     }
 
     li a {
-      padding-left: 2.5rem;
+      padding-left: 2.5em;
     }
   }
 

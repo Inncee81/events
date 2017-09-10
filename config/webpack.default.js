@@ -12,6 +12,7 @@ export default {
     'plugins/visita/css/admin.css': './src/plugins/visita/admin.scss',
     'plugins/visita/css/fields.css': './src/plugins/visita/fields.scss',
     'themes/visita/style.css': './src/themes/visita/style.scss',
+    'themes/visita/inline.css': './src/themes/visita/inline.scss',
     'themes/visita/tablet.css': './src/themes/visita/tablet.scss',
     'themes/visita/editor-style.css': './src/themes/visita/editor-style.scss',
   },

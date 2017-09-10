@@ -24,6 +24,13 @@ if ( ! function_exists( 'stylesheet_directory_uri' ) ) {
 }
 
 /**
+*
+*/
+function visita_after_main( ) {
+  do_action( 'visita_after_main' );
+}
+
+/**
 * Just before opening <div id="page">
 *
 * @param $string string
@@ -92,7 +99,7 @@ function visita_share_botton( ) {
 /**
 * Display default social navigation
 *
-* uses xclusive_render_menu()
+* uses visita_render_menu()
 * @param array $args menu argumens see: http://codex.wordpress.org/Function_Reference/wp_nav_menu#Usage
 * @return string HTML
 */
@@ -147,4 +154,69 @@ function visita_content_nav( $css ) { ?>
 
     </div><!-- .nav-links -->
   </nav><!-- .navigation --><?php
+}
+
+/**
+* Display entry metadata information
+*
+* @return void
+*/
+function visita_entry_meta(){
+  printf(
+    '<span class="author vcard hidden">
+      <a class="url fn" href="%1$s" title="%2$s" rel="author">%3$s</a>
+    </span>',
+    esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
+    esc_attr( sprintf( __( 'View all posts by %s', 'visita' ), get_the_author() ) ),
+    get_the_author()
+  );
+
+  visita_get_start_time();
+}
+
+/**
+*
+*
+* @return void
+*/
+function visita_post_schema( ) {
+  printf(
+    'itemscope itemtype="https://schema.org/%1$s"',
+    esc_attr(get_post_meta( get_the_ID(), '_event_type', true ))
+  );
+}
+
+/**
+*
+*
+* @return void
+*/
+function visita_get_start_time( ) {
+
+  global $visita_options;
+  $ends = strtotime( get_post_meta( get_the_ID(), '_ends', true ) );
+  $starts = strtotime( get_post_meta( get_the_ID(), '_starts', true ) );
+
+  printf(
+    '<div class="date">
+      <time class="entry-date updated hidden" datetime="%3$s">%3$s</time>
+      <time itemprop="startDate" class="dtstart" datetime="%4$s">%1$s</time>
+      <time itemprop="endDate" class="dtend hidden" datetime="%5$s">%2$s</time>
+    </div>',
+    esc_html( date_i18n( $visita_options['date_time_format'], $starts ) ),
+    esc_html( date_i18n( $visita_options['date_time_format'], $ends ) ),
+    esc_attr( get_the_date('c') ),
+    esc_attr( $starts ),
+    esc_attr( $ends )
+  );
+
+}
+
+/**
+*
+*
+* @return void
+*/
+function visita_entry_tax( ) {
+
 }

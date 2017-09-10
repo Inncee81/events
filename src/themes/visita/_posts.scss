@@ -1,0 +1,33 @@
+
+.entry-header.float {
+  background: rgba(0,0,0,.6);
+  bottom: 0;
+  color: $white;
+  padding: .25em .5em;
+  position: absolute;
+  width: 100%;
+
+  .entry-title {
+    margin: 0;
+    font-weight: 500;
+    letter-spacing: -.02em;
+
+    @include breakpoint(small down) {
+      font-size: 1em;
+    }
+  }
+
+  .date, .edit-link {
+    font-size: .8em;
+  }
+
+  .edit-link {
+    position: absolute;
+    right: 2%;
+    top: 30%;
+  }
+
+  a {
+    color: $white;
+  }
+}

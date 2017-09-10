@@ -66,6 +66,11 @@ $breakpoint-classes: (large xlarge);
   }
 }
 
+@include breakpoint(medium up) {
+  .search-form {
+    max-width: 86%;
+  }
+}
 
 @include breakpoint(large up) {
   .menu-main {

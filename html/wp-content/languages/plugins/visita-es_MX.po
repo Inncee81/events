@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
 "POT-Creation-Date: 2017-09-09 02:12-0700\n"
-"PO-Revision-Date: 2017-09-09 02:12-0700\n"
+"PO-Revision-Date: 2017-09-09 21:34-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -120,7 +120,7 @@ msgstr ""
 #: includes/attractions.php:126 includes/clubs.php:119 includes/events.php:149
 #: includes/hotels.php:114 includes/shows.php:136
 msgid "Location"
-msgstr ""
+msgstr "Locación"
 
 #: includes/attractions.php:132 includes/clubs.php:125 includes/events.php:155
 #: includes/hotels.php:120 includes/shows.php:142
@@ -371,7 +371,7 @@ msgstr ""
 
 #: includes/events.php:248 includes/shows.php:244
 msgid "Performers"
-msgstr ""
+msgstr "Artistas"
 
 #: includes/events.php:261 includes/shows.php:257
 msgid "Performer"

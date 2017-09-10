@@ -48,5 +48,8 @@
     "sass-loader": "^6.0.3",
     "webpack": "~2.2.1",
     "webpack-dev-server": "~2.4.1"
+  },
+  "dependencies": {
+    "vanilla-lazyload": "^10.0.1"
   }
 }

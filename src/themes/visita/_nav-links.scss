@@ -1,11 +1,22 @@
 
 .nav-links {
-  padding: 5px 0;
+  padding: 10px 0;
   font-size: 0.9em;
 	text-align: center;
   overflow: hidden;
   width: 100%;
   position: relative;
+
+	.page-numbers {
+    border: solid 1px $gray-medium;
+    display: inline-block;
+    margin: 0 2px;
+		padding: 4px 10px;
+
+    &:hover, &:focus {
+      @extend .current;
+    }
+	}
 
   .current {
     background-color: $primary-color;
@@ -13,19 +24,9 @@
     color: $white;
   }
 
-	.page-numbers {
-    border: solid 1px $gray-medium;
-    display: inline-block;
-    margin: 0 4px;
-		padding: 4px 12px;
-
-    &:hover, &:focus {
-      @extend .current;
-    }
-	}
-
 	.dots {
 		border: none;
+    padding: 0;
 	}
 
 	.next, .prev {
@@ -47,4 +48,13 @@
     content: $fa-var-angle-left;
     font-family: FontAwesome;
 	}
+}
+
+.footer-nav li {
+  display: inline;
+  list-style: none;
+
+  &:first-child:after {
+  	content: ' \2022';
+  }
 }

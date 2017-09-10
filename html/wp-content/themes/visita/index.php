@@ -26,11 +26,11 @@
 
       <?php visita_content_nav( 'nav-above' ); ?>
 
-      <article itemprop="text">
+      <div class="entry-content" itemprop="text">
         <?php while ( have_posts() ) : the_post(); ?>
           <?php get_template_part( 'content', get_post_type() ); ?>
         <?php endwhile; ?>
-			</article>
+			</div>
 
       <?php visita_content_nav( 'nav-below' ); ?>
 

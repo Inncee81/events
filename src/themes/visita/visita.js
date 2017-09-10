@@ -1,30 +1,38 @@
-(( $, doc ) => {
+import LazyLoad from 'vanilla-lazyload';
 
-  /**
-  *
-  */
+const lazyLoad = new LazyLoad();
+
+( ( $, doc ) => {
+
   let mobileLoaded = false;
   const mobileWidth =  1024;
-  const style = doc.createElement( 'link' );
+  const stylesheet = {
+    type: 'text/css',
+    rel: 'stylesheet',
+  }
 
-  style.rel ='stylesheet'
-  style.type ='text/css'
-  style.href = visita.tabletstyles
+  // document ready
+  $( function( ) {
+    $( '<link/>', Object.assign( stylesheet, { href: visita.fonts } ) ).appendTo( 'head' );
+    $( '<link/>', Object.assign( stylesheet, { href: visita.styles } ) ).appendTo( 'head' );
+  } );
 
+  //check  window size for loading
   $( window ).on( 'load resize orientationchange', () => {
     if ( ! mobileLoaded && $( doc ).width() >= mobileWidth ) {
-      mobileLoaded = true
-      $( 'body' ).append( style )
+      $( '<link/>', Object.assign( stylesheet, { href: visita.tablet } ) ).appendTo( 'head' );
+      mobileLoaded = true;
     }
-  })
+  } )
 
-})( jQuery, document );
+} )( jQuery, document );
+
 
 /**
 * Enables menu toggle.
 */
 
-(( $ ) => {
+( ( $ ) => {
 
   let nav = $( '#nav' );
   if ( ! nav[0] )
@@ -48,5 +56,4 @@
      .removeClass( 'show' )
   } )
 
-
-})( jQuery );
+} )( jQuery );

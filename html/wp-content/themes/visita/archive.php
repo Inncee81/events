@@ -22,10 +22,16 @@
         <h1 class="entry-title text-center medium-text-left" itemprop="name">
           <?php the_archive_title( );  ?>
         </h1>
-        <?php the_archive_description( '<div class="taxonomy-description">', '</div>' );  ?>
+        <?php the_archive_description( '<div class="taxonomy-description text-center">', '</div>' );  ?>
 			</header><!-- .archive-header -->
 
       <?php visita_content_nav( 'nav-above' ); ?>
+
+      <div class="entry-content" itemprop="text">
+      <?php while ( have_posts() ) : the_post(); ?>
+        <?php get_template_part( 'content', get_post_type() ); ?>
+      <?php endwhile; ?>
+      </div>
 
       <?php visita_content_nav( 'nav-below' ); ?>
 
