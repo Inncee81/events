@@ -1,7 +1,6 @@
 
 .nav-links {
-  padding: 10px 0;
-  font-size: 0.9em;
+  padding: 12px 0 10px;
 	text-align: center;
   overflow: hidden;
   width: 100%;
@@ -41,12 +40,10 @@
 
 	.next:after {
     content: $fa-var-angle-right;
-    font-family: FontAwesome;
 	}
 
 	.prev:before {
     content: $fa-var-angle-left;
-    font-family: FontAwesome;
 	}
 }
 

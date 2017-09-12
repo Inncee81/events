@@ -1,3 +1,14 @@
+.entry-title {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -.02em;
+}
+
+.entry-header {
+  .date, .edit-link {
+    font-size: .8em;
+  }
+}
 
 .entry-header.float {
   background: rgba(0,0,0,.6);
@@ -7,18 +18,8 @@
   position: absolute;
   width: 100%;
 
-  .entry-title {
-    margin: 0;
-    font-weight: 500;
-    letter-spacing: -.02em;
-
-    @include breakpoint(small down) {
-      font-size: 1em;
-    }
-  }
-
-  .date, .edit-link {
-    font-size: .8em;
+  .location {
+    display: none;
   }
 
   .edit-link {

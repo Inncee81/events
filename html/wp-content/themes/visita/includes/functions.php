@@ -143,7 +143,7 @@ function visita_default_social_menu( $args = array() ){
 */
 function visita_content_nav( $css ) { ?>
   <nav class="<?php echo esc_attr("navigation paging-navigation $css")?>">
-    <h3 class="screen-reader-text"><?php esc_html_e( 'Navigation', 'visita' ); ?></h3>
+    <h6 class="screen-reader-text"><?php esc_html_e( 'Navigation', 'visita' ); ?></h6>
     <div class="nav-links">
 
       <?php echo paginate_links( array(
@@ -157,22 +157,32 @@ function visita_content_nav( $css ) { ?>
 }
 
 /**
-* Display entry metadata information
+* Display single post navigation
 *
+* @param string $class class attribute to identify menu location
 * @return void
 */
-function visita_entry_meta(){
-  printf(
-    '<span class="author vcard hidden">
-      <a class="url fn" href="%1$s" title="%2$s" rel="author">%3$s</a>
-    </span>',
-    esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-    esc_attr( sprintf( __( 'View all posts by %s', 'visita' ), get_the_author() ) ),
-    get_the_author()
-  );
+function visita_post_nav( $class = '' ){
 
-  visita_get_start_time();
+ // Don't print empty markup if there's nowhere to navigate.
+$previous 	= ( is_attachment() ) ? get_post( $post->post_parent ) : get_adjacent_post( false, '', true );
+$next     	= get_adjacent_post( false, '', false);
+
+  if ( ! $next && ! $previous )
+  return;
+?>
+<nav class="navigation post-navigation <?php echo $class ?>">
+  <h6 class="screen-reader-text"><?php esc_html_e( 'Post navigation', 'xclusive' ); ?></h6>
+  <div class="nav-links">
+
+    <div class="nav-previous"><?php previous_post_link( '%link', _x( '%title', 'Previous post link', 'xclusive' ) ); ?></div>
+    <div class="nav-next"><?php next_post_link( '%link', _x( '%title', 'Next post link', 'xclusive' ) ); ?></div>
+
+  </div><!-- .nav-links -->
+</nav><!-- .navigation -->
+<?php
 }
+
 
 /**
 *
@@ -186,6 +196,85 @@ function visita_post_schema( ) {
   );
 }
 
+
+/**
+*
+*
+* @return string
+*/
+function visita_get_external_link( ) {
+  $link = '#';
+  if ( $_link = get_post_meta( get_the_ID(), '_link', true ) ) {
+    $link = ( strrpos($_link, '?') === false ? "$_link?" : "$_link&" );
+    if ( ! get_post_meta( get_the_ID(), '_disable_source', true ) ) {
+      $link .= 'utm_source=visita.vegas&utm_medium=refer&utm_campaign=visita_vegas';
+    }
+  }
+  return $link;
+}
+
+/**
+*
+*
+* @return string
+*/
+function visita_format_price( $price, $symbol = '$') {
+  return ( is_numeric( $price ) ? $symbol . number_format( $price ) : $price );
+}
+
+/**
+*
+*
+* @return void
+*/
+function visita_entry_tax( $taxonomy ){
+  if ( $taxonomy_list = get_the_term_list( get_the_ID(), $taxonomy, '', '' ) ) {
+    if ( ! is_wp_error( $taxonomy_list ) ) {
+      echo $taxonomy_list = '<div class="taxonomy-links">' . $taxonomy_list . '</div>';
+    }
+  }
+}
+
+/**
+* Display entry metadata information
+*
+* @return void
+*/
+function visita_entry_meta( ) {
+
+  printf(
+    '<div itemscope itemprop="location" class="location" itemtype="http://schema.org/Place">
+      <a href="%7$s" rel="external" target="_blank" class="venue"><span itemprop="name">%1$s</span></a>
+      <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="address">
+        <a href="%6$s" rel="external" target="_blank">
+          <span itemprop="streetAddress" class="street">%2$s</span>
+          <span itemprop="addressLocality" class="city">%3$s</span>
+          <span itemprop="addressRegion" class="state">%4$s</span>
+          <span itemprop="postalCode" class="zip hidden">%5$s</span>
+        </a>
+      </address>' . '' .'
+      <span itemprop="telephone" class="phone tel hidden">%6$s</span>
+    </div>',
+    esc_html( get_post_meta( get_the_ID(), '_location', true ) ),
+    esc_html( get_post_meta( get_the_ID(), '_street', true ) ),
+    esc_html( get_post_meta( get_the_ID(), '_city', true ) ),
+    esc_html( get_post_meta( get_the_ID(), '_state', true ) ),
+    esc_html( get_post_meta( get_the_ID(), '_zip', true ) ),
+    esc_html( get_post_meta( get_the_ID(), '_phone', true ) ),
+    esc_url( 'https://www.google.com/maps/search/' .
+      implode( '+',
+        explode(' ',
+          get_post_meta( get_the_ID(), '_location', true ) . '+' .
+          get_post_meta( get_the_ID(), '_street', true ) . ' ' .
+          get_post_meta( get_the_ID(), '_city', true ) . ' ' .
+          get_post_meta( get_the_ID(), '_state', true ) . ' ' .
+          get_post_meta( get_the_ID(), '_zip', true )
+        )
+      )
+    )
+  );
+}
+
 /**
 *
 *
@@ -194,8 +283,8 @@ function visita_post_schema( ) {
 function visita_get_start_time( ) {
 
   global $visita_options;
-  $ends = strtotime( get_post_meta( get_the_ID(), '_ends', true ) );
-  $starts = strtotime( get_post_meta( get_the_ID(), '_starts', true ) );
+  $ends = ( get_post_meta( get_the_ID(), '_ends', true ) );
+  $starts = ( get_post_meta( get_the_ID(), '_starts', true ) );
 
   printf(
     '<div class="date">
@@ -206,10 +295,9 @@ function visita_get_start_time( ) {
     esc_html( date_i18n( $visita_options['date_time_format'], $starts ) ),
     esc_html( date_i18n( $visita_options['date_time_format'], $ends ) ),
     esc_attr( get_the_date('c') ),
-    esc_attr( $starts ),
-    esc_attr( $ends )
+    esc_attr( date_i18n('c', $starts ) ),
+    esc_attr( date_i18n('c', $ends ) )
   );
-
 }
 
 /**
@@ -217,6 +305,29 @@ function visita_get_start_time( ) {
 *
 * @return void
 */
-function visita_entry_tax( ) {
+function visita_entry_dates( ) {
+  if ( $price = get_post_meta( get_the_ID(), '_price', true ) ) {
 
+    $times = (array) get_post_meta( get_the_ID(), '_times', true );
+    $max_price = get_post_meta( get_the_ID(), '_price_max', true );
+
+    foreach( $times as $time ) {
+      printf(
+        '<div itemprop="price" content="%7$s">
+          <a class="price-action" href="%4$s" itemprop="url" rel="external">%2$s - %1$s</a>
+          <link itemprop="availability" href="http://schema.org/%5$s" />
+          <meta itemprop="priceCurrency" content="%3$s" />
+          <meta itemprop="validFrom" content="%6$s" />
+        </div>',
+
+        esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $time['_time'] ) ) ),
+        esc_attr( date_i18n( 'j \d\e F Y', strtotime( $time['_date']) ) ),
+        esc_html( get_post_meta( get_the_ID(), '_currency', true ) ),
+        esc_url( visita_get_external_link() ),
+        esc_attr( $time['_availability'] ),
+        esc_attr( get_the_date('c') ),
+        esc_attr( $price )
+      );
+    }
+  }
 }

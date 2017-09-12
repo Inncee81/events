@@ -3,19 +3,32 @@ html, body {
   padding: 0;
 }
 
+html {
+  @include breakpoint(small down) {
+    font-size: 86% !important;
+  }
+}
+
 main {
-  background: #fff;
+  background: $white;
   box-shadow: 0 1px 3px 0 rgba(90,90,90,.3);
   padding-bottom: 1em;
+}
+
+body .button {
+  border-color: transparent;
+}
+
+address {
+  font-style: normal;
 }
 
 :focus {
   outline: #4d0ff1 solid 1px;
 }
 
-body .button {
-  border: 0;
-  padding: 0.835em 1em;
+::before, ::after {
+  font-family: FontAwesome;
 }
 
 .screen-reader-text {
@@ -28,8 +41,7 @@ h1.entry-title {
   margin: .5em 0 0;
 }
 
-.hidden,
-.search-hidden {
+.hidden {
   display: none;
 }
 
@@ -44,8 +56,8 @@ h1.entry-title {
 
 .footer {
   clear: both;
-  padding: 1em;
-  font-size: .9em;
+  font-size: .85em;
+  padding: 1em 1em 2em;
 }
 
 .site-credits {
@@ -54,13 +66,12 @@ h1.entry-title {
 
 .window-scroll-up {
   display: block;
+  margin-top: 1em;
   line-height: normal;
-  padding: 18px 0 0;
   text-align: center;
 
   &:before {
     content: $fa-var-chevron-up;
-    font-family: FontAwesome;
     display: block;
   }
 }

@@ -65,13 +65,14 @@ $breakpoint-classes: (small medium);
 
 @include foundation-button-group;
 @include foundation-card;
-@include foundation-menu;
+// @include foundation-menu;
 @include foundation-label;
 @include foundation-pagination;
 @include foundation-table;
 // @include foundation-visibility-classes;
 @include foundation-float-classes;
 
+@import 'single';
 // @import 'site';
 // @import 'menus';
 // @import 'nav-links';

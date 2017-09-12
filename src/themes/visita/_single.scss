@@ -1,0 +1,112 @@
+.single {
+
+  .date {
+    display: none;
+  }
+
+  .venue {
+    font-weight: 700;
+  }
+
+  address {
+    font-size: .9em;
+  }
+
+  .location {
+    padding-top: .5em;
+  }
+
+  .location a {
+    color: $gray-dark;
+  }
+
+  .hentry {
+    border: 1px solid $gray-light;
+  }
+
+  .entry-header {
+    padding: .65em;
+  }
+
+  .price-action {
+    display: block;
+    color: $gray-darker;
+    padding: .75em .5em;
+    border-bottom: 1px solid $gray-light;
+
+    &:after {
+      float: right;
+      content: $fa-var-angle-right;
+    }
+  }
+
+  .entry-content {
+    border-top: 1px solid $gray-light;
+
+    > * {
+      margin-bottom: 0;
+      padding: 0 .65em;
+    }
+
+    :first-child {
+      padding-top: .65em;
+    }
+
+    :last-child {
+      padding-bottom: .65em;
+      border-bottom: 1px solid $gray-light;
+    }
+  }
+}
+
+.taxonomy-links {
+  font-size: .7em;
+  padding-top: 1em;
+
+  a {
+    color: $gray-darker;
+    display: inline-block;
+    border: solid 1px $gray-medium;
+    font-weight: 500;
+    margin-left: -1px;
+    padding: 4px 6px;
+  }
+}
+
+.nav-next, .nav-previous {
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+  width: 49%;
+
+  a {
+    height: 22px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.nav-previous {
+  text-align: left;
+  padding-left: 10px;
+
+  a::before {
+    content: $fa-var-angle-left;
+    left: -10px;
+    position: absolute;
+    top: 0;
+  }
+}
+
+.nav-next {
+  text-align: right;
+  padding-right: 10px;
+
+  a::after {
+    content: $fa-var-angle-right;
+    position: absolute;
+    right: -10px;
+    top: 0;
+  }
+}

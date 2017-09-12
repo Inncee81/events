@@ -16,8 +16,13 @@
 
   <footer class="footer text-center medium-text-left">
 
+    <nav id="nav-social">
+			<a class="screen-reader-text" href="#nav" role="button" rel="nofollow" title="<?php esc_attr_e( 'Skip to navigation', 'visita' ) ?>"><?php esc_html_e( 'Skip to top navigation', 'visita' ) ?></a>
+			<?php wp_nav_menu( array( 'theme_location' => 'social', 'menu_class' => 'menu menu-social align-center ', 'fallback_cb' => 'visita_default_social_menu' ) ); ?>
+    </nav><!--#social-nav-->
+
 		<nav class="footer-nav">
-			<?php wp_nav_menu( array( 'theme_location' => 'footer', 'menu_class' => 'footer-menu' ) ); ?>
+			<?php wp_nav_menu( array( 'theme_location' => 'footer', 'menu_class' => 'menu menu-footer' ) ); ?>
 		</nav><!--.top-nav-->
 
 		<div class="site-credits">

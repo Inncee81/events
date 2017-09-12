@@ -246,14 +246,15 @@ add_filter( 'visita_after_main', 'visita_add_scroll_up_button' );
 * Dynamic loading images
 */
 function visita_attachment_image_attributes( $attr, $attachment, $size ){
+
   if ( $size == 'post-thumbnail' ) {
     $attr['src'] = get_stylesheet_directory_uri() . '/img/1x1.trans.gif';
 
     if ( $mobile = wp_get_attachment_image_src($attachment->ID, 'featured-mobile') ) {
-      $attr['data-src'] = $mobile[0];
+      $attr['data-srcset'] = $attr['srcset'];
     }
-
-    unset( $attr['srcset'] );
+    
+    unset( $attr['sizes'] ); unset( $attr['srcset'] );
   }
   return $attr;
 }

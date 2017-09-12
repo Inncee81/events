@@ -1,8 +1,13 @@
 
 .header {
-  position: relative;
+  background-color: $primary-color;
+  box-shadow: 0 1px 3px $gray-dark;
   text-align: center;
-  box-shadow: 0 1px 5px -1px $gray-darker;
+  position: relative;
+
+  a {
+    color: $gray-lightest;
+  }
 
   > .row {
     padding-top: .85rem;
@@ -21,9 +26,19 @@
 .search {
   &-form {
     margin: auto;
+    position: relative;
   }
 
-  &-button.expanded {
-    margin-left: -1px;
+  &-form:before {
+    color: $gray-dark;
+    content: $fa-var-search;
+    left: .75em;
+    position: absolute;
+    top: .5em;
+  }
+
+  &-field[type='search'] {
+    padding-left: 2.5em;
+    margin-bottom: .25em;
   }
 }

@@ -10,6 +10,6 @@ ftpconfig
 import/players.csv
 debug.log
 html/wp-content/index.html
-html/cache
+html/wp-content/cache/
 html/wp-config.php
 html/wp-content/uploads

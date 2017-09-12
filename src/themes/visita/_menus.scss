@@ -3,17 +3,20 @@
   display: inline-block;
 }
 
+.menu-social {
+  margin: 1em 0 2em;
+}
+
 .menu-social li a {
   background-color: $gray-light;
   margin: 0 6px;
-  padding: 0.7em .85em;
+  padding: 1em;
+  width: 36px;
+  height: 36px;
+  border-radius: 2em;
 }
 
 #nav {
-  background-color: $primary-color;
-  color: $gray-lightest;
-  margin-top: .85em;
-
   a {
     color: $gray-lightest;
 
@@ -26,7 +29,6 @@
 }
 
 .menu-toggle {
-
   a:after {
     float: right;
     margin-right: .5em;
