@@ -198,3 +198,5 @@ class VisitaCore {
     include_once( VISITA_INC . "/import.php");
   }
 }
+
+// UPDATE `visit_options` SET `option_value` = 'visita' WHERE option_name = 'template';

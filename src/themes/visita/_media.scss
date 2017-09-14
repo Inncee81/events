@@ -1,11 +1,16 @@
 
 img {
-  height: auto;
   max-width: 100%;
 }
 
 figure {
   margin: 0;
+}
+
+iframe[allowfullscreen] {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
 }
 
 .hmedia figcaption.fn {

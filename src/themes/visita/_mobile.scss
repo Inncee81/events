@@ -6,7 +6,7 @@
   position: relative;
 
   a {
-    color: $gray-lightest;
+    color: $gray-lightest ;
   }
 
   > .row {
@@ -17,6 +17,10 @@
 .site-logo {
   font: 300 1.3em $font-sans;
   letter-spacing: -.05em;
+
+  a:hover, a:focus {
+    color: $white;
+  }
 
   @include breakpoint(medium up) {
     font-size: 1.5em;
@@ -39,6 +43,6 @@
 
   &-field[type='search'] {
     padding-left: 2.5em;
-    margin-bottom: .25em;
+    margin-bottom: .5em;
   }
 }

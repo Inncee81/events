@@ -251,6 +251,6 @@ class VisitaAttractions extends VisitaBase {
   }
 }
 
-// UPDATE `visit_posts` set post_type = 'attraction' WHERE post_type = 'atraccion';
+// UPDATE `visit_posts` SET post_type = 'attraction' WHERE post_type = 'atraccion';
 // UPDATE `visit_term_taxonomy`  SET taxonomy = 'attractions' WHERE taxonomy = 'atracciones';
 // UPDATE `visit_postmeta` SET meta_value = 'attractions' WHERE meta_key = '_menu_item_object' AND meta_value = 'atracciones';

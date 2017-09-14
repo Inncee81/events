@@ -701,6 +701,12 @@ class VisitaEvents extends VisitaBase {
   }
 }
 
-// UPDATE `visit_posts` set post_type = 'event' WHERE post_type = 'evento'
-// UPDATE `visit_term_taxonomy`  SET taxonomy = 'events' WHERE taxonomy = 'eventos'
+// UPDATE `visit_posts` SET post_type = 'event' WHERE post_type = 'evento';
+// UPDATE `visit_postmeta` SET meta_key = '_city' WHERE meta_key = 'ciudad';
+// UPDATE `visit_postmeta` SET meta_key = '_state' WHERE meta_key = 'estado';
+// UPDATE `visit_postmeta` SET meta_key = '_street' WHERE meta_key = 'calle';
+// UPDATE `visit_postmeta` SET meta_key = '_location' WHERE meta_key = 'location';
+// UPDATE `visit_postmeta` SET meta_key = '_zip' WHERE meta_key = 'codigo_postal';
 // UPDATE `visit_postmeta` SET meta_value = 'events' WHERE meta_key = '_menu_item_object' AND meta_value = 'eventos';
+// UPDATE `visit_term_taxonomy`  SET taxonomy = 'events' WHERE taxonomy = 'eventos';
+// SET time_zone = '+00:00'; UPDATE IGNORE `visit_postmeta` f LEFT JOIN `visit_postmeta` h ON f.post_id = h.post_id  SET f.meta_value = round( unix_timestamp(CONCAT( f.meta_value, ' ', h.meta_value))), f.meta_key = '_starts' WHERE f.meta_key = '_fecha' AND h.meta_key = '_horario';

@@ -14,7 +14,6 @@
  ?>
 
  <article <?php visita_post_schema(); ?> <?php post_class(); ?>>
-  <?php //edit_post_link( __( 'Edit', 'visita' ), '<span class="edit-link">', '</span>' ); ?>
 
   <?php if ( has_post_thumbnail() ) : ?>
     <figure class="hmedia">
@@ -27,13 +26,15 @@
   <?php endif; // has_post_thumbnail() ?>
 
   <header class="entry-header<?php if ( ! is_single() ) echo ' float' ?>">
+    <?php edit_post_link( __( 'Edit', 'visita' ), '<span class="edit-link">', '</span>' ); ?>
     <?php
       printf(
-        '<%2$s itemprop="name" class="entry-title">
-          <a itemprop="url" class="url" title="%3$s" rel="bookmark">%1$s</a>
-        </%2$s>',
+        '<%3$s itemprop="name" class="entry-title">
+          <a href="%1$s" itemprop="url" class="url" title="%4$s" rel="bookmark">%2$s</a>
+        </%3$s>',
+        get_permalink(),
         esc_html( get_the_title() ),
-        esc_attr( is_single( ) ? 'h1' : 'h2' ),
+        esc_attr( is_single( ) ? 'h1' : 'h3' ),
         esc_attr( sprintf( __( 'Link to %s', 'visita' ), the_title_attribute( 'echo=0' ) ) )
       )
     ?>
@@ -46,6 +47,7 @@
 
   <?php if ( is_single() ) : ?>
     <div itemprop="description" class="entry-content">
+      <?php visita_get_description(); ?>
       <?php the_content( __( 'Continue <span class="meta-nav">&rarr;</span>', 'visita' ) ); ?>
     </div><!-- .entry-content -->
   <?php endif; // is_single() ?>
@@ -53,5 +55,7 @@
   <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="offers">
     <?php visita_entry_dates(); ?>
   </div>
+
+  <?php if (is_single()) visita_get_performers(); ?>
 
  </article><!-- .post-<?php the_ID(); ?> -->

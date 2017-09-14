@@ -190,12 +190,13 @@ $next     	= get_adjacent_post( false, '', false);
 * @return void
 */
 function visita_post_schema( ) {
-  printf(
-    'itemscope itemtype="https://schema.org/%1$s"',
-    esc_attr(get_post_meta( get_the_ID(), '_event_type', true ))
-  );
+  if ( $type = get_post_meta( get_the_ID(), '_event_type', true ) ) {
+    printf(
+      'itemscope itemtype="https://schema.org/%1$s"',
+      esc_attr( $type )
+    );
+  }
 }
-
 
 /**
 *
@@ -218,7 +219,7 @@ function visita_get_external_link( ) {
 *
 * @return string
 */
-function visita_format_price( $price, $symbol = '$') {
+function visita_format_price( $price, $symbol = '$' ) {
   return ( is_numeric( $price ) ? $symbol . number_format( $price ) : $price );
 }
 
@@ -227,10 +228,43 @@ function visita_format_price( $price, $symbol = '$') {
 *
 * @return void
 */
-function visita_entry_tax( $taxonomy ){
+function visita_entry_tax( $taxonomy ) {
   if ( $taxonomy_list = get_the_term_list( get_the_ID(), $taxonomy, '', '' ) ) {
     if ( ! is_wp_error( $taxonomy_list ) ) {
       echo $taxonomy_list = '<div class="taxonomy-links">' . $taxonomy_list . '</div>';
+    }
+  }
+}
+
+/**
+*
+*
+* @return void
+*/
+function visita_get_description( ) {
+  if ( $description = get_post_meta( get_the_ID(), '_description', true ) ) {
+    printf(
+      '<span class="hidden">%1$s</span>',
+      esc_html( $description )
+    );
+  }
+}
+
+/**
+*
+*
+* @return void
+*/
+function visita_get_performers( ) {
+  if ( $performers = get_post_meta( get_the_ID(), '_performers', true ) ) {
+    foreach ( $performers as $performer ) {
+      printf(
+        '<div itemprop="performer" itemscope itemtype="http://schema.org/%1$s">
+          <meta itemprop="name" content="%2$s" />
+        </div>',
+        esc_attr( $performer['_type'] ),
+        esc_attr( $performer['_name'] )
+      );
     }
   }
 }
@@ -246,7 +280,7 @@ function visita_entry_meta( ) {
     '<div itemscope itemprop="location" class="location" itemtype="http://schema.org/Place">
       <a href="%7$s" rel="external" target="_blank" class="venue"><span itemprop="name">%1$s</span></a>
       <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="address">
-        <a href="%6$s" rel="external" target="_blank">
+        <a href="%7$s" rel="external" target="_blank">
           <span itemprop="streetAddress" class="street">%2$s</span>
           <span itemprop="addressLocality" class="city">%3$s</span>
           <span itemprop="addressRegion" class="state">%4$s</span>
@@ -283,8 +317,11 @@ function visita_entry_meta( ) {
 function visita_get_start_time( ) {
 
   global $visita_options;
-  $ends = ( get_post_meta( get_the_ID(), '_ends', true ) );
-  $starts = ( get_post_meta( get_the_ID(), '_starts', true ) );
+
+  $starts = get_post_meta( get_the_ID(), '_starts', true );
+  if ( ! $ends = get_post_meta( get_the_ID(), '_ends', true ) ) {
+    $ends = $starts + 120; // 2 more hours
+  }
 
   printf(
     '<div class="date">
@@ -294,9 +331,9 @@ function visita_get_start_time( ) {
     </div>',
     esc_html( date_i18n( $visita_options['date_time_format'], $starts ) ),
     esc_html( date_i18n( $visita_options['date_time_format'], $ends ) ),
-    esc_attr( get_the_date('c') ),
-    esc_attr( date_i18n('c', $starts ) ),
-    esc_attr( date_i18n('c', $ends ) )
+    esc_attr( get_the_date( 'c' ) ),
+    esc_attr( date_i18n( 'c', $starts ) ),
+    esc_attr( date_i18n( 'c', $ends ) )
   );
 }
 
@@ -308,25 +345,37 @@ function visita_get_start_time( ) {
 function visita_entry_dates( ) {
   if ( $price = get_post_meta( get_the_ID(), '_price', true ) ) {
 
-    $times = (array) get_post_meta( get_the_ID(), '_times', true );
+    $starts = get_post_meta( get_the_ID(), '_starts', true );
     $max_price = get_post_meta( get_the_ID(), '_price_max', true );
+    $times = (array) get_post_meta( get_the_ID(), '_times', true );
 
     foreach( $times as $time ) {
+
+      $time = wp_parse_args( $time, array(
+        '_availability' => 'InStock',
+        '_time' => date_i18n('H:i', $starts),
+        '_date' => date_i18n('Y-m-d', $starts),
+      ));
+
+      $today = strtotime( 'today' );
+      $date = strtotime( $time['_date'] );
+
       printf(
-        '<div itemprop="price" content="%7$s">
-          <a class="price-action" href="%4$s" itemprop="url" rel="external">%2$s - %1$s</a>
-          <link itemprop="availability" href="http://schema.org/%5$s" />
-          <meta itemprop="priceCurrency" content="%3$s" />
-          <meta itemprop="validFrom" content="%6$s" />
+        '<div itemprop="price" content="%4$s">
+          <a class="price-action %8$s" href="%5$s" itemprop="url" rel="external">%2$s - %1$s</a>
+          <link itemprop="availability" href="http://schema.org/%6$s" />
+          <meta itemprop="priceCurrency" content="USD" />
+          <meta itemprop="validFrom" content="%7$s" />
         </div>',
 
         esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $time['_time'] ) ) ),
-        esc_attr( date_i18n( 'j \d\e F Y', strtotime( $time['_date']) ) ),
-        esc_html( get_post_meta( get_the_ID(), '_currency', true ) ),
+        esc_attr( date_i18n( 'j \d\e F Y', $date ) ),
+        esc_html( get_post_meta( get_the_ID(), '_currency', true ) ), //
+        esc_attr( is_numeric( $price ) ? $price : 0 ),
         esc_url( visita_get_external_link() ),
         esc_attr( $time['_availability'] ),
         esc_attr( get_the_date('c') ),
-        esc_attr( $price )
+        esc_attr( $date < $today ? 'inactive' : '' )
       );
     }
   }

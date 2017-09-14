@@ -31,8 +31,11 @@
   .price-action {
     display: block;
     color: $gray-darker;
-    padding: .75em .5em;
+    padding: .75em;
+    font-weight: 700;
     border-bottom: 1px solid $gray-light;
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.4);
+    background-color: $warning-color;
 
     &:after {
       float: right;
@@ -40,19 +43,28 @@
     }
   }
 
+  .offers {
+    padding: .5em;
+  }
+
+  .price-action.inactive {
+    color: $gray-dark;
+    background-color: $gray-lightest;
+  }
+
   .entry-content {
     border-top: 1px solid $gray-light;
 
-    > * {
-      margin-bottom: 0;
+    > p {
       padding: 0 .65em;
+      margin-bottom: 0;
     }
 
-    :first-child {
+    > p {
       padding-top: .65em;
     }
 
-    :last-child {
+    > :last-child {
       padding-bottom: .65em;
       border-bottom: 1px solid $gray-light;
     }
@@ -80,9 +92,9 @@
   width: 49%;
 
   a {
+    display: block;
     height: 22px;
     position: relative;
-    display: inline-block;
     vertical-align: middle;
   }
 }
