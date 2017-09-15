@@ -27,7 +27,7 @@
 
     <div class="entry-content" itemprop="text">
     <?php while ( have_posts() ) : the_post(); ?>
-      <?php get_template_part( 'content' ); ?>
+      <?php get_template_part( 'content', get_post_type() ); ?>
     <?php endwhile; ?>
     </div>
 

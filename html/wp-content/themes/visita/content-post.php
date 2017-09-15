@@ -13,12 +13,12 @@
  */
  ?>
 
- <article <?php visita_post_schema(); ?> <?php post_class(); ?>>
+ <article itemscope itemtype="https://schema.org/Blog" <?php post_class(); ?>>
 
   <?php if ( has_post_thumbnail() ) : ?>
     <figure class="hmedia">
       <a href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title_attribute(); ?>" class="image url enclosure">
-        <?php the_post_thumbnail( 'post-thumbnail', array( 'class' => 'photo' ) ); ?>
+       <?php the_post_thumbnail( 'post-thumbnail', array( 'class' => 'photo' ) ); ?>
       </a>
       <meta class="image" itemprop="image" content="<?php the_post_thumbnail_url()?>" />
       <figcaption class="fn"><?php the_title_attribute(); ?></figcaption>
@@ -34,28 +34,21 @@
         </%3$s>',
         get_permalink(),
         esc_html( get_the_title() ),
-        esc_attr( is_single( ) ? 'h1' : 'h3' ),
+        esc_attr( is_single() ? 'h1' : 'h3' ),
         esc_attr( sprintf( __( 'Link to %s', 'visita' ), the_title_attribute( 'echo=0' ) ) )
       )
     ?>
-    <span class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
-    <div class="entry-meta">
-      <?php visita_get_start_time(); visita_entry_meta(); ?>
-      <?php if (is_single()) visita_entry_tax( 'events' ) ?>
-    </div><!-- .entry-meta -->
+    <?php visita_get_post_date(); ?>
+    <span itemprop="author" class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
   </header><!-- .entry-header -->
 
   <?php if ( is_single() ) : ?>
     <div itemprop="description" class="entry-content">
-      <?php visita_get_description(); ?>
       <?php the_content( __( 'Continue <span class="meta-nav">&rarr;</span>', 'visita' ) ); ?>
+      <div class="entry-meta">
+        <?php if ( is_single() ) visita_entry_tax( 'category' ) ?>
+      </div><!-- .entry-meta -->
     </div><!-- .entry-content -->
   <?php endif; // is_single() ?>
-
-  <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="offers">
-    <?php visita_entry_dates(); ?>
-  </div>
-
-  <?php if (is_single()) visita_get_performers(); ?>
 
  </article><!-- .post-<?php the_ID(); ?> -->

@@ -325,7 +325,8 @@ function visita_get_start_time( ) {
 
   printf(
     '<div class="date">
-      <time class="entry-date updated hidden" datetime="%3$s">%3$s</time>
+      <time class="updated hidden" datetime="%7$s">%6$s</time>
+      <time class="entry-date published hidden" datetime="%3$s">%3$s</time>
       <time itemprop="startDate" class="dtstart" datetime="%4$s">%1$s</time>
       <time itemprop="endDate" class="dtend hidden" datetime="%5$s">%2$s</time>
     </div>',
@@ -333,7 +334,27 @@ function visita_get_start_time( ) {
     esc_html( date_i18n( $visita_options['date_time_format'], $ends ) ),
     esc_attr( get_the_date( 'c' ) ),
     esc_attr( date_i18n( 'c', $starts ) ),
-    esc_attr( date_i18n( 'c', $ends ) )
+    esc_attr( date_i18n( 'c', $ends ) ),
+    esc_attr( get_the_modified_date( ) ),
+    esc_attr( get_the_modified_date( 'c' ) )
+  );
+}
+
+/**
+*
+*
+* @return void
+*/
+function visita_get_post_date( ) {
+  printf(
+    '<div class="post-date">
+      <time itemprop="dateModified" class="updated hidden" datetime="%4$s">%3$s</time>
+      <time itemprop="dateCreated" class="entry-date published" datetime="%2$s">%1$s</time>
+    </div>',
+    esc_html( get_the_date( ) ),
+    esc_attr( get_the_date( 'c' ) ),
+    esc_attr( get_the_modified_date( ) ),
+    esc_attr( get_the_modified_date( 'c' ) )
   );
 }
 
