@@ -263,10 +263,25 @@ function visita_get_performers( ) {
           <meta itemprop="name" content="%2$s" />
         </div>',
         esc_attr( $performer['_type'] ),
-        esc_attr( $performer['_name'] )
+        esc_attr( ( $performer['_name'] ) ? $performer['_name'] : get_the_title() )
       );
     }
   }
+}
+
+/**
+*
+*
+* @return void
+*/
+function visita_price_range( $itemprop = false ) {
+  $price_max = get_post_meta( get_the_ID(), '_price_max', true );
+  printf(
+    '<div %3$s class="price">%1$s %2$s</div>',
+    esc_html( visita_format_price( get_post_meta( get_the_ID(), '_price', true ) ) ),
+    esc_html( ( $price_max ) ? " - " . visita_format_price( $price_max ) : '' ),
+    ( ( $itemprop ) ? 'itemprop="priceRange"' : '' )
+  );
 }
 
 /**
@@ -277,8 +292,7 @@ function visita_get_performers( ) {
 function visita_entry_meta( ) {
 
   printf(
-    '<div itemscope itemprop="location" class="location" itemtype="http://schema.org/Place">
-      <a href="%7$s" rel="external" target="_blank" class="venue"><span itemprop="name">%1$s</span></a>
+    '<a href="%7$s" rel="external" target="_blank" class="venue"><span itemprop="name">%1$s</span></a>
       <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="address">
         <a href="%7$s" rel="external" target="_blank">
           <span itemprop="streetAddress" class="street">%2$s</span>
@@ -287,8 +301,7 @@ function visita_entry_meta( ) {
           <span itemprop="postalCode" class="zip hidden">%5$s</span>
         </a>
       </address>' . '' .'
-      <span itemprop="telephone" class="phone tel hidden">%6$s</span>
-    </div>',
+    <span itemprop="telephone" class="phone tel hidden">%6$s</span>',
     esc_html( get_post_meta( get_the_ID(), '_location', true ) ),
     esc_html( get_post_meta( get_the_ID(), '_street', true ) ),
     esc_html( get_post_meta( get_the_ID(), '_city', true ) ),
@@ -347,7 +360,7 @@ function visita_get_start_time( ) {
 */
 function visita_get_post_date( ) {
   printf(
-    '<div class="post-date">
+    '<div class="date">
       <time itemprop="dateModified" class="updated hidden" datetime="%4$s">%3$s</time>
       <time itemprop="dateCreated" class="entry-date published" datetime="%2$s">%1$s</time>
     </div>',

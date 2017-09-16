@@ -40,7 +40,7 @@
     ?>
     <span class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
     <div class="entry-meta">
-      <?php visita_get_start_time(); visita_entry_meta(); ?>
+      <?php //visita_get_start_time(); visita_entry_meta(); ?>
       <?php if (is_single()) visita_entry_tax( 'events' ) ?>
     </div><!-- .entry-meta -->
   </header><!-- .entry-header -->
@@ -53,7 +53,7 @@
   <?php endif; // is_single() ?>
 
   <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="offers">
-    <?php visita_entry_dates(); ?>
+    <?php //visita_entry_dates(); ?>
   </div>
 
   <?php if (is_single()) visita_get_performers(); ?>
