@@ -41,11 +41,11 @@ class VisitaClubs extends VisitaBase {
     $this->club_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,
       'meta_input'        => array(
-        '_days'           => array( array(
-          '_to'           => '',
-          '_from'         => '',
-          '_day_link'     => '',
-          '_availability' => 'InStock',
+        '_hours'          => array( array(
+          '_day'          => '',
+          '_open'         => '',
+          '_close'        => '',
+          '_24h'          => '',
         ) ),
         '_business_type'  => 'NightClub',
         '_keywords'       => __( 'club, night club', 'visita' ),
@@ -163,22 +163,22 @@ class VisitaClubs extends VisitaBase {
           'formatting' => 'phone',
         ),
         array(
-          'key' => 'tap_times',
+          'key' => 'tap_days',
           'label' => __( 'Business Hours', 'visita' ),
           'type' => 'tab',
         ),
         array(
           'min'=> 1,
-          'key' => '_days',
-          'name' => '_days',
+          'key' => '_hours',
+          'name' => '_hours',
           'type' => 'repeater',
           'layout' => 'block',
           'sub_fields' => array(
             array(
-              'key' => '_from',
-              'name' => '_from',
+              'key' => '_day',
+              'name' => '_day',
               'type' => 'select',
-              'label' => __( 'From', 'visita' ),
+              'label' => __( 'Dia', 'visita' ),
               'choices' => array(
                 __( 'All', 'visita' ),
                 __( 'Monday', 'visita' ),
@@ -191,35 +191,28 @@ class VisitaClubs extends VisitaBase {
               )
             ),
             array(
-              'key' => '_to',
-              'name' => '_to',
-              'type' => 'select',
-              'label' => __( 'To', 'visita' ),
-              'choices' => array(
-                __( 'All', 'visita' ),
-                __( 'Monday', 'visita' ),
-                __( 'Tuesday', 'visita' ),
-                __( 'Wednesday', 'visita' ),
-                __( 'Thursday', 'visita' ),
-                __( 'Friday', 'visita' ),
-                __( 'Saturday', 'visita' ),
-                __( 'Sunday', 'visita' ),
-              )
-            ),
-            array(
-              'key' => '_time',
-              'name' => '_time',
+              'key' => '_open',
+              'name' => '_open',
               'type' => 'time_picker',
               'display_format' => 'g:i A',
-              'label' => __( 'Time', 'visita' ),
-              'default_value' => $defaults['_times'][0]['_time'],
+              'label' => __( 'Opens', 'visita' ),
+              'default_value' => $defaults['_hours'][0]['_open'],
             ),
             array(
-              'key' => '_day_link',
-              'name' => '_day_link',
-              'type' => 'text',
-              'label' => __( 'Link', 'visita' ),
+              'key' => '_close',
+              'name' => '_close',
+              'type' => 'time_picker',
+              'display_format' => 'g:i A',
+              'label' => __( 'Closes', 'visita' ),
+              'default_value' => $defaults['_hours'][0]['_close'],
             ),
+            array(
+              'key' => '_24h',
+              'name' => '_24h',
+              'type' => 'true_false',
+              'label' => __( '24 Hours', 'visita' ),
+              'default_value' => $defaults['_hours'][0]['_24h'],
+            )
           ),
         ),
       )
@@ -229,7 +222,7 @@ class VisitaClubs extends VisitaBase {
     add_action( 'init', array( $this, 'register_event_post_type' ) );
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
     add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 10, 2 );
-    add_filter( 'acf/load_value/key=_days', array( $this, 'load_repeater_values' ), 50, 3 );
+    add_filter( 'acf/load_value/key=_hours', array( $this, 'load_repeater_values' ), 50, 3 );
 
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
       return;

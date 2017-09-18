@@ -8,19 +8,20 @@ figure {
 }
 
 iframe[allowfullscreen] {
-  width: 100%;
+  display: block;
   height: auto;
+  width: 100%;
 }
 
 .hmedia figcaption.fn {
-  position: absolute;
   clip: rect(0 0 0 0);
+  position: absolute;
 }
 
 .archive .hentry {
-  position: relative;
-  margin: 0 .25em 10px;
   box-shadow: 0 2px 1px rgba(93,93,93,.26);
+  margin: 0 .25em 10px;
+  position: relative;
 
   @include breakpoint(small down) {
     height: 110px;

@@ -41,13 +41,13 @@ class VisitaAttractions extends VisitaBase {
     $this->club_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,
       'meta_input'        => array(
-        '_days'           => array( array(
-          '_to'           => '',
-          '_from'         => '',
-          '_day_link'     => '',
-          '_availability' => 'InStock',
+        '_hours'          => array( array(
+          '_day'          => '',
+          '_open'         => '',
+          '_close'        => '',
+          '_24h'          => '',
         ) ),
-        '_business_type'  => 'NightClub',
+        '_business_type'  => 'EntertainmentBusiness',
         '_keywords'       => __( 'attraction, activity', 'visita' ),
       )
     ) );
@@ -170,22 +170,22 @@ class VisitaAttractions extends VisitaBase {
           'formatting' => 'phone',
         ),
         array(
-          'key' => 'tap_times',
+          'key' => 'tap_days',
           'label' => __( 'Business Hours', 'visita' ),
           'type' => 'tab',
         ),
         array(
           'min'=> 1,
-          'key' => '_days',
-          'name' => '_days',
+          'key' => '_hours',
+          'name' => '_hours',
           'type' => 'repeater',
           'layout' => 'block',
           'sub_fields' => array(
             array(
-              'key' => '_from',
-              'name' => '_from',
+              'key' => '_day',
+              'name' => '_day',
               'type' => 'select',
-              'label' => __( 'From', 'visita' ),
+              'label' => __( 'Dia', 'visita' ),
               'choices' => array(
                 __( 'All', 'visita' ),
                 __( 'Monday', 'visita' ),
@@ -198,35 +198,28 @@ class VisitaAttractions extends VisitaBase {
               )
             ),
             array(
-              'key' => '_to',
-              'name' => '_to',
-              'type' => 'select',
-              'label' => __( 'To', 'visita' ),
-              'choices' => array(
-                __( 'All', 'visita' ),
-                __( 'Monday', 'visita' ),
-                __( 'Tuesday', 'visita' ),
-                __( 'Wednesday', 'visita' ),
-                __( 'Thursday', 'visita' ),
-                __( 'Friday', 'visita' ),
-                __( 'Saturday', 'visita' ),
-                __( 'Sunday', 'visita' ),
-              )
-            ),
-            array(
-              'key' => '_time',
-              'name' => '_time',
+              'key' => '_open',
+              'name' => '_open',
               'type' => 'time_picker',
               'display_format' => 'g:i A',
-              'label' => __( 'Time', 'visita' ),
-              'default_value' => $defaults['_times'][0]['_time'],
+              'label' => __( 'Opens', 'visita' ),
+              'default_value' => $defaults['_hours'][0]['_open'],
             ),
             array(
-              'key' => '_day_link',
-              'name' => '_day_link',
-              'type' => 'text',
-              'label' => __( 'Link', 'visita' ),
+              'key' => '_close',
+              'name' => '_close',
+              'type' => 'time_picker',
+              'display_format' => 'g:i A',
+              'label' => __( 'Closes', 'visita' ),
+              'default_value' => $defaults['_hours'][0]['_close'],
             ),
+            array(
+              'key' => '_24h',
+              'name' => '_24h',
+              'type' => 'true_false',
+              'label' => __( '24 Hours', 'visita' ),
+              'default_value' => $defaults['_hours'][0]['_24h'],
+            )
           ),
         ),
       )
@@ -236,7 +229,7 @@ class VisitaAttractions extends VisitaBase {
     add_action( 'init', array( $this, 'register_event_post_type' ) );
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
     add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 10, 2 );
-    add_filter( 'acf/load_value/key=_days', array( $this, 'load_repeater_values' ), 50, 3 );
+    add_filter( 'acf/load_value/key=_hours', array( $this, 'load_repeater_values' ), 50, 3 );
 
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
       return;
@@ -251,6 +244,9 @@ class VisitaAttractions extends VisitaBase {
   }
 }
 
+// UPDATE `visit_postmeta` SET meta_key = '_day' WHERE meta_key = '_dias';
+// UPDATE `visit_postmeta` SET meta_key = '_open' WHERE meta_key = '_horario';
+// UPDATE `visit_postmeta` SET meta_key = '_close' WHERE meta_key = '_cierran';
 // UPDATE `visit_posts` SET post_type = 'attraction' WHERE post_type = 'atraccion';
 // UPDATE `visit_term_taxonomy`  SET taxonomy = 'attractions' WHERE taxonomy = 'atracciones';
 // UPDATE `visit_postmeta` SET meta_value = 'attractions' WHERE meta_key = '_menu_item_object' AND meta_value = 'atracciones';

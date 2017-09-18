@@ -13,7 +13,7 @@
  */
  ?>
 
- <article itemscope itemtype="https://schema.org/NightClub" <?php post_class(); ?>>
+ <article <?php visita_post_schema( '_business_type' ); ?> <?php post_class(); ?>>
 
    <?php get_template_part( 'parts/location' ); ?>
 

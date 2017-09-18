@@ -44,6 +44,12 @@ h1.entry-title {
   display: none;
 }
 
+.clipped {
+  height: 1px;
+  padding-top: 2px;
+  overflow: hidden;
+}
+
 .taxonomy-description {
   color: $gray-dark;
   font-size: .8em;

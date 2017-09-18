@@ -16,6 +16,10 @@
     font-size: .9em;
   }
 
+  .hmedia {
+    padding: .5em;
+  }
+
   .price {
     color: $primary-color;
     font-family: 'Roboto', sans-serif;
@@ -39,6 +43,7 @@
     padding: .65em;
   }
 
+  .day a,
   .price-action {
     display: block;
     color: $gray-darker;
@@ -53,8 +58,9 @@
     }
   }
 
-  .offers {
+  .dates {
     padding: .5em;
+    border-bottom: 1px solid $gray-light;
   }
 
   .price-action.inactive {
@@ -63,19 +69,19 @@
   }
 
   .entry-content {
-    border-top: 1px solid $gray-light;
     padding: 0 .75em;
 
+    > .hidden ~ *,
     > :first-child {
-      padding-top: .75em;
+      margin-top: .75em;
     }
 
     > :last-child {
-      padding-bottom: .75em;
+      margin-bottom: .75em;
     }
 
     .taxonomy-links {
-      padding-bottom: .85em;
+      margin-bottom: .85em;
     }
   }
 }

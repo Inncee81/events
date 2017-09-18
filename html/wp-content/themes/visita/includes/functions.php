@@ -189,8 +189,8 @@ $next     	= get_adjacent_post( false, '', false);
 *
 * @return void
 */
-function visita_post_schema( ) {
-  if ( $type = get_post_meta( get_the_ID(), '_event_type', true ) ) {
+function visita_post_schema( $type ) {
+  if ( $type = get_post_meta( get_the_ID(), $type, true ) ) {
     printf(
       'itemscope itemtype="https://schema.org/%1$s"',
       esc_attr( $type )
@@ -244,7 +244,7 @@ function visita_entry_tax( $taxonomy ) {
 function visita_get_description( ) {
   if ( $description = get_post_meta( get_the_ID(), '_description', true ) ) {
     printf(
-      '<span class="hidden">%1$s</span>',
+      '<div class="hidden">%1$s</div>',
       esc_html( $description )
     );
   }
@@ -263,7 +263,7 @@ function visita_get_performers( ) {
           <meta itemprop="name" content="%2$s" />
         </div>',
         esc_attr( $performer['_type'] ),
-        esc_attr( ( $performer['_name'] ) ? $performer['_name'] : get_the_title() )
+        esc_attr( empty( $performer['_name'] ) ? get_the_title() : $performer['_name'] )
       );
     }
   }
@@ -279,7 +279,7 @@ function visita_price_range( $itemprop = false ) {
   printf(
     '<div %3$s class="price">%1$s %2$s</div>',
     esc_html( visita_format_price( get_post_meta( get_the_ID(), '_price', true ) ) ),
-    esc_html( ( $price_max ) ? " - " . visita_format_price( $price_max ) : '' ),
+    esc_html( ( $price_max ) ? "- " . visita_format_price( $price_max ) : '' ),
     ( ( $itemprop ) ? 'itemprop="priceRange"' : '' )
   );
 }
@@ -412,5 +412,60 @@ function visita_entry_dates( ) {
         esc_attr( $date < $today ? 'inactive' : '' )
       );
     }
+  }
+}
+
+/**
+*
+*
+* @return void
+*/
+function visita_opening_hours( ) {
+  if ( $hours = get_post_meta( get_the_ID(), '_hours', true ) ) {
+    foreach( $hours as $hour ){
+      printf(
+        '<div class="day">
+          <meta itemprop="openingHours" content="%1$s %8$s-%7$s">
+          <a class="action" href="%6$s" itemprop="url" rel="external">%2$s: %3$s %5$s %4$s</a>
+        </div>',
+        esc_attr( $hour['_day'] == 0 ? __( 'Mo,Tu,We,Th,Fr,Sa,Su', 'visita' ) : date('D', strtotime( $hour['_day'] ) ) ),
+        esc_attr( $hour['_day'] == 0 ? __( 'Every Day', 'visita' ) : date('l', strtotime( $hour['_day'] ) ) ),
+        esc_attr( $hour['_24h'] ? __( '24 Hours', 'visita' ) : '' ),
+        esc_attr( $hour['_close'] ? date_i18n( get_option( 'time_format' ), strtotime( $hour['_close'] ) ) : '' ),
+        esc_attr( $hour['_open'] ? date_i18n( get_option( 'time_format' ), strtotime( $hour['_open'] ) ) : '' ),
+        esc_attr( visita_get_external_link() ),
+        esc_attr( $hour['_close'] ? $hour['_close'] : '' ),
+        esc_attr( $hour['_open'] ? $hour['_open'] : '' )
+      );
+    }
+  } else {
+    visita_legacy_time();
+  }
+}
+
+/**
+*
+*
+* @return void
+*/
+function visita_legacy_time( ) {
+  if ( $days = get_post_meta( get_the_ID(), '_day', true ) ) {
+    $close = get_post_meta( get_the_ID(), '_close', true );
+    $open = get_post_meta( get_the_ID(), '_open', true );
+
+    printf(
+      '<div class="day">
+        <meta itemprop="openingHours" content="%1$s %8$s-%7$s">
+        <a class="action" href="%6$s" itemprop="url" rel="external">%2$s: %3$s %5$s %4$s</a>
+      </div>',
+      esc_attr( $days == 'All' ? __( 'Mo,Tu,We,Th,Fr,Sa,Su', 'visita' ) : date('D', strtotime( $days ) ) ),
+      esc_attr( $days == 'All' ? __( 'Every Day', 'visita' ) : date('l', strtotime( $days ) ) ),
+      esc_attr( get_post_meta( get_the_ID(), '_24h', true ) ? __( '- 24 Hours', 'visita' ) : '' ),
+      esc_attr( $close ? date_i18n( get_option( 'time_format' ), strtotime( $close ) ) : '' ),
+      esc_attr( $open ? date_i18n( get_option( 'time_format' ), strtotime( $open ) ) : '' ),
+      esc_attr( visita_get_external_link() ),
+      esc_attr( $close ? $close : '' ),
+      esc_attr( $open ? $open : '' )
+    );
   }
 }
