@@ -23,8 +23,7 @@
   .price {
     color: $primary-color;
     font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    margin-top: -3px;
+    font-weight: 700;
   }
 
   .location {
@@ -45,12 +44,13 @@
 
   .day a,
   .price-action {
-    display: block;
-    color: $gray-darker;
-    padding: .65em .75em;
-    font-weight: 700;
-    text-shadow: 1px 1px rgba(255, 255, 255, 0.4);
     background-color: $warning-color;
+    border-top: 1px solid $white;
+    color: $gray-darker;
+    font-weight: 700;
+    display: block;
+    padding: .65em .75em;
+    text-shadow: 1px 1px rgba(255, 255, 255, 0.4);
 
     &:after {
       float: right;

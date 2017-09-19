@@ -50,7 +50,7 @@
   </header><!-- .entry-header -->
 
   <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="dates">
-    <?php visita_event_dates(); ?>
+    <?php visita_get_time_range(); ?>
   </div>
 
   <?php if ( is_single() ) : ?>

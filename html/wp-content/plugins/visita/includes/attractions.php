@@ -187,14 +187,14 @@ class VisitaAttractions extends VisitaBase {
               'type' => 'select',
               'label' => __( 'Dia', 'visita' ),
               'choices' => array(
-                __( 'All', 'visita' ),
-                __( 'Monday', 'visita' ),
-                __( 'Tuesday', 'visita' ),
-                __( 'Wednesday', 'visita' ),
-                __( 'Thursday', 'visita' ),
-                __( 'Friday', 'visita' ),
-                __( 'Saturday', 'visita' ),
-                __( 'Sunday', 'visita' ),
+                'all' => __( 'All', 'visita' ),
+                'monday' => __( 'Monday', 'visita' ),
+                'tuesday' => __( 'Tuesday', 'visita' ),
+                'wednesday' => __( 'Wednesday', 'visita' ),
+                'thursday' => __( 'Thursday', 'visita' ),
+                'friday' => __( 'Friday', 'visita' ),
+                'saturday' => __( 'Saturday', 'visita' ),
+                'sunday' => __( 'Sunday', 'visita' ),
               )
             ),
             array(
