@@ -364,3 +364,55 @@ amp-carousel > amp-img > img {
 	position: absolute;
 	right: 16px;
 }
+
+.amp-menu-btn {
+	position: absolute;
+	right: 1em;
+	top: 1.1em;
+	width: 22px;
+	border-top: solid 2px #fff;
+	border-bottom: solid 2px #fff;
+	padding: 5px 0;
+	cursor: pointer;
+	margin: 0 .5em;
+}
+
+.amp-menu-btn span {
+	text-indent: -999em;
+	display: block;
+	border-top: solid 2px #fff;
+	line-height: 0px;
+}
+
+amp-sidebar {
+	width: 200px;
+	paddding: 1em;
+}
+
+amp-sidebar ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+amp-sidebar ul li {
+	font-weight: 500;
+}
+
+amp-sidebar a,
+amp-sidebar a:visited {
+	text-decoration: none;
+	color: #303133;
+	display: block;
+	padding: .5em 1.25em;
+}
+
+.amp-sidebar-header {
+	text-align: right;
+	border-bottom: solid 1px #ddd;
+}
+
+.amp-sidebar-header a {
+	display: block;
+	padding: .35em 1.25em;
+}';

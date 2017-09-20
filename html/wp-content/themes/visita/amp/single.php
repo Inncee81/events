@@ -19,6 +19,7 @@
 	<header class="amp-wp-article-header">
 		<h1 class="amp-wp-title"><?php echo wp_kses_data( $this->get( 'post_title' ) ); ?></h1>
 		<?php $this->load_parts( apply_filters( 'amp_post_article_header_meta', array( 'meta-author', 'meta-time' ) ) ); ?>
+		<a href="#" on="tap:sidebar.toggle" class="amp-menu-btn"><span>Menu</span></a>
 	</header>
 
 	<?php $this->load_parts( array( 'featured-image' ) ); ?>
@@ -34,6 +35,7 @@
 </article>
 
 <?php $this->load_parts( array( 'footer' ) ); ?>
+<?php $this->load_parts( array( 'sidebar' ) ); ?>
 
 <?php do_action( 'amp_post_template_footer', $this ); ?>
 
