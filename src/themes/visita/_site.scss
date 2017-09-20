@@ -5,7 +5,7 @@ html, body {
 
 html {
   @include breakpoint(small down) {
-    font-size: 86% !important;
+    font-size: 90% !important;
   }
 }
 

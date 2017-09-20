@@ -35,19 +35,9 @@ add_action( 'amp_post_template_data', 'visita_amp_post_template_data' );
 */
 function visita_amp_post_template_add_fonts() {
   remove_action('amp_post_template_head', 'amp_post_template_add_fonts');
-  echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla:400,700">';
+  echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,500,700">';
 }
 add_action( 'amp_post_template_head', 'visita_amp_post_template_add_fonts' );
-
-/**
-* add AMP Templates
-*
-* @return void
-*/
-function visita_amp_set_custom_template( $file, $type, $post ) {
-  return get_stylesheet_directory() . "/amp/${type}.php";
-}
-add_filter( 'amp_post_template_file', 'visita_amp_set_custom_template', 10, 3 );
 
 /**
   * add AMP Templates
@@ -55,7 +45,7 @@ add_filter( 'amp_post_template_file', 'visita_amp_set_custom_template', 10, 3 );
   * @return void
   */
   function visita_amp_post_template_metadata( $metadata, $post ) {
-    
+
     if ( $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID), 'original' ) ) {
       $metadata['image'] =  array_combine(
         array('@type', 'url', 'width', 'height'), array_slice( array_merge( array( 'ImageObject' ), $image ), 0, 4 )
