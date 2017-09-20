@@ -24,7 +24,7 @@ class VisitaCore {
     //
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 100 );
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
-    add_action( 'after_setup_theme', array( $this, 'register_post_types'), 0);
+    add_action( 'after_setup_theme', array( $this, 'register_post_types'), 0 );
 
     //disable acf save hook
     add_action( 'acf/init', array( $this, 'disable_save_action' ) );
@@ -57,7 +57,7 @@ class VisitaCore {
    * @return void
    * @since 0.5.0
    */
-  function register_post_types() {
+  function register_post_types( ) {
     $this->shows = new VisitaShows();
     $this->clubs = new VisitaClubs();
     $this->events = new VisitaEvents();
@@ -70,7 +70,7 @@ class VisitaCore {
    * @return void
    * @since 0.5.0
    */
-  function activate() {
+  function activate( ) {
     wp_schedule_event( time(), 'hourly', 'visita_get_weather' );
 
     if ( ! file_exists( WP_CONTENT_DIR . "/cache/_json/" ) ) {
@@ -85,7 +85,7 @@ class VisitaCore {
    * @return void
    * @since 0.5.0
    */
-  function deactivate() {
+  function deactivate( ) {
     do_action( 'visita_deactivate' );
     wp_clear_scheduled_hook( 'visita_get_weather' );
   }
@@ -126,7 +126,7 @@ class VisitaCore {
   * @return void
   * @since 1.0.1
   */
-  function visita_get_weather(){
+  function visita_get_weather( ) {
     $responds = wp_remote_get( 'https://api.apixu.com/v1/current.json?key=d5c0c8ccdd194cf4b0003734172201&q=89109' );
     if ( $responds['body'] ) {
       if ( $fh = @fopen(WP_CONTENT_DIR . "/cache/_json/clima.json", "w" ) ){

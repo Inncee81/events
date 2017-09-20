@@ -239,11 +239,31 @@ class VisitaAttractions extends VisitaBase {
     }
 
     if ( ! is_admin() ) {
+      add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
       return;
     }
 
     add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 100 );
+  }
+
+  /**
+  *
+  *
+  * @return void
+  * @since 3.0.0
+  */
+  function after_posts_selection( ) {
+
+    if ( ! is_singular( $this->post_type ) ) {
+      return;
+    }
+
+    add_filter( 'get_next_post_sort', array( $this, 'adjacent_post_next_sort' ), 20);
+    add_filter( 'get_next_post_where', array( $this, 'adjacent_post_next_where' ), 20);
+
+    add_filter( 'get_previous_post_sort', array( $this, 'adjacent_post_previous_sort' ), 20);
+    add_filter( 'get_previous_post_where', array( $this, 'adjacent_post_previous_where' ), 20);
   }
 }
 
