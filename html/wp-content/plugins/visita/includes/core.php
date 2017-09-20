@@ -22,7 +22,7 @@ class VisitaCore {
   function __construct( ) {
 
     //
-    add_action( 'init', array( $this, 'add_rewrite_rules' ), 200 );
+    add_action( 'init', array( $this, 'add_rewrite_rules' ), 100 );
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
     add_action( 'after_setup_theme', array( $this, 'register_post_types'), 0);
 

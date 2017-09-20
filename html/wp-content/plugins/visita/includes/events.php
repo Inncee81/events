@@ -284,9 +284,10 @@ class VisitaEvents extends VisitaBase {
     add_action( 'visita_ticketmater_import', array( $this, 'ticketmater_import' ) );
 
     //basics
+    add_action( 'init', array( $this, 'register_post_type' ) );
+    add_action( 'init', array( $this, 'add_rewrite_rules' ), 200 );
     add_action( 'visita_activate', array( $this, 'activate' ) );
     add_action( 'visita_deactivate', array( $this, 'deactivate' ) );
-    add_action( 'init', array( $this, 'register_event_post_type' ) );
 
     //fields
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );

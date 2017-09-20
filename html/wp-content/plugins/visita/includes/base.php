@@ -182,7 +182,7 @@ class VisitaBase {
   * @return void
   * @since 3.0.0
   */
-  function register_event_post_type( ) {
+  function register_post_type( ) {
 
     register_taxonomy( $this->taxonomy, $this->post_type, array(
       'show_in_rest'      => true,
@@ -305,8 +305,16 @@ class VisitaBase {
   * @since 3.0.0
   */
   function add_rewrite_rules( ) {
+    global $wp_rewrite;
+
+    add_rewrite_rule(
+      "$this->taxonomy_slug/$wp_rewrite->pagination_base/([0-9]{1,})/?$",
+      "index.php?post_type={$this->post_type}&paged=\$matches[1]",
+      'top'
+    );
+
     if ( defined( 'AMP_QUERY_VAR' ) ) {
-      add_post_type_support( 'show', AMP_QUERY_VAR );
+      add_post_type_support( $this->post_type, AMP_QUERY_VAR );
     }
   }
 
