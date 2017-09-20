@@ -146,8 +146,9 @@
 
 
 					value = state.getState(bindMap[i].to);
-
-					if( 'string' === typeof  value ){
+                    if( ! isNaN( value ) ){
+                        value = value.toString();
+                    } else if( 'string' === typeof  value ){
 						value = value.replace(/(?:\r\n|\r|\n)/g, '<br />');
 					}else  if( ! value || undefined == value.join || undefined === value || 'undefined' == typeof value){
 						value = '';
@@ -588,6 +589,68 @@
          });
      };
 
+	/**
+	 * Process a calculation field
+	 *
+	 * @since 1.5.6
+	 *
+	 * @param fieldConfig
+	 */
+	this.calculation = function (fieldConfig) {
+		var lastValue = null;
+		function addCommas(nStr){
+			nStr += '';
+			var x = nStr.split('.'),
+				x1 = x[0],
+				x2 = x.length > 1 ? fieldConfig.decimalSeparator + x[1] : '',
+				rgx = /(\d+)(\d{3})/;
+			while (rgx.test(x1)) {
+
+				x1 = x1.replace(rgx, '$1' + fieldConfig.thousandSeparator + '$2');
+			}
+			return x1 + x2;
+		}
+
+
+
+		var run = function(){
+			var result = window[fieldConfig.callback].apply(null, [state] );
+			if( ! isFinite( result ) ){
+				result = 0;
+			}
+
+			if ( null === lastValue || result !== lastValue ) {
+				lastValue = result;
+				state.mutateState( fieldConfig.id, result );
+                if( 'number' != typeof  result ){
+                    result = parseInt( result, 10 );
+                }
+
+                if( fieldConfig.moneyFormat ){
+                    result = result.toFixed(2);
+                }
+
+				$('#' + fieldConfig.id ).html(addCommas( result ) );
+				$('#' + fieldConfig.targetId ).val( result );
+			}
+		};
+
+		$.each( fieldConfig.fieldBinds,  function (feild,feildId) {
+			state.events().subscribe( feildId, debounce(run,250) );
+		});
+
+		$(document).on('cf.pagenav cf.add cf.remove cf.modal', function (e,obj) {
+		    if( 'cf' == e.type && 'remove' === e.namespace && 'object' === typeof  obj && obj.hasOwnProperty('field' ) && obj.field === fieldConfig.id ){
+                    lastValue = null;
+            }else{
+                run(state);
+
+            }
+		});
+
+		run(state);
+
+	}
 
 
  }

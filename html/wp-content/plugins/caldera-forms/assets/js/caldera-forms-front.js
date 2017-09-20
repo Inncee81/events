@@ -1,4 +1,4 @@
-/*! GENERATED SOURCE FILE caldera-forms - v1.5.5 - 2017-08-17 *//**
+/*! GENERATED SOURCE FILE caldera-forms - v1.5.6.1 - 2017-09-14 *//**
  * Simple event bindings for form state
  *
  * In general, access through CFState.events() not directly.
@@ -40,7 +40,7 @@ function CFEvents(state) {
 		}
 
 		events[id].forEach(function (callback) {
-			callback(state.getState(id));
+			callback(state.getState(id),id);
 		});
 
 	};
@@ -102,7 +102,8 @@ function CFState(formId, $ ){
 		fields = {},
 		events = new CFEvents(this),
 		unBound = {},
-		fieldVals  = {};
+		fieldVals  = {},
+		calcVals = {};
 
 
 	/**
@@ -144,6 +145,55 @@ function CFState(formId, $ ){
 	};
 
 	/**
+	 *Get calculation value for a field
+	 *
+	 * @since 1.5.6
+	 *
+	 * @param id {String} Field id attribute
+	 * @param highest {Boolean}
+	 * @returns {float}
+	 */
+	this.getCalcValue = function (id,highest) {
+		var val = 0;
+
+		if (! inState( id )) {
+			return val;
+		}
+
+		if( highest ){
+			highest = 0;
+			var value = highest,
+				$item;
+			$( '#' + id ).each(function(){
+				value = 0;
+				$item = $( this );
+				if(  $item.prop('checked' ) ){
+					value = findCalcVal( $item );
+					if( parseFloat( value ) > parseFloat( highest ) ){
+						highest = parseFloat( value );
+					}
+				}
+
+			});
+			return parseFloat( highest );
+		}
+
+		if (calcVals.hasOwnProperty(id)) {
+			val = calcVals[id];
+		} else {
+			val = self.getState(id);
+
+			if ($.isArray(val)) {
+				val = val.reduce( function ( a, b) {
+					return parseFloat( a ) + parseFloat( b );
+				}, 0);
+			}
+		}
+
+		return parseFloat( val );
+	};
+
+	/**
 	 * Change state for a field
 	 *
 	 * @since 1.5.3
@@ -175,6 +225,7 @@ function CFState(formId, $ ){
 	this.unbind = function(id){
 		self.mutateState(id,'');
 		unBound[id] = true;
+		delete calcVals[id];
 	};
 
 	/**
@@ -186,8 +237,10 @@ function CFState(formId, $ ){
 	 */
 	this.rebind = function(id){
 		bindField(id);
+
 		delete unBound[id];
 	};
+
 
 	/**
 	 * Accessor for the CFEvents object used for this state
@@ -209,7 +262,6 @@ function CFState(formId, $ ){
 			subscribe: function( id, callback ){
 				if( inState(id)){
 					events.subscribe(id,callback);
-
 				}
 
 			},
@@ -254,8 +306,10 @@ function CFState(formId, $ ){
 		if ($field.length) {
 			$field.on('change keyup', function () {
 				var $el = $(this);
+				calcVals[$el.attr('id')] = findCalcVal( $el );
 				self.mutateState([$el.attr('id')],$el.val());
 			});
+			self.mutateState([$field.attr('id')],$field.val());
 			return true;
 		} else {
 			$field = $('.' + id);
@@ -285,21 +339,34 @@ function CFState(formId, $ ){
 							break;
 					}
 
-
-					$collection.each( function( i, el ){
-						var $this = $( el );
-
-						if( $this.prop( 'checked' ) ){
-							if( 'radio' === type ){
-								val = $this.val();
-							}else{
-
-								val.push($this.val());
-
+					if( ! $collection.length ){
+						val = 0;
+					} else if ( 1 == $collection.length){
+						val = findCalcVal( $($collection[0]));
+					} else if ( 'checkbox' === type ) {
+						var $v, sum = 0;
+						$collection.each(function (k, v) {
+							$v = $(v);
+							if( $v.prop('checked')){
+								sum += parseFloat(findCalcVal($v));
 							}
-						}
-					});
+							val.push($v.val());
+						});
+						calcVals[id] = sum;
+					}else{
+						$collection.each(function (i, el) {
+							var $this = $(el);
 
+							if ($this.prop('checked')) {
+								if ('radio' === type) {
+									calcVals[id] = findCalcVal($this);
+									val = $this.val();
+								} else {
+									val.push($this.val());
+								}
+							}
+						});
+					}
 
 					self.mutateState(id,val);
 
@@ -315,6 +382,65 @@ function CFState(formId, $ ){
 		return false;
 
 	}
+
+	/**
+	 * Find calculation value for an element
+	 *
+	 * @since 1.5.6
+	 * @param $field
+	 * @returns {*}
+	 */
+	function findCalcVal( $field ) {
+		if( $field.is( 'select' ) && $field.has( 'option' ) ){
+			$field = $field.find(':selected');
+		}
+		var val = 0;
+
+		var attr = $field.attr('data-calc-value');
+
+		if (typeof attr !== typeof undefined && attr !== false && ! isNaN(attr)) {
+			val = $field.data( 'calc-value' );
+		}else{
+			val = $field.val();
+		}
+
+		if( ! isNaN( val ) ){
+			return val;
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Parse float if we can parse float, else 0.
+	 *
+	 * @since 1.5.6
+	 *
+	 * @param number
+	 * @returns {*}
+	 */
+	function parseFloat( number ) {
+		if( ! number || isNaN( number) ){
+			return 0.0;
+		}
+		return window.parseFloat( number );
+	}
+
+	/**
+	 * Parse integer if we can parse integer, else 0.
+	 *
+	 * @since 1.5.6
+	 *
+	 * @param number
+	 * @returns {*}
+	 */
+	function parseIne( number ) {
+		if( ! number || isNaN( number) ){
+			return 0;
+		}
+		return window.parseInt( number );
+	}
+
 
 
 }
@@ -5318,8 +5444,9 @@ function toggle_button_init(id, el){
 
 
 					value = state.getState(bindMap[i].to);
-
-					if( 'string' === typeof  value ){
+                    if( ! isNaN( value ) ){
+                        value = value.toString();
+                    } else if( 'string' === typeof  value ){
 						value = value.replace(/(?:\r\n|\r|\n)/g, '<br />');
 					}else  if( ! value || undefined == value.join || undefined === value || 'undefined' == typeof value){
 						value = '';
@@ -5760,9 +5887,72 @@ function toggle_button_init(id, el){
          });
      };
 
+	/**
+	 * Process a calculation field
+	 *
+	 * @since 1.5.6
+	 *
+	 * @param fieldConfig
+	 */
+	this.calculation = function (fieldConfig) {
+		var lastValue = null;
+		function addCommas(nStr){
+			nStr += '';
+			var x = nStr.split('.'),
+				x1 = x[0],
+				x2 = x.length > 1 ? fieldConfig.decimalSeparator + x[1] : '',
+				rgx = /(\d+)(\d{3})/;
+			while (rgx.test(x1)) {
+
+				x1 = x1.replace(rgx, '$1' + fieldConfig.thousandSeparator + '$2');
+			}
+			return x1 + x2;
+		}
+
+
+
+		var run = function(){
+			var result = window[fieldConfig.callback].apply(null, [state] );
+			if( ! isFinite( result ) ){
+				result = 0;
+			}
+
+			if ( null === lastValue || result !== lastValue ) {
+				lastValue = result;
+				state.mutateState( fieldConfig.id, result );
+                if( 'number' != typeof  result ){
+                    result = parseInt( result, 10 );
+                }
+
+                if( fieldConfig.moneyFormat ){
+                    result = result.toFixed(2);
+                }
+
+				$('#' + fieldConfig.id ).html(addCommas( result ) );
+				$('#' + fieldConfig.targetId ).val( result );
+			}
+		};
+
+		$.each( fieldConfig.fieldBinds,  function (feild,feildId) {
+			state.events().subscribe( feildId, debounce(run,250) );
+		});
+
+		$(document).on('cf.pagenav cf.add cf.remove cf.modal', function (e,obj) {
+		    if( 'cf' == e.type && 'remove' === e.namespace && 'object' === typeof  obj && obj.hasOwnProperty('field' ) && obj.field === fieldConfig.id ){
+                    lastValue = null;
+            }else{
+                run(state);
+
+            }
+		});
+
+		run(state);
+
+	}
 
 
  }
+
 
 
 var cf_jsfields_init, cf_presubmit;
@@ -5775,7 +5965,7 @@ var cf_jsfields_init, cf_presubmit;
 			errorTemplate : '<span></span>',
 			errorsContainer : function( field ){
 				return field.$element.closest('.form-group');
-			}					
+			}
 		}).on('field:error', function( fieldInstance ) {
 
             if ( 'number' == this.$element.attr( 'type' ) && 0 == this.$element.attr( 'min' )  ) {
@@ -5819,14 +6009,6 @@ var cf_jsfields_init, cf_presubmit;
 		})
 	};
 
-
-
-	
-	// init sync
-	$('[data-sync]').each( function(){
-		var $field = $( this );
-		new CalderaFormsFieldSync( $field, $field.data('binds'), $field.closest('form'), $ );
-	});
 	$( document ).on('change keypress', "[data-sync]", function(){
 		$(this).data( 'unsync', true );
 	});
@@ -5856,11 +6038,11 @@ var cf_jsfields_init, cf_presubmit;
 
 		}
 
-	};	
+	};
 
 	$('document').ready(function(){
-		// check for init function		
-		cf_jsfields_init();		
+		// check for init function
+		cf_jsfields_init();
 	});
 
 	// if pages, disable enter
@@ -5884,7 +6066,7 @@ var cf_jsfields_init, cf_presubmit;
 	});
 	// stuff trigger
 	$(document).on('cf.add cf.enable cf.disable cf.pagenav', cf_jsfields_init );
-	
+
 	// Page navigation
 	$(document).on('click', '[data-page]', function(e){
 
@@ -5905,10 +6087,10 @@ var cf_jsfields_init, cf_presubmit;
 		if( !form.length ){
 			return;
 		}
-		
+
 		cf_validate_form( form ).destroy();
 
-		fields = form.find('[data-field]');		
+		fields = form.find('[data-field]');
 		form.find('.has-error').removeClass('has-error');
 
 		if( clicked.data('page') !== 'prev' && page >= current_page ){
@@ -5973,9 +6155,9 @@ var cf_jsfields_init, cf_presubmit;
 			cf_validate_form( form ).validate();
 			return false;
 		}
-		
+
 		if( clicked.data('page') === 'next'){
-			
+
 			if(breadcrumb){
 				breadcrumb.find('li.active').removeClass('active').children().attr('aria-expanded', 'false');
 			}
@@ -6007,12 +6189,12 @@ var cf_jsfields_init, cf_presubmit;
 				$('#' + clicked.data('pagenav') + '	.caldera-form-page[data-formpage="'+ ( clicked.data('page') ) +'"]').show().attr( 'aria-hidden', 'false' ).css( 'visibility', 'visible' );
 				clicked.parent().addClass('active').children().attr('aria-expanded', 'true');
 			}
-			
+
 		}
 		$('html, body').animate({
 			scrollTop: form.offset().top - 100
 		}, 200);
-		
+
 		$(document).trigger('cf.pagenav');
 
 	});
@@ -6043,6 +6225,11 @@ var cf_jsfields_init, cf_presubmit;
 		var $clicked = $( this ),
 			$form = $clicked.closest('.caldera_forms_form'),
 			validator = cf_validate_form( $form );
+		$( document ).trigger( 'cf.form.submit', {
+			e:e,
+			$form:$form
+		} );
+
 
 
 		if( ! validator.validate() ){
@@ -6079,6 +6266,10 @@ var cf_jsfields_init, cf_presubmit;
 
 			e.preventDefault();
 		}else{
+			$( document ).trigger( 'cf.form.validated', {
+				e:e,
+				$form:$form
+			} );
 			validator.destroy();
 		}
 	});
@@ -6105,20 +6296,22 @@ window.addEventListener("load", function(){
 				nonceCheckers[ formId ] = new CalderaFormsResetNonce( formId, CF_API_DATA, $ );
 				nonceCheckers[ formId ].init();
 			});
-
 		}
 
 		/** Setup forms */
 		if( 'object' === typeof CFFIELD_CONFIG ) {
-			var form_id, config_object, config, instance, $el, state, protocolCheck, jQueryCheck,
+			var form_id, config_object, config, instance, $el, state, protocolCheck, jQueryCheck, $form,
 				jQueryChecked = false,
 				protocolChecked = false;
 			$('.caldera_forms_form').each(function (i, el) {
 				$el = $(el);
+
 				form_id = $el.attr('id');
 				instance = $el.data('instance');
 
 				if ('object' === typeof CFFIELD_CONFIG[instance] ) {
+					$form = $( document.getElementById( form_id ));
+
 					if ( ! protocolChecked ) {
 						//check for protocol mis-match on submit url
 						protocolCheck = new CalderaFormsCrossOriginWarning($el, $, CFFIELD_CONFIG[instance].error_strings);
@@ -6137,6 +6330,7 @@ window.addEventListener("load", function(){
 						jQueryChecked = true;
 					}
 
+					formId = $el.data( 'form-id' );
 					config = CFFIELD_CONFIG[instance].configs;
 
 					var state = new CFState(formId, $ );
@@ -6145,13 +6339,33 @@ window.addEventListener("load", function(){
 					if( 'object' !== typeof window.cfstate ){
 						window.cfstate = {};
 					}
+
 					window.cfstate[ form_id ] = state;
+
+					$form.find( '[data-sync]' ).each( function(){
+						var $field = $( this );
+						new CalderaFormsFieldSync( $field, $field.data('binds'), $form, $ , state);
+					});
+
+					
 					config_object = new Caldera_Forms_Field_Config( config, $(document.getElementById(form_id)), $, state );
 					config_object.init();
+					$( document ).trigger( 'cf.form.init',{
+						idAttr:  form_id,
+						formId: formId,
+						state: state,
+						fieldIds: CFFIELD_CONFIG[instance].fields.hasOwnProperty( 'ids' ) ? CFFIELD_CONFIG[instance].fields.ids : []
+					});
+
+
+
 				}
 			});
 
 		}
+
+
+
 
 
 	})( jQuery );
@@ -6169,9 +6383,10 @@ window.addEventListener("load", function(){
  * @param binds Field IDs to bind to
  * @param $form jQuery object for form
  * @param $ jQuery
+ * @param {CFState} state
  * @constructor
  */
-function CalderaFormsFieldSync( $field, binds, $form, $  ){
+function CalderaFormsFieldSync( $field, binds, $form, $, state  ){
 	for( var i = 0; i < binds.length; i++ ){
 
 		$( document ).on('keyup change blur mouseover', "[data-field='" + binds[ i ] + "']", function(){
@@ -6199,6 +6414,7 @@ function CalderaFormsFieldSync( $field, binds, $form, $  ){
 				}
 				str = str.replace( re , val );
 			}
+			state.mutateState( $field.attr( 'id' ), val );
 			$field.val( str );
 		} );
 		$("[data-field='" + binds[ i ] + "']").trigger('change');
