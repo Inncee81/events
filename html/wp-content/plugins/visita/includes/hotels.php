@@ -174,6 +174,7 @@ class VisitaHotels extends VisitaBase {
     }
 
     if ( ! is_admin() ) {
+      add_action( 'pre_get_posts', array( $this, 'pre_get_posts') );
       add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
       return;
@@ -181,7 +182,7 @@ class VisitaHotels extends VisitaBase {
 
     add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ), 100 );
   }
-  
+
   /**
   *
   *
@@ -194,10 +195,10 @@ class VisitaHotels extends VisitaBase {
       return;
     }
 
-    add_filter( 'get_next_post_sort', array( $this, 'adjacent_post_next_sort' ), 20);
-    add_filter( 'get_next_post_where', array( $this, 'adjacent_post_next_where' ), 20);
+    add_filter( 'get_next_post_sort', array( $this, 'adjacent_post_next_sort' ), 20 );
+    add_filter( 'get_next_post_where', array( $this, 'adjacent_post_next_where' ), 20 );
 
-    add_filter( 'get_previous_post_sort', array( $this, 'adjacent_post_previous_sort' ), 20);
-    add_filter( 'get_previous_post_where', array( $this, 'adjacent_post_previous_where' ), 20);
+    add_filter( 'get_previous_post_sort', array( $this, 'adjacent_post_previous_sort' ), 20 );
+    add_filter( 'get_previous_post_where', array( $this, 'adjacent_post_previous_where' ), 20 );
   }
 }

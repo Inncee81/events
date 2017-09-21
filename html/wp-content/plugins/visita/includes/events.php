@@ -303,7 +303,9 @@ class VisitaEvents extends VisitaBase {
     }
 
     if ( ! is_admin() ) {
+      add_action( 'pre_get_posts', array( $this, 'tax_sort'), 50 );
       add_action( 'pre_get_posts', array( $this, 'pre_get_posts') );
+      add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
       return;
     }
@@ -335,6 +337,83 @@ class VisitaEvents extends VisitaBase {
   function activate( ) {
     wp_schedule_event( strtotime( '2 AM' ), 'daily', 'visita_expire' );
     wp_schedule_event( strtotime( '3 AM' ), 'twicedaily', 'visita_ticketmater_import');
+  }
+
+  /**
+  *
+  *
+  * @return void
+  * @since 3.0.0
+  */
+  function after_posts_selection( ) {
+
+    if ( ! is_singular( $this->post_type ) ) {
+      return;
+    }
+
+    add_filter( 'get_next_post_join', array( $this, 'adjacent_post_join' ), 20 );
+    add_filter( 'get_next_post_sort', array( $this, 'adjacent_post_next_sort' ), 20 );
+    add_filter( 'get_next_post_where', array( $this, 'adjacent_post_next_where' ), 20 );
+
+    add_filter( 'get_previous_post_join', array( $this, 'adjacent_post_join' ), 20 );
+    add_filter( 'get_previous_post_sort', array( $this, 'adjacent_post_previous_sort' ), 20 );
+    add_filter( 'get_previous_post_where', array( $this, 'adjacent_post_previous_where' ), 20 );
+  }
+
+  /**
+  * Sort objects by title and date
+  *
+  * @return string
+  * @since 3.0.0
+  */
+  function adjacent_post_sort( $direction ) {
+    return esc_sql( " ORDER BY start.meta_key $direction LIMIT 1 " );
+  }
+
+  /**
+  * Sort objects by title and date
+  *
+  * @return string
+  * @since 3.0.0
+  */
+  function adjacent_post_join( ) {
+    global $wpdb;
+    return " INNER JOIN $wpdb->postmeta start ON (p.ID = start.post_id) AND start.meta_key = '_starts' ";
+  }
+
+  /**
+  * Sort objects by title and date
+  *
+  * @return string
+  * @since 3.0.0
+  */
+  function tax_sort( $query ) {
+    if ( ! $query->is_main_query() ) {
+      return;
+    }
+
+    if ( get_query_var('post_type') != $this->post_type ) {
+      return;
+    }
+
+    $order = ( $order = get_query_var( 'order' ) ) ? $order : 'ASC';
+
+    $query->set( 'orderby', array( '_starts' => $order ) );
+    $query->set( 'meta_query', array(
+      '_price' => array(
+        'key'     => '_starts',
+        'compare' => 'EXISTS',
+      )
+    ) );
+
+    if ( is_home() ) {
+      $query->query_vars['tax_query'][] = array(
+        'taxonomy'  => $this->taxonomy,
+        'field'    	=> 'term_id',
+        'terms'    	=> array( 18, 44 ),
+        'operator' 	=> 'NOT IN',
+      );
+    }
   }
 
   /**

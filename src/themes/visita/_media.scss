@@ -22,11 +22,16 @@ iframe[allowfullscreen] {
 .archive .hentry {
   box-shadow: 0 2px 1px rgba(93,93,93,.26);
   margin: 0 .25em 10px;
+  overflow: hidden;
   position: relative;
+  height: 150px;
 
-  @include breakpoint(small down) {
-    height: 110px;
-    overflow: hidden;
+  @include breakpoint(375 down) {
+    height: 136px;
+  }
+
+  @include breakpoint(320 down) {
+    height: 115px;
   }
 
   .hmedia a {

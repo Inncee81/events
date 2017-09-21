@@ -397,7 +397,7 @@ function visita_event_dates( ) {
       $date = strtotime( $time['_date'] );
 
       printf(
-        '<div itemprop="price" content="%4$s">
+        '<div itemprop="price" class="price" content="%4$s">
           <a class="price-action %8$s" href="%5$s" itemprop="url" rel="external">%2$s - %1$s</a>
           <link itemprop="availability" href="http://schema.org/%6$s" />
           <meta itemprop="priceCurrency" content="USD" />
