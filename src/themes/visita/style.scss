@@ -42,7 +42,7 @@ $breakpoint-classes: (small medium);
 @import 'components/button';
 @import 'components/button-group';
 @import 'components/card';
-@import 'components/dropdown';
+@import 'components/tabs';
 @import 'components/label';
 @import 'components/menu';
 @import 'components/pagination';
@@ -61,7 +61,7 @@ $breakpoint-classes: (small medium);
 // @include foundation-text-alignment;
 @include foundation-flex-classes;
 @include foundation-grid;
-@include foundation-dropdown;
+@include foundation-tabs;
 @include foundation-forms;
 @include foundation-button;
 

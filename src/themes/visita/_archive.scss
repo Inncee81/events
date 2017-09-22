@@ -10,3 +10,43 @@
     padding-top: .75em;
   }
 }
+
+.tabs-title > {
+  span {
+    display: block;
+    font-size: $tab-item-font-size;
+    line-height: 1;
+    padding: 1em .5em;
+    font-weight: 700;
+  }
+}
+
+.tabs-sort {
+  margin: 0 .15em .75em;
+  border-left: none;
+  border-right: none;
+
+  .tabs-title > a:after {
+    content: "\F107";
+    position: relative;
+    right: -6px;
+  }
+}
+
+.active-name .tab-name,
+.active-price .tab-price,
+.active-starts .tab-starts,
+.active-price_max .tab-price {
+  > a {
+    background-color: $gray-light;
+  }
+}
+
+.active-name.order-asc .tab-name,
+.active-price.order-asc .tab-price,
+.active-starts.order-asc .tab-starts,
+.active-price_max.order-asc .tab-price {
+  > a:after {
+    content: "\F106";
+  }
+}

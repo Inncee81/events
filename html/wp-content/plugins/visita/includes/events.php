@@ -306,6 +306,7 @@ class VisitaEvents extends VisitaBase {
       add_action( 'pre_get_posts', array( $this, 'tax_sort'), 50 );
       add_action( 'pre_get_posts', array( $this, 'pre_get_posts') );
       add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
+      add_action( 'visita_before_loop', array( $this, 'sort_taxonomy'), 50 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
       return;
     }
@@ -388,7 +389,7 @@ class VisitaEvents extends VisitaBase {
   * @since 3.0.0
   */
   function tax_sort( $query ) {
-    if ( ! $query->is_main_query() ) {
+    if ( ! $query->is_main_query() || is_search() ) {
       return;
     }
 
@@ -396,15 +397,31 @@ class VisitaEvents extends VisitaBase {
       return;
     }
 
+    $orderby = get_query_var( 'orderby' );
     $order = ( $order = get_query_var( 'order' ) ) ? $order : 'ASC';
 
-    $query->set( 'orderby', array( '_starts' => $order ) );
-    $query->set( 'meta_query', array(
-      '_price' => array(
-        'key'     => '_starts',
-        'compare' => 'EXISTS',
-      )
-    ) );
+    $query->set( 'order',  $order );
+    if ( ! $orderby || $orderby == 'date' ) {
+      $query->set( 'orderby', array( '_starts' => $order ) );
+      $query->set( 'meta_query', array(
+        '_starts'   => array(
+          'key'     => '_starts',
+          'compare' => 'EXISTS',
+        )
+      ) );
+    }
+
+    if ( $orderby == 'price' ) {
+      $key = ( $order == 'ASC' ) ? '_price' : '_price_max';
+      $query->set( 'orderby', array( $key => $order ) );
+      $query->set( 'meta_query', array(
+        $key => array(
+          'key'     => $key,
+          'compare' => 'EXISTS',
+          'type'    => 'DECIMAL',
+        )
+      ) );
+    }
 
     if ( is_home() ) {
       $query->query_vars['tax_query'][] = array(
@@ -414,6 +431,30 @@ class VisitaEvents extends VisitaBase {
         'operator' 	=> 'NOT IN',
       );
     }
+  }
+
+  /**
+  *
+  * @return void
+  */
+  function sort_taxonomy() {
+    if ( ! is_post_type_archive( $this->post_type ) && ! is_tax( $this->taxonomy ) ) {
+      return;
+    }
+
+    $order_var = get_query_var( 'orderby' );
+
+    printf(
+      '<ul class="tabs tabs-sort active-%3$s order-%2$s" data-tabs>
+        <li class="tabs-title"><span>' . esc_html__( 'Sort:', 'visita' ) . '</span></li>
+        <li class="tabs-title tab-starts"><a href="%1$s?order=%2$s&orderby=date">' . esc_html__( 'Date', 'visita' ) . '</a></li>
+        <li class="tabs-title tab-name"><a href="%1$s?order=%2$s&orderby=name">' . esc_html__( 'Name', 'visita' ) . '</a></li>
+        <li class="tabs-title tab-price"><a href="%1$s?order=%2$s&orderby=price">' . esc_html__('Price', 'visita' ) . '</a></li>
+      </ul>',
+      home_url( ),
+      esc_attr( strtolower( get_query_var( 'order') ) == 'asc' ? 'desc' : 'asc' ),
+      esc_attr( trim( is_array( $order_var ) ? key( $order_var ) : $order_var, '_' ) )
+    );
   }
 
   /**

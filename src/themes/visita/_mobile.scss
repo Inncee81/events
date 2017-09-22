@@ -38,11 +38,12 @@
     content: $fa-var-search;
     left: .75em;
     position: absolute;
-    top: .5em;
+    top: .35em;
   }
 
   &-field[type='search'] {
-    font-size: 1.25em;
+    font-size: 1.1em;
+    height: 1.85em;
     margin-bottom: .5em;
     padding-left: 2.5em;
   }
