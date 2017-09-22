@@ -31,6 +31,20 @@ function visita_after_main( ) {
 }
 
 /**
+*
+*/
+function visita_before_loop(){
+  do_action( 'visita_before_loop' );
+}
+
+/**
+*
+*/
+function visita_after_loop(){
+    do_action( 'visita_after_loop' );
+}
+
+/**
 * Just before opening <div id="page">
 *
 * @param $string string

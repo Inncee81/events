@@ -23,6 +23,7 @@
     </header><!-- .entry-header -->
 
     <?php visita_content_nav( 'nav-above' ); ?>
+    <?php visita_before_loop(); ?>
 
     <div class="entry-content" itemprop="text">
       <?php while ( have_posts() ) : the_post(); ?>
@@ -30,6 +31,7 @@
       <?php endwhile; ?>
 		</div>
 
+    <?php visita_after_loop(); ?>
     <?php visita_content_nav( 'nav-below' ); ?>
 
   </div>

@@ -23,6 +23,21 @@ address {
   font-style: normal;
 }
 
+ins, dfn {
+  background: #f3f3f3;
+  text-decoration: none;
+  width: 100%;
+  overflow: hidden;
+}
+
+.adsbygoogle.top {
+  margin: 0 auto .75em;
+}
+
+.adsbygoogle.bottom {
+  margin: .75em auto 0 ;
+}
+
 :focus {
   outline: #4d0ff1 solid 1px;
 }

@@ -18,4 +18,5 @@
 require_once( get_template_directory() . '/includes/functions.php' );
 require_once( get_template_directory() . '/includes/hooks.php' );
 require_once( get_template_directory() . '/includes/theme-options.php' );
-require_once( get_stylesheet_directory() . '/includes/amp.php' );
+require_once( get_template_directory() . '/includes/ads.php' );
+// require_once( get_template_directory() . '/includes/amp.php' );
