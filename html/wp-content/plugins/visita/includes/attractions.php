@@ -52,6 +52,11 @@ class VisitaAttractions extends VisitaBase {
       )
     ) );
 
+    $this->tabs = array(
+      'name' => __( 'Name', 'visita' ),
+      'price' => __( 'Price', 'visita' ),
+    );
+
     $defaults = $this->club_data['meta_input'];
     $this->fields = array_replace_recursive( $this->fields, array(
       'title' => __( 'Show Details', 'visita' ),
@@ -239,8 +244,10 @@ class VisitaAttractions extends VisitaBase {
     }
 
     if ( ! is_admin() ) {
-      add_action( 'pre_get_posts', array( $this, 'pre_get_posts') );
+      add_action( 'pre_get_posts', array( $this, 'sort_tax' ), 50 );
+      add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
       add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
+      add_action( 'visita_before_loop', array( $this, 'sort_tabs'), 50 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
       return;
     }

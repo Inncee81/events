@@ -53,6 +53,12 @@ class VisitaEvents extends VisitaBase {
       'post_type'   => $this->post_type,
     ) );
 
+    $this->tabs = array(
+      'starts' => __( 'Date', 'visita' ),
+      'name' => __( 'Name', 'visita' ),
+      'price' => __( 'Price', 'visita' ),
+    );
+
     $defaults = $this->event_data['meta_input'];
     $this->fields = array_replace_recursive( $this->fields, array(
       'title' => __( 'Event Details', 'visita' ),
@@ -303,10 +309,10 @@ class VisitaEvents extends VisitaBase {
     }
 
     if ( ! is_admin() ) {
-      add_action( 'pre_get_posts', array( $this, 'tax_sort'), 50 );
-      add_action( 'pre_get_posts', array( $this, 'pre_get_posts') );
+      add_action( 'pre_get_posts', array( $this, 'sort_tax' ), 50 );
+      add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
       add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
-      add_action( 'visita_before_loop', array( $this, 'sort_taxonomy'), 50 );
+      add_action( 'visita_before_loop', array( $this, 'sort_tabs' ), 50 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
       return;
     }
@@ -383,44 +389,42 @@ class VisitaEvents extends VisitaBase {
   }
 
   /**
-  * Sort objects by title and date
   *
   * @return string
   * @since 3.0.0
   */
-  function tax_sort( $query ) {
+  function sort_tax( $query ) {
     if ( ! $query->is_main_query() || is_search() ) {
       return;
     }
 
-    if ( get_query_var('post_type') != $this->post_type ) {
-      return;
-    }
+    if ( is_post_type_archive( $this->post_type ) || is_tax( $this->taxonomy ) ) {
 
-    $orderby = get_query_var( 'orderby' );
-    $order = ( $order = get_query_var( 'order' ) ) ? $order : 'ASC';
+      $orderby = get_query_var( 'orderby' );
+      $order = ( $order = get_query_var( 'order' ) ) ? $order : 'ASC';
 
-    $query->set( 'order',  $order );
-    if ( ! $orderby || $orderby == 'date' ) {
-      $query->set( 'orderby', array( '_starts' => $order ) );
-      $query->set( 'meta_query', array(
-        '_starts'   => array(
-          'key'     => '_starts',
-          'compare' => 'EXISTS',
-        )
-      ) );
-    }
+      $query->set( 'order',  $order );
+      if ( ! $orderby || $orderby == 'starts' ) {
+        $query->set( 'orderby', array( '_starts' => $order ) );
+        $query->set( 'meta_query', array(
+          '_starts'   => array(
+            'key'     => '_starts',
+            'compare' => 'EXISTS',
+          )
+        ) );
+      }
 
-    if ( $orderby == 'price' ) {
-      $key = ( $order == 'ASC' ) ? '_price' : '_price_max';
-      $query->set( 'orderby', array( $key => $order ) );
-      $query->set( 'meta_query', array(
-        $key => array(
-          'key'     => $key,
-          'compare' => 'EXISTS',
-          'type'    => 'DECIMAL',
-        )
-      ) );
+      if ( $orderby == 'price' ) {
+        $key = ( $order == 'ASC' ) ? '_price' : '_price_max';
+        $query->set( 'orderby', array( $key => $order ) );
+        $query->set( 'meta_query', array(
+          $key => array(
+            'key'     => $key,
+            'compare' => 'EXISTS',
+            'type'    => 'DECIMAL',
+          )
+        ) );
+      }
     }
 
     if ( is_home() ) {
@@ -431,30 +435,6 @@ class VisitaEvents extends VisitaBase {
         'operator' 	=> 'NOT IN',
       );
     }
-  }
-
-  /**
-  *
-  * @return void
-  */
-  function sort_taxonomy() {
-    if ( ! is_post_type_archive( $this->post_type ) && ! is_tax( $this->taxonomy ) ) {
-      return;
-    }
-
-    $order_var = get_query_var( 'orderby' );
-
-    printf(
-      '<ul class="tabs tabs-sort active-%3$s order-%2$s" data-tabs>
-        <li class="tabs-title"><span>' . esc_html__( 'Sort:', 'visita' ) . '</span></li>
-        <li class="tabs-title tab-starts"><a href="%1$s?order=%2$s&orderby=date">' . esc_html__( 'Date', 'visita' ) . '</a></li>
-        <li class="tabs-title tab-name"><a href="%1$s?order=%2$s&orderby=name">' . esc_html__( 'Name', 'visita' ) . '</a></li>
-        <li class="tabs-title tab-price"><a href="%1$s?order=%2$s&orderby=price">' . esc_html__('Price', 'visita' ) . '</a></li>
-      </ul>',
-      home_url( ),
-      esc_attr( strtolower( get_query_var( 'order') ) == 'asc' ? 'desc' : 'asc' ),
-      esc_attr( trim( is_array( $order_var ) ? key( $order_var ) : $order_var, '_' ) )
-    );
   }
 
   /**

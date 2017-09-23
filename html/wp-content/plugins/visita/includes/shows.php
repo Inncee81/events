@@ -52,6 +52,12 @@ class VisitaShows extends VisitaBase {
       )
     ) );
 
+    $this->tabs = array(
+      'starts' => __( 'Date', 'visita' ),
+      'name' => __( 'Name', 'visita' ),
+      'price' => __( 'Price', 'visita' ),
+    );
+
     $defaults = $this->show_data['meta_input'];
     $this->fields = array_replace_recursive( $this->fields, array(
       'title' => __( 'Show Details', 'visita' ),
@@ -290,8 +296,10 @@ class VisitaShows extends VisitaBase {
     }
 
     if ( ! is_admin() ) {
-      add_action( 'pre_get_posts', array( $this, 'pre_get_posts') );
+      add_action( 'pre_get_posts', array( $this, 'sort_tax' ), 50 );
+      add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
       add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
+      add_action( 'visita_before_loop', array( $this, 'sort_tabs' ), 50 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
       return;
     }
@@ -317,6 +325,46 @@ class VisitaShows extends VisitaBase {
 
     add_filter( 'get_previous_post_sort', array( $this, 'adjacent_post_previous_sort' ), 20 );
     add_filter( 'get_previous_post_where', array( $this, 'adjacent_post_previous_where' ), 20 );
+  }
+
+  /**
+  *
+  * @return string
+  * @since 3.0.0
+  */
+  function sort_tax( $query ) {
+    if ( ! $query->is_main_query() || is_search() ) {
+      return;
+    }
+
+    if ( is_post_type_archive( $this->post_type ) || is_tax( $this->taxonomy ) ) {
+
+      $orderby = get_query_var( 'orderby' );
+      $order = ( $order = get_query_var( 'order' ) ) ? $order : 'ASC';
+
+      $query->set( 'order',  $order );
+      if ( ! $orderby || $orderby == 'starts' ) {
+        $query->set( 'orderby', array( '_starts' => $order ) );
+        $query->set( 'meta_query', array(
+          '_starts'   => array(
+            'key'     => '_starts',
+            'compare' => 'EXISTS',
+          )
+        ) );
+      }
+
+      if ( $orderby == 'price' ) {
+        $key = ( $order == 'ASC' ) ? '_price' : '_price_max';
+        $query->set( 'orderby', array( $key => $order ) );
+        $query->set( 'meta_query', array(
+          $key => array(
+            'key'     => $key,
+            'compare' => 'EXISTS',
+            'type'    => 'DECIMAL',
+          )
+        ) );
+      }
+    }
   }
 
   /**

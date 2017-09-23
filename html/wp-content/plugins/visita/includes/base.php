@@ -66,6 +66,11 @@ class VisitaBase {
   /**
   *
   */
+  protected $tabs = array();
+
+  /**
+  *
+  */
   protected $fields = array(
     'key' => '',
     'title' => '',
@@ -396,6 +401,68 @@ class VisitaBase {
 
     if ( is_post_type_archive( $this->post_type )) {
       $query->set( 'posts_per_page', 15 );
+    }
+  }
+
+  /**
+  *
+  * @return void
+  */
+  function sort_tabs() {
+    if ( ! is_post_type_archive( $this->post_type ) && ! is_tax( $this->taxonomy ) ) {
+      return;
+    }
+
+    global $wp; $tabs = '';
+    $order_var = get_query_var( 'orderby' );
+
+    foreach ( $this->tabs as $tab => $label ) {
+      $tabs .= '<li class="tabs-title tab-' . esc_attr( $tab ) . '">
+        <a href="%1$s?order=%2$s&orderby=' . esc_attr( $tab ) . '">' . esc_html( $label ) . '</a>
+      </li>';
+    }
+
+    printf(
+      '<ul class="tabs tabs-sort active-%3$s order-%2$s" data-tabs>
+        <li class="tabs-title"><span>' . esc_html__( 'Sort:', 'visita' ) . '</span></li>' . $tabs . '
+      </ul>',
+      home_url( $wp->request ),
+      esc_attr( strtolower( get_query_var( 'order') ) == 'asc' ? 'desc' : 'asc' ),
+      esc_attr( trim( is_array( $order_var ) ? key( $order_var ) : $order_var, '_' ) )
+    );
+  }
+
+  /**
+  *
+  * @return string
+  * @since 3.0.0
+  */
+  function sort_tax( $query ) {
+    if ( ! $query->is_main_query() || is_search() ) {
+      return;
+    }
+
+    if ( is_post_type_archive( $this->post_type ) || is_tax( $this->taxonomy ) ) {
+
+      $orderby = get_query_var( 'orderby' );
+      $order = ( $order = get_query_var( 'order' ) ) ? $order : 'ASC';
+
+      $query->set( 'order',  $order );
+      if ( ! $orderby ) {
+        $query->set( 'orderby',  'name' );
+      }
+
+      if ( $orderby == 'price' ) {
+        $key = ( $order == 'ASC' ) ? '_price' : '_price_max';
+        $query->set( 'orderby', array( $key => $order ) );
+        $query->set( 'meta_query', array(
+          $key => array(
+            'key'     => $key,
+            'compare' => 'EXISTS',
+            'type'    => 'DECIMAL',
+          )
+        ) );
+      }
     }
   }
 }
