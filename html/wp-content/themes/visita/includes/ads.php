@@ -25,7 +25,7 @@ function visita_before_ad( ) {
    data-ad-format="auto"></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
 }
-//add_action( 'visita_before_loop', 'visita_before_ad', 5 );
+add_action( 'visita_before_loop', 'visita_before_ad', 5 );
 
 /**
 * _visita_bottom

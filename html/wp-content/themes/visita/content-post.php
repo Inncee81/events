@@ -40,6 +40,7 @@
     ?>
     <?php visita_get_post_date(); ?>
     <span itemprop="author" class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
+    <?php if ( is_single() ) visita_share_botton(); ?>
   </header><!-- .entry-header -->
 
   <?php if ( is_single() ) : ?>

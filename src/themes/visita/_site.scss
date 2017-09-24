@@ -39,6 +39,10 @@ table {
 
 .adsbygoogle.top {
   margin: 0 auto .75em;
+
+  @include breakpoint(small down) {
+    display: none !important;
+  }
 }
 
 .adsbygoogle.bottom {

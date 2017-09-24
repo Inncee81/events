@@ -29,6 +29,7 @@
     </div>
     <?php if (is_single()) visita_entry_tax( 'events' ) ?>
   </div><!-- .entry-meta -->
+  <?php if ( is_single() ) visita_share_botton(); ?>
 </header><!-- .entry-header -->
 
 <div class="dates">
