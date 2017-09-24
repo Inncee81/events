@@ -15,7 +15,7 @@
 * Remove "Private: " from title
 * _visita_top
 */
-function visita_before_ad( ){
+function visita_before_ad( ) {
   echo '
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <ins class="adsbygoogle top"
@@ -25,12 +25,12 @@ function visita_before_ad( ){
    data-ad-format="auto"></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
 }
-add_action('visita_before_loop', 'visita_before_ad', 5);
+//add_action( 'visita_before_loop', 'visita_before_ad', 5 );
 
 /**
 * _visita_bottom
 */
-function visita_after_ad( ){
+function visita_after_ad( ) {
   echo '
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <ins class="adsbygoogle bottom"
@@ -40,4 +40,4 @@ function visita_after_ad( ){
    data-ad-format="auto"></ins>
    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
 }
-add_action( 'visita_after_loop', 'visita_after_ad', 5);
+add_action( 'visita_after_loop', 'visita_after_ad', 5 );

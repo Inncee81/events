@@ -13,29 +13,7 @@
 <body class="<?php echo esc_attr( $this->get( 'body_class' ) ); ?>">
 
 <?php $this->load_parts( array( 'header-bar' ) ); ?>
-
-<article class="amp-wp-article">
-
-	<?php $this->load_parts( array( 'featured-image' ) ); ?>
-
-	<header class="amp-wp-article-header">
-		<h1 class="amp-wp-title"><?php echo wp_kses_data( $this->get( 'post_title' ) ); ?></h1>
-
-		<div class="amp-header-meta">
-			<?php $this->load_parts( apply_filters( 'amp_post_article_header_meta', array( 'meta-time', 'meta-author' ) ) ); ?>
-		</div><!-- .entry-meta -->
-	</header>
-
-	<div class="amp-wp-article-content">
-		<?php echo $this->get( 'post_amp_content' ); // amphtml content; no kses ?>
-	</div>
-
-	<footer class="amp-wp-article-footer">
-		<?php $this->load_parts( apply_filters( 'amp_post_article_footer_meta', array( 'meta-taxonomy' ) ) ); ?>
-	</footer>
-
-</article>
-
+<?php $this->load_parts( array( 'content-location' ) ); ?>
 <?php $this->load_parts( array( 'meta-ad' ) ); ?>
 <?php $this->load_parts( array( 'footer' ) ); ?>
 <?php $this->load_parts( array( 'sidebar' ) ); ?>

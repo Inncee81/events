@@ -25,6 +25,8 @@ function visita_amp_post_template_data( $data ) {
     'amp-analytics' => 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js',
   );
 
+  $data['body_class'] .= 'amp-' . get_post_type();
+
   return $data;
 }
 add_action( 'amp_post_template_data', 'visita_amp_post_template_data' );
@@ -40,26 +42,44 @@ function visita_amp_post_template_add_fonts() {
 add_action( 'amp_post_template_head', 'visita_amp_post_template_add_fonts' );
 
 /**
-  * add AMP Templates
-  *
-  * @return void
-  */
-  function visita_amp_post_template_metadata( $metadata, $post ) {
+* add AMP Templates
+*
+* @return void
+*/
+function visita_amp_post_template_metadata( $metadata, $post ) {
 
-    if ( $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID), 'original' ) ) {
-      $metadata['image'] =  array_combine(
-        array('@type', 'url', 'width', 'height'), array_slice( array_merge( array( 'ImageObject' ), $image ), 0, 4 )
-      );
-    }
-
-    $metadata['publisher']['logo'] = array(
-      '@context'  => 'http://schema.org',
-      '@type'     => 'ImageObject',
-      'url'       => get_stylesheet_directory_uri() . '/icons/icon-144.png',
-      'width'     => '144',
-      'height'    => '144'
+  if ( $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID), 'original' ) ) {
+    $metadata['image'] =  array_combine(
+      array('@type', 'url', 'width', 'height'), array_slice( array_merge( array( 'ImageObject' ), $image ), 0, 4 )
     );
-
-    return $metadata;
   }
-  add_filter( 'amp_post_template_metadata', 'visita_amp_post_template_metadata', 10, 2 );
+
+  $metadata['publisher']['logo'] = array(
+    '@context'  => 'http://schema.org',
+    '@type'     => 'ImageObject',
+    'url'       => get_stylesheet_directory_uri() . '/icons/icon-144.png',
+    'width'     => '144',
+    'height'    => '144'
+  );
+
+  return $metadata;
+}
+add_filter( 'amp_post_template_metadata', 'visita_amp_post_template_metadata', 10, 2 );
+
+/**
+* add AMP Templates
+*
+* @return void
+*/
+function visita_amp_set_custom_template( $file, $type, $post ) {
+
+  if ( $type == 'single' && $template = locate_template(array(
+    'amp/single-' .  get_post_type() . '.php',
+    'amp/single.php'
+  ), false ) ) {
+    return $template;
+  }
+
+  return $file;
+}
+add_filter( 'amp_post_template_file', 'visita_amp_set_custom_template', 10, 3 );

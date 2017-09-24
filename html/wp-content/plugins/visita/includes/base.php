@@ -400,7 +400,7 @@ class VisitaBase {
     }
 
     if ( is_post_type_archive( $this->post_type )) {
-      $query->set( 'posts_per_page', 15 );
+      $query->set( 'posts_per_page', 14 );
     }
   }
 

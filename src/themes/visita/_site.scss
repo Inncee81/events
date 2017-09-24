@@ -31,6 +31,12 @@ ins, dfn {
   overflow: hidden;
 }
 
+table {
+  @include breakpoint(small down) {
+    font-size: .9em;
+  }
+}
+
 .adsbygoogle.top {
   margin: 0 auto .75em;
 }
