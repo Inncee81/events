@@ -51,16 +51,29 @@
 .menu-main {
   margin: 0;
 
+  @include breakpoint(medium up) {
+    text-align: center;
+  }
+
   ul {
     margin: 0;
   }
 
   li {
     position: relative;
+    display: inline-block;
 
     @include breakpoint(medium down) {
       display: block;
       width: 100%;
+    }
+
+    a {
+
+      @include breakpoint(medium up) {
+        padding: .65rem 1.35em;
+        display: block;
+      }
     }
   }
 

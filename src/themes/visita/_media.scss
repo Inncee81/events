@@ -3,10 +3,6 @@ img {
   max-width: 100%;
 }
 
-figure {
-  margin: 0;
-}
-
 iframe[allowfullscreen] {
   display: block;
   height: auto;
@@ -21,13 +17,18 @@ iframe[allowfullscreen] {
 .search .hentry,
 .archive .hentry {
   box-shadow: 0 2px 1px rgba(93,93,93,.26);
-  margin: 0 .25em 10px;
+  margin: 0 0 10px;
   overflow: hidden;
   position: relative;
   height: 150px;
 
+  @include breakpoint(medium up) {
+    min-height: 230px;
+  }
+
   @include breakpoint(375 down) {
     height: 136px;
+    margin: 0 .25em 10px;
   }
 
   @include breakpoint(320 down) {

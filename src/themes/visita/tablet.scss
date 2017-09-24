@@ -66,16 +66,12 @@ $breakpoint-classes: (large xlarge);
   }
 }
 
-@include breakpoint(medium up) {
-  .search-form {
-    max-width: 86%;
-  }
-}
-
 @include breakpoint(large up) {
-  .menu-main {
+  #nav-social {
+    float: right;
+  }
 
-    text-align: center;
+  .menu-main {
 
     .sub-menu {
       position: absolute;
@@ -84,7 +80,6 @@ $breakpoint-classes: (large xlarge);
       li {
         text-align: left;
       }
-
     }
 
     &:after {

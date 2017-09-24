@@ -38,8 +38,17 @@
     border: 1px solid $gray-light;
   }
 
+  .hmedia  {
+    max-height: 280px;
+    overflow: hidden;
+  }
+
   .entry-header {
-    padding: .65em;
+    padding: 1.5em;
+
+    @include breakpoint(small down) {
+      padding: .75em;
+    }
   }
 
   .day a,
@@ -69,7 +78,11 @@
   }
 
   .entry-content {
-    padding: 0 .75em;
+    padding: 0 1.5em;
+
+    @include breakpoint(small down) {
+      padding: 0 .75em;
+    }
 
     > .hidden ~ *,
     > :first-child {
@@ -77,7 +90,11 @@
     }
 
     > :last-child {
-      margin-bottom: .75em;
+      margin-bottom: 1.5em;
+
+      @include breakpoint(small down) {
+        margin-bottom: .75em;
+      }
     }
 
     .taxonomy-links {

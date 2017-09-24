@@ -17,10 +17,10 @@
   <div class="small-12 columns">
 
     <header class="entry-header">
-      <h1 class="entry-title text-center medium-text-left" itemprop="name">
+      <h1 class="entry-title text-center large-text-left" itemprop="name">
         <?php the_archive_title( );  ?>
       </h1>
-      <?php the_archive_description( '<div class="taxonomy-description text-center">', '</div>' );  ?>
+      <?php the_archive_description( '<div class="taxonomy-description text-center large-text-left">', '</div>' );  ?>
 		</header><!-- .archive-header -->
 
     <?php visita_content_nav( 'nav-above' ); ?>

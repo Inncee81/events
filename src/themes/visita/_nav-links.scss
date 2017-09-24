@@ -1,10 +1,13 @@
 
 .nav-links {
   padding: 18px 0;
-	text-align: center;
   overflow: hidden;
   width: 100%;
   position: relative;
+
+  @include breakpoint(small down) {
+    text-align: center;
+  }
 
 	.page-numbers {
     border: solid 1px $gray-medium;
