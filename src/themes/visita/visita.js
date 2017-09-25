@@ -25,6 +25,25 @@ const lazyLoad = new LazyLoad();
     }
   } )
 
+  //make headers clickable
+  $( '.entry-header.float' ).on( 'click', function( e ) {
+    if ( e.target.className !== 'post-edit-link' ) {
+      e.preventDefault();
+      $( this ).parent( ).find( '.image.url' )[0].click();
+    }
+  });
+
+  // open external link on new window
+  $( 'a[rel="external"]' ).each( function( e ) {
+    if ( this.href !== '#' &&  this.href !== '') {
+      $(this).attr( { target: '_blank' } );
+    }
+	});
+
+  //don't allow iframes to redirect parent page
+  if (window.top !== window.self) {
+    delete window.top.onbeforeunload;
+  }
 } )( jQuery, document );
 
 
