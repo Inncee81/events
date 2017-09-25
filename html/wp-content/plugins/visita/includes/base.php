@@ -304,6 +304,15 @@ class VisitaBase {
   }
 
   /**
+  *
+  * @return string
+  * @since 3.0.0
+  */
+  function get_name( ) {
+    return $this->name;
+  }
+
+  /**
   * Add additional rewrites
   *
   * @return bool|unit

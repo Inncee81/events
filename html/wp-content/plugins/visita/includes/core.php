@@ -22,7 +22,9 @@ class VisitaCore {
   function __construct( ) {
 
     //
+    add_action( 'wp', array( $this, 'display_widgets' ), 100 );
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 100 );
+    add_action( 'widgets_init', array( $this, 'widgets_init' ), 100 );
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
     add_action( 'after_setup_theme', array( $this, 'register_post_types'), 0 );
 
@@ -58,11 +60,11 @@ class VisitaCore {
    * @since 0.5.0
    */
   function register_post_types( ) {
-    $this->shows = new VisitaShows();
-    $this->clubs = new VisitaClubs();
-    $this->events = new VisitaEvents();
-    $this->hotels = new VisitaHotels();
-    $this->attractions = new VisitaAttractions();
+    $this->show = new VisitaShows();
+    $this->club = new VisitaClubs();
+    $this->event = new VisitaEvents();
+    $this->hotel = new VisitaHotels();
+    $this->attraction = new VisitaAttractions();
   }
 
   /**
@@ -108,6 +110,22 @@ class VisitaCore {
   function add_rewrite_rules( ) {
     global $wp_rewrite;
     $wp_rewrite->pagination_base = __( 'page', 'visita' );
+  }
+
+  /**
+  *
+  */
+  function widgets_init( ) {
+    register_widget( 'Visita_Widget' );
+  }
+
+  /**
+  *
+  */
+  function display_widgets( ) {
+    if ( ( is_singular() && ! is_singular( 'post' ) ) || is_404() ) {
+      add_filter( 'visita_after_loop', array( $this, 'display_widget' ), 0 );
+    }
   }
 
   /**
@@ -196,6 +214,20 @@ class VisitaCore {
   */
   function import_page( ) {
     include_once( VISITA_INC . "/import.php");
+  }
+
+  /**
+  *
+  */
+  function display_widget( ) {
+    $type = ( $type = get_post_type() ) ? $type : 'event';
+    the_widget(
+      'Visita_Widget', array(
+        'title' => sprintf( __( 'More %s', 'visita' ), $this->{ $type }->get_name() ),
+        'before_title'  		=> '<h3 class="widget-title">',
+        'after_title'   		=> '</h3>',
+      )
+    );
   }
 }
 

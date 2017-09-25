@@ -66,11 +66,7 @@ $breakpoint-classes: (large xlarge);
   }
 }
 
-@include breakpoint(large up) {
-  #nav-social {
-    float: right;
-  }
-
+@include breakpoint(medium up) {
   .menu-main {
 
     .sub-menu {

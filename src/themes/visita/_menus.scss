@@ -4,16 +4,19 @@
 }
 
 .menu-social {
-  margin: 1em 0 2em;
+  @include breakpoint(small down) {
+    margin: 1em 0 2em;
+  }
 }
 
 .menu-social li a {
   background-color: $gray-light;
-  margin: 0 6px;
-  padding: 1em;
-  width: 36px;
-  height: 36px;
   border-radius: 2em;
+  height: 38px;
+  margin: 0 5px;
+  padding: .95em;
+  text-align: center;
+  width: 38px;
 }
 
 #nav {
@@ -38,7 +41,7 @@
     content: $fa-var-bars;
   }
 
-  @include breakpoint(large up) {
+  @include breakpoint(medium up) {
     display: none;
   }
 }
@@ -63,7 +66,7 @@
     position: relative;
     display: inline-block;
 
-    @include breakpoint(medium down) {
+    @include breakpoint(small down) {
       display: block;
       width: 100%;
     }
@@ -105,7 +108,7 @@
     }
   }
 
-  @include breakpoint(medium down) {
+  @include breakpoint(small down) {
     li.plus {
       display: block;
       position: absolute;
@@ -122,13 +125,13 @@
     }
   }
 
-  @include breakpoint(medium down) {
+  @include breakpoint(small down) {
     display: none;
   }
 }
 
 
-@include breakpoint(medium down) {
+@include breakpoint(small down) {
   .menu-item-328,
   .menu-item-121 {
     > a:after {

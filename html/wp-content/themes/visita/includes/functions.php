@@ -41,7 +41,14 @@ function visita_before_loop(){
 *
 */
 function visita_after_loop(){
-    do_action( 'visita_after_loop' );
+  do_action( 'visita_after_loop' );
+}
+
+/**
+*
+*/
+function visita_after_post_content( ) {
+  do_action( 'visita_after_post_content' );
 }
 
 /**

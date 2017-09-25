@@ -9,7 +9,7 @@
   .entry-header {
     padding-top: .75em;
   }
-  
+
   .entry-content {
     padding-bottom: 1em;
   }
@@ -52,5 +52,53 @@
 .active-price_max.order-asc .tab-price {
   > a:after {
     content: "\F106";
+  }
+}
+
+@include breakpoint(medium up) {
+  #nav-social {
+    float: right;
+  }
+}
+
+.visita-widget {
+  padding: 1em;
+  background-color: $gray-lightest;
+  box-shadow: inset 0 0 2px $gray-light;
+
+  @include breakpoint(medium up) {
+    padding: 1.5em;
+  }
+
+  .widget-title {
+    background: $primary-color;
+    color: $white;
+    margin: .35em 0;
+    padding: .5em;
+  }
+
+  .hentry {
+    box-shadow: 0 2px 1px rgba(93,93,93,.26);
+    margin: 0 0 10px;
+    overflow: hidden;
+    position: relative;
+    height: 120px;
+
+    @include breakpoint(medium up) {
+      min-height: 215px;
+    }
+
+    @include breakpoint(375 down) {
+      height: 110px;
+      margin: 0 0 10px;
+    }
+
+    @include breakpoint(320 down) {
+      height: 100px;
+    }
+
+    .hmedia a {
+      display: block;
+    }
   }
 }

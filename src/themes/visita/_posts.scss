@@ -4,13 +4,15 @@
   letter-spacing: -.02em;
 }
 
-.entry-header {
+.entry-header,
+.visita-widget .entry-header {
   .date, .edit-link {
     font-size: .8em;
   }
 }
 
-.entry-header.float {
+.entry-header.float,
+.visita-widget .entry-header {
   background: rgba(0,0,0,.6);
   bottom: 0;
   color: $white;
