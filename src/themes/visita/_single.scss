@@ -126,10 +126,18 @@
   display: block;
 }
 
+.error404 .entry-title {
+  margin: .25em 0 .5em;
+}
+
 .error404 .no-results {
   margin-top: 14px;
   padding: 1em .75em 0;
   border: 1px solid $gray-light;
+
+  @include breakpoint(medium up) {
+    padding: 1em;
+  }
 
   p {
     line-height: normal;

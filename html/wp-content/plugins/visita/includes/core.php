@@ -29,6 +29,7 @@ class Visita_Core {
     add_action( 'after_setup_theme', array( $this, 'register_post_types'), 0 );
 
     //disable acf save hook
+    add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
     add_action( 'acf/init', array( $this, 'disable_save_action' ) );
 
     //speed up wordpress
@@ -162,6 +163,41 @@ class Visita_Core {
   */
   function disable_save_action( ) {
     remove_action( 'acf/save_post', array( acf()->input, 'save_post' ), 10, 2 );
+  }
+
+  /**
+  *
+  * @return void
+  * @since 3.0.0
+  */
+  function register_acf_fields( ) {
+    register_field_group( array(
+      'key' => '',
+      'title' => __( 'SEO', 'visita' ),
+      'menu_order' => 2,
+      'fields' => array(
+        array(
+          'key' => '_description',
+          'name' => '_description',
+          'label' => __( 'Description', 'visita' ),
+          'type' => 'textarea',
+        ),
+      ),
+      'options' => array(
+        'layout' => 'default',
+        'position' => 'side',
+        'hide_on_screen' => array(),
+      ),
+      'location' => array (
+        array (
+          array (
+            'param' => 'post_type',
+            'operator' => '!=',
+            'value' => '',
+          ),
+        ),
+      ),
+    ) );
   }
 
   /**

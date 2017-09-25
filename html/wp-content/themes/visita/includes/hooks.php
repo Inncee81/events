@@ -314,3 +314,43 @@ function visita_get_the_archive_title( $title ) {
   return $title;
 }
 add_filter( 'get_the_archive_title', 'visita_get_the_archive_title' );
+
+/**
+* Add metag data per content if data is available
+*/
+function visita_head_metatags( ) {
+  echo '<meta name="twitter:site" content="@visita_vegas">' . "\n";
+
+  if ( is_front_page() ){
+    echo '<meta name="description" content="Visita Las Vegas (Guía de turismo) Eventos, Shows, Atracciones, Conciertos, Clubs, Hoteles" />' . "\n";
+    echo '<meta name="twitter:description" content="Visita Las Vegas (Guía de turismo) Eventos, Shows, Atracciones, Conciertos, Clubs, Hoteles" />' . "\n";
+  }
+
+  if ( is_tax() && $description = term_description() ) {
+    echo '<meta name="description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
+    echo '<meta name="twitter:description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
+  }
+
+  if ( is_singular() && $description = get_post_meta( get_the_ID(), '_description', true ) ){
+    echo '<meta name="description" content="' . esc_attr( strip_tags( $description ) ) . '"  />' . "\n";
+    echo '<meta name="twitter:description" content="'.  esc_attr( strip_tags( $description ) ) .'">' . "\n";
+    echo '<meta name="og:description" content="'.  esc_attr( strip_tags( $description ) ) .'">' . "\n";
+  }
+
+	if ( is_front_page() || is_tax() ){
+		echo '<meta property="og:image" content="'. site_url( '/wp-content/themes/visita/img/visita.jpg' )  .'" />'. "\n";
+		echo '<meta name="twitter:image:src" content="'. site_url( '/wp-content/themes/visita/img/visita.jpg' )  .'">'. "\n";
+    echo '<link rel="image_src" href="' . site_url( '/wp-content/themes/visita/img/visita.jpg' )  . '"  />' . "\n";
+	}
+
+  if ( has_post_thumbnail( get_the_ID() ) && is_singular() ) {
+    if( $image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ),  'large' ) ) {
+      echo '<meta name="twitter:image:src" content="'. esc_url( $image[0] )  .'">'. "\n";
+      echo '<meta property="og:image" content="'. esc_url( $image[0] )  .'" />'. "\n";
+      echo '<meta property="og:image:width" content="'. esc_attr( $image[1] )  .'" />'. "\n";
+      echo '<meta property="og:image:height" content="'. esc_attr( $image[2] )  .'" />'. "\n";
+      echo '<link rel="image_src" href="' . esc_url( $image[0] ) . '"  />' . "\n";
+    }
+  }
+}
+add_action( 'visita_site_metatags', 'visita_head_metatags', 20 );

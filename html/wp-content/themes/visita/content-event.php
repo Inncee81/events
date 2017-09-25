@@ -61,6 +61,6 @@
     </div><!-- .entry-content -->
   <?php endif; // is_single() ?>
 
-  <?php if (is_single()) visita_get_performers(); ?>
+  <?php if ( is_single() ) visita_get_performers(); ?>
 
  </article><!-- .post-<?php the_ID(); ?> -->
