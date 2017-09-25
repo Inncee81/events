@@ -42,6 +42,25 @@ table {
   }
 }
 
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow: -1px -1px 0 #ddd;
+  display: inline-block;
+  margin: 0 5px 5px;
+  font-size: 1.2em;
+  height: 21px;
+  line-height: 1.35em;
+  width: 21px;
+  vertical-align: middle;
+
+  &:checked:before {
+    content: '\f00c';
+    margin: -1px 0 0 3px;
+    display: block;
+  }
+}
+
 .adsbygoogle.top {
   margin: .75em auto;
 
@@ -108,7 +127,7 @@ h1.entry-title {
 
 .window-scroll-up {
   display: block;
-  margin-top: 1em;
+  margin: 1em 0;
   line-height: normal;
   text-align: center;
 

@@ -1,19 +1,19 @@
 <?php
 /**
- * Visita -  main template for displaying content
+ * Visita -  template for displaying page content
  *
- * @file content.php
+ * @file content-page.php
  * @package visita
  * @author Hafid Trujillo
- * @copyright 2010-2018 Xpark Media
+ * @copyright 2010-2015 Xpark Media
  * @license license.txt
  * @version release: 0.1.0
- * @filesource  wp-content/themes/visita/content.php
+ * @filesource  wp-content/themes/visita/content-page.php
  * @since available since 0.1.0
  */
  ?>
 
-<article itemscope itemtype="https://schema.org/Blog" <?php post_class(); ?>>
+<article itemscope itemtype="https://schema.org/Article" <?php post_class(); ?>>
 
   <?php if ( has_post_thumbnail() ) : ?>
     <figure class="hmedia">
@@ -25,7 +25,7 @@
     </figure>
   <?php endif; // has_post_thumbnail() ?>
 
-  <header class="entry-header<?php if ( ! is_single() ) echo ' float' ?>">
+  <header class="entry-header<?php if ( ! is_page() ) echo ' float' ?>">
     <?php edit_post_link( __( 'Edit', 'visita' ), '<span class="edit-link">', '</span>' ); ?>
     <?php
       printf(
@@ -38,18 +38,13 @@
         esc_attr( sprintf( __( 'Link to %s', 'visita' ), the_title_attribute( 'echo=0' ) ) )
       )
     ?>
-    <?php visita_get_post_date(); ?>
     <span itemprop="author" class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
-    <?php if ( is_single() ) visita_share_botton(); ?>
   </header><!-- .entry-header -->
 
-  <?php if ( is_single() ) : ?>
+  <?php if ( is_page() ) : ?>
     <div itemprop="description" class="entry-content">
       <?php the_content( __( 'Continue <span class="meta-nav">&rarr;</span>', 'visita' ) ); ?>
-      <div class="entry-meta">
-        <?php if ( is_single() ) visita_entry_tax( 'category' ) ?>
-      </div><!-- .entry-meta -->
     </div><!-- .entry-content -->
   <?php endif; // is_single() ?>
 
-</article><!-- .post-<?php the_ID(); ?> -->
+</article><!-- #post-<?php the_ID(); ?> -->

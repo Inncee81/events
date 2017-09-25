@@ -11,7 +11,7 @@
 * @since available since 0.1.0
 */
 
-class VisitaCore {
+class Visita_Core {
 
   /**
    * Constructor
@@ -123,7 +123,7 @@ class VisitaCore {
   *
   */
   function display_widgets( ) {
-    if ( ( is_singular() && ! is_singular( 'post' ) ) || is_404() ) {
+    if ( ( is_singular() && ! is_singular( 'post' ) && ! is_page() ) || is_404() ) {
       add_filter( 'visita_after_loop', array( $this, 'display_widget' ), 0 );
     }
   }

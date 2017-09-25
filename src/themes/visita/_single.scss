@@ -1,3 +1,8 @@
+
+.botton {
+  @extend .button;
+}
+
 .single {
 
   .date {
@@ -121,6 +126,16 @@
   display: block;
 }
 
+.error404 .no-results {
+  margin-top: 14px;
+  padding: 1em .75em 0;
+  border: 1px solid $gray-light;
+
+  p {
+    line-height: normal;
+  }
+}
+
 .nav-next, .nav-previous {
   display: inline-block;
   vertical-align: middle;
@@ -202,5 +217,15 @@
     position: absolute;
     right: -10px;
     top: 0;
+  }
+}
+
+.caldera-grid label {
+  display: inline-block;
+  min-width: 9.5em;
+
+  @include breakpoint(small down) {
+    min-width: 45%;
+    padding: 0 2%;
   }
 }

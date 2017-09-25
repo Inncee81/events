@@ -58,7 +58,6 @@ $breakpoint-classes: (small medium);
 @include foundation-global-styles;
 @include foundation-typography-base;
 @include foundation-typography-helpers;
-// @include foundation-text-alignment;
 @include foundation-flex-classes;
 @include foundation-grid;
 @include foundation-tabs;
@@ -67,11 +66,9 @@ $breakpoint-classes: (small medium);
 
 @include foundation-button-group;
 @include foundation-card;
-// @include foundation-menu;
 @include foundation-label;
 @include foundation-pagination;
 @include foundation-table;
-// @include foundation-visibility-classes;
 @include foundation-float-classes;
 
 @import 'single';

@@ -5,7 +5,7 @@ const lazyLoad = new LazyLoad();
 ( ( $, doc ) => {
 
   let mobileLoaded = false;
-  const mobileWidth =  767;
+  const mobileWidth =  768;
   const stylesheet = {
     type: 'text/css',
     rel: 'stylesheet',
@@ -50,7 +50,7 @@ const lazyLoad = new LazyLoad();
   $( '.menu-main .menu-item-has-children > a' ).on( 'touchend', ( e ) => {
     e.preventDefault();
      $( e.target  )
-     .parent( )
+     .parent()
      .toggleClass( 'show' )
      .siblings()
      .removeClass( 'show' )

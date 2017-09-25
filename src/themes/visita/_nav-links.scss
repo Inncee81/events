@@ -5,7 +5,7 @@
   width: 100%;
   position: relative;
 
-  @include breakpoint(small down) {
+  @include breakpoint(medium down) {
     text-align: center;
   }
 

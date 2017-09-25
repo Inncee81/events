@@ -35,7 +35,7 @@ define( 'VISITA_FILE_NAME', plugin_basename( __FILE__ ) );
 define( 'VISITA_ABSPATH', str_replace( "\\", "/", dirname( __FILE__ ) ) );
 define( 'VISITA_INC', VISITA_ABSPATH . '/includes' );
 
-if ( ! class_exists( 'VisitaCore' ) ){
+if ( ! class_exists( 'Visita_Core' ) ){
 
 	include_once( VISITA_INC . "/core.php" );
 	include_once( VISITA_INC . "/base.php" );
@@ -46,5 +46,5 @@ if ( ! class_exists( 'VisitaCore' ) ){
 	include_once( VISITA_INC . "/widget.php" );
 	include_once( VISITA_INC . "/attractions.php" );
 
-	$VisitaCore = new VisitaCore();
+	$Visita_Core = new Visita_Core();
 }
