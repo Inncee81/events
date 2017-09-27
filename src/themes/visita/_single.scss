@@ -241,3 +241,36 @@
     padding: 0 2%;
   }
 }
+
+.event-list {
+  border-top: 2px solid $gray-medium;
+  margin: 0 0 2em;
+
+  li {
+    display: block;
+    list-style: none;
+  }
+
+  li em {
+    font-style: normal;
+
+    @include breakpoint(small down) {
+      display: block;
+    }
+  }
+
+  li a {
+    display: block;
+    border-bottom: 2px solid #ddd;
+    padding: 8px 20px;
+  }
+
+  li a:before {
+    content: $fa-var-angle-right;
+    float: right;
+
+    @include breakpoint(small down) {
+      line-height: 3em;
+    }
+  }
+}

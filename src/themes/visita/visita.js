@@ -26,7 +26,7 @@ const lazyLoad = new LazyLoad();
   } )
 
   //make headers clickable
-  $( '.entry-header.float' ).on( 'click', function( e ) {
+  $( '.entry-header.float, .visita-widget .entry-header' ).on( 'click', function( e ) {
     if ( e.target.className !== 'post-edit-link' ) {
       e.preventDefault();
       $( this ).parent( ).find( '.image.url' )[0].click();

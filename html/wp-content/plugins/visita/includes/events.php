@@ -290,9 +290,9 @@ class VisitaEvents extends VisitaBase {
     add_action( 'visita_ticketmater_import', array( $this, 'ticketmater_import' ) );
 
     //basics
+    add_action( 'init', array( $this, 'activate' ) );
     add_action( 'init', array( $this, 'register_post_type' ) );
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 200 );
-    add_action( 'visita_activate', array( $this, 'activate' ) );
     add_action( 'visita_deactivate', array( $this, 'deactivate' ) );
 
     //fields
@@ -329,7 +329,7 @@ class VisitaEvents extends VisitaBase {
    * @return void
    * @since 0.5.0
    */
-  function deactivate() {
+  function deactivate( ) {
     wp_clear_scheduled_hook( 'visita_expire' );
     wp_clear_scheduled_hook( 'visita_ticketmater_import' );
   }
@@ -342,8 +342,10 @@ class VisitaEvents extends VisitaBase {
    * @since 0.5.0
    */
   function activate( ) {
-    wp_schedule_event( strtotime( '2 AM' ), 'daily', 'visita_expire' );
-    wp_schedule_event( strtotime( '3 AM' ), 'twicedaily', 'visita_ticketmater_import');
+    if ( ! wp_next_scheduled ( 'visita_expire' )) {
+      wp_schedule_event( strtotime( '2 AM' ), 'daily', 'visita_expire' );
+      wp_schedule_event( strtotime( '3 AM' ), 'twicedaily', 'visita_ticketmater_import');
+    }
   }
 
   /**
@@ -374,7 +376,7 @@ class VisitaEvents extends VisitaBase {
   * @since 3.0.0
   */
   function adjacent_post_sort( $direction ) {
-    return esc_sql( " ORDER BY start.meta_key $direction LIMIT 1 " );
+    return esc_sql( " ORDER BY start.meta_value $direction LIMIT 1 " );
   }
 
   /**
@@ -385,7 +387,31 @@ class VisitaEvents extends VisitaBase {
   */
   function adjacent_post_join( ) {
     global $wpdb;
-    return " INNER JOIN $wpdb->postmeta start ON (p.ID = start.post_id) AND start.meta_key = '_starts' ";
+    return " INNER JOIN $wpdb->postmeta start ON (p.ID = start.post_id) AND start.meta_key = '_starts' AND start.meta_value != 0 ";
+  }
+
+  /**
+  * Sort objects by title and date
+  *
+  * @return string
+  * @since 3.0.0
+  */
+  function adjacent_post_where( $direction ) {
+    global $wpdb;
+
+    $language = '';
+    if ( function_exists( 'pll_current_language') ) {
+      if ( $term_id = pll_current_language( 'term_id') ) {
+        $language = $wpdb->prepare(" AND p.ID IN ( SELECT tr.object_id FROM $wpdb->term_relationships tr LEFT JOIN $wpdb->term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id) WHERE tt.term_id IN (%d) )", $term_id );
+      }
+    }
+
+    return $wpdb->prepare(
+      " WHERE start.meta_value $direction %d AND p.post_type = '%s' AND p.post_status = 'publish' AND p.ID != %d $language",
+      get_post_meta( get_the_ID(), '_starts', true ),
+      get_post_type( ),
+      get_the_ID()
+    );
   }
 
   /**
@@ -786,7 +812,7 @@ class VisitaEvents extends VisitaBase {
       'meta_query'   => array(
         array(
           'key'      => '_ends',
-          'compare'  => '<=',
+          'compare'  => '<',
           'value'    => strtotime( 'Today' ),
         ),
         array(
@@ -797,7 +823,7 @@ class VisitaEvents extends VisitaBase {
     ) );
 
     foreach( $posts as $post ) {
-      wp_delete_post( $post->ID, true );
+      wp_delete_post( $post->ID );
     }
   }
 }

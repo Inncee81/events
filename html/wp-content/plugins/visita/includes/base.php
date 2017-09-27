@@ -246,6 +246,14 @@ class VisitaBase {
   */
   function adjacent_post_where( $direction ) {
     global $wpdb, $post;
+
+    $language = '';
+    if ( function_exists( 'pll_current_language') ) {
+      if ( $term_id = pll_current_language( 'term_id') ) {
+        $language = $wpdb->prepare(" AND p.ID IN ( SELECT tr.object_id FROM $wpdb->term_relationships tr LEFT JOIN $wpdb->term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id) WHERE tt.term_id IN (%d) )", $term_id );
+      }
+    }
+
     return $wpdb->prepare(
       " WHERE p.post_title $direction '%s' AND p.post_type = '%s' AND p.post_status = 'publish'",
       $post->post_title,

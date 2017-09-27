@@ -210,8 +210,8 @@ $next     	= get_adjacent_post( false, '', false);
 *
 * @return void
 */
-function visita_post_schema( $type ) {
-  if ( $type = get_post_meta( get_the_ID(), $type, true ) ) {
+function visita_post_schema( $meta_key ) {
+  if ( $type = get_post_meta( get_the_ID(), $meta_key, true ) ) {
     printf(
       'itemscope itemtype="https://schema.org/%1$s"',
       esc_attr( $type )

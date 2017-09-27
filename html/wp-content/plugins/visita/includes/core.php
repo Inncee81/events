@@ -32,6 +32,9 @@ class Visita_Core {
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
     add_action( 'acf/init', array( $this, 'disable_save_action' ) );
 
+    //short code
+    add_shortcode( 'lista-eventos', array( $this, 'shortcode_event_list' ) );
+
     //speed up wordpress
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
       return;
@@ -263,6 +266,113 @@ class Visita_Core {
         'before_title'  		=> '<h3 class="widget-title">',
         'after_title'   		=> '</h3>',
       )
+    );
+  }
+
+  /**
+  *
+  * @return void
+  * @since 0.5.0
+  */
+  function shortcode_event_list( $atts ) {
+
+    extract( shortcode_atts( array(
+        'mes' => false,
+        'fecha' => false,
+        'semana' => false,
+        'categoria' => false,
+      ), $atts, 'lista-eventos' )
+    );
+
+    // we need a date
+    if ( ! $fecha && ! $semana && ! $mes ) {
+      return;
+    }
+
+    $tax_query = ( $categoria ) ?
+      array( array(
+        'field' => 'name',
+        'terms' => $categoria,
+        'taxonomy' => 'events',
+      ) )
+    : array( );
+
+    // legacy attributes to date
+    if ( $mes ) {
+      $end = strtotime( 'first day of next month' );
+      $start = strtotime( 'first day of this month' );
+    }
+
+    // legacy attributes to date
+    if ( $semana ) {
+      $end = strtotime( 'monday this week' );
+      $start = strtotime( 'monday next week');
+    }
+
+    // legacy attributes to date
+    if ( $fecha ) {
+      $end = false;
+      $start = strtotime( $fecha );
+    }
+
+    $query = new WP_Query(array(
+			'post_type'      => array( 'event', 'show' ),
+			'posts_per_page' => 40,
+      'meta_key'       => '_starts',
+			'orderby'        => 'meta_value',
+			'order'          => 'ASC',
+      'tax_query'      => $tax_query,
+      'meta_query'     => array(
+        'relation'     => 'OR',
+        array(
+          array(
+            'compare'  => '>=',
+            'value'    => array( $start, $end ),
+            'key'      => '_starts',
+            'compare'  => 'BETWEEN'
+          ),
+        ),
+        array(
+          array(
+            'compare'  => '<=',
+            'key'      => '_ends',
+            'value'    => $end,
+          ),
+        ),
+      )
+    ) );
+
+    $list = '';
+    foreach( $query->posts as $post ) {
+      $from = get_post_meta( $post->ID, '_starts', true );
+      $list .= sprintf(
+      '<li itemscope itemtype="http://schema.org/Event">
+        <a itemprop="url" class="url" href="%1$s" title="%2$s" rel="bookmark">
+          <meta class="image" itemprop="image" content="%8$s" />
+          <time itemprop="startDate" datetime="%4$s">%5$s</time> <strong itemprop="name">%3$s</strong>
+          <em itemprop="location" itemscope itemtype="http://schema.org/Place">' . __( 'at', 'visita' ) . '
+            <span itemprop="name">%6$s</span>
+            <span class="hidden" itemprop="address" itemscope>%7$s</span>
+          </em>
+        </a>
+      </li>',
+        get_permalink( $post->ID ),
+        esc_attr( $post->post_title ),
+        esc_html( $post->post_title ),
+        esc_attr( date_i18n( 'c', $from ) ),
+        esc_html( date_i18n( 'j M', $from ) ),
+        esc_html( get_post_meta( $post->ID, '_location', true ) ),
+        esc_html( get_post_meta( $post->ID, '_street', true ) ),
+        get_the_post_thumbnail_url( $post )
+      );
+    }
+
+    return sprintf(
+      '<h2><a href="/" title="%1$s" rel="bookmark">%2$s</a></h2>
+      <ul class="event-list">%3$s</ul>',
+      esc_attr__( 'All Events', 'admin' ),
+      __( 'Events', 'visita'),
+      $list
     );
   }
 }
