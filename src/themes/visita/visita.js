@@ -70,13 +70,13 @@ const lazyLoad = new LazyLoad();
     nav.toggleClass( 'show-menu' );
   } );
 
-  $( '.menu-main .menu-item-has-children > a' ).on( 'touchend', ( e ) => {
-    e.preventDefault();
-     $( e.target  )
-     .parent()
-     .toggleClass( 'show' )
-     .siblings()
-     .removeClass( 'show' )
-  } )
+  // $( '.menu-main .menu-item-has-children > a' ).on( 'touchend', ( e ) => {
+  //   e.preventDefault();
+  //    $( e.target  )
+  //    .parent()
+  //    .toggleClass( 'show' )
+  //    .siblings()
+  //    .removeClass( 'show' )
+  // } )
 
 } )( jQuery );

@@ -88,6 +88,10 @@ $breakpoint-classes: (large xlarge);
     li {
       display: inline-block;
 
+      &:hover .sub-menu li {
+        display: block;
+      }
+
       a {
         display: block;
         padding: .65rem 1.35em !important;

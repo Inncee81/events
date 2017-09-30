@@ -294,13 +294,15 @@ class Visita_Core {
   */
   function display_widget( ) {
     $type = ( $type = get_post_type() ) ? $type : 'event';
-    the_widget(
-      'Visita_Widget', array(
-        'title' => sprintf( __( 'More %s', 'visita' ), $this->{ $type }->get_name() ),
-        'before_title'  		=> '<h3 class="widget-title">',
-        'after_title'   		=> '</h3>',
-      )
-    );
+    if ( isset( $this->{ $type } ) ) {
+      the_widget(
+        'Visita_Widget', array(
+          'title' => sprintf( __( 'More %s', 'visita' ), $this->{ $type }->get_name() ),
+          'before_title'  		=> '<h3 class="widget-title">',
+          'after_title'   		=> '</h3>',
+        )
+      );
+    }
   }
 
   /**

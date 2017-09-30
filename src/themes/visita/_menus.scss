@@ -22,9 +22,9 @@
 #nav {
   a {
     color: $gray-lightest;
+    border-bottom: $menu-mobile-border;
 
     @include breakpoint(medium down) {
-      border-bottom: $menu-mobile-border;
       display: block;
       padding: .5em .65em;
     }
@@ -72,7 +72,6 @@
     }
 
     a {
-
       @include breakpoint(medium up) {
         padding: .65rem 1.35em;
         display: block;
@@ -82,10 +81,7 @@
 
   .sub-menu {
     background-color: lighten( $primary-color, 6 );
-
-    li {
-      display: none;
-    }
+    text-align: left;
 
     li a {
       padding-left: 2.5em;
