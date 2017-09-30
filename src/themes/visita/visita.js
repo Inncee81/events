@@ -70,13 +70,30 @@ const lazyLoad = new LazyLoad();
     nav.toggleClass( 'show-menu' );
   } );
 
-  // $( '.menu-main .menu-item-has-children > a' ).on( 'touchend', ( e ) => {
-  //   e.preventDefault();
-  //    $( e.target  )
-  //    .parent()
-  //    .toggleClass( 'show' )
-  //    .siblings()
-  //    .removeClass( 'show' )
-  // } )
+  let count = 0, time= 400, timer;
+
+  $( '.menu-main .menu-item-has-children > a' ).on( 'touchend', ( e ) => {
+
+    e.preventDefault();
+
+    count++
+
+    if ( count > 1 ) {
+      clearTimeout( timer );
+
+      if ( e.target.href ) {
+        document.location.href = e.target.href;
+      }
+
+    } else  {
+
+      timer = setTimeout(() => count = 0, time);
+
+      $( e.target  ).parent()
+      .toggleClass( 'show' )
+      .siblings()
+      .removeClass( 'show' )
+    }
+  } );
 
 } )( jQuery );
