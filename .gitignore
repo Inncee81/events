@@ -15,3 +15,4 @@ html/wp-config.php
 html/wp-content/uploads
 html/wp-content/plugins/developer
 html/wp-content/plugins/debug-*
+wp-config.php

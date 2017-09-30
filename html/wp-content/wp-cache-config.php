@@ -5,11 +5,16 @@ WP-Cache Config Sample File
 See wp-cache.php for author details.
 */
 
+$wpsc_last_post_update = 1506763767; //Added by WP-Cache Manager
+$cached_direct_pages = array(  ); //Added by WP-Cache Manager
+$wpsc_save_headers = 0; //Added by WP-Cache Manager
+$cache_time_interval = '600'; //Added by WP-Cache Manager
+$cache_schedule_type = 'interval'; //Added by WP-Cache Manager
 $wp_cache_home_path = '/'; //Added by WP-Cache Manager
 $dismiss_gc_warning = 1; //Added by WP-Cache Manager
 $wp_cache_mobile_groups = ''; //Added by WP-Cache Manager
 $wp_cache_mobile_prefixes = 'w3c , w3c-, acs-, alav, alca, amoi, audi, avan, benq, bird, blac, blaz, brew, cell, cldc, cmd-, dang, doco, eric, hipt, htc_, inno, ipaq, ipod, jigs, kddi, keji, leno, lg-c, lg-d, lg-g, lge-, lg/u, maui, maxo, midp, mits, mmef, mobi, mot-, moto, mwbp, nec-, newt, noki, palm, pana, pant, phil, play, port, prox, qwap, sage, sams, sany, sch-, sec-, send, seri, sgh-, shar, sie-, siem, smal, smar, sony, sph-, symb, t-mo, teli, tim-, tosh, tsm-, upg1, upsi, vk-v, voda, wap-, wapa, wapi, wapp, wapr, webc, winw, winw, xda , xda-'; //Added by WP-Cache Manager
-$wp_cache_refresh_single_only = '1'; //Added by WP-Cache Manager
+$wp_cache_refresh_single_only = 1; //Added by WP-Cache Manager
 $wp_cache_make_known_anon = 0; //Added by WP-Cache Manager
 $wp_cache_mod_rewrite = 0; //Added by WP-Cache Manager
 $wp_cache_front_page_checks = 0; //Added by WP-Cache Manager
@@ -19,13 +24,15 @@ $wp_cache_no_cache_for_get = 0; //Added by WP-Cache Manager
 $wp_cache_disable_utf8 = 0; //Added by WP-Cache Manager
 $cache_page_secret = '40b7fd4c807987987744we16b2c1cf46062'; //Added by WP-Cache Manager
 $wp_cache_slash_check = 1; //Added by WP-Cache Manager
-if ( ! defined('WPCACHEHOME') )
+
+if ( ! defined('WPCACHEHOME') ) {
 	define( 'WPCACHEHOME', WP_CONTENT_DIR . "/plugins/wp-super-cache/" ); //Added by WP-Cache Manager
+}
 
 $cache_compression = 1; //Added by WP-Cache Manager
 $cache_enabled = false; //Added by WP-Cache Manager
 $super_cache_enabled = true; //Added by WP-Cache Manager
-$cache_max_time = 3600; //in seconds (3600 1 hours)
+$cache_max_time = '1800'; //Added by WP-Cache Manager
 //$use_flock = true; // Set it true or false if you know what to use
 $cache_path = WP_CONTENT_DIR . '/cache'; //Added by WP-Cache Manager
 $file_prefix = 'cache-';
@@ -42,7 +49,7 @@ $cache_rebuild_files = 1; //Added by WP-Cache Manager
 // Disable the file locking system.
 // If you are experiencing problems with clearing or creating cache files
 // uncommenting this may help.
-$wp_cache_mutex_disabled = 0; //Added by WP-Cache Manager
+$wp_cache_mutex_disabled = 1; //Added by WP-Cache Manager
 
 // Just modify it if you have conflicts with semaphores
 $sem_id = 559310614; //Added by WP-Cache Manager
@@ -91,5 +98,5 @@ $wp_cache_hide_donation = 0;
 $wp_cache_not_logged_in = 1; //Added by WP-Cache Manager
 $wp_cache_clear_on_post_edit = 0; //Added by WP-Cache Manager
 $wp_cache_hello_world = 0; //Added by WP-Cache Manager
-$wp_cache_mobile_enabled = 0; //Added by WP-Cache Manager
+$wp_cache_mobile_enabled = 1; //Added by WP-Cache Manager
 $wp_cache_cron_check = 1; //Added by WP-Cache Manager

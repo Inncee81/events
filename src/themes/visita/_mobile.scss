@@ -26,6 +26,7 @@ main {
 .site-logo {
   font: 300 1.3em $font-sans;
   letter-spacing: -.05em;
+  margin: 0 0 0.5rem;
 
   a:hover, a:focus {
     color: $white;
@@ -55,5 +56,11 @@ main {
     height: 1.85em;
     margin-bottom: .5em;
     padding-left: 2.5em;
+    border: 1px solid $gray-light;
+    background-color: #fefefe;
+
+    &::placeholder {
+      color: $gray-medium;
+    }
   }
 }
