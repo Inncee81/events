@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
-"POT-Creation-Date: 2017-09-24 16:25-0700\n"
-"PO-Revision-Date: 2017-09-24 16:25-0700\n"
+"POT-Creation-Date: 2017-09-27 02:52-0700\n"
+"PO-Revision-Date: 2017-09-27 02:54-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -78,7 +78,7 @@ msgstr ""
 #: includes/attractions.php:100 includes/clubs.php:100 includes/events.php:114
 #: includes/hotels.php:94 includes/shows.php:101
 msgid "Currency"
-msgstr ""
+msgstr "Moneda"
 
 #: includes/attractions.php:109 includes/clubs.php:109 includes/hotels.php:103
 msgid "Business Type"
@@ -223,7 +223,7 @@ msgstr "de"
 msgid "to"
 msgstr "a las"
 
-#: includes/base.php:436
+#: includes/base.php:444
 msgid "Sort:"
 msgstr "Ordenar:"
 
@@ -255,26 +255,43 @@ msgstr "Night Club"
 msgid "Comedy Club"
 msgstr ""
 
-#: includes/core.php:112
+#: includes/core.php:116
 msgid "page"
 msgstr "pagina"
 
-#: includes/core.php:201 includes/core.php:202
+#: includes/core.php:179
+msgid "SEO"
+msgstr ""
+
+#: includes/core.php:185
+msgid "Description"
+msgstr "Descripción"
+
+#: includes/core.php:240 includes/core.php:241
 msgid "Visita Import"
 msgstr "Importar"
 
-#: includes/core.php:226
+#: includes/core.php:265
 #, php-format
 msgid "More %s"
 msgstr "Más %s"
 
+#: includes/core.php:353
+msgid "at"
+msgstr "en "
+
+#: includes/core.php:373
+msgid "All Events"
+msgstr "Todos los Eventos"
+
+#: includes/core.php:374 includes/events.php:47 includes/events.php:50
+#: includes/events.php:773
+msgid "Events"
+msgstr "Eventos"
+
 #: includes/events.php:46
 msgid "event"
 msgstr "evento"
-
-#: includes/events.php:47 includes/events.php:50 includes/events.php:747
-msgid "Events"
-msgstr "Eventos"
 
 #: includes/events.php:48 includes/events.php:133 includes/shows.php:120
 msgid "Event"
@@ -294,11 +311,11 @@ msgstr "Detalles del Evento"
 
 #: includes/events.php:82
 msgid "Permanent"
-msgstr ""
+msgstr "Permanente"
 
 #: includes/events.php:88
 msgid "Disable UTM"
-msgstr ""
+msgstr "Desactivar UTM"
 
 #: includes/events.php:122 includes/shows.php:109
 msgid "Duration (Minutes)"
@@ -412,17 +429,17 @@ msgstr ""
 msgid "Theater Group"
 msgstr ""
 
-#: includes/events.php:722
+#: includes/events.php:748
 msgid "keyword.."
 msgstr "palabras clave.."
 
-#: includes/events.php:745
+#: includes/events.php:771
 msgid "site url.."
 msgstr ""
 
-#: includes/events.php:746 includes/shows.php:385
+#: includes/events.php:772 includes/shows.php:385
 msgid "json..."
-msgstr ""
+msgstr "json…"
 
 #: includes/hotels.php:35
 msgid "hotel"
@@ -442,7 +459,7 @@ msgstr "hoteles"
 
 #: includes/hotels.php:45
 msgid "hotel, casino"
-msgstr ""
+msgstr "hotel, casino"
 
 #: includes/hotels.php:56
 msgid "Hotel Details"

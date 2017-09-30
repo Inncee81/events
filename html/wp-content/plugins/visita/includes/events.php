@@ -805,7 +805,7 @@ class VisitaEvents extends VisitaBase {
   */
   function expire_events( ) {
 
-    $posts = get_post( array(
+    $posts = get_posts( array(
       'post_status'  => 'any',
       'posts_per_page' => -1,
       'post_type'    => $this->post_type,
@@ -817,7 +817,7 @@ class VisitaEvents extends VisitaBase {
         ),
         array(
           'value'    => 0,
-          'key'      => '_permanente',
+          'key'      => '_permanent',
         )
       )
     ) );
@@ -834,6 +834,7 @@ class VisitaEvents extends VisitaBase {
 // UPDATE `visit_postmeta` SET meta_key = '_street' WHERE meta_key = 'calle';
 // UPDATE `visit_postmeta` SET meta_key = '_location' WHERE meta_key = 'location';
 // UPDATE `visit_postmeta` SET meta_key = '_zip' WHERE meta_key = 'codigo_postal';
+// UPDATE `visit_postmeta` SET meta_key = '_permanent' WHERE meta_key = '_permanente';
 // UPDATE `visit_postmeta` SET meta_value = 'events' WHERE meta_key = '_menu_item_object' AND meta_value = 'eventos';
 // UPDATE `visit_term_taxonomy`  SET taxonomy = 'events' WHERE taxonomy = 'eventos';
 // SET time_zone = '+00:00'; UPDATE IGNORE `visit_postmeta` f LEFT JOIN `visit_postmeta` h ON f.post_id = h.post_id  SET f.meta_value = round( unix_timestamp(CONCAT( f.meta_value, ' ', h.meta_value))), f.meta_key = '_starts' WHERE f.meta_key = '_fecha' AND h.meta_key = '_horario';

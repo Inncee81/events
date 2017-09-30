@@ -35,8 +35,12 @@ const lazyLoad = new LazyLoad();
 
   // open external link on new window
   $( 'a[rel="external"]' ).each( function( e ) {
-    if ( this.href !== '#' &&  this.href !== '') {
-      $(this).attr( { target: '_blank' } );
+    var $href =  $(this).attr( 'href' );
+
+    if ( $href!== '#' &&  $href!== '') {
+      $( this ).attr( { target: '_blank' } );
+    } else {
+      $( this ).attr( { 'rel': 'bookmark'} )
     }
 	});
 

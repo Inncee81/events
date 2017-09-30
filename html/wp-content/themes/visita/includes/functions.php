@@ -251,8 +251,12 @@ function visita_format_price( $price, $symbol = '$' ) {
 *
 * @return void
 */
-function visita_entry_tax( $taxonomy ) {
-  if ( $taxonomy_list = get_the_term_list( get_the_ID(), $taxonomy, '', '' ) ) {
+function visita_entry_tax( $post ) {
+  if ( ! $taxonomies = get_object_taxonomies( $post ) ) {
+    return;
+  }
+
+  if ( $taxonomy_list = get_the_term_list( get_the_ID(), $taxonomies[0], '', '' ) ) {
     if ( ! is_wp_error( $taxonomy_list ) ) {
       echo $taxonomy_list = '<div class="taxonomy-links">' . $taxonomy_list . '</div>';
     }
