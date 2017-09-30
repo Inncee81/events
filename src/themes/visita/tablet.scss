@@ -101,13 +101,5 @@ $breakpoint-classes: (large xlarge);
         background-color: lighten( $primary-color, 6 );
       }
     }
-
-    .menu-item-has-children {
-      > a:after {
-        content: $fa-var-angle-down !important;
-        position: relative;
-        right: -.75em;
-      }
-    }
   }
 }

@@ -101,6 +101,11 @@
       float: right;
       font-family: FontAwesome;
       content: $fa-var-angle-down;
+
+      @include breakpoint(small up) {
+        position: relative;
+        right: -.75em;
+      }
     }
 
     &.show > a:after {
