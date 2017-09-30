@@ -70,6 +70,14 @@
       float: right;
       content: $fa-var-angle-right;
     }
+
+    &:hover, &:focus {
+      color: $black;
+      box-shadow: 0 8px 34px rgba(0,0,0,.3);
+      -moz-transform: scale(1.03);
+      -webkit-transform: scale(1.03);
+      transform: scale(1.03);
+    }
   }
 
   .dates {
@@ -108,6 +116,18 @@
 
     .taxonomy-links {
       margin-bottom: .85em;
+    }
+  }
+}
+
+.single .entry-header {
+  position: relative;
+
+  @include breakpoint(medium up) {
+    .share_button {
+      position: absolute;
+      right: 1em;
+      top: 1em;
     }
   }
 }

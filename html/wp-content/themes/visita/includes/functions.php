@@ -455,7 +455,7 @@ function visita_opening_hours( ) {
           <meta itemprop="openingHours" content="%1$s %8$s-%7$s">
           <a class="action" href="%6$s" itemprop="url" rel="external">%2$s: %3$s %5$s %4$s</a>
         </div>',
-        esc_attr( $hour['_day'] == 'all' ? __( 'Mo,Tu,We,Th,Fr,Sa,Su', 'visita' ) : date_i18n( 'D', strtotime( $hour['_day'] ) ) ),
+        esc_attr( $hour['_day'] == 'all' ? 'Mo,Tu,We,Th,Fr,Sa,Su' : date_i18n( 'D', strtotime( $hour['_day'] ) ) ),
         esc_attr( $hour['_day'] == 'all' ? __( 'Every Day', 'visita' ) : date_i18n( 'l', strtotime( $hour['_day'] ) ) ),
         esc_attr( $hour['_24h'] ? __( '24 Hours', 'visita' ) : '' ),
         esc_attr( $hour['_close'] ? date_i18n( get_option( 'time_format' ), strtotime( $hour['_close'] ) ) : '' ),
@@ -485,7 +485,7 @@ function visita_legacy_time( ) {
         <meta itemprop="openingHours" content="%1$s %8$s-%7$s">
         <a class="action" href="%6$s" itemprop="url" rel="external">%2$s: %3$s %5$s %4$s</a>
       </div>',
-      esc_attr( $days == 'All' ? __( 'Mo,Tu,We,Th,Fr,Sa,Su', 'visita' ) : date_i18n( 'D', strtotime( $days ) ) ),
+      esc_attr( $days == 'All' ? 'Mo,Tu,We,Th,Fr,Sa,Su' : date_i18n( 'D', strtotime( $days ) ) ),
       esc_attr( $days == 'All' ? __( 'Every Day', 'visita' ) : date_i18n( 'l', strtotime( $days ) ) ),
       esc_attr( get_post_meta( get_the_ID(), '_24h', true ) ? __( '- 24 Hours', 'visita' ) : '' ),
       esc_attr( $close ? date_i18n( get_option( 'time_format' ), strtotime( $close ) ) : '' ),
@@ -513,7 +513,7 @@ function visita_get_time_range( ) {
            <meta itemprop="openingHours" content="%1$s %4$s - %5$s">
            <a class="action" href="" itemprop="url" rel="external">%2$s %3$s %4$s - %5$s</a>
         </div>',
-        esc_attr( $day['_from'] == 'all' ? __( 'Mo,Tu,We,Th,Fr,Sa,Su', 'visita' ) : date_i18n( 'D', strtotime( $day['_from'] ) ) ),
+        esc_attr( $day['_from'] == 'all' ? 'Mo,Tu,We,Th,Fr,Sa,Su' : date_i18n( 'D', strtotime( $day['_from'] ) ) ),
         esc_attr( $day['_from'] == 'all' ? __( 'Every Day', 'visita' ) : date_i18n( 'l', strtotime( $day['_from'] ) ) ),
         esc_attr( $day['_to'] == 'all' ? '' : __(' to ', 'visita') . date_i18n( 'l', strtotime( $day['_to'] ) ) ),
         esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $day['_time'] ) ) ),

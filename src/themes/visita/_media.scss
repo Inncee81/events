@@ -9,8 +9,19 @@ iframe[allowfullscreen] {
   width: 100%;
 }
 
-.hmedia img {
-  min-width: 100%;
+.hmedia {
+  img {
+    min-width: 100%;
+    -moz-transition: transform .4s ease-out;
+    -webkit-transition: -webkit-transform .4s ease-out;
+    transition: transform .4s ease-out;
+  }
+
+  &:hover img {
+    -moz-transform: scale(1.08);
+    -webkit-transform: scale(1.08);
+    transform: scale(1.08);
+  }
 }
 
 .hmedia figcaption.fn {
