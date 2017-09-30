@@ -64,10 +64,18 @@ class Visita_Widget extends WP_Widget {
 			) ),
 		) );
 
+		global $wp_query;
+
+		$wp_query->is_single = false;
+		$wp_query->is_singular = false;
+
 		while ( $events->have_posts() ) { $events->the_post();
-			get_template_part( 'content', 'excerpt' );
+			get_template_part( 'content', get_post_type() );
 		} wp_reset_postdata();
-		
+
+		$wp_query->is_single = true;
+		$wp_query->is_singular = true;
+
 		echo $after_widget . "\n";
 	}
 }

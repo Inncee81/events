@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
-"POT-Creation-Date: 2017-09-29 21:31-0700\n"
-"PO-Revision-Date: 2017-09-29 21:35-0700\n"
+"POT-Creation-Date: 2017-09-29 22:58-0700\n"
+"PO-Revision-Date: 2017-09-29 22:59-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -98,7 +98,7 @@ msgstr "Acuario"
 
 #: includes/attractions.php:114
 msgid "Event Venue"
-msgstr "Sede del evento"
+msgstr "Sede del Evento"
 
 #: includes/attractions.php:115
 msgid "Art Gallery"
@@ -263,37 +263,37 @@ msgstr "Night Club"
 msgid "Comedy Club"
 msgstr "Club de comedia"
 
-#: includes/core.php:116
+#: includes/core.php:150
 msgid "page"
 msgstr "pagina"
 
-#: includes/core.php:179
+#: includes/core.php:213
 msgid "SEO"
 msgstr "Club de la Comedia"
 
-#: includes/core.php:185
+#: includes/core.php:219
 msgid "Description"
 msgstr "Descripción"
 
-#: includes/core.php:240 includes/core.php:241
+#: includes/core.php:274 includes/core.php:275
 msgid "Visita Import"
 msgstr "Importar"
 
-#: includes/core.php:265
+#: includes/core.php:299
 #, php-format
 msgid "More %s"
 msgstr "Más %s"
 
-#: includes/core.php:353
+#: includes/core.php:387
 msgid "at"
 msgstr "en"
 
-#: includes/core.php:373
+#: includes/core.php:407
 msgid "All Events"
 msgstr "Todos los Eventos"
 
-#: includes/core.php:374 includes/events.php:47 includes/events.php:50
-#: includes/events.php:773
+#: includes/core.php:408 includes/events.php:47 includes/events.php:50
+#: includes/events.php:772
 msgid "Events"
 msgstr "Eventos"
 
@@ -309,21 +309,9 @@ msgstr "Evento"
 msgid "events"
 msgstr "eventos"
 
-#: includes/events.php:57
-msgid "date"
-msgstr "fecha"
-
 #: includes/events.php:57 includes/events.php:219 includes/shows.php:56
 msgid "Date"
 msgstr "Fecha"
-
-#: includes/events.php:58
-msgid "name"
-msgstr "nombre"
-
-#: includes/events.php:59
-msgid "price"
-msgstr "precio"
 
 #: includes/events.php:64
 msgid "Event Details"
@@ -449,15 +437,15 @@ msgstr ""
 msgid "Theater Group"
 msgstr ""
 
-#: includes/events.php:748
+#: includes/events.php:747
 msgid "keyword.."
 msgstr "palabras clave.."
 
-#: includes/events.php:771
+#: includes/events.php:770
 msgid "site url.."
 msgstr ""
 
-#: includes/events.php:772 includes/shows.php:385
+#: includes/events.php:771 includes/shows.php:385
 msgid "json..."
 msgstr "json…"
 
@@ -536,6 +524,15 @@ msgstr ""
 #: includes/widget.php:27
 msgid "Visita Widget"
 msgstr "Visita Widget"
+
+#~ msgid "date"
+#~ msgstr "fecha"
+
+#~ msgid "name"
+#~ msgstr "Nombre"
+
+#~ msgid "price"
+#~ msgstr "precio"
 
 #~ msgid "Search: events, shows, hotels..."
 #~ msgstr "Buscar: eventos, shows, hoteles…"

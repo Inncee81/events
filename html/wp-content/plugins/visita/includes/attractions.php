@@ -83,9 +83,8 @@ class VisitaAttractions extends VisitaBase {
         array(
           'key' => '_price',
           'name' => '_price',
-          'type' => 'number',
+          'type' => 'text',
           'label' => __( 'Price', 'visita' ),
-          'min' => 1,
         ),
         array(
           'key' => '_price_max',
@@ -111,7 +110,7 @@ class VisitaAttractions extends VisitaBase {
             'Park' => __( 'Park', 'visita' ),
             'Museum' => __( 'Museum', 'visita' ),
             'Aquarium' => __( 'Aquarium', 'visita' ),
-            'EventVenue' => __( 'Event Venue', 'visita' ),
+            'ComedyClub' => __( 'Comedy Club', 'visita' ),
             'ArtGallery' => __( 'Art Gallery', 'visita' ),
             'MovieTheater' => __( 'Movie Theater', 'visita' ),
             'AmusementPark' => __( 'Amusement Park', 'visita' ),

@@ -97,9 +97,8 @@ class VisitaEvents extends VisitaBase {
         array(
           'key' => '_price',
           'name' => '_price',
-          'type' => 'number',
+          'type' => 'text',
           'label' => __( 'Price', 'visita' ),
-          'min' => 1,
         ),
         array(
           'key' => '_price_max',
