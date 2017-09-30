@@ -23,8 +23,10 @@ class Visita_Core {
 
     //
     add_action( 'wp', array( $this, 'display_widgets' ), 100 );
+    add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 100 );
     add_action( 'widgets_init', array( $this, 'widgets_init' ), 100 );
+    add_action( 'parse_request', array( $this, 'parse_request_vars' ) );
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
     add_action( 'after_setup_theme', array( $this, 'register_post_types'), 0 );
 
@@ -106,6 +108,38 @@ class Visita_Core {
     }
 
     return $locale;
+  }
+
+  /**
+  *
+  */
+  function add_query_vars( $vars ) {
+    array_push( $vars, 'orden', 'por' );
+    return $vars;
+  }
+
+  /**
+  *
+  */
+  function parse_request_vars( $query ) {
+
+    if ( isset( $query->query_vars['orden'] ) ) {
+      $query->query_vars['order'] = $query->query_vars['orden'];
+    }
+
+    if ( isset( $query->query_vars['por'] ) ) {
+
+      $por = $query->query_vars['por'];
+      $map = array(
+        'fecha' => 'starts',
+        'precio' => 'price',
+        'nombre' => 'name'
+      );
+
+      $query->query_vars['orderby'] = ( isset( $map[ $por ] ) ) ? $map[ $por ] : $por;
+    }
+
+    return $query;
   }
 
   /**

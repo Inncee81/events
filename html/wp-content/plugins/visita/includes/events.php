@@ -520,7 +520,6 @@ class VisitaEvents extends VisitaBase {
   */
   function save_event( $event ) {
 
-
     // try to save event
     $post_id = wp_insert_post(
       $event = array_replace_recursive( $this->event_data, $event )

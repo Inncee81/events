@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
-"POT-Creation-Date: 2017-09-27 02:52-0700\n"
-"PO-Revision-Date: 2017-09-27 02:54-0700\n"
+"POT-Creation-Date: 2017-09-29 21:31-0700\n"
+"PO-Revision-Date: 2017-09-29 21:35-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -73,7 +73,7 @@ msgstr "Enlace"
 #: includes/attractions.php:94 includes/clubs.php:94 includes/events.php:108
 #: includes/hotels.php:88 includes/shows.php:95
 msgid "Max Price"
-msgstr ""
+msgstr "Precio Máximo"
 
 #: includes/attractions.php:100 includes/clubs.php:100 includes/events.php:114
 #: includes/hotels.php:94 includes/shows.php:101
@@ -82,7 +82,7 @@ msgstr "Moneda"
 
 #: includes/attractions.php:109 includes/clubs.php:109 includes/hotels.php:103
 msgid "Business Type"
-msgstr ""
+msgstr "Tipo de Negocio"
 
 #: includes/attractions.php:111
 msgid "Park"
@@ -98,27 +98,27 @@ msgstr "Acuario"
 
 #: includes/attractions.php:114
 msgid "Event Venue"
-msgstr ""
+msgstr "Sede del evento"
 
 #: includes/attractions.php:115
 msgid "Art Gallery"
-msgstr ""
+msgstr "Galería de Arte"
 
 #: includes/attractions.php:116
 msgid "Movie Theater"
-msgstr ""
+msgstr "Cine"
 
 #: includes/attractions.php:117
 msgid "Amusement Park"
-msgstr ""
+msgstr "Parque de Atracciones"
 
 #: includes/attractions.php:118
 msgid "Shopping Center"
-msgstr ""
+msgstr "Centro comercial"
 
 #: includes/attractions.php:119
 msgid "Entertainment"
-msgstr ""
+msgstr "Entretenimiento"
 
 #: includes/attractions.php:126 includes/clubs.php:119 includes/events.php:150
 #: includes/hotels.php:114 includes/shows.php:137
@@ -227,6 +227,14 @@ msgstr "a las"
 msgid "Sort:"
 msgstr "Ordenar:"
 
+#: includes/base.php:449
+msgid "order"
+msgstr "orden"
+
+#: includes/base.php:450
+msgid "orderby"
+msgstr "por"
+
 #: includes/clubs.php:35
 msgid "club"
 msgstr "club"
@@ -253,7 +261,7 @@ msgstr "Night Club"
 
 #: includes/clubs.php:112
 msgid "Comedy Club"
-msgstr ""
+msgstr "Club de comedia"
 
 #: includes/core.php:116
 msgid "page"
@@ -261,7 +269,7 @@ msgstr "pagina"
 
 #: includes/core.php:179
 msgid "SEO"
-msgstr ""
+msgstr "Club de la Comedia"
 
 #: includes/core.php:185
 msgid "Description"
@@ -278,7 +286,7 @@ msgstr "Más %s"
 
 #: includes/core.php:353
 msgid "at"
-msgstr "en "
+msgstr "en"
 
 #: includes/core.php:373
 msgid "All Events"
@@ -301,9 +309,21 @@ msgstr "Evento"
 msgid "events"
 msgstr "eventos"
 
+#: includes/events.php:57
+msgid "date"
+msgstr "fecha"
+
 #: includes/events.php:57 includes/events.php:219 includes/shows.php:56
 msgid "Date"
 msgstr "Fecha"
+
+#: includes/events.php:58
+msgid "name"
+msgstr "nombre"
+
+#: includes/events.php:59
+msgid "price"
+msgstr "precio"
 
 #: includes/events.php:64
 msgid "Event Details"
@@ -319,7 +339,7 @@ msgstr "Desactivar UTM"
 
 #: includes/events.php:122 includes/shows.php:109
 msgid "Duration (Minutes)"
-msgstr ""
+msgstr "Duración (minutos)"
 
 #: includes/events.php:131 includes/shows.php:118
 msgid "Event Type"
@@ -327,35 +347,35 @@ msgstr "Tipo de Evento"
 
 #: includes/events.php:134 includes/shows.php:121
 msgid "Comedy"
-msgstr ""
+msgstr "Comedia"
 
 #: includes/events.php:135 includes/shows.php:122
 msgid "Dance"
-msgstr ""
+msgstr "Baile"
 
 #: includes/events.php:136 includes/shows.php:123
 msgid "Food"
-msgstr ""
+msgstr "Comida"
 
 #: includes/events.php:137 includes/shows.php:124
 msgid "Festival"
-msgstr ""
+msgstr "Festival"
 
 #: includes/events.php:138 includes/shows.php:125
 msgid "Exhibition"
-msgstr ""
+msgstr "Exhibición"
 
 #: includes/events.php:139 includes/shows.php:126
 msgid "Music"
-msgstr ""
+msgstr "Música"
 
 #: includes/events.php:140 includes/shows.php:127
 msgid "Sports"
-msgstr ""
+msgstr "Deportes"
 
 #: includes/events.php:141 includes/shows.php:128
 msgid "Theater"
-msgstr ""
+msgstr "Teatro"
 
 #: includes/events.php:142 includes/shows.php:129
 msgid "Screening"
@@ -371,7 +391,7 @@ msgstr "Horarios"
 
 #: includes/events.php:226 includes/shows.php:237
 msgid "Time"
-msgstr ""
+msgstr "Tiempo"
 
 #: includes/events.php:233
 msgid "Availability"

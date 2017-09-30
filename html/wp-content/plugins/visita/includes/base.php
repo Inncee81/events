@@ -435,7 +435,7 @@ class VisitaBase {
 
     foreach ( $this->tabs as $tab => $label ) {
       $tabs .= '<li class="tabs-title tab-' . esc_attr( $tab ) . '">
-        <a href="%1$s?order=%2$s&orderby=' . esc_attr( $tab ) . '">' . esc_html( $label ) . '</a>
+        <a href="%1$s?%4$s=%2$s&%5$s=' . strtolower( esc_attr( $label ) ) . '">' . esc_html( $label ) . '</a>
       </li>';
     }
 
@@ -444,8 +444,10 @@ class VisitaBase {
         <li class="tabs-title"><span>' . esc_html__( 'Sort:', 'visita' ) . '</span></li>' . $tabs . '
       </ul>',
       home_url( $wp->request ),
-      esc_attr( strtolower( get_query_var( 'order') ) == 'asc' ? 'desc' : 'asc' ),
-      esc_attr( trim( is_array( $order_var ) ? key( $order_var ) : $order_var, '_' ) )
+      esc_attr( strtolower( get_query_var( 'order' ) ) == 'asc' ? 'desc' : 'asc' ),
+      esc_attr( trim( is_array( $order_var ) ? key( $order_var ) : $order_var, '_' ) ),
+      esc_attr__( 'order', 'visita' ),
+      esc_attr__( 'orderby', 'visita'  )
     );
   }
 
