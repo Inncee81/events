@@ -171,14 +171,6 @@ function visita_scripts_enqueues( ) {
 
   $theme = wp_get_theme();
 
-  /*
-  * Adds JavaScript to pages with the comment form to support sites with
-  * threaded comments (when in use).
-  */
-  if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-    wp_enqueue_script( 'comment-reply' );
-  }
-
   global $wp_scripts;
 
   // Loads the Internet Explorer specific stylesheet.
@@ -187,7 +179,7 @@ function visita_scripts_enqueues( ) {
   wp_enqueue_script( 'visita-html5', get_template_directory_uri() . '/js/html5.js', false, $theme->version );
   $wp_scripts->add_data( 'visita-html5', 'conditional', ' lt IE 9' );
 
-  // Loads JavaScript file with functionality specific to Twenty Thirteen.
+  // Loads JavaScript file.
   wp_enqueue_script( 'visita', get_template_directory_uri() . '/js/visita.js', array( 'jquery' ), $theme->version, true );
 
   wp_localize_script( 'visita', 'visita', array(
@@ -199,6 +191,16 @@ function visita_scripts_enqueues( ) {
   ) );
 }
 add_action( 'wp_enqueue_scripts', 'visita_scripts_enqueues' );
+
+/**
+*
+*/
+function visita_jquery_footer( &$wp_scripts ) {
+  $wp_scripts->add_data( 'jquery', 'group', 1 );
+  $wp_scripts->add_data( 'jquery-core', 'group', 1 );
+  $wp_scripts->add_data( 'jquery-migrate', 'group', 1 );
+}
+add_action( 'wp_default_scripts', 'visita_jquery_footer', 100 );
 
 
 /**
