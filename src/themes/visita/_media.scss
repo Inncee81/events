@@ -9,6 +9,10 @@ iframe[allowfullscreen] {
   width: 100%;
 }
 
+.hmedia img {
+  min-width: 100%;
+}
+
 .hmedia figcaption.fn {
   clip: rect(0 0 0 0);
   position: absolute;

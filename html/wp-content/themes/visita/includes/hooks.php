@@ -252,8 +252,12 @@ function visita_attachment_image_attributes( $attr, $attachment, $size ){
   if ( $size == 'post-thumbnail' ) {
     $attr['src'] = get_stylesheet_directory_uri() . '/img/1x1.trans.gif';
 
-    if ( isset( $attr['srcset'] ) && $mobile = wp_get_attachment_image_src($attachment->ID, 'featured-mobile') ) {
+    if ( isset( $attr['srcset'] ) && $mobile = wp_get_attachment_image_src( $attachment->ID, 'featured-mobile' ) ) {
       $attr['data-srcset'] = $attr['srcset'];
+    } else if ( empty( $attr['srcset'] ) ) {
+      if ( $image_src = wp_get_attachment_image_src( $attachment->ID, 'featured-mobile' ) ) {
+        $attr['data-srcset'] = $image_src[0] . ' ' . $image_src[1] . 'w';
+      }
     }
 
     foreach ( array( 'sizes', 'srcset' ) as $attribute ) {
