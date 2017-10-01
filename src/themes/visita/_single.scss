@@ -19,6 +19,10 @@
 
   address {
     font-size: .9em;
+
+    .single address span {
+      padding-right: 4px;
+    }
   }
 
   .price {

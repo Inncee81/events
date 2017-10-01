@@ -224,12 +224,11 @@ function visita_post_schema( $meta_key ) {
 *
 * @return string
 */
-function visita_get_external_link( ) {
-  $link = '#';
+function visita_get_external_link( $link ) {
 
-  if ( $_link = get_post_meta( get_the_ID(), '_link', true ) ) {
-    $link = ( strrpos( $_link, '?' ) === false ? "$_link?" : "$_link&" );
+  if ( $_link = $link ? $link : get_post_meta( get_the_ID(), '_link', true ) ) {
     if ( ! get_post_meta( get_the_ID(), '_disable_source', true ) ) {
+      $link = ( strrpos( $_link, '?' ) === false ? "$_link?" : "$_link&" );
       $link .= 'utm_source=visita.vegas&utm_medium=refer&utm_campaign=visita_vegas';
     }
   }
@@ -256,7 +255,13 @@ function visita_entry_tax( $post ) {
     return;
   }
 
-  if ( $taxonomy_list = get_the_term_list( get_the_ID(), $taxonomies[0], '', '' ) ) {
+  foreach ( $taxonomies as $taxonomy ) {
+    if ( ! in_array( $taxonomy, array( 'language', 'post_translations' ) )) {
+      $post_taxonomy = $taxonomy;
+    }
+  }
+
+  if ( $taxonomy_list = get_the_term_list( get_the_ID(), $post_taxonomy, '', '' ) ) {
     if ( ! is_wp_error( $taxonomy_list ) ) {
       echo $taxonomy_list = '<div class="taxonomy-links">' . $taxonomy_list . '</div>';
     }
@@ -413,6 +418,7 @@ function visita_event_dates( ) {
     foreach( $times as $time ) {
 
       $time = wp_parse_args( $time, array(
+        '_date_link' => '',
         '_availability' => 'InStock',
         '_time' => date_i18n('H:i', $starts),
         '_date' => date_i18n('Y-m-d', $starts),
@@ -433,7 +439,7 @@ function visita_event_dates( ) {
         esc_attr( date_i18n( 'j \d\e F Y', $date ) ),
         esc_html( get_post_meta( get_the_ID(), '_currency', true ) ), //
         esc_attr( is_numeric( $price ) ? $price : 0 ),
-        esc_url( visita_get_external_link() ),
+        esc_url( visita_get_external_link( $time['_date_link'] ) ),
         esc_attr( $time['_availability'] ),
         esc_attr( get_the_date('c') ),
         esc_attr( $date < $today ? 'inactive' : '' )
