@@ -347,8 +347,8 @@ class Visita_Core {
 
     // legacy attributes to date
     if ( $fecha ) {
-      $end = false;
-      $start = strtotime( $fecha );
+      $end = strtotime( "last day of $fecha" );
+      $start = strtotime( "first day of $fecha" );
     }
 
     $query = new WP_Query(array(
