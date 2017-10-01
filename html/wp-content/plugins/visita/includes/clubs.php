@@ -36,7 +36,7 @@ class VisitaClubs extends VisitaBase {
     $this->name = __( 'Nightclubs', 'visita' );
     $this->singular = __( 'Nightclub', 'visita' );
     $this->taxonomy_slug = __( 'clubs', 'visita' );
-    $this->taxonomy_label = __( 'Clubs', 'visita' );
+    $this->taxonomy_label = __( 'Nightclubs', 'visita' );
 
     $this->club_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,
