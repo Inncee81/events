@@ -58,6 +58,7 @@ main {
     padding-left: 2.5em;
     border: 1px solid $gray-light;
     background-color: #fefefe;
+    width: 100%;
 
     &::placeholder {
       color: $gray-medium;
