@@ -52,6 +52,18 @@ class Visita_Widget extends WP_Widget {
 		echo $before_widget . "\n";
 		echo $before_title . $title . $after_title . "\n";
 
+		$language = false;
+		if ( function_exists( 'pll_current_language') ) {
+			if ( $term_id = pll_current_language( 'term_id') ) {
+				$language = array(
+					'operator' => 'IN',
+					'field'    => 'term_id',
+					'taxonomy' => 'language',
+					'terms'	=> array( $term_id )
+				);
+			}
+		}
+
 		$events = new WP_Query( array(
 			'post_type' => $type,
 			'orderby' => 'rand',
@@ -60,8 +72,8 @@ class Visita_Widget extends WP_Widget {
 			'tax_query' => array(	array(
 				'taxonomy' => 'clubs',
 				'field'    => 'term_id',
-				'operator' => 'NOT NUll'
-			) ),
+				'operator' => 'NOT NUll',
+			), $language ),
 		) );
 
 		global $wp_query;
