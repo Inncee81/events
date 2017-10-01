@@ -33,8 +33,8 @@ class VisitaClubs extends VisitaBase {
 
     $this->position = 28;
     $this->slug = __( 'club', 'visita' );
-    $this->name = __( 'Clubs', 'visita' );
-    $this->singular = __( 'Club', 'visita' );
+    $this->name = __( 'Nightclubs', 'visita' );
+    $this->singular = __( 'Nightclub', 'visita' );
     $this->taxonomy_slug = __( 'clubs', 'visita' );
     $this->taxonomy_label = __( 'Clubs', 'visita' );
 
@@ -236,7 +236,7 @@ class VisitaClubs extends VisitaBase {
     }
 
     if ( ! is_admin() ) {
-      // add_action( 'pre_get_posts', array( $this, 'sort_tax' ), 50 );
+      add_action( 'pre_get_posts', array( $this, 'sort_tax' ), 50 );
       add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
       add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
       // add_action( 'visita_before_loop', array( $this, 'sort_tabs' ), 50 );

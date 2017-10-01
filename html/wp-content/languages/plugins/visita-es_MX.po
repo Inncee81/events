@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
-"POT-Creation-Date: 2017-09-30 22:57-0700\n"
-"PO-Revision-Date: 2017-09-30 22:57-0700\n"
+"POT-Creation-Date: 2017-09-30 23:05-0700\n"
+"PO-Revision-Date: 2017-09-30 23:06-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -239,17 +239,21 @@ msgstr "por"
 msgid "club"
 msgstr "club"
 
-#: includes/clubs.php:36 includes/clubs.php:39
-msgid "Clubs"
-msgstr "Clubs"
+#: includes/clubs.php:36
+msgid "Nightclubs"
+msgstr "Nightclubs"
 
 #: includes/clubs.php:37
-msgid "Club"
-msgstr "Club"
+msgid "Nightclub"
+msgstr "Nightclub"
 
 #: includes/clubs.php:38
 msgid "clubs"
 msgstr "clubs"
+
+#: includes/clubs.php:39
+msgid "Clubs"
+msgstr "Clubs"
 
 #: includes/clubs.php:51
 msgid "club, night club"
@@ -528,6 +532,9 @@ msgstr ""
 #: includes/widget.php:27
 msgid "Visita Widget"
 msgstr "Visita Widget"
+
+#~ msgid "Club"
+#~ msgstr "Club"
 
 #~ msgid "Event Venue"
 #~ msgstr "Sede del Evento"
