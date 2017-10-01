@@ -311,10 +311,11 @@ function visita_get_performers( ) {
 function visita_price_range( $itemprop = false ) {
   $price_max = get_post_meta( get_the_ID(), '_price_max', true );
   printf(
-    '<span %3$s class="price">%1$s %2$s</span> <small class="vary">%4$s</small>',
+    '<span %3$s class="price" title="%4$s">%1$s %2$s</span> <small class="vary">%5$s</small>',
     esc_html( visita_format_price( get_post_meta( get_the_ID(), '_price', true ) ) ),
     esc_html( ( $price_max ) ? "- " . visita_format_price( $price_max ) : '' ),
     ( ( $itemprop ) ? 'itemprop="priceRange"' : '' ),
+    esc_attr__( 'Prices in U.S. dollars', 'visita' ),
     esc_html__( 'prices may vary.', 'visita' )
   );
 }

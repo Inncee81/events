@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2017-09-30 22:57-0700\n"
-"PO-Revision-Date: 2017-09-30 22:57-0700\n"
+"POT-Creation-Date: 2017-10-01 01:22-0700\n"
+"PO-Revision-Date: 2017-10-01 01:22-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -74,22 +74,13 @@ msgstr "Ir a la Navegacíon"
 msgid "Skip to top navigation"
 msgstr "Ir a la Navegacíon"
 
-#: footer.php:29
-#, php-format
-msgid ""
-"<span class=\"powered\"> %1$s </span> <a href=\"%2$s\" title=\"%3$s\" target="
-"\"_blank\"> %3$s </a>"
-msgstr ""
-"<span class=“powered”> %1$s </span> <a href=“%2$s” title=“%3$s” "
-"target=“_blank”> %3$s </a>"
-
 #: footer.php:30
 msgid "visita.vegas by"
 msgstr "visita.vegas creado por"
 
 #: footer.php:31
 msgid "http://xparkmedia.com"
-msgstr "http://xparkmedia.com"
+msgstr "http://es.xparkmedia.com"
 
 #: header.php:58
 msgid "Search: events, shows, hotels..."
@@ -146,23 +137,27 @@ msgid "%title"
 msgstr "%title"
 
 #: includes/functions.php:318
+msgid "Prices in U.S. dollars"
+msgstr "Precios en dólares estadounidenses"
+
+#: includes/functions.php:319
 msgid "prices may vary."
 msgstr "precios pueden variar."
 
-#: includes/functions.php:474 includes/functions.php:504
-#: includes/functions.php:532
+#: includes/functions.php:475 includes/functions.php:505
+#: includes/functions.php:533
 msgid "Every Day"
 msgstr "Todos los días"
 
-#: includes/functions.php:475
+#: includes/functions.php:476
 msgid "24 Hours"
 msgstr "24 Horas"
 
-#: includes/functions.php:505
+#: includes/functions.php:506
 msgid "- 24 Hours"
 msgstr "- 24 Horas"
 
-#: includes/functions.php:533
+#: includes/functions.php:534
 msgid " to "
 msgstr " a "
 
@@ -206,6 +201,13 @@ msgstr "Subir"
 msgid "Maximum page width"
 msgstr ""
 
+#~ msgid ""
+#~ "<span class=\"powered\"> %1$s </span> <a href=\"%2$s\" title=\"%3$s\" "
+#~ "target=\"_blank\"> %3$s </a>"
+#~ msgstr ""
+#~ "<span class=“powered”> %1$s </span> <a href=“%2$s” title=“%3$s” "
+#~ "target=“_blank”> %3$s </a>"
+
 #~ msgid "Previous"
 #~ msgstr "Anterior"
 
@@ -214,9 +216,6 @@ msgstr ""
 
 #~ msgid "Blog"
 #~ msgstr "Blog"
-
-#~ msgid "Price in USA dollars"
-#~ msgstr "Precios en d&oacute;lares estadounidenses"
 
 #~ msgid "Events"
 #~ msgstr "Eventos"
