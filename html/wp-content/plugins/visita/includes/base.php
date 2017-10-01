@@ -329,8 +329,10 @@ class VisitaBase {
   function add_rewrite_rules( ) {
     global $wp_rewrite;
 
+    $base = $this->post_type == 'event' ? '' : "$this->taxonomy_slug/";
+
     add_rewrite_rule(
-      "$this->taxonomy_slug/$wp_rewrite->pagination_base/([0-9]{1,})/?$",
+      "{$base}{$wp_rewrite->pagination_base}/([0-9]{1,})/?$",
       "index.php?post_type={$this->post_type}&paged=\$matches[1]",
       'top'
     );
@@ -411,7 +413,7 @@ class VisitaBase {
       return;
     }
 
-    if ( ( is_home() && $this->is_home ) ) {
+    if ( is_home() && $this->is_home ) {
       $query->is_post_type_archive = true;
       $query->set( 'post_type', $this->post_type );
     }

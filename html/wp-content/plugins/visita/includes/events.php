@@ -452,7 +452,7 @@ class VisitaEvents extends VisitaBase {
       }
     }
 
-    if ( is_home() ) {
+    if ( is_home() || is_post_type_archive( $this->post_type ) ) {
       $query->query_vars['tax_query'][] = array(
         'taxonomy'  => $this->taxonomy,
         'field'    	=> 'term_id',
