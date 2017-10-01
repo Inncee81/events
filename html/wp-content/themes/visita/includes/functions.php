@@ -450,7 +450,7 @@ function visita_event_dates( ) {
         esc_html( get_post_meta( get_the_ID(), '_currency', true ) ), //
         esc_attr( is_numeric( $price ) ? $price : 0 ),
         esc_url( visita_get_external_link( $time['_date_link'] ) ),
-        esc_attr( $time['_availability'] ),
+        esc_attr( $date < $today ? 'SoldOut' : $time['_availability'] ),
         esc_attr( get_the_date('c') ),
         esc_attr( $date < $today ? 'inactive' : '' )
       );
@@ -534,7 +534,6 @@ function visita_get_time_range( ) {
         esc_attr( $day['_to'] == 'all' ? '' : __(' to ', 'visita') . date_i18n( 'l', strtotime( $day['_to'] ) ) ),
         esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $day['_time'] ) ) ),
         esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $day['_time'] . " + $duration minutes" ) ) )
-
       );
     }
   }

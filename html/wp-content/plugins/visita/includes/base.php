@@ -148,9 +148,19 @@ class VisitaBase {
 
   /**
   *
+  * @return array
+  * @since 3.0.0
   */
-  function wp_title( $title, $sep ) {
-    return $title;
+  function title_parts( $title_parts ) {
+    if ( ! is_singular( $this->post_type ) ) {
+      return $title_parts;
+    }
+
+    if ( $starts = get_post_meta( get_the_ID(), '_starts', true ) ) {
+      array_splice( $title_parts, 1, 0, date_i18n( __( 'F j, Y', 'visita' ), $starts ) );
+    }
+
+    return $title_parts;
   }
 
   /**

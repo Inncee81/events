@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
-"POT-Creation-Date: 2017-09-30 23:05-0700\n"
-"PO-Revision-Date: 2017-09-30 23:06-0700\n"
+"POT-Creation-Date: 2017-10-01 02:46-0700\n"
+"PO-Revision-Date: 2017-10-01 02:46-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -215,23 +215,27 @@ msgstr "Cierran"
 msgid "24 Hours"
 msgstr "24 horas"
 
-#: includes/base.php:167
+#: includes/base.php:158
+msgid "F j, Y"
+msgstr "j F Y"
+
+#: includes/base.php:175
 msgid "from"
 msgstr "de"
 
-#: includes/base.php:168
+#: includes/base.php:176
 msgid "to"
 msgstr "a las"
 
-#: includes/base.php:446
+#: includes/base.php:454
 msgid "Sort:"
 msgstr "Ordenar:"
 
-#: includes/base.php:451
+#: includes/base.php:459
 msgid "order"
 msgstr "orden"
 
-#: includes/base.php:452
+#: includes/base.php:460
 msgid "orderby"
 msgstr "por"
 
@@ -239,7 +243,7 @@ msgstr "por"
 msgid "club"
 msgstr "club"
 
-#: includes/clubs.php:36
+#: includes/clubs.php:36 includes/clubs.php:39
 msgid "Nightclubs"
 msgstr "Nightclubs"
 
@@ -250,10 +254,6 @@ msgstr "Nightclub"
 #: includes/clubs.php:38
 msgid "clubs"
 msgstr "clubs"
-
-#: includes/clubs.php:39
-msgid "Clubs"
-msgstr "Clubs"
 
 #: includes/clubs.php:51
 msgid "club, night club"
@@ -293,7 +293,7 @@ msgid "All Events"
 msgstr "Todos los Eventos"
 
 #: includes/core.php:410 includes/events.php:47 includes/events.php:50
-#: includes/events.php:771
+#: includes/events.php:773
 msgid "Events"
 msgstr "Eventos"
 
@@ -441,15 +441,15 @@ msgstr ""
 msgid "Theater Group"
 msgstr ""
 
-#: includes/events.php:746
+#: includes/events.php:748
 msgid "keyword.."
 msgstr "palabras clave.."
 
-#: includes/events.php:769
+#: includes/events.php:771
 msgid "site url.."
 msgstr ""
 
-#: includes/events.php:770 includes/shows.php:384
+#: includes/events.php:772 includes/shows.php:384
 msgid "json..."
 msgstr "json…"
 
@@ -532,6 +532,12 @@ msgstr ""
 #: includes/widget.php:27
 msgid "Visita Widget"
 msgstr "Visita Widget"
+
+#~ msgid "l j F Y"
+#~ msgstr "l j F Y"
+
+#~ msgid "Clubs"
+#~ msgstr "Clubs"
 
 #~ msgid "Club"
 #~ msgstr "Club"

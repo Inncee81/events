@@ -3,11 +3,15 @@ iframe[allowfullscreen] {
   display: block;
   height: auto;
   width: 100%;
+
+  @include breakpoint(small down) {
+    min-height: 230px;
+  }
 }
 
 .hmedia {
   margin: 0;
-  
+
   img {
     min-width: 100%;
     -moz-transition: transform .4s ease-out;
