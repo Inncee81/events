@@ -230,6 +230,8 @@ function visita_get_external_link( $link ) {
     if ( ! get_post_meta( get_the_ID(), '_disable_source', true ) ) {
       $link = ( strrpos( $_link, '?' ) === false ? "$_link?" : "$_link&" );
       $link .= 'utm_source=visita.vegas&utm_medium=refer&utm_campaign=visita_vegas';
+    } else {
+      $link = $_link;
     }
   }
 
