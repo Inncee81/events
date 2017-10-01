@@ -102,7 +102,7 @@
       font-family: FontAwesome;
       content: $fa-var-angle-down;
 
-      @include breakpoint(small up) {
+      @include breakpoint(medium up) {
         position: relative;
         right: -.75em;
       }

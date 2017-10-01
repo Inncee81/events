@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
-"POT-Creation-Date: 2017-09-30 11:38-0700\n"
-"PO-Revision-Date: 2017-09-30 11:38-0700\n"
+"POT-Creation-Date: 2017-09-30 22:57-0700\n"
+"PO-Revision-Date: 2017-09-30 22:57-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -223,15 +223,15 @@ msgstr "de"
 msgid "to"
 msgstr "a las"
 
-#: includes/base.php:444
+#: includes/base.php:446
 msgid "Sort:"
 msgstr "Ordenar:"
 
-#: includes/base.php:449
+#: includes/base.php:451
 msgid "order"
 msgstr "orden"
 
-#: includes/base.php:450
+#: includes/base.php:452
 msgid "orderby"
 msgstr "por"
 
@@ -275,20 +275,20 @@ msgstr "Descripción"
 msgid "Visita Import"
 msgstr "Importar"
 
-#: includes/core.php:299
+#: includes/core.php:300
 #, php-format
 msgid "More %s"
 msgstr "Más %s"
 
-#: includes/core.php:387
+#: includes/core.php:389
 msgid "at"
 msgstr "en"
 
-#: includes/core.php:407
+#: includes/core.php:409
 msgid "All Events"
 msgstr "Todos los Eventos"
 
-#: includes/core.php:408 includes/events.php:47 includes/events.php:50
+#: includes/core.php:410 includes/events.php:47 includes/events.php:50
 #: includes/events.php:771
 msgid "Events"
 msgstr "Eventos"
@@ -381,8 +381,12 @@ msgstr "Tiempo"
 msgid "Availability"
 msgstr ""
 
-#: includes/events.php:235 includes/events.php:236
+#: includes/events.php:235
 msgid "Pre Sale"
+msgstr ""
+
+#: includes/events.php:236
+msgid "Sold Out"
 msgstr ""
 
 #: includes/events.php:237

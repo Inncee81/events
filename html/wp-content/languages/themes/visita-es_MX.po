@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2017-09-30 11:42-0700\n"
-"PO-Revision-Date: 2017-09-30 11:45-0700\n"
+"POT-Creation-Date: 2017-09-30 22:57-0700\n"
+"PO-Revision-Date: 2017-09-30 22:57-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -145,20 +145,24 @@ msgctxt "Next post link"
 msgid "%title"
 msgstr "%title"
 
-#: includes/functions.php:459 includes/functions.php:489
-#: includes/functions.php:517
+#: includes/functions.php:318
+msgid "prices may vary."
+msgstr "precios pueden variar."
+
+#: includes/functions.php:474 includes/functions.php:504
+#: includes/functions.php:532
 msgid "Every Day"
 msgstr "Todos los días"
 
-#: includes/functions.php:460
+#: includes/functions.php:475
 msgid "24 Hours"
 msgstr "24 Horas"
 
-#: includes/functions.php:490
+#: includes/functions.php:505
 msgid "- 24 Hours"
 msgstr "- 24 Horas"
 
-#: includes/functions.php:518
+#: includes/functions.php:533
 msgid " to "
 msgstr " a "
 
@@ -194,7 +198,7 @@ msgstr "centigrados"
 msgid "freiheit"
 msgstr "freiheit"
 
-#: includes/hooks.php:242
+#: includes/hooks.php:245
 msgid "Move Up"
 msgstr "Subir"
 

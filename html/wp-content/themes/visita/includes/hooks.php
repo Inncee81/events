@@ -196,6 +196,9 @@ add_action( 'wp_enqueue_scripts', 'visita_scripts_enqueues' );
 *
 */
 function visita_jquery_footer( &$wp_scripts ) {
+  if ( is_admin() ) {
+    return;
+  }
   $wp_scripts->add_data( 'jquery', 'group', 1 );
   $wp_scripts->add_data( 'jquery-core', 'group', 1 );
   $wp_scripts->add_data( 'jquery-migrate', 'group', 1 );

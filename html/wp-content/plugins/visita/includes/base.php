@@ -176,7 +176,7 @@ class VisitaBase {
    * @since 3.0.0
    */
   function admin_scripts( ) {
-    if ( get_current_screen()->post_type === $this->post_type ) {
+    if ( get_current_screen()->id === $this->post_type ) {
       wp_enqueue_style( 'visita-fields', plugins_url( 'css/fields.css', VISITA_FILE_NAME ), NULL, VISITA_VERSION );
       wp_enqueue_script( 'visita-admin', plugins_url( 'js/admin.js', VISITA_FILE_NAME ), array( 'jquery' ), VISITA_VERSION, true );
     }
