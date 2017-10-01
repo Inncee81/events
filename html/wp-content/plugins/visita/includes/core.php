@@ -147,7 +147,13 @@ class Visita_Core {
   */
   function add_rewrite_rules( ) {
     global $wp_rewrite;
+
     $wp_rewrite->pagination_base = __( 'page', 'visita' );
+    add_rewrite_rule(
+      "(en)/page/([0-9]{1,})/?$",
+      "index.php?lang=\$matches[1]&post_type=event&paged=\$matches[2]",
+      'top'
+    );
   }
 
   /**

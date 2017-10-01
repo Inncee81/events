@@ -238,6 +238,9 @@ class VisitaAttractions extends VisitaBase {
     add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 10, 2 );
     add_filter( 'acf/load_value/key=_hours', array( $this, 'load_repeater_values' ), 50, 3 );
 
+    //translation
+    add_filter( 'rewrite_rules_array', array( $this, 'rewrite_rules_array' ) );
+
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
       return;
     }

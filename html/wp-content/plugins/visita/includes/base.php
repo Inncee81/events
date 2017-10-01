@@ -331,6 +331,28 @@ class VisitaBase {
   }
 
   /**
+  *
+  */
+  function rewrite_rules_array( $rules ) {
+
+    $new_rules = array();
+    $find = array( '/pagina', "(en)/$this->taxonomy_slug", "(en)/$this->slug" );
+    $replace =  array( '/page', "(en)/$this->taxonomy", "(en)/$this->post_type" );
+
+    foreach ( $rules as $match => $rule ) {
+      if ( stripos( $match, "(en)/$this->taxonomy_slug" ) === 0 ) {
+        $new_rules[ str_replace( $find, $replace, $match) ] = $rule;
+      } elseif ( stripos( $match, "(en)/$this->slug" ) === 0 )  {
+        $new_rules[ str_replace( $find, $replace, $match) ] = $rule;
+      } else {
+        $new_rules[$match] = $rule;
+      }
+    }
+
+    return $new_rules;
+  }
+
+  /**
   * Add additional rewrites
   *
   * @return bool|unit
