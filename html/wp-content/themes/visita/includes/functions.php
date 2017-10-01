@@ -235,6 +235,7 @@ function visita_get_external_link( $link ) {
     }
   }
 
+
   return $link;
 }
 
