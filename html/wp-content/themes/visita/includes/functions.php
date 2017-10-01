@@ -363,7 +363,10 @@ function visita_get_start_time( ) {
 
   global $visita_options;
 
-  $starts = get_post_meta( get_the_ID(), '_starts', true );
+  if ( ! $starts = get_post_meta( get_the_ID(), '_starts', true ) ) {
+    return false;
+  }
+
   if ( ! $ends = get_post_meta( get_the_ID(), '_ends', true ) ) {
     $ends = $starts + 120; // 2 more hours
   }
@@ -413,9 +416,12 @@ function visita_event_dates( ) {
 
     $starts = get_post_meta( get_the_ID(), '_starts', true );
     $max_price = get_post_meta( get_the_ID(), '_price_max', true );
-    $times = (array) get_post_meta( get_the_ID(), '_times', true );
 
-    foreach( $times as $time ) {
+    if ( ! $times = get_post_meta( get_the_ID(), '_times', true ) ) {
+      return false;
+    }
+
+    foreach( (array) $times as $time ) {
 
       $time = wp_parse_args( $time, array(
         '_date_link' => '',

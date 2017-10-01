@@ -203,7 +203,7 @@ class VisitaEvents extends VisitaBase {
           'type' => 'tab',
         ),
         array(
-          'min'=> 1,
+          'min'=> 0,
           'key' => '_times',
           'name' => '_times',
           'type' => 'repeater',
@@ -233,7 +233,7 @@ class VisitaEvents extends VisitaBase {
               'default_value' => $defaults['_times'][0]['_availability'],
               'choices' => array(
                 'PreSale' => __( 'Pre Sale', 'visita' ),
-                'SoldOut' => __( 'Pre Sale', 'visita' ),
+                'SoldOut' => __( 'Sold Out', 'visita' ),
                 'InStock'	=>  __( 'In Stock', 'visita' ),
                 'OutOfStock' => __( 'Out Of Stock', 'visita' ),
                 'Online Only' => __( 'Online Only', 'visita' ),
