@@ -30,7 +30,7 @@ if ( ! defined('WPCACHEHOME') ) {
 }
 
 $cache_compression = 1; //Added by WP-Cache Manager
-$cache_enabled = false; //Added by WP-Cache Manager
+$cache_enabled = true; //Added by WP-Cache Manager
 $super_cache_enabled = true; //Added by WP-Cache Manager
 $cache_max_time = '1800'; //Added by WP-Cache Manager
 //$use_flock = true; // Set it true or false if you know what to use
