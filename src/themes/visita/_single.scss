@@ -64,6 +64,7 @@
 
   .entry-header {
     padding: 1.5em 1em;
+    position: relative;
 
     @include breakpoint(small down) {
       padding: .75em;
@@ -132,18 +133,18 @@
       margin-bottom: .85em;
     }
   }
-}
 
-.single .entry-header {
-  position: relative;
-
-  @include breakpoint(medium up) {
-    .share_button {
+  .share_button {
+    @include breakpoint(medium up) {
       position: absolute;
       right: 1em;
       top: 7em;
     }
   }
+}
+
+.single-post .share_button {
+  position: static;
 }
 
 .taxonomy-links {

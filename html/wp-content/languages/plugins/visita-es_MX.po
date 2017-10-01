@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
 "POT-Creation-Date: 2017-10-01 02:46-0700\n"
-"PO-Revision-Date: 2017-10-01 02:46-0700\n"
+"PO-Revision-Date: 2017-10-01 03:27-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -94,11 +94,11 @@ msgstr "Museo"
 
 #: includes/attractions.php:112
 msgid "Aquarium"
-msgstr "Acuario"
+msgstr ""
 
 #: includes/attractions.php:113 includes/clubs.php:111
 msgid "Comedy Club"
-msgstr "Club de comedia"
+msgstr ""
 
 #: includes/attractions.php:114
 msgid "Art Gallery"
@@ -106,7 +106,7 @@ msgstr "Galería de Arte"
 
 #: includes/attractions.php:115
 msgid "Movie Theater"
-msgstr "Cine"
+msgstr ""
 
 #: includes/attractions.php:116
 msgid "Amusement Park"
@@ -114,7 +114,7 @@ msgstr "Parque de Atracciones"
 
 #: includes/attractions.php:117
 msgid "Shopping Center"
-msgstr "Centro comercial"
+msgstr ""
 
 #: includes/attractions.php:118
 msgid "Entertainment"
@@ -269,7 +269,7 @@ msgstr "pagina"
 
 #: includes/core.php:213
 msgid "SEO"
-msgstr "Club de la Comedia"
+msgstr "SEO"
 
 #: includes/core.php:219
 msgid "Description"

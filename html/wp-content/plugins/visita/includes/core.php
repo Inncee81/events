@@ -341,8 +341,8 @@ class Visita_Core {
 
     // legacy attributes to date
     if ( $semana ) {
-      $end = strtotime( 'monday this week' );
-      $start = strtotime( 'monday next week');
+      $end = strtotime( 'monday next week' );
+      $start = strtotime( 'monday this week');
     }
 
     // legacy attributes to date
@@ -373,6 +373,11 @@ class Visita_Core {
             'compare'  => '<=',
             'key'      => '_ends',
             'value'    => $end,
+          ),
+          array(
+            'compare'  => '>=',
+            'key'      => '_starts',
+            'value'    => $start,
           ),
         ),
       )
