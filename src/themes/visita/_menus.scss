@@ -26,7 +26,7 @@
     @include breakpoint(medium down) {
       border-bottom: $menu-mobile-border;
       display: block;
-      padding: .5em .65em;
+      padding: .65rem 1.35em
     }
   }
 }
