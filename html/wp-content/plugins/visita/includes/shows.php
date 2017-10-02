@@ -75,6 +75,12 @@ class VisitaShows extends VisitaBase {
           'type' => 'tab',
         ),
         array(
+          'key' => '_disable_source',
+          'name' => '_disable_source',
+          'type' => 'true_false',
+          'message' => __( 'Disable UTM', 'visita' ),
+        ),
+        array(
           'key' => '_link',
           'name' => '_link',
           'label' => __( 'Link', 'visita' ),

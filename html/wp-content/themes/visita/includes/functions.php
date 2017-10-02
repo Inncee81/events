@@ -228,7 +228,7 @@ function visita_get_external_link( $link ) {
 
   if ( $_link = ! empty( $link ) ? $link : get_post_meta( get_the_ID(), '_link', true ) ) {
     if ( ! get_post_meta( get_the_ID(), '_disable_source', true ) ) {
-      $link = ( strrpos( $_link, '?' ) === false ? "$_link?" : "$_link&" );
+      $link = ( strrpos( $_link, '?' ) === false ? "$_link?" : trim( $_link, '&' ) . '&' );
       $link .= 'utm_source=visita.vegas&utm_medium=refer&utm_campaign=visita_vegas';
     } else {
       $link = $_link;
@@ -477,7 +477,7 @@ function visita_opening_hours( ) {
         esc_attr( $hour['_24h'] ? __( '24 Hours', 'visita' ) : '' ),
         esc_attr( $hour['_close'] ? date_i18n( get_option( 'time_format' ), strtotime( $hour['_close'] ) ) : '' ),
         esc_attr( $hour['_open'] ? date_i18n( get_option( 'time_format' ), strtotime( $hour['_open'] ) ) : '' ),
-        esc_attr( visita_get_external_link() ),
+        esc_url( visita_get_external_link() ),
         esc_attr( $hour['_close'] ? $hour['_close'] : '' ),
         esc_attr( $hour['_open'] ? $hour['_open'] : '' )
       );
@@ -507,7 +507,7 @@ function visita_legacy_time( ) {
       esc_attr( get_post_meta( get_the_ID(), '_24h', true ) ? __( '- 24 Hours', 'visita' ) : '' ),
       esc_attr( $close ? date_i18n( get_option( 'time_format' ), strtotime( $close ) ) : '' ),
       esc_attr( $open ? date_i18n( get_option( 'time_format' ), strtotime( $open ) ) : '' ),
-      esc_attr( visita_get_external_link() ),
+      esc_url( visita_get_external_link() ),
       esc_attr( $close ? $close : '' ),
       esc_attr( $open ? $open : '' )
     );
@@ -524,17 +524,18 @@ function visita_get_time_range( ) {
 
     $duration = get_post_meta( get_the_ID(), '_duration', true );
 
-    foreach ($days as $day) {
+    foreach ( $days as $day ) {
       printf(
         '<div class="day">
            <meta itemprop="openingHours" content="%1$s %4$s - %5$s">
-           <a class="action" href="" itemprop="url" rel="external">%2$s %3$s %4$s - %5$s</a>
+           <a class="action" href="%6$s" itemprop="url" rel="external">%2$s %3$s %4$s - %5$s</a>
         </div>',
         esc_attr( $day['_from'] == 'all' ? 'Mo,Tu,We,Th,Fr,Sa,Su' : date_i18n( 'D', strtotime( $day['_from'] ) ) ),
         esc_attr( $day['_from'] == 'all' ? __( 'Every Day', 'visita' ) : date_i18n( 'l', strtotime( $day['_from'] ) ) ),
         esc_attr( $day['_to'] == 'all' ? '' : __(' to ', 'visita') . date_i18n( 'l', strtotime( $day['_to'] ) ) ),
         esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $day['_time'] ) ) ),
-        esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $day['_time'] . " + $duration minutes" ) ) )
+        esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $day['_time'] . " + $duration minutes" ) ) ),
+        esc_url( visita_get_external_link( $days['_date_link'] ) )
       );
     }
   }
