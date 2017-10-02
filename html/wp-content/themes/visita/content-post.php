@@ -47,7 +47,7 @@
     <div itemprop="description" class="entry-content">
       <?php the_content( __( 'Continue <span class="meta-nav">&rarr;</span>', 'visita' ) ); ?>
       <div class="entry-meta">
-        <?php if ( is_single() ) visita_entry_tax( 'category' ) ?>
+        <?php if ( is_single() ) visita_entry_tax( $post ) ?>
       </div><!-- .entry-meta -->
     </div><!-- .entry-content -->
   <?php endif; // is_single() ?>

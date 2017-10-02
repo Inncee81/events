@@ -41,7 +41,7 @@
     <span class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
     <div class="entry-meta">
       <?php //visita_get_start_time(); visita_entry_meta(); ?>
-      <?php if (is_single()) visita_entry_tax( 'events' ) ?>
+      <?php if (is_single()) visita_entry_tax( $post ) ?>
     </div><!-- .entry-meta -->
   </header><!-- .entry-header -->
 
