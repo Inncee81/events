@@ -4,7 +4,7 @@ iframe[allowfullscreen] {
   width: 100%;
 
   @include breakpoint(small down) {
-    min-height: 200px;
+    max-height: 200px;
   }
 }
 
