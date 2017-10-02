@@ -343,7 +343,12 @@ class VisitaShows extends VisitaBase {
       $order = ( $order = get_query_var( 'order' ) ) ? $order : 'ASC';
 
       $query->set( 'order',  $order );
-      if ( ! $orderby || $orderby == 'starts' ) {
+
+      if ( ! $orderby ) {
+        $query->set( 'orderby',  'name' );
+      }
+
+      if ( $orderby == 'starts' ) {
         $query->set( 'orderby', array( '_starts' => $order ) );
         $query->set( 'meta_query', array(
           '_starts'   => array(
