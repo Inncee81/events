@@ -65,6 +65,12 @@ a {
   color: $primary-color;
 }
 
+.small-text-center {
+  @include breakpoint(small down) {
+    text-align: center;
+  }
+}
+
 .adsbygoogle.top {
   margin: .75em auto;
 

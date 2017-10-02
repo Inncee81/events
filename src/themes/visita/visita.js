@@ -70,9 +70,9 @@ const lazyLoad = new LazyLoad();
     nav.toggleClass( 'show-menu' );
   } );
 
-  let count = 0, time= 400, timer;
+  let count = 0, time= 300, timer;
 
-  $( '.menu-main .menu-item-has-children > a' ).on( 'touchend', ( e ) => {
+  $( '.menu-main .menu-item-has-children > a' ).on( 'click touchend', ( e ) => {
 
     e.preventDefault();
 
