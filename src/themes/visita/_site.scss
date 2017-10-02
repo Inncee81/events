@@ -65,8 +65,8 @@ a {
   color: $primary-color;
 }
 
-.small-text-center {
-  @include breakpoint(small down) {
+.medium-text-center {
+  @include breakpoint(medium down) {
     text-align: center;
   }
 }

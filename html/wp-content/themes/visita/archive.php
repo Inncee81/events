@@ -16,7 +16,7 @@
 <div class="row">
   <div class="small-12 columns">
 
-    <header class="entry-header small-text-center">
+    <header class="entry-header medium-text-center">
       <h1 class="entry-title" itemprop="name">
         <?php the_archive_title( );  ?>
       </h1>
