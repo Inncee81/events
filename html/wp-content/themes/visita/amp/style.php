@@ -483,3 +483,32 @@ amp-sidebar a:visited {
 	display: block;
 	padding: .35em 1.25em;
 }
+
+
+ul.event-list {
+	padding: 0;
+  margin: 0 0 2em;
+	border-top: 2px solid #ddd
+}
+
+.event-list li {
+  font-size: .85em;
+  display: block;
+  list-style: none;
+}
+
+.event-list li em {
+  display: block;
+}
+
+.event-list li strong {
+  padding: 0 5px;
+}
+
+.event-list li a {
+  display: block;
+  border-bottom: 2px solid #ddd;
+  padding: 8px;
+	text-decoration: none;
+	line-height: 1.5em;
+}

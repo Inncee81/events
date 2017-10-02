@@ -252,6 +252,10 @@ add_filter( 'visita_after_main', 'visita_add_scroll_up_button' );
 */
 function visita_attachment_image_attributes( $attr, $attachment, $size ){
 
+  if ( get_query_var( 'amp' ) ) {
+    return $attr;
+  }
+
   if ( $size == 'post-thumbnail' ) {
     $attr['src'] = get_stylesheet_directory_uri() . '/img/1x1.trans.gif';
 
@@ -267,6 +271,7 @@ function visita_attachment_image_attributes( $attr, $attachment, $size ){
       if ( isset( $attr[$attribute] ) ) unset( $attr[$attribute] );
     }
   }
+
   return $attr;
 }
 add_filter( 'wp_get_attachment_image_attributes', 'visita_attachment_image_attributes', 50, 3 );

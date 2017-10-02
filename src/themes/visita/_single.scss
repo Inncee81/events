@@ -286,7 +286,11 @@
   li a {
     display: block;
     border-bottom: 2px solid #ddd;
-    padding: 8px 20px;
+    padding: 8px;
+
+    @include breakpoint(medium up) {
+      padding: 8px 20px;
+    }
   }
 
   li a:before {
