@@ -50,9 +50,9 @@
     <div class="row">
       <div class="small-12 columns">
 
-        <h1 class="site-logo">
+        <div class="site-logo">
           <a href="<?php echo home_url() ?>" title="<?php esc_attr( get_bloginfo( 'name' ) ) ?>" rel="home"><?php bloginfo( 'name' ) ?></a>
-        </h1>
+        </div>
 
         <form class="search-form" method="get">
           <input type="search" class="search-field" name="s" placeholder="<?php esc_attr_e('Search: events, shows, hotels...') ?>" />
