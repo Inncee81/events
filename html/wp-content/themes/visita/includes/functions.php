@@ -265,7 +265,12 @@ function visita_entry_tax( $post ) {
 
   if ( $taxonomy_list = get_the_term_list( get_the_ID(), $post_taxonomy, '', '' ) ) {
     if ( ! is_wp_error( $taxonomy_list ) ) {
-      echo $taxonomy_list = '<div class="taxonomy-links">' . $taxonomy_list . '</div>';
+      printf(
+        '<div class="taxonomy-links"><a href="%1$s" rel="tag">%2$s</a>%3$s</div>',
+        ( get_post_type() == 'event' ) ? home_url() : get_post_type_archive_link( get_post_type() ),
+        esc_html( get_taxonomy( $post_taxonomy )->label ),
+        $taxonomy_list
+      );
     }
   }
 }

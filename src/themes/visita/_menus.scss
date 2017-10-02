@@ -22,9 +22,9 @@
 #nav {
   a {
     color: $gray-lightest;
-    border-bottom: $menu-mobile-border;
 
     @include breakpoint(medium down) {
+      border-bottom: $menu-mobile-border;
       display: block;
       padding: .5em .65em;
     }
@@ -71,23 +71,37 @@
       width: 100%;
     }
 
+    &.current-menu-item > a {
+      background-color: lighten( $primary-color, 11 );
+    }
+
+    &:hover, &:focus,
+    &.current-menu-parent > a  {
+      background-color: lighten( $primary-color, 6 );
+    }
+
     a {
       @include breakpoint(medium up) {
         padding: .65rem 1.35em;
         display: block;
       }
+
+      &:hover, &:focus {
+        background-color: lighten( $primary-color, 11 );
+      }
     }
   }
 
   .sub-menu {
-    background-color: lighten( $primary-color, 6 );
     text-align: left;
+    background-color: lighten( $primary-color, 6 );
 
     li {
       display: none;
     }
 
     li a {
+      border-bottom: $menu-mobile-border;
       padding-left: 2.5em;
     }
   }
@@ -121,6 +135,7 @@
       top: 0;
       width: 104px;
       z-index: 20;
+      background-color: $primary-color;
 
       a {
         padding-left: 25px;

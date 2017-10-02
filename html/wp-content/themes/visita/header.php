@@ -51,7 +51,7 @@
       <div class="small-12 columns">
 
         <h1 class="site-logo">
-          <a href="/" title="<?php esc_attr( get_bloginfo( 'name' ) ) ?>" rel="home"><?php bloginfo( 'name' ) ?></a>
+          <a href="<?php echo home_url() ?>" title="<?php esc_attr( get_bloginfo( 'name' ) ) ?>" rel="home"><?php bloginfo( 'name' ) ?></a>
         </h1>
 
         <form class="search-form" method="get">
