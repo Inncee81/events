@@ -34,7 +34,7 @@
         </%3$s>',
         get_permalink(),
         esc_html( get_the_title() ),
-        esc_attr( is_single() ? 'h1' : 'h3' ),
+        esc_attr( ( is_single() || is_page()) ? 'h1' : 'h3' ),
         esc_attr( sprintf( __( 'Link to %s', 'visita' ), the_title_attribute( 'echo=0' ) ) )
       )
     ?>
