@@ -1,11 +1,11 @@
 import LazyLoad from 'vanilla-lazyload';
 
+const mobileWidth =  640;
 const lazyLoad = new LazyLoad();
 
 ( ( $, doc ) => {
 
   let mobileLoaded = false;
-  const mobileWidth =  640;
   const stylesheet = {
     type: 'text/css',
     rel: 'stylesheet',
@@ -55,7 +55,7 @@ const lazyLoad = new LazyLoad();
 * Enables menu toggle.
 */
 
-( ( $ ) => {
+( ( $, doc ) => {
 
   let nav = $( '#nav' );
   if ( ! nav[0] )
@@ -73,6 +73,10 @@ const lazyLoad = new LazyLoad();
   let count = 0, time= 300, timer;
 
   $( '.menu-main .menu-item-has-children > a' ).on( 'click touchend', ( e ) => {
+
+    if ( e.type == 'click' && $( doc ).width() > mobileWidth ) {
+      return;
+    }
 
     e.preventDefault();
 
@@ -96,4 +100,4 @@ const lazyLoad = new LazyLoad();
     }
   } );
 
-} )( jQuery );
+} )( jQuery, document );
