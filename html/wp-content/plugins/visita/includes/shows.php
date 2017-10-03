@@ -196,7 +196,7 @@ class VisitaShows extends VisitaBase {
           'type' => 'tab',
         ),
         array(
-          'min'=> 1,
+          'min'=> 0,
           'key' => '_days',
           'name' => '_days',
           'type' => 'repeater',
