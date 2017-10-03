@@ -502,10 +502,8 @@ function visita_get_time_range( ) {
     foreach ( $days as $day ) {
       printf(
         '<div class="day">
-           <meta itemprop="openingHours" content="%1$s %4$s - %5$s">
-           <a class="action" href="%6$s" itemprop="url" rel="external">%2$s %3$s %4$s - %5$s</a>
+           <a class="action" href="%5$s" itemprop="url" rel="external">%1$s %2$s %3$s - %4$s</a>
         </div>',
-        esc_attr( $day['_from'] == 'all' ? 'Mo,Tu,We,Th,Fr,Sa,Su' : date_i18n( 'D', strtotime( $day['_from'] ) ) ),
         esc_attr( $day['_from'] == 'all' ? __( 'Every Day', 'visita' ) : date_i18n( 'l', strtotime( $day['_from'] ) ) ),
         esc_attr( $day['_to'] == 'all' ? '' : __(' to ', 'visita') . date_i18n( 'l', strtotime( $day['_to'] ) ) ),
         esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $day['_time'] ) ) ),
