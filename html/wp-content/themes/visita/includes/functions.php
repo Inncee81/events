@@ -425,8 +425,6 @@ function visita_event_dates( ) {
   if ( $price = get_post_meta( get_the_ID(), '_price', true ) ) {
 
     $starts = get_post_meta( get_the_ID(), '_starts', true );
-    $max_price = get_post_meta( get_the_ID(), '_price_max', true );
-
     if ( ! $times = get_post_meta( get_the_ID(), '_times', true ) ) {
       return false;
     }
@@ -449,6 +447,10 @@ function visita_event_dates( ) {
           <link itemprop="availability" href="http://schema.org/%6$s" />
           <meta itemprop="priceCurrency" content="USD" />
           <meta itemprop="validFrom" content="%7$s" />
+          <div class="hidden" itemprop="priceSpecification" itemscope itemtype="http://schema.org/PriceSpecification">
+            <meta itemprop="minPrice" content="%4$s" />
+            <meta itemprop="maxPrice" content="%9$s" />
+          </div>
         </div>',
 
         esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $time['_time'] ) ) ),
@@ -458,7 +460,8 @@ function visita_event_dates( ) {
         esc_url( visita_get_external_link( $time['_date_link'] ) ),
         esc_attr( $date < $today ? 'SoldOut' : $time['_availability'] ),
         esc_attr( get_the_date('c') ),
-        esc_attr( $date < $today ? 'inactive' : '' )
+        esc_attr( $date < $today ? 'inactive' : '' ),
+        esc_attr( get_post_meta( get_the_ID(), '_price_max', true ) )
       );
     }
   }

@@ -22,7 +22,7 @@
 
 <meta name="theme-color" content="#200d35" />
 <meta name="MobileOptimized" content="width" />
-<meta name="mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <?php visita_site_metatags(); ?>
@@ -30,11 +30,11 @@
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link href="https://plus.google.com/106513602005672773042" rel="publisher" />
 <link rel="manifest" href="<?php stylesheet_directory_uri('/manifest.json') ?>">
-<link rel="apple-touch-icon icon" href="<?php stylesheet_directory_uri('/icons/icon-72.png') ?>" />
+<link rel="shortcut icon" sizes="192x192" href="<?php stylesheet_directory_uri('/icons/icon-192.png') ?>">
+<link rel="apple-touch-icon icon" sizes="72x72" href="<?php stylesheet_directory_uri('/icons/icon-72.png') ?>" />
 <link rel="apple-touch-icon icon" sizes="114x114" href="<?php stylesheet_directory_uri('/icons/icon-114.png') ?>" />
 <link rel="apple-touch-icon icon" sizes="144x144" href="<?php stylesheet_directory_uri('/icons/icon-144.png') ?>" />
 <link rel="apple-touch-icon icon" sizes="192x192" href="<?php stylesheet_directory_uri('/icons/icon-192.png') ?>" />
-<link rel="shortcut icon" sizes="192x192" type="image/png" href="<?php stylesheet_directory_uri('/icons/favicon.png') ?>">
 
 <?php wp_head(); ?>
 
