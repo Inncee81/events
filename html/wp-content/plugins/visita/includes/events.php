@@ -503,7 +503,7 @@ class VisitaEvents extends VisitaBase {
         $starts = $ends = false;
 
         foreach ( $meta_value as $time ) {
-          $time = strtotime( "{$time['_date']} {$time['_time']}");
+          $time = strtotime( "{$time['_date']} {$time['_time']}" );
 
           $starts = ( $time < $starts || ! $starts ) ? $time : $starts;
           $ends = ( $time >= $ends || ! $ends ) ? ( $time + ( $values['_duration'] * 60 ) ) : $ends;

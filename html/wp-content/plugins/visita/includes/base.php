@@ -157,6 +157,9 @@ class VisitaBase {
     }
 
     if ( $starts = get_post_meta( get_the_ID(), '_starts', true ) ) {
+      if ( get_post_meta( get_the_ID(), '_days', true ) ) {
+        $starts = strtotime( 'this week 0:00' ) + $starts;
+      }
       array_splice( $title_parts, 1, 0, date_i18n( __( 'F j, Y', 'visita' ), $starts ) );
     }
 

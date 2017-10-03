@@ -381,6 +381,11 @@ function visita_get_start_time( ) {
     $ends = $starts + 120; // 2 more hours
   }
 
+  if ( get_post_meta( get_the_ID(), '_days', true ) ) {
+    $thisweek = strtotime( 'this week 0:00' );
+    $ends = $thisweek + $ends; $starts = $thisweek + $starts;
+  }
+
   printf(
     '<div class="date">
       <time class="updated hidden" datetime="%7$s">%6$s</time>
@@ -443,7 +448,7 @@ function visita_event_dates( ) {
       $date = strtotime( $time['_date'] );
 
       printf(
-        '<div itemprop="price" class="price" content="%4$s">
+        '<div class="price" itemprop="price" content="%4$s">
           <a class="price-action %8$s" href="%5$s" itemprop="url" rel="external">%2$s - %1$s</a>
           <link itemprop="availability" href="http://schema.org/%6$s" />
           <meta itemprop="priceCurrency" content="USD" />
@@ -501,14 +506,19 @@ function visita_get_time_range( ) {
 
     foreach ( $days as $day ) {
       printf(
-        '<div class="day">
-           <a class="action" href="%5$s" itemprop="url" rel="external">%1$s %2$s %3$s - %4$s</a>
+        '<div class="day" itemprop="price" content="%5$s">
+          <a class="action" href="%6$s" itemprop="url" rel="external">%1$s %2$s %4$s - %3$s</a>
+          <link itemprop="availability" href="http://schema.org/InStock" />
+          <meta itemprop="priceCurrency" content="USD" />
+          <meta itemprop="validFrom" content="%7$s" />
         </div>',
         esc_attr( $day['_from'] == 'all' ? __( 'Every Day', 'visita' ) : date_i18n( 'l', strtotime( $day['_from'] ) ) ),
         esc_attr( $day['_to'] == 'all' ? '' : __(' to ', 'visita') . date_i18n( 'l', strtotime( $day['_to'] ) ) ),
-        esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $day['_time'] ) ) ),
         esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $day['_time'] . " + $duration minutes" ) ) ),
-        esc_url( visita_get_external_link( $days['_date_link'] ) )
+        esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $day['_time'] ) ) ),
+        esc_attr( get_post_meta( get_the_ID(), '_price', true ) ),
+        esc_url( visita_get_external_link( $day['_day_link'] ) ),
+        esc_attr( get_the_date('c') )
       );
     }
   }
