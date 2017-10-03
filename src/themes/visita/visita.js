@@ -5,7 +5,7 @@ const lazyLoad = new LazyLoad();
 ( ( $, doc ) => {
 
   let mobileLoaded = false;
-  const mobileWidth =  768;
+  const mobileWidth =  640;
   const stylesheet = {
     type: 'text/css',
     rel: 'stylesheet',
