@@ -292,17 +292,22 @@ function visita_organization_schema( ) {
     '<script type="application/ld+json">%1$s</script>',
     json_encode(
       array(
-        '@context'    => 'http://schema.org',
-        '@type'       => 'Organization',
-        'url'         => 'https://visita.vegas/',
-        'name'        => 'Visita Las Vegas;',
-        'description' => 'Eventos, antros, clubs, discotecas en Las Vegas en español, música, banda, salsa, bachata y rock.',
-        'logo'        => array(
-          '@context'    => 'http://schema.org',
-          '@type'       => 'ImageObject',
-          'url'         => get_stylesheet_directory_uri() .'/icon/icon-144.png',
-          'width'       => 144,
-          'height'      => 144
+        '@context'        => 'http://schema.org',
+        '@type'           => 'Organization',
+        'url'             => 'https://visita.vegas/',
+        'name'            => 'Visita Las Vegas;',
+        'description'     => 'Eventos, antros, clubs, discotecas en Las Vegas en español, música, banda, salsa, bachata y rock.',
+        'logo'            => array(
+          '@context'      => 'http://schema.org',
+          '@type'         => 'ImageObject',
+          'url'           => get_stylesheet_directory_uri() .'/icon/icon-144.png',
+          'width'         => 144,
+          'height'        => 144
+        ),
+        'aggregateRating' => array(
+          '@type'         => 'AggregateRating',
+          'ratingValue'   => '4.3',
+          'reviewCount'   => '1357'
         ),
         'sameAs' => array(
           'https://twitter.com/visita_vegas',
@@ -346,6 +351,8 @@ function visita_head_metatags( ) {
   }
 
   if ( is_singular() && $description = get_post_meta( get_the_ID(), '_description', true ) ){
+    echo '<meta name="twitter:url" content="' . get_permalink() . '"/>' . "\n";
+    echo '<meta name="twitter:title" content="'. esc_attr( get_the_title() . $fecha  ) .'">' . "\n";
     echo '<meta name="description" content="' . esc_attr( strip_tags( $description ) ) . '"  />' . "\n";
     echo '<meta name="twitter:description" content="'.  esc_attr( strip_tags( $description ) ) .'">' . "\n";
     echo '<meta name="og:description" content="'.  esc_attr( strip_tags( $description ) ) .'">' . "\n";
@@ -359,6 +366,7 @@ function visita_head_metatags( ) {
 
   if ( has_post_thumbnail( get_the_ID() ) && is_singular() ) {
     if( $image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ),  'large' ) ) {
+      echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
       echo '<meta name="twitter:image:src" content="'. esc_url( $image[0] )  .'">'. "\n";
       echo '<meta property="og:image" content="'. esc_url( $image[0] )  .'" />'. "\n";
       echo '<meta property="og:image:width" content="'. esc_attr( $image[1] )  .'" />'. "\n";
