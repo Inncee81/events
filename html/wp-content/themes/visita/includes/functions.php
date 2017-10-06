@@ -481,7 +481,7 @@ function visita_opening_hours( ) {
           <meta itemprop="openingHours" content="%1$s %8$s-%7$s">
           <a class="action" href="%6$s" itemprop="url" rel="external">%2$s: %3$s %5$s %4$s</a>
         </div>',
-        esc_attr( $hour['_day'] == 'all' ? 'Mo,Tu,We,Th,Fr,Sa,Su' : date_i18n( 'D', strtotime( $hour['_day'] ) ) ),
+        esc_attr( $hour['_day'] == 'all' ? 'Mo,Tu,We,Th,Fr,Sa,Su' : date( 'D', strtotime( $hour['_day'] ) ) ),
         esc_attr( $hour['_day'] == 'all' ? __( 'Every Day', 'visita' ) : date_i18n( 'l', strtotime( $hour['_day'] ) ) ),
         esc_attr( $hour['_24h'] ? __( '24 Hours', 'visita' ) : '' ),
         esc_attr( $hour['_close'] ? date_i18n( get_option( 'time_format' ), strtotime( $hour['_close'] ) ) : '' ),
