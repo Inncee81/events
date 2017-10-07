@@ -368,22 +368,9 @@ class Visita_Core {
         'relation'     => 'OR',
         array(
           array(
-            'compare'  => '>=',
             'value'    => array( $start, $end ),
             'key'      => '_starts',
             'compare'  => 'BETWEEN'
-          ),
-        ),
-        array(
-          array(
-            'compare'  => '<=',
-            'key'      => '_ends',
-            'value'    => $end,
-          ),
-          array(
-            'compare'  => '>=',
-            'key'      => '_starts',
-            'value'    => $start,
           ),
         ),
       )

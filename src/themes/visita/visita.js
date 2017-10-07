@@ -28,8 +28,13 @@ const lazyLoad = new LazyLoad();
   //make headers clickable
   $( '.entry-header.float, .visita-widget .entry-header' ).on( 'click', function( e ) {
     if ( e.target.className !== 'post-edit-link' ) {
-      e.preventDefault();
-      $( this ).parent( ).find( '.image.url' )[0].click();
+      const link = $( this ).parent( ).find( 'a.url' );
+
+      if ( e.ctrlKey || e.metaKey ) {
+        link.attr( { target: '_blank' } )
+      }
+
+      $( this ).parent( ).find( 'a.url' )[0].click();
     }
   });
 
