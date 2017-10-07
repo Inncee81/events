@@ -341,20 +341,20 @@ class Visita_Core {
 
     // legacy attributes to date
     if ( $mes ) {
-      $end = strtotime( 'first day of next month' );
-      $start = strtotime( 'first day of this month' );
+      $end = strtotime( 'first day of next month 23:59' );
+      $start = strtotime( 'first day of this month 0:00' );
     }
 
     // legacy attributes to date
     if ( $semana ) {
-      $end = strtotime( 'monday next week' );
-      $start = strtotime( 'monday this week');
+      $end = strtotime( 'monday next week 23:59' );
+      $start = strtotime( 'monday this week 0:00');
     }
 
     // legacy attributes to date
     if ( $fecha ) {
-      $end = strtotime( "last day of $fecha" );
-      $start = strtotime( "first day of $fecha" );
+      $end = strtotime( "last day of $fecha 23:59" );
+      $start = strtotime( "first day of $fecha 0:00" );
     }
 
     $query = new WP_Query(array(
@@ -365,11 +365,16 @@ class Visita_Core {
 			'order'          => 'ASC',
       'tax_query'      => $tax_query,
       'meta_query'     => array(
-        'relation'     => 'OR',
         array(
+          'relation'     => 'OR',
           array(
             'value'    => array( $start, $end ),
             'key'      => '_starts',
+            'compare'  => 'BETWEEN'
+          ),
+          array(
+            'value'    => array( $start, $end ),
+            'key'      => '_ends',
             'compare'  => 'BETWEEN'
           ),
         ),

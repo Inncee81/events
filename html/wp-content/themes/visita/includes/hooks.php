@@ -352,7 +352,7 @@ function visita_head_metatags( ) {
 
   if ( is_singular() && $description = get_post_meta( get_the_ID(), '_description', true ) ){
     echo '<meta name="twitter:url" content="' . get_permalink() . '"/>' . "\n";
-    echo '<meta name="twitter:title" content="'. esc_attr( get_the_title() . $fecha  ) .'">' . "\n";
+    echo '<meta name="twitter:title" content="'. esc_attr( get_the_title() ) .'">' . "\n";
     echo '<meta name="description" content="' . esc_attr( strip_tags( $description ) ) . '"  />' . "\n";
     echo '<meta name="twitter:description" content="'.  esc_attr( strip_tags( $description ) ) .'">' . "\n";
     echo '<meta name="og:description" content="'.  esc_attr( strip_tags( $description ) ) .'">' . "\n";
