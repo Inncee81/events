@@ -8,6 +8,12 @@ RewriteCond %{REQUEST_URI} /(comments-post|activate)\.php$
 RewriteCond %{HTTP_REFERER} !.*(visita.vegas|visita.dev) [OR]
 RewriteRule (.*) - [F,L]
 
+<IfModule pagespeed_module>
+  ModPagespeed on
+  ModPagespeedEnableFilters remove_comments,recompress_jpeg,recompress_png,strip_image_meta_data,strip_image_color_profile
+  ModPagespeedJpegRecompressionQuality -1
+</IfModule>
+
 SetEnvIf Origin "^(.*\.?(visita\.vegas|visita\.dev))$" ORIGIN_SUB_DOMAIN=$1
 <FilesMatch "\.(woff2?|ttf|eot|svg)$">
   Header set Access-Control-Allow-Origin "%{ORIGIN_SUB_DOMAIN}e" env=ORIGIN_SUB_DOMAIN

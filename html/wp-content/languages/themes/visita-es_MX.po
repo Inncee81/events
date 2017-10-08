@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2017-10-01 02:43-0700\n"
-"PO-Revision-Date: 2017-10-01 02:47-0700\n"
+"POT-Creation-Date: 2017-10-08 10:50-0700\n"
+"PO-Revision-Date: 2017-10-08 10:52-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -96,7 +96,7 @@ msgstr "Menú"
 
 #: includes/functions.php:100
 msgid "eMail"
-msgstr ""
+msgstr "Email"
 
 #: includes/functions.php:101
 msgid "Facebook"
@@ -136,28 +136,23 @@ msgctxt "Next post link"
 msgid "%title"
 msgstr "%title"
 
-#: includes/functions.php:318
+#: includes/functions.php:324
 msgid "Prices in U.S. dollars"
 msgstr "Precios en dólares estadounidenses"
 
-#: includes/functions.php:319
+#: includes/functions.php:325
 msgid "prices may vary."
 msgstr "precios pueden variar."
 
-#: includes/functions.php:475 includes/functions.php:505
-#: includes/functions.php:533
+#: includes/functions.php:485 includes/functions.php:515
 msgid "Every Day"
 msgstr "Todos los días"
 
-#: includes/functions.php:476
+#: includes/functions.php:486
 msgid "24 Hours"
 msgstr "24 Horas"
 
-#: includes/functions.php:506
-msgid "- 24 Hours"
-msgstr "- 24 Horas"
-
-#: includes/functions.php:534
+#: includes/functions.php:516
 msgid " to "
 msgstr " a "
 
@@ -200,6 +195,14 @@ msgstr "Subir"
 #: includes/theme-options.php:19
 msgid "Maximum page width"
 msgstr ""
+
+#: search.php:23
+#, php-format
+msgid "Search Results for: %s"
+msgstr "Resultados por: %s"
+
+#~ msgid "- 24 Hours"
+#~ msgstr "- 24 Horas"
 
 #~ msgid ""
 #~ "<span class=\"powered\"> %1$s </span> <a href=\"%2$s\" title=\"%3$s\" "
@@ -305,9 +308,6 @@ msgstr ""
 
 #~ msgid "% comments"
 #~ msgstr "% comentarios"
-
-#~ msgid "Search Results for: %s"
-#~ msgstr "Resultados por: %s"
 
 #~ msgid "All"
 #~ msgstr "Todo"

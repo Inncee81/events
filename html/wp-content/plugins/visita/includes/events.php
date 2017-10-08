@@ -568,7 +568,7 @@ class VisitaEvents extends VisitaBase {
 
     foreach( $json as $event ) {
 
-    //  $start = strtotime( $event->startDate );
+      //  $start = strtotime( $event->startDate );
       $end = new DateTime( $event->endDate );
       $start = new DateTime( $event->startDate );
 
@@ -636,7 +636,7 @@ class VisitaEvents extends VisitaBase {
 
       // scan images for image that will best fit the theme
       foreach( $event->images as $image ){
-        if( $image->ratio == '16_9' && $image->width > 800 && $image->width < 1136 ){
+        if( $image->ratio == '16_9' && $image->width > 800 && $image->width < 1136 ) {
           $event->image = $image->url;
         }
       }
