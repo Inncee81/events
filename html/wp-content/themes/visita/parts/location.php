@@ -24,6 +24,7 @@
   <span class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
   <div class="entry-meta">
     <?php visita_price_range( true ); ?>
+    <?php visita_get_location_date(); ?>
     <div class="location">
       <?php visita_entry_meta(); ?>
     </div>

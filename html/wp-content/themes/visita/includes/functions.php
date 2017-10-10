@@ -426,6 +426,24 @@ function visita_get_post_date( ) {
 *
 * @return void
 */
+function visita_get_location_date( ) {
+  printf(
+    '<div class="date">
+      <time class="updated hidden" datetime="%4$s">%3$s</time>
+      <time class="entry-date published" datetime="%2$s">%1$s</time>
+    </div>',
+    esc_html( get_the_date( ) ),
+    esc_attr( get_the_date( 'c' ) ),
+    esc_attr( get_the_modified_date( ) ),
+    esc_attr( get_the_modified_date( 'c' ) )
+  );
+}
+
+/**
+*
+*
+* @return void
+*/
 function visita_event_dates( ) {
   if ( $price = get_post_meta( get_the_ID(), '_price', true ) ) {
 
