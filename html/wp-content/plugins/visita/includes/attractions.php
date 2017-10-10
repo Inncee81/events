@@ -113,6 +113,7 @@ class VisitaAttractions extends VisitaBase {
           'default_value' => 'Event',
           'label' => __( 'Business Type', 'visita' ),
           'choices' => array(
+            'Store' => __( 'Store', 'visita' ),
             'Park' => __( 'Park', 'visita' ),
             'Museum' => __( 'Museum', 'visita' ),
             'Aquarium' => __( 'Aquarium', 'visita' ),
