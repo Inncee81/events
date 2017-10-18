@@ -474,7 +474,7 @@ function visita_event_dates( ) {
         </div>',
 
         esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $time['_time'] ) ) ),
-        esc_attr( date_i18n( 'j \d\e F Y', $date ) ),
+        esc_attr( date_i18n( 'l j \d\e F Y', $date ) ),
         esc_html( get_post_meta( get_the_ID(), '_currency', true ) ), //
         esc_attr( is_numeric( $price ) ? $price : 0 ),
         esc_url( visita_get_external_link( $time['_date_link'] ) ),
