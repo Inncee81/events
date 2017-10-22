@@ -21,6 +21,7 @@ function visita_before_ad( ) {
   <ins class="adsbygoogle top"
    style="display:block"
    data-ad-client="ca-pub-1000685253996582"
+   data-full-width-responsive="false"
    data-ad-slot="4059481352"
    data-ad-format="auto"></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';

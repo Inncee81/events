@@ -74,9 +74,9 @@ a {
 .adsbygoogle.top {
   margin: .75em auto;
 
-  @include breakpoint(small down) {
-    display: none !important;
-  }
+  // @include breakpoint(small down) {
+  //   display: none !important;
+  // }
 }
 
 .adsbygoogle.bottom {
