@@ -1,0 +1,26 @@
+/**
+ * 6.0 Galleries
+ */
+
+@include breakpoint(medium up) {
+	.gallery {
+		margin: 0 -.75em
+	}
+	.gallery-columns {
+		&-2 .gallery-item {
+			max-width: 50%;
+		}
+		&-3 .gallery-item {
+			max-width: 33.33%;
+		}
+		&-4 .gallery-item {
+			max-width: 25%;
+		}
+		&-5 .gallery-item {
+			max-width: 20%;
+		}
+		&-6 .gallery-item {
+			max-width: 16.66%;
+		}
+	}
+}

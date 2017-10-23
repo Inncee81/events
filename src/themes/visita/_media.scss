@@ -56,3 +56,11 @@ article iframe[allowfullscreen] {
     display: block;
   }
 }
+
+.gallery-item {
+	display: inline-block;
+	padding: 1%;
+	text-align: center;
+	vertical-align: top;
+	width: 50%;
+}

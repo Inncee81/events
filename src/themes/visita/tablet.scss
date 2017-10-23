@@ -44,6 +44,7 @@ $breakpoint-classes: (large xlarge);
 @import 'grid/column';
 @import 'grid/classes';
 @import 'grid/layout';
+@import 'galleries';
 
 // Responsive visibility classes
 @each $size in $breakpoint-classes {
