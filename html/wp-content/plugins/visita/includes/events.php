@@ -317,6 +317,7 @@ class VisitaEvents extends VisitaBase {
       add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
       add_action( 'visita_before_loop', array( $this, 'sort_tabs' ), 50 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
+      add_filter( 'pll_rel_hreflang_attributes', array( $this, 'hreflang_attributes') );
       return;
     }
 
@@ -349,6 +350,15 @@ class VisitaEvents extends VisitaBase {
       wp_schedule_event( strtotime( '2 AM' ), 'daily', 'visita_expire' );
       wp_schedule_event( strtotime( '3 AM' ), 'twicedaily', 'visita_ticketmater_import');
     }
+  }
+
+  /**
+  *
+  */
+  function hreflang_attributes( $atts ) {
+    $atts['es'] =  str_replace("/$this->slug/", "/evento/", $atts['es']);
+    $atts['en'] = str_replace("/$this->slug/", "/$this->post_type/", $atts['en']);
+    return $atts;
   }
 
   /**
