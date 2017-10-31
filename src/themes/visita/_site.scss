@@ -73,10 +73,6 @@ a {
 
 .adsbygoogle.top {
   margin: .75em auto;
-
-  // @include breakpoint(small down) {
-  //   display: none !important;
-  // }
 }
 
 .adsbygoogle.bottom {
@@ -153,6 +149,17 @@ h1.entry-title {
 
 .entry-content {
   clear: both;
+  p > a, 
+  li > a,
+  strong > a {
+    text-decoration: underline;
+  }
+  ol > li {
+    margin-bottom: .65em;
+  }
+  .button {
+    text-decoration: none;
+  }
 }
 
 .tabs-sort {

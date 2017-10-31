@@ -11,6 +11,10 @@
   }
 }
 
+.visita-widget .hentry {
+  position: relative;
+}
+
 .entry-header.float,
 .visita-widget .entry-header {
   background: rgba(0,0,0,.6);
@@ -21,7 +25,7 @@
   width: 100%;
   cursor: pointer;
 
-  .location {
+  .location, .dates, .price, .vary {
     display: none;
   }
 
