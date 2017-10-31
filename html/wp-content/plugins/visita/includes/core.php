@@ -358,7 +358,7 @@ class Visita_Core {
     }
 
     $query = new WP_Query(array(
-			'post_type'      => array( 'event', 'show' ),
+			'post_type'      => array( 'event' ),
 			'posts_per_page' => 40,
       'meta_key'       => '_starts',
 			'orderby'        => 'meta_value',

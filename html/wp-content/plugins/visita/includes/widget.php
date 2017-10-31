@@ -19,7 +19,7 @@ class Visita_Widget extends WP_Widget {
 	 * @return void
 	 * @since 0.5.3
 	 */
-	function Visita_Widget( ) {
+	function __construct( ) {
 		$widget_ops = array(
 			'classname' => 'visita-widget',
 			'description' => __( 'Display Random Content', 'admin' )

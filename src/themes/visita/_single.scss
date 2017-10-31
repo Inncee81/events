@@ -115,6 +115,10 @@ body.page .entry-title {
   .entry-content {
     padding: 0 1.5em;
 
+    a {
+      text-decoration: underline;
+    }
+
     @include breakpoint(small down) {
       padding: 0 .75em;
     }
@@ -134,6 +138,14 @@ body.page .entry-title {
 
     .taxonomy-links {
       margin-bottom: .85em;
+    }
+
+    ol > li {
+      margin-bottom: .65em;
+    }
+
+    .button {
+      text-decoration: none;
     }
   }
 
@@ -287,7 +299,7 @@ body.page .entry-title {
     padding: 0 5px;
   }
 
-  li a {
+  li a.url {
     display: block;
     text-decoration: none;
     border-bottom: 2px solid #ddd;
