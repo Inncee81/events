@@ -37,6 +37,7 @@ class VisitaShows extends VisitaBase {
     $this->singular = __( 'Show', 'visita' );
     $this->taxonomy_slug = __( 'shows', 'visita' );
     $this->taxonomy_label = __( 'Shows', 'visita' );
+    $this->description = __( 'Espectáculos en Las Vegas, los grandes shows de Cirque Du Soleil, Broadway, musicales y muchos más.' , 'visita');
 
     $this->show_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,
@@ -307,6 +308,7 @@ class VisitaShows extends VisitaBase {
       add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
       add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
       add_action( 'visita_before_loop', array( $this, 'sort_tabs' ), 50 );
+      add_action( 'visita_site_metatags', array( $this, 'head_metatags' ), 20 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
       return;
     }

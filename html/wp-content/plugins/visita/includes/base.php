@@ -67,6 +67,11 @@ class VisitaBase {
   *
   */
   protected $tabs = array();
+  
+  /**
+  *
+  */
+  protected $description = '';
 
   /**
   *
@@ -232,6 +237,19 @@ class VisitaBase {
           'thumbnail',
         )
     ) );
+  }
+  
+  /**
+  *
+  *
+  * @return void
+  * @since 3.0.0
+  */
+  function head_metatags() {
+    if ( is_post_type_archive( $this->post_type ) && $this->description ){
+      echo '<meta name="description" content="'. esc_attr( $this->description ) . '" />'. "\n";
+      echo '<meta name="twitter:description" content="' . esc_attr( $this->description ) . '"  />' . "\n";
+    }
   }
 
   /**
@@ -413,7 +431,7 @@ class VisitaBase {
   * @param $post_id mix
   * @param $post_id int
   * @param $field array acf filed array
-  * @return array / mix
+  * @return array|mix
   * @since 3.0.0
   */
   function load_repeater_values( $value, $post_id, $field ) {

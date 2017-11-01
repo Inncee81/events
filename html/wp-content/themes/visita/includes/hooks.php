@@ -296,7 +296,7 @@ function visita_organization_schema( ) {
         '@type'           => 'Organization',
         'url'             => 'https://visita.vegas/',
         'name'            => 'Visita Las Vegas;',
-        'description'     => 'Eventos, antros, clubs, discotecas en Las Vegas en español, música, banda, salsa, bachata y rock.',
+        'description'     => 'Visita Las Vegas: Eventos, Shows, Atracciones, Conciertos, Nightclubs, Hoteles y más.',
         'logo'            => array(
           '@context'      => 'http://schema.org',
           '@type'         => 'ImageObject',
@@ -340,11 +340,6 @@ add_filter( 'get_the_archive_title', 'visita_get_the_archive_title' );
 function visita_head_metatags( ) {
   echo '<meta name="twitter:site" content="@visita_vegas">' . "\n";
 
-  if ( is_front_page() ){
-    echo '<meta name="description" content="Visita Las Vegas (Guía de turismo) Eventos, Shows, Atracciones, Conciertos, Clubs, Hoteles" />' . "\n";
-    echo '<meta name="twitter:description" content="Visita Las Vegas (Guía de turismo) Eventos, Shows, Atracciones, Conciertos, Clubs, Hoteles" />' . "\n";
-  }
-
   if ( is_tax() && $description = term_description() ) {
     echo '<meta name="description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
     echo '<meta name="twitter:description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
@@ -358,7 +353,7 @@ function visita_head_metatags( ) {
     echo '<meta name="og:description" content="'.  esc_attr( strip_tags( $description ) ) .'">' . "\n";
   }
 
-	if ( is_front_page() || is_tax() ){
+	if ( is_front_page() || is_tax() || is_post_type_archive() ){
 		echo '<meta property="og:image" content="'. site_url( '/wp-content/themes/visita/img/visita.jpg' )  .'" />'. "\n";
 		echo '<meta name="twitter:image:src" content="'. site_url( '/wp-content/themes/visita/img/visita.jpg' )  .'">'. "\n";
     echo '<link rel="image_src" href="' . site_url( '/wp-content/themes/visita/img/visita.jpg' )  . '"  />' . "\n";

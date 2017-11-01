@@ -224,7 +224,7 @@ function visita_post_schema( $meta_key ) {
 *
 * @return string
 */
-function visita_get_external_link( $link ) {
+function visita_get_external_link( $link = '' ) {
 
   if ( $_link = ! empty( $link ) ? $link : get_post_meta( get_the_ID(), '_link', true ) ) {
     if ( ! get_post_meta( get_the_ID(), '_disable_source', true ) ) {

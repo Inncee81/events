@@ -48,6 +48,7 @@ class VisitaEvents extends VisitaBase {
     $this->singular = __( 'Event', 'visita' );
     $this->taxonomy_slug = __( 'events', 'visita' );
     $this->taxonomy_label = __( 'Events', 'visita' );
+    $this->description = __( 'Visita Las Vegas (guía de turismo en español) Eventos, Shows, Atracciones, Conciertos, Nightclubs, Hoteles y más.' , 'visita');
 
     $this->event_data = array_replace_recursive( $this->default_data, array(
       'post_type'   => $this->post_type,
@@ -316,6 +317,7 @@ class VisitaEvents extends VisitaBase {
       add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
       add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
       add_action( 'visita_before_loop', array( $this, 'sort_tabs' ), 50 );
+      add_action( 'visita_site_metatags', array( $this, 'head_metatags' ), 20 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
       add_filter( 'pll_rel_hreflang_attributes', array( $this, 'hreflang_attributes') );
       return;

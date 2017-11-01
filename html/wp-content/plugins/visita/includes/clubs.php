@@ -37,6 +37,7 @@ class VisitaClubs extends VisitaBase {
     $this->singular = __( 'Nightclub', 'visita' );
     $this->taxonomy_slug = __( 'clubs', 'visita' );
     $this->taxonomy_label = __( 'Nightclubs', 'visita' );
+    $this->description = __( 'Noches Latinas en Las Vegas: Nightclubs, Antros, Discotecas, Banda, Salsa, Bachata y más.' , 'visita');
 
     $this->club_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,
@@ -240,6 +241,7 @@ class VisitaClubs extends VisitaBase {
       add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
       add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
       // add_action( 'visita_before_loop', array( $this, 'sort_tabs' ), 50 );
+      add_action( 'visita_site_metatags', array( $this, 'head_metatags' ), 20 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
       return;
     }

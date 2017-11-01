@@ -37,6 +37,7 @@ class VisitaHotels extends VisitaBase {
     $this->singular = __( 'Hotel', 'visita' );
     $this->taxonomy_slug = __( 'hotels', 'visita' );
     $this->taxonomy_label = __( 'Hotels', 'visita' );
+    $this->description = __( 'Listado de los mejores hoteles en la cuidad Las Vegas con información en español.' , 'visita');
 
     $this->hotel_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,
