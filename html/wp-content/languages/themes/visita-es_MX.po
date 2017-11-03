@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2017-10-08 10:50-0700\n"
-"PO-Revision-Date: 2017-10-08 10:52-0700\n"
+"POT-Creation-Date: 2017-11-02 21:16-0700\n"
+"PO-Revision-Date: 2017-11-02 21:20-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -62,7 +62,7 @@ msgid "Link to %s"
 msgstr "Enlace a %s"
 
 #: content-event.php:60 content-page.php:46 content-post.php:48
-#: content-show.php:60 content.php:51 parts/location.php:42
+#: content-show.php:60 content.php:51 parts/location.php:43
 msgid "Continue <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Continuar <span class=\"meta-nav\">&rarr;</span>"
 
@@ -96,7 +96,7 @@ msgstr "Menú"
 
 #: includes/functions.php:100
 msgid "eMail"
-msgstr "Email"
+msgstr "eMail"
 
 #: includes/functions.php:101
 msgid "Facebook"
@@ -144,15 +144,15 @@ msgstr "Precios en dólares estadounidenses"
 msgid "prices may vary."
 msgstr "precios pueden variar."
 
-#: includes/functions.php:485 includes/functions.php:515
+#: includes/functions.php:503 includes/functions.php:533
 msgid "Every Day"
 msgstr "Todos los días"
 
-#: includes/functions.php:486
+#: includes/functions.php:504
 msgid "24 Hours"
 msgstr "24 Horas"
 
-#: includes/functions.php:516
+#: includes/functions.php:534
 msgid " to "
 msgstr " a "
 
