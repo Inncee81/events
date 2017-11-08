@@ -21,7 +21,7 @@ function visita_amp_post_template_data( $data ) {
   $data['amp_component_scripts'] = array(
     'amp-ad' => 'https://cdn.ampproject.org/v0/amp-ad-0.1.js',
     'amp-sidebar' => 'https://cdn.ampproject.org/v0/amp-sidebar-0.1.js',
-    'amp-carouse' => 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js',
+    'amp-carousel' => 'https://cdn.ampproject.org/v0/amp-carousel-0.1.js',
     'amp-auto-ads' => 'https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js',
     'amp-analytics' => 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js',
     'amp-youtube' => 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js',
