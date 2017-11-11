@@ -646,9 +646,13 @@ class VisitaEvents extends VisitaBase {
         continue;
       }
 
+      if ( post_exists( $event->name ) ) {
+        continue;
+      }
+
       // scan images for image that will best fit the theme
-      foreach( $event->images as $image ){
-        if( $image->ratio == '16_9' && $image->width > 800 && $image->width < 1136 ) {
+      foreach( $event->images as $image ) {
+        if ( $image->ratio == '16_9' && $image->width > 800 && $image->width < 1136 ) {
           $event->image = $image->url;
         }
       }
