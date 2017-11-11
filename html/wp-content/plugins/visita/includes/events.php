@@ -841,7 +841,7 @@ class VisitaEvents extends VisitaBase {
     ) );
 
     foreach( $posts as $post ) {
-      wp_delete_post( $post->ID );
+      wp_trash_post( $post->ID );
     }
   }
 }
