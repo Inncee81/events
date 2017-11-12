@@ -49,7 +49,6 @@ class VisitaClubs extends VisitaBase {
           '_24h'          => '',
         ) ),
         '_business_type'  => 'NightClub',
-        '_keywords'       => __( 'club, night club', 'visita' ),
       )
     ) );
 
@@ -111,13 +110,6 @@ class VisitaClubs extends VisitaBase {
             'NightClub' => __( 'Night Club', 'visita' ),
             'ComedyClub' => __( 'Comedy Club', 'visita' ),
           ),
-        ),
-        array(
-          'key' => '_keywords',
-          'name' => '_keywords',
-          'type' => 'text',
-          'label' => __( 'Keywords', 'visita' ),
-          'default_value' => $defaults['_keywords'],
         ),
         array(
           'key' => 'tap_location',

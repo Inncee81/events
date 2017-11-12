@@ -49,7 +49,6 @@ class VisitaShows extends VisitaBase {
           '_availability' => 'InStock',
         ) ),
         '_event_type'     => 'TheaterEvent',
-        '_keywords'       => __( 'show, espectaculo', 'visita' ),
       )
     ) );
 
@@ -135,13 +134,6 @@ class VisitaShows extends VisitaBase {
             'ScreeningEvent' => __( 'Screening', 'visita' ),
             'EducationEvent' => __( 'Education', 'visita' ),
           ),
-        ),
-        array(
-          'key' => '_keywords',
-          'name' => '_keywords',
-          'type' => 'text',
-          'label' => __( 'Keywords', 'visita' ),
-          'default_value' => $defaults['_keywords'],
         ),
         array(
           'key' => 'tap_location',

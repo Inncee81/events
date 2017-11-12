@@ -77,7 +77,7 @@ function visita_theme_setup( ) {
   * See http://codex.wordpress.org/Post_Formats
   */
   add_theme_support( 'post-formats', array(
-    'aside', 'audio', 'image', 'video'
+    'gallery', 'image', 'video'
   ) );
 
   /**
@@ -85,7 +85,7 @@ function visita_theme_setup( ) {
   * @see https://developer.wordpress.org/reference/functions/add_theme_support/#Post_Thumbnails
   */
   add_theme_support( 'post-thumbnails' );
-  set_post_thumbnail_size( 800, 320, true );
+  // set_post_thumbnail_size( 800, 320, true );
   add_image_size( 'featured-mobile', 600,  240, true );
 
   // This theme uses its own gallery styles.

@@ -33,6 +33,7 @@ class Visita_Core {
     //disable acf save hook
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
     add_action( 'acf/init', array( $this, 'disable_save_action' ) );
+    add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 5, 2 );
 
     //short code
     add_shortcode( 'lista-eventos', array( $this, 'shortcode_event_list' ) );
@@ -215,7 +216,7 @@ class Visita_Core {
   */
   function register_acf_fields( ) {
     register_field_group( array(
-      'key' => '',
+      'key' => 'seo',
       'title' => __( 'SEO', 'visita' ),
       'menu_order' => 2,
       'fields' => array(
@@ -223,7 +224,15 @@ class Visita_Core {
           'key' => '_description',
           'name' => '_description',
           'label' => __( 'Description', 'visita' ),
+          'rows' => 5,
+          'maxlength' => 155,
           'type' => 'textarea',
+        ),
+        array(
+          'key' => '_keywords',
+          'name' => '_keywords',
+          'label' => __( 'Keywords', 'visita' ),
+          'type' => 'text',
         ),
       ),
       'options' => array(
@@ -241,6 +250,25 @@ class Visita_Core {
         ),
       ),
     ) );
+  }
+  
+  /**
+  * Save ACF fields
+  *
+  * @param $post_id int
+  * @param $values array
+  * @return void
+  * @since 3.0.0
+  */
+  function save_acf_data( $post_id, $values ) {
+    if ( ! in_array( get_current_screen()->post_type, array('page', 'post') ) ) {
+      return;
+    }
+
+    //save each field
+    foreach ( $values as $meta_key => $meta_value ) {
+      update_post_meta( $post_id, $meta_key, $meta_value );
+    }
   }
 
   /**

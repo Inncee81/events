@@ -144,13 +144,6 @@ class VisitaEvents extends VisitaBase {
           ),
         ),
         array(
-          'key' => '_keywords',
-          'name' => '_keywords',
-          'type' => 'text',
-          'label' => __( 'Keywords', 'visita' ),
-          'default_value' => $defaults['_keywords'],
-        ),
-        array(
           'key' => 'tap_location',
           'label' => __( 'Location', 'visita' ),
           'type' => 'tab',

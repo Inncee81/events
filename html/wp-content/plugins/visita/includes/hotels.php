@@ -43,7 +43,6 @@ class VisitaHotels extends VisitaBase {
       'post_type'         => $this->post_type,
       'meta_input'        => array(
         '_business_type'  => 'Hotel',
-        '_keywords'       => __( 'hotel, casino', 'visita' ),
       )
     ) );
 
@@ -106,13 +105,6 @@ class VisitaHotels extends VisitaBase {
             'Resort' => __( 'Resort', 'visita' ),
             'Casino' => __( 'Casino', 'visita' ),
           ),
-        ),
-        array(
-          'key' => '_keywords',
-          'name' => '_keywords',
-          'type' => 'text',
-          'label' => __( 'Keywords', 'visita' ),
-          'default_value' => $defaults['_keywords'],
         ),
         array(
           'key' => 'tap_location',
