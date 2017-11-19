@@ -245,8 +245,8 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 				return $error;
 			}
 
-			foreach ( array('HTTP_X_FORWARDED_FOR', 'REMOTE_HOST' ) as $HTTP_HOST ) {
-				if ( isset( $_SERVER[$HTTP_HOST] ) && $_SERVER[$HTTP_HOST] == $_SERVER['HTTP_HOST']) {
+			foreach ( array('HTTP_X_FORWARDED_FOR', 'REMOTE_HOST', 'HTTP_ORIGIN' ) as $HTTP_HOST ) {
+				if ( isset($_SERVER[$HTTP_HOST]) && preg_replace('/^https?\:\/\//i', '', $_SERVER[$HTTP_HOST]) == $_SERVER['HTTP_HOST']) {
 					return $error;
 				}
 			}

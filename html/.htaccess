@@ -10,7 +10,9 @@ RewriteRule (.*) - [F,L]
 
 <IfModule pagespeed_module>
   ModPagespeed on
-  ModPagespeedEnableFilters remove_comments,recompress_jpeg,recompress_png,strip_image_meta_data,strip_image_color_profile
+  ModPagespeedEnableFilters extend_cache
+  ModPagespeedCriticalImagesBeaconEnabled false 
+  ModPagespeedEnableFilters recompress_jpeg,recompress_png,strip_image_meta_data,strip_image_color_profile
   ModPagespeedJpegRecompressionQuality -1
 </IfModule>
 

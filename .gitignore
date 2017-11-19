@@ -16,3 +16,5 @@ html/wp-content/uploads
 html/wp-content/plugins/developer
 html/wp-content/plugins/debug-*
 wp-config.php
+mu-plugins
+p3-profiler
