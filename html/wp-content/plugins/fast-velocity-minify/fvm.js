@@ -46,7 +46,16 @@
 			}
 		}).trigger('init'); 
 		
-
+		// disable some checkboxes when some other is on or off
+		$('#fastvelocity_min_fvm_removecss').bind('click init', function() {
+			if( $(this).is(':checked')) {
+				$("#fastvelocity_min_send_css_to_footer, #fastvelocity_min_critical_path_visibility").prop("disabled", true);
+				$("#fastvelocity_min_critical_css_tester").prop("disabled", true);
+			} else {
+				$("#fastvelocity_min_send_css_to_footer, #fastvelocity_min_critical_path_visibility").prop("disabled", false);
+				$("#fastvelocity_min_critical_css_tester").prop("disabled", false);
+			}
+		}).trigger('init');
 		
 		// disable collapse
 		$('.postbox h3, .postbox .handlediv').unbind('click.postboxes');

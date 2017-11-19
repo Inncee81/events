@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.2.1
+Version: 2.2.2
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -90,41 +90,57 @@ $fastvelocity_min_global_js_done = array();
 # build control panel pages ###############
 ###########################################
 
-# default options
-$ignore = array();                   # urls to exclude for merging and minification
-$default_protocol = 'dynamic';       # use dynamic "//" protocols by default
-$disable_js_merge = false;           # disable JS merging? Default: false (if true, minification is also disabled)
-$disable_css_merge = false;          # disable CSS merging? Default: false (if true, minification is also disabled)
-$disable_js_minification = false;    # disable JS minification? Default: false
-$disable_css_minification = false;   # disable CSS minification? Default: false
-$use_yui = false;         			 # Use the YUI processor instead of PHP Minify? Default false
-$remove_print_mediatypes = false;    # remove CSS files of "print" mediatype
-$skip_html_minification = false;     # skip HTML minification? Default: false
-$use_alt_html_minification = false;  # use alt HTML minification? Default: false
-$strip_htmlcomments = false;         # whether to remove html comments on html minification
-$skip_cssorder = false;              # skip reordering CSS files by mediatype
-$skip_google_fonts = false;          # skip google fonts optimization? Default: false
-$skip_emoji_removal = false;         # skip removing emoji support? Default: false
-$enable_defer_js = false;            # Defer parsing of JavaScript? Default false
-$exclude_defer_jquery = false;       # Disable defer for jquery on the home
-$use_google_closure = false;         # Use Google closure (slower) instead of YUI processor? Default false
-$use_php_minify = false;             # Use PHP Minify instead of YUI or Closure? Default false
-$force_inline_css = false;           # Don't inline all css by default
-$force_inline_css_footer = false;    # Don't inline all css by default
-$force_inline_googlefonts = false;   # Don't inline all google fonts by default
-$defer_for_pagespeed = false;        # force defer for when we are being tested by pagespeed insights
-$exclude_defer_login = false;		 # Disable defer js on the login page
-$preload = array();                  # urls to preload before anything else
-$preconnect = array();               # domains to preconnect to
-$fvm_fix_editor = false;        	 # enable production mode by default?
+# options from the database, false if not set
+$ignore = array_map('trim', explode("\n", get_option('fastvelocity_min_ignore', '')));
+$blacklist = array_map('trim', explode("\n", get_option('fastvelocity_min_blacklist', '')));
+$ignorelist = array_map('trim', explode("\n", get_option('fastvelocity_min_ignorelist', '')));
+$merge_allowed_urls = array_map('trim', explode("\n", get_option('fastvelocity_min_merge_allowed_urls', '')));
+$default_protocol = get_option('fastvelocity_min_default_protocol', 'dynamic');
+$disable_js_merge = get_option('fastvelocity_min_disable_js_merge');
+$disable_css_merge = get_option('fastvelocity_min_disable_css_merge');
+$disable_js_minification = get_option('fastvelocity_min_disable_js_minification');
+$disable_css_minification = get_option('fastvelocity_min_disable_css_minification');
+$use_yui = get_option('fastvelocity_min_use_yui');
+$remove_print_mediatypes = get_option('fastvelocity_min_remove_print_mediatypes'); 
+$skip_html_minification = get_option('fastvelocity_min_skip_html_minification');
+$use_alt_html_minification = get_option('fastvelocity_min_use_alt_html_minification');
+$strip_htmlcomments = get_option('fastvelocity_min_strip_htmlcomments');
+$skip_cssorder = get_option('fastvelocity_min_skip_cssorder');
+$skip_google_fonts = get_option('fastvelocity_min_skip_google_fonts');
+$skip_emoji_removal = get_option('fastvelocity_min_skip_emoji_removal');
+$enable_defer_js = get_option('fastvelocity_min_enable_defer_js');
+$exclude_defer_jquery = get_option('fastvelocity_min_exclude_defer_jquery');
+$force_inline_css = get_option('fastvelocity_min_force_inline_css');
+$force_inline_css_footer = get_option('fastvelocity_min_force_inline_css_footer');
+$force_inline_googlefonts = get_option('fastvelocity_min_force_inline_googlefonts');
+$remove_googlefonts = get_option('fastvelocity_min_remove_googlefonts');
+$defer_for_pagespeed = get_option('fastvelocity_min_defer_for_pagespeed');
+$exclude_defer_login = get_option('fastvelocity_min_exclude_defer_login');
+$preload = array_map('trim', explode("\n", get_option('fastvelocity_min_preload')));
+$preconnect = array_map('trim', explode("\n", get_option('fastvelocity_min_preconnect')));
+$fvm_fix_editor = get_option('fastvelocity_min_fvm_fix_editor');
+$send_css_to_footer = get_option('fastvelocity_min_send_css_to_footer');
+$critical_css_tester = get_option('fastvelocity_min_critical_css_tester');
+$critical_css_path_visibility = get_option('fastvelocity_min_critical_path_visibility');
+$critical_path_css = get_option('fastvelocity_min_critical_path_css');
+$generate_gulp_files = get_option('fastvelocity_min_generate_gulp_files');
+$generate_gulp_path = get_option('fastvelocity_min_generate_gulp_path');
+$fvm_cdn_url = get_option('fastvelocity_min_fvm_cdn_url');
+$fvm_remove_css = get_option('fastvelocity_min_fvm_removecss');
 
-# extra
-$send_css_to_footer = false;         # force defer for css
-$critical_path_css = false;      	 # critical path for homepage
-$critical_css_tester = false;        # will remove all css, except the critical path code
-$generate_gulp_files = false;        # will generate gulp files for gulp-uncss (spider the site first to generate the fvm cache files)
-$generate_gulp_path = false;         # path to working directory where gulp-uncss is installed
+
+# default options
 $used_css_files = array();
+
+# default blacklist
+$exc = array('/html5shiv.js', '/excanvas.js', '/avada-ie9.js', '/respond.js', '/respond.min.js', '/selectivizr.js', '/Avada/assets/css/ie.css', '/html5.js', '/IE9.js', '/fusion-ie9.js', '/vc_lte_ie9.min.css', '/old-ie.css', '/ie.css', '/vc-ie8.min.css', '/mailchimp-for-wp/assets/js/third-party/placeholders.min.js');
+if(!is_array($blacklist) || strlen(implode($blacklist)) == 0) { update_option('fastvelocity_min_blacklist', implode("\n", $exc)); }
+
+# default ignore list
+$exc = array('/Avada/assets/js/main.min.js', '/woocommerce-product-search/js/product-search.js', '/includes/builder/scripts/frontend-builder-scripts.js', '/assets/js/jquery.themepunch.tools.min.js');
+if(!is_array($ignorelist) || strlen(implode($ignorelist)) == 0) { update_option('fastvelocity_min_ignorelist', implode("\n", $exc)); }
+
+
 
 # add admin page and rewrite defaults
 if(is_admin()) {
@@ -134,37 +150,6 @@ if(is_admin()) {
     add_action('admin_init', 'fastvelocity_min_register_settings');
     register_deactivation_hook( __FILE__, 'fastvelocity_min_plugin_deactivate');
 } else {
-    # overwrite options from the database, false if not set
-	$ignore = array_map('trim', explode("\n", get_option('fastvelocity_min_ignore', '')));
-	$default_protocol = get_option('fastvelocity_min_default_protocol', 'dynamic');
-	$disable_js_merge = get_option('fastvelocity_min_disable_js_merge');
-	$disable_css_merge = get_option('fastvelocity_min_disable_css_merge');
-	$disable_js_minification = get_option('fastvelocity_min_disable_js_minification');
-	$disable_css_minification = get_option('fastvelocity_min_disable_css_minification');
-	$use_yui = get_option('fastvelocity_min_use_yui');
-	$remove_print_mediatypes = get_option('fastvelocity_min_remove_print_mediatypes'); 
-	$skip_html_minification = get_option('fastvelocity_min_skip_html_minification');
-	$use_alt_html_minification = get_option('fastvelocity_min_use_alt_html_minification');
-	$strip_htmlcomments = get_option('fastvelocity_min_strip_htmlcomments');
-	$skip_cssorder = get_option('fastvelocity_min_skip_cssorder');
-	$skip_google_fonts = get_option('fastvelocity_min_skip_google_fonts');
-	$skip_emoji_removal = get_option('fastvelocity_min_skip_emoji_removal');
-	$enable_defer_js = get_option('fastvelocity_min_enable_defer_js');
-	$exclude_defer_jquery = get_option('fastvelocity_min_exclude_defer_jquery');
-	$force_inline_css = get_option('fastvelocity_min_force_inline_css');
-	$force_inline_css_footer = get_option('fastvelocity_min_force_inline_css_footer');
-	$force_inline_googlefonts = get_option('fastvelocity_min_force_inline_googlefonts');
-	$defer_for_pagespeed = get_option('fastvelocity_min_defer_for_pagespeed');
-	$exclude_defer_login = get_option('fastvelocity_min_exclude_defer_login');
-	$preload = array_map('trim', explode("\n", get_option('fastvelocity_min_preload')));
-	$preconnect = array_map('trim', explode("\n", get_option('fastvelocity_min_preconnect')));
-	$fvm_fix_editor = get_option('fastvelocity_min_fvm_fix_editor');
-	$send_css_to_footer = get_option('fastvelocity_min_send_css_to_footer');
-	$critical_css_tester = get_option('fastvelocity_min_critical_css_tester');
-	$critical_path_css = get_option('fastvelocity_min_critical_path_css');
-	$generate_gulp_files = get_option('fastvelocity_min_generate_gulp_files');
-	$generate_gulp_path = get_option('fastvelocity_min_generate_gulp_path');
-	
 		
 	# skip on certain post_types or if there are specific keys on the url or if editor or admin
 	if(!fastvelocity_exclude_contents()) {	
@@ -182,7 +167,7 @@ if(is_admin()) {
 	if(!$skip_emoji_removal) { 
 		add_action( 'init', 'fastvelocity_min_disable_wp_emojicons' );
 	}
-	
+
 	}
 }
 
@@ -285,20 +270,25 @@ function fastvelocity_min_register_settings() {
 	register_setting('fvm-group', 'fastvelocity_min_force_inline_css');
 	register_setting('fvm-group', 'fastvelocity_min_force_inline_css_footer');
 	register_setting('fvm-group', 'fastvelocity_min_force_inline_googlefonts');
+	register_setting('fvm-group', 'fastvelocity_min_remove_googlefonts');
 	register_setting('fvm-group', 'fastvelocity_min_defer_for_pagespeed');
 	register_setting('fvm-group', 'fastvelocity_min_exclude_defer_login');
 	register_setting('fvm-group', 'fastvelocity_min_preload');
 	register_setting('fvm-group', 'fastvelocity_min_preconnect');
 	register_setting('fvm-group', 'fastvelocity_min_fvm_fix_editor');
-	register_setting('fvm-group', 'fastvelocity_min_fvm_enable_cdn');
 	register_setting('fvm-group', 'fastvelocity_min_fvm_cdn_url');
 	
 	# pro version (for private usage... or if you know what you're doing)
 	register_setting('fvm-group-pro', 'fastvelocity_min_send_css_to_footer');
+	register_setting('fvm-group-pro', 'fastvelocity_min_critical_path_visibility');
 	register_setting('fvm-group-pro', 'fastvelocity_min_critical_css_tester');
 	register_setting('fvm-group-pro', 'fastvelocity_min_critical_path_css');
 	register_setting('fvm-group-pro', 'fastvelocity_min_generate_gulp_files');
-	register_setting('fvm-group-pro', 'fastvelocity_min_generate_gulp_path');	
+	register_setting('fvm-group-pro', 'fastvelocity_min_generate_gulp_path');
+    register_setting('fvm-group-pro', 'fastvelocity_min_ignorelist');
+    register_setting('fvm-group-pro', 'fastvelocity_min_blacklist');
+    register_setting('fvm-group-pro', 'fastvelocity_min_merge_allowed_urls');
+	register_setting('fvm-group-pro', 'fastvelocity_min_fvm_removecss');
 	register_setting('fvm-group-license', 'fastvelocity_min_license_code');
 }
 
@@ -487,6 +477,11 @@ Disable Google Fonts merging <span class="note-info">[ If selected, Google Fonts
 Inline Google Fonts CSS <span class="note-info">[ If selected, Google Fonts CSS code will be inlined using "*.woof" format - NOTE: IE9+ and <a target="_blank" href="http://caniuse.com/#feat=woff">modern browsers</a> only]</span></label>
 <br />
 
+<label for="fastvelocity_min_remove_googlefonts">
+<input name="fastvelocity_min_remove_googlefonts" type="checkbox" id="fastvelocity_min_remove_googlefonts" value="1" <?php echo checked(1 == get_option('fastvelocity_min_remove_googlefonts'), true, false); ?> >
+Remove Google Fonts <span class="note-info">[ If selected, all enqueued Google Fonts will be removed from the site ]</span></label>
+<br />
+
 </fieldset></td>
 </tr>
 
@@ -598,13 +593,12 @@ Skip deferring completely on the login page <span class="note-info">[ If selecte
 <tbody>
 <tr>
 <th scope="row">Ignore List</th>
-<td><fieldset><legend class="screen-reader-text"><span>Ignore List</span></legend>
-<p><label for="blacklist_keys"><span class="fvm-label-pad">Ignore the following CSS and JS paths below:</span></label></p>
+<td><fieldset>
+<label for="blacklist_keys"><span class="fvm-label-pad">Ignore the following CSS and JS paths below:</span></label>
 <p>
 <textarea name="fastvelocity_min_ignore" rows="10" cols="50" id="fastvelocity_min_ignore" class="large-text code" placeholder="ex: /wp-includes/js/jquery/jquery.js"><?php echo get_option('fastvelocity_min_ignore'); ?></textarea>
 </p>
-<p class="description">[ Remove all query strings and use only relative or partial urls, ex: /wp-includes/js/jquery/jquery.js ]</p>
-<br />
+<p class="description">[ Your own list of js /css files to ignore with wildcard support (read the faqs) ]</p>
 </fieldset></td>
 </tr>
 </tbody></table>
@@ -612,16 +606,16 @@ Skip deferring completely on the login page <span class="note-info">[ If selecte
 
 <div style="height: 20px;"></div>
 <h2 class="title">CDN Options</h2>
-<p class="fvm-bold-green">This rewrite our generated CSS and JS urls to use your cdn domain name.</p>
+<p class="fvm-bold-green">Use this to map your static assets to your cdn url.</p>
 
 <table class="form-table fvm-settings">
 <tbody>
 <tr>
-<th scope="row"><span class="fvm-label-special">CDN URL</span></th>
-<td><fieldset><legend class="screen-reader-text"><span>CDN URL</span></legend>
+<th scope="row"><span class="fvm-label-special">Your CDN domain</span></th>
+<td><fieldset>
 <label for="fastvelocity_min_fvm_cdn_url">
 <p><input type="text" name="fastvelocity_min_fvm_cdn_url" id="fastvelocity_min_fvm_cdn_url" value="<?php echo get_option('fastvelocity_min_fvm_cdn_url', ''); ?>" size="80" /></p>
-<p class="description">[ Leave empty, or enter your CDN URL domain name here ]</p></label>
+<p class="description">[ This will rewrite the generated CSS and JS urls to use your cdn domain name. ]</p></label>
 </fieldset></td>
 </tr>
 </tbody></table>
@@ -692,10 +686,18 @@ When deferring all generated css files, you must enqueue any inline css code tha
 
 <tr>
 <th scope="row">Extra CSS Options</th>
-<td><fieldset><legend class="screen-reader-text"><span>Extra CSS Options</span></legend>
+<td><fieldset>
+<label for="fastvelocity_min_fvm_removecss">
+<input name="fastvelocity_min_fvm_removecss" type="checkbox" id="fastvelocity_min_fvm_removecss" value="1" <?php echo checked(1 == get_option('fastvelocity_min_fvm_removecss'), true, false); ?>>
+Remove CSS files<span class="note-info">[ If selected, all enqueued css files will be removed from the site ]</span></label>
+<br />
 <label for="fastvelocity_min_send_css_to_footer">
 <input name="fastvelocity_min_send_css_to_footer" type="checkbox" id="fastvelocity_min_send_css_to_footer" value="1" <?php echo checked(1 == get_option('fastvelocity_min_send_css_to_footer'), true, false); ?>>
 Async CSS with LoadCSS<span class="note-info">[ If selected, you will need a Critical Path CSS to Optimize CSS Delivery ]</span></label>
+<br />
+<label for="fastvelocity_min_critical_path_visibility">
+<input name="fastvelocity_min_critical_path_visibility" type="checkbox" id="fastvelocity_min_critical_path_visibility" value="1" <?php echo checked(1 == get_option('fastvelocity_min_critical_path_visibility'), true, false); ?>>
+Add Visibility Styles<span class="note-info">[ If selected, it will hide the body until css is loaded ]</span></label>
 <br />
 <label for="fastvelocity_min_critical_css_tester">
 <input name="fastvelocity_min_critical_css_tester" type="checkbox" id="fastvelocity_min_critical_css_tester" value="1" <?php echo checked(1 == get_option('fastvelocity_min_critical_css_tester'), true, false); ?>>
@@ -734,8 +736,55 @@ Generate gulp-uncss files<span class="note-info">[ If selected, it will try to g
 </td>
 </tr>
 
-
 </tbody></table>
+
+<div style="height: 20px;"></div>
+<h2 class="title">Special JS and CSS Exceptions</h2>
+<p class="fvm-bold-green">You can use this section to exclude certain CSS or JS files from being processed in case of conflicts while merging.</p>
+
+<div style="height: 20px;"></div>
+<table class="form-table fvm-settings">
+<tbody>
+<tr>
+<th scope="row">External URLs to Merge</th>
+<td><fieldset><label for="blacklist_keys"><span class="fvm-label-pad">List of external domains or urls that can be merged:</span></label>
+<p>
+<textarea name="fastvelocity_min_merge_allowed_urls" rows="10" cols="50" id="fastvelocity_min_merge_allowed_urls" class="large-text code" placeholder="ex: example.com"><?php echo get_option('fastvelocity_min_merge_allowed_urls'); ?></textarea>
+</p>
+<p class="description">[ Add any external domains, JS or CSS urls than can be merged together by FVM ]</p>
+</fieldset></td>
+</tr>
+</tbody></table>
+
+<div style="height: 20px;"></div>
+<table class="form-table fvm-settings">
+<tbody>
+<tr>
+<th scope="row">Default Ignore List</th>
+<td>
+<fieldset><label for="blacklist_keys"><span class="fvm-label-pad">Do not edit, if you're not sure what this is:</span></label>
+<p>
+<textarea name="fastvelocity_min_ignorelist" rows="10" cols="50" id="fastvelocity_min_ignorelist" class="large-text code" placeholder="ex: /wp-includes/js/jquery/jquery.js"><?php echo get_option('fastvelocity_min_ignorelist'); ?></textarea>
+</p>
+<p class="description">[ Files that have been reported by other users to cause trouble when merged and that should always be ignored ]</p>
+</fieldset></td>
+</tr>
+</tbody></table>
+
+<div style="height: 20px;"></div>
+<table class="form-table fvm-settings">
+<tbody>
+<tr>
+<th scope="row">Default Blacklist</th>
+<td><fieldset><label for="blacklist_keys"><span class="fvm-label-pad">Do not edit, if you're not sure what this is:</span></label>
+<p>
+<textarea name="fastvelocity_min_blacklist" rows="10" cols="50" id="fastvelocity_min_blacklist" class="large-text code" placeholder="ex: /wp-includes/js/jquery/jquery.js"><?php echo get_option('fastvelocity_min_blacklist'); ?></textarea>
+</p>
+<p class="description">[ Usually, any IE css /js files that should always be ignored without incrementing the groups ]</p>
+</fieldset></td>
+</tr>
+</tbody></table>
+
 
 <p class="submit"><input type="submit" name="fastvelocity_min_save_options" id="fastvelocity_min_save_options" class="button button-primary" value="Save Changes"></p>
 </form>
@@ -899,7 +948,7 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
 					$newcode = false; $newcode = get_transient($tkey);
 					if ( $newcode === false) {
-						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_js_minification, 'js');
+						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_js_minification, 'js', $handle);
 						if(is_array($res)) {
 							$newcode = $res['code'];
 							$newlog = $res['log'];
@@ -1031,7 +1080,7 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
 					$newcode = false; $newcode = get_transient($tkey);
 					if ( $newcode === false) {
-						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_js_minification, 'js');
+						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_js_minification, 'js', $handle);
 						if(is_array($res)) {
 							$newcode = $res['code'];
 							$newlog = $res['log'];
@@ -1091,24 +1140,30 @@ $wp_scripts->done = $done;
 # enable defer for JavaScript (WP 4.1 and above) and remove query strings for ignored files
 ###########################################
 function fastvelocity_min_defer_js($tag, $handle, $src) {
-global $ignore, $enable_defer_js, $defer_for_pagespeed, $wp_domain, $exclude_defer_login;
+global $ignore, $enable_defer_js, $defer_for_pagespeed, $wp_domain, $exclude_defer_login, $fvm_cdn_url;
 
 # no query strings
 if (stripos($src, '?ver') !== false) { 
 	$srcf = stristr($src, '?ver', true); 
 	$tag = str_ireplace($src, $srcf, $tag); 
 	$src = $srcf; 
-} 
+}
+
+# cdn support
+if(!empty($fvm_cdn_url)) {
+	$fvm_cdn_url = trim(trim(str_ireplace(array('http://', 'https://'), '', trim($fvm_cdn_url, '/'))), '/');
+	$tag = str_ireplace($wp_domain, $fvm_cdn_url, $tag);
+}	
 
 # should we exclude defer on the login page?
 if($exclude_defer_login == true && stripos($_SERVER["SCRIPT_NAME"], strrchr(wp_login_url(), '/')) !== false){ return $tag; }
 
 # reprocess the ignore list to remove the /fvm/cache/ from the list (else won't defer)
-if(is_array($ignore)) { $nignore = array(); foreach ($ignore as $i) { if($i != '/fvm/cache/') { $nignore[] = $i; } } }
+$nignore = array(); if(is_array($ignore)) { foreach ($ignore as $i) { if($i != '/fvm/cache/') { $nignore[] = $i; } } }
 
 # when to defer, order matters
 $defer = 0; if($enable_defer_js == true) { $defer = 1; }
-if (fastvelocity_min_in_arrayi($src, $nignore)) { $defer = 0; }
+if (count($nignore) > 0 && fastvelocity_min_in_arrayi($src, $nignore)) { $defer = 0; }
 
 # get available nodes and add create with defer tag (if not async)
 $dom = new DOMDocument();
@@ -1129,7 +1184,7 @@ if ($defer == 0) {
 if ($defer_for_pagespeed != true) { return $tag; } else { 
 
 # return if external script url https://www.chromestatus.com/feature/5718547946799104
-if (stripos($src, $wp_domain) === false) { return $tag; }
+#if (stripos($src, $wp_domain) === false) { return $tag; }
 
 # print code or return
 if(!empty($tagdefer)) { 
@@ -1152,7 +1207,7 @@ return $tag;
 # process header css ######################
 ###########################################
 function fastvelocity_min_merge_header_css() {
-global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css, $force_inline_googlefonts, $send_css_to_footer, $critical_path_css, $critical_css_tester;
+global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css, $force_inline_googlefonts, $remove_googlefonts, $send_css_to_footer, $critical_path_css, $critical_css_tester, $critical_css_path_visibility, $fvm_remove_css;
 if(!is_object($wp_styles)) { return false; }
 $ctime = get_option('fvm-last-cache-update', '0'); 
 $styles = wp_clone($wp_styles);
@@ -1162,6 +1217,17 @@ $header = array();
 $google_fonts = array();
 $process = array();
 $inline_css = array();
+
+# dequeue all styles
+if($fvm_remove_css != false) {
+	foreach( $styles->to_do as $handle ) :
+		$done = array_merge($done, array($handle));
+	endforeach;
+	
+	# remove from queue
+	$wp_styles->done = $done;
+	return false;
+}
 
 # add defaults to ignore list
 $ignore = fastvelocity_default_ignore($ignore);
@@ -1194,7 +1260,10 @@ foreach( $styles->to_do as $handle):
 	
 	# google fonts to the top (collect and skip process array)
 	if (stripos($hurl, 'fonts.googleapis.com') !== false) { 
-	if(!$skip_google_fonts) { $google_fonts[$handle] = $hurl; } else { wp_enqueue_style($handle); } # skip google fonts optimization?
+	if($remove_googlefonts != false) { $done = array_merge($done, array($handle)); continue; } # mark as done if to be removed
+	if(!$skip_google_fonts) { $google_fonts[$handle] = $hurl; } else {
+		wp_enqueue_style($handle); # skip google fonts optimization?
+	}
 	continue; 
 	} 
 	
@@ -1209,7 +1278,7 @@ if(!$skip_google_fonts && count($google_fonts) > 0) {
 	$concat_google_fonts = fastvelocity_min_concatenate_google_fonts($google_fonts);
 	foreach ($google_fonts as $h=>$a) { $done = array_merge($done, array($h)); } # mark as done
 	if($force_inline_googlefonts == false) {
-		wp_enqueue_style('header-fvm-fonts', fvm_get_protocol($concat_google_fonts), array(), null, 'all');
+			wp_enqueue_style('header-fvm-fonts', fvm_get_protocol($concat_google_fonts), array(), null, 'all');
 	} else {
 		
 		# google fonts download and inlining, ignore logs
@@ -1228,8 +1297,6 @@ if(!$skip_google_fonts && count($google_fonts) > 0) {
 		}	
 	}
 }
-
-
 
 
 # get groups of handles
@@ -1310,7 +1377,12 @@ if(!$skip_cssorder) {
 }
 
 
-# critical path
+# critical path default styles
+if($critical_css_path_visibility != false) {
+	echo '<style id="critical-path-visibility" type="text/css" media="all">body div span label em i b strong embed h1 h2 h3 h4 h5 h6{font-family:sans-serif}body{visibility:hidden;}</style>'."\n"; 
+}
+
+# critical path + default visibility styles
 if(!empty($critical_path_css) && $critical_path_css != false) {
 	if($send_css_to_footer != false) { 
 		echo '<style id="critical-path-global" type="text/css" media="all">'.$critical_path_css.'</style>'."\n"; 
@@ -1354,7 +1426,7 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
 					$newcode = false; $newcode = get_transient($tkey);
 					if ( $newcode === false) {
-						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_css_minification, 'css');
+						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_css_minification, 'css', $handle);
 						if(is_array($res)) {
 							$newcode = $res['code'];
 							$newlog = $res['log'];
@@ -1381,7 +1453,8 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 			
 			# generate cache, write log
 			file_put_contents($file.'.txt', $log);
-			file_put_contents($file, $code);
+			$vis = ''; if($critical_css_path_visibility != false) { $vis = 'body {visibility:visible !important;}'; }
+			file_put_contents($file, $code.$vis);
 			file_put_contents($file.'.gz', gzencode(file_get_contents($file), 9));
 						
 		}
@@ -1394,11 +1467,25 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 				
 				# move CSS to footer ?
 				if($send_css_to_footer != false) {
-if($critical_css_tester != true) {
-echo '<link rel="preload" href="'.$file_url.'" as="style" media="'.$header[$i]['media'].'" onload="this.rel=\'stylesheet\'">';
-echo '<noscript><link rel="stylesheet" type="text/css" media="'.$header[$i]['media'].'" href="'.$file_url.'"></noscript>';
-echo '<!--[if IE]><link rel="stylesheet" type="text/css" media="'.$header[$i]['media'].'" href="'.$file_url.'"><![endif]-->';
-}
+					if($critical_css_tester != true) {
+
+# save to some sort of global and show it on the footer
+$mt = $header[$i]['media'];
+echo <<<EOF
+<script type="text/javascript">
+var ldfvm$i = document.createElement('link');
+ldfvm$i.rel = 'stylesheet';
+ldfvm$i.type = 'text/css';
+ldfvm$i.media = 'bogus';
+ldfvm$i.href = '$file_url';
+ldfvm$i.onload = function() {ldfvm$i.media = '$mt'}
+document.getElementsByTagName('head')[0].appendChild(ldfvm$i);
+</script>
+EOF;
+
+				
+						
+					}
 				} else {
 				
 					# default
@@ -1426,7 +1513,7 @@ $wp_styles->done = $done;
 # process css in the footer ###############
 ###########################################
 function fastvelocity_min_merge_footer_css() {
-global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css_footer, $force_inline_googlefonts, $send_css_to_footer, $critical_css_tester;
+global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css_footer, $force_inline_googlefonts, $remove_googlefonts, $send_css_to_footer, $critical_css_tester, $critical_css_path_visibility, $fvm_remove_css;
 if(!is_object($wp_styles)) { return false; }
 $ctime = get_option('fvm-last-cache-update', '0'); 
 $styles = wp_clone($wp_styles);
@@ -1436,8 +1523,27 @@ $footer = array();
 $google_fonts = array();
 $inline_css = array();
 
+# dequeue all styles
+if($fvm_remove_css != false) {
+	foreach( $styles->to_do as $handle ) :
+		$done = array_merge($done, array($handle));
+	endforeach;
+	
+	# remove from queue
+	$wp_styles->done = $done;
+	return false;
+}
+
+
 # add defaults to ignore list
 $ignore = fastvelocity_default_ignore($ignore);
+
+# header styles that moved to footer
+if(isset($GLOBALS["fvm-css"]) && is_array($GLOBALS["fvm-css"])) {
+	foreach ($GLOBALS["fvm-css"] as $st) {
+		if(!empty($st)) { echo $st; }
+	}
+}
 
 
 # google fonts to the top
@@ -1446,7 +1552,10 @@ foreach( $styles->to_do as $handle ) :
 	$hurl = fastvelocity_min_get_hurl($wp_styles->registered[$handle]->src, $wp_domain, $wp_home);
 	if (stripos($hurl, 'fonts.googleapis.com') !== false) { 
 		wp_dequeue_style($handle); 
-		if(!$skip_google_fonts) { $google_fonts[$handle] = $hurl; } else { wp_enqueue_style($handle); } # skip google fonts optimization?
+		if($remove_googlefonts != false) { $done = array_merge($done, array($handle)); continue; } # mark as done if to be removed
+		if(!$skip_google_fonts) { $google_fonts[$handle] = $hurl; } else { 
+				wp_enqueue_style($handle); # skip google fonts optimization?
+		} 
 	} else { 
 		wp_dequeue_style($handle); wp_enqueue_style($handle); # failsafe
 	}
@@ -1595,7 +1704,7 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
 					$newcode = false; $newcode = get_transient($tkey);
 					if ( $newcode === false) {
-						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_css_minification, 'css');
+						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_css_minification, 'css', $handle);
 						if(is_array($res)) {
 							$newcode = $res['code'];
 							$newlog = $res['log'];
@@ -1622,32 +1731,26 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 			
 			# generate cache, add inline css, write log
 			file_put_contents($file.'.txt', $log);
-			file_put_contents($file, $code); # preserve style tags
+			$vis = ''; if($critical_css_path_visibility != false) { $vis = 'body {visibility:visible !important;}'; }
+			file_put_contents($file, $code.$vis); # preserve style tags
 			file_put_contents($file.'.gz', gzencode(file_get_contents($file), 9));
 		
 		}
-		
+
 		# register and enqueue minified file, consider excluding of mediatype "print" and inline css
 		if ($remove_print_mediatypes != 1 || ($remove_print_mediatypes == 1 && $footer[$i]['media'] != 'print')) {
 			if($force_inline_css_footer != false) {
 				echo '<style type="text/css" media="'.$footer[$i]['media'].'">'.file_get_contents($file).'</style>';
 			} else {
 				
-				# move CSS to footer
+				# footer css
 				if($send_css_to_footer != false) {
-
-if($critical_css_tester != true) {
-echo '<link rel="preload" href="'.$file_url.'" as="style" media="'.$footer[$i]['media'].'" onload="this.rel=\'stylesheet\'">';
-echo '<noscript><link rel="stylesheet" type="text/css" media="'.$footer[$i]['media'].'" href="'.$file_url.'"></noscript>';
-echo '<!--[if IE]><link rel="stylesheet" type="text/css" media="'.$footer[$i]['media'].'" href="'.$file_url.'"><![endif]-->';
-}
-
+					if($critical_css_tester != true) {
+						echo '<link rel="stylesheet" type="text/css" media="'.$footer[$i]['media'].'" href="'.$file_url.'">';
+					}
 				} else {
-				
-					# default
 					wp_register_style("fvm-footer-$i", $file_url, array(), null, $footer[$i]['media']); 
 					wp_enqueue_style("fvm-footer-$i");
-				
 				}
 			}
 		}
@@ -1661,29 +1764,6 @@ echo '<!--[if IE]><link rel="stylesheet" type="text/css" media="'.$footer[$i]['m
 # remove from queue
 $wp_styles->done = $done;
 }
-###########################################
-
-
-
-
-###########################################
-# defer CSS globally from the header (order matters)
-###########################################
-function fvm_movecss_to_footer_header() { 
-global $send_css_to_footer; 
-if($send_css_to_footer != false) {
-
-# echo LoadCSS scripts
-echo '<script>
-/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
-/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
-!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
-</script>';
-
-} }
-
-if (!is_admin()) { add_action('wp_head', 'fvm_movecss_to_footer_header', PHP_INT_MAX); }
 ###########################################
 
 
@@ -1737,6 +1817,7 @@ if (!is_admin()) { add_action('wp_footer', 'fvm_generate_gulp_uncss', PHP_INT_MA
 
 
 
+
 ###########################################
 # add preconnect and preload headers
 ###########################################
@@ -1770,14 +1851,16 @@ if((is_home() || is_front_page()) && count($preload) > 0) {
 echo implode('', $meta);
 }
 
+
 # remove query from static assets and process defering (if enabled)
-if (!is_admin()) { 
+if (!is_admin()) {
 add_filter('script_loader_tag', 'fastvelocity_min_defer_js', 10, 3); 
 add_filter('style_loader_src', 'fastvelocity_remove_cssjs_ver', 10, 2);
 }
 
+
 # enable html minification
 if(!$skip_html_minification && !is_admin()) {
-add_action('get_header', 'fastvelocity_min_html_compression_start', PHP_INT_MAX); 
-} 
+	add_action('template_redirect', 'fastvelocity_min_html_compression_start', PHP_INT_MAX);
+}
 

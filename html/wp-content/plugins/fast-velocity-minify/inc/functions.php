@@ -88,12 +88,23 @@ return $hurl;
 
 
 # check if it's an internal url or not
-function fvm_internal_url($hurl, $wp_home) {
+function fvm_internal_url($hurl, $wp_home, $noxtra=NULL) {
 if (substr($hurl, 0, strlen($wp_home)) === $wp_home) { return true; }
 if (stripos($hurl, $wp_home) !== false) { return true; }
 if (isset($_SERVER['HTTP_HOST']) && stripos($hurl, preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST'])) !== false) { return true; }
 if (isset($_SERVER['SERVER_NAME']) && stripos($hurl, preg_replace('/:\d+$/', '', $_SERVER['SERVER_NAME'])) !== false) { return true; }
 if (isset($_SERVER['SERVER_ADDR']) && stripos($hurl, preg_replace('/:\d+$/', '', $_SERVER['SERVER_ADDR'])) !== false) { return true; }
+
+# allow specific external urls to be merged
+if($noxtra === NULL) {
+$merge_allowed_urls = array_map('trim', explode("\n", get_option('fastvelocity_min_merge_allowed_urls', '')));
+if(is_array($merge_allowed_urls) && strlen(implode($merge_allowed_urls)) > 0) {
+	foreach ($merge_allowed_urls as $e) {
+		if (stripos($hurl, $e) !== false && !empty($e)) { return true; }
+	}
+}
+}
+
 return false;
 }
 
@@ -205,19 +216,16 @@ return fvm_compat_urls($js);
 
 # functions, minify html
 function fastvelocity_min_minify_html($html) {
-return trim(fastvelocity_min_Minify_HTML::minify($html));
+return fastvelocity_min_Minify_HTML::minify($html);
 }
 
 # functions to minify HTML
 function fastvelocity_min_html_compression_finish($html) { return fastvelocity_min_minify_html($html); }
 function fastvelocity_min_html_compression_start() { 
- 
 $use_alt_html_minification = get_option('fastvelocity_min_use_alt_html_minification', '0');
 if($use_alt_html_minification == '1') { ob_start('fastvelocity_min_minify_alt_html'); }
 else { ob_start('fastvelocity_min_html_compression_finish'); }
-
 }
-
 
 # alternative html minification, minimal
 function fastvelocity_min_minify_alt_html($html) {
@@ -299,7 +307,7 @@ if(!$disable_css_minification) {
 
 # cdn urls
 $fvm_cdn_url = get_option('fastvelocity_min_fvm_cdn_url');
-if(!empty($fvm_cdn_url) && filter_var($fvm_cdn_url, FILTER_VALIDATE_URL) !== FALSE) {
+if(!empty($fvm_cdn_url)) {
 $fvm_cdn_url = trim(trim(str_ireplace(array('http://', 'https://'), '', trim($fvm_cdn_url, '/'))), '/');
 $css = str_ireplace($wp_domain, $fvm_cdn_url, $css);
 }
@@ -330,11 +338,12 @@ function fvm_file_get_contents_curl($url, $uagent=NULL) {
 
 
 # download and cache css and js files
-function fvm_download_and_cache($hurl, $tkey, $inline=null, $disable_minification=false, $type=null){
+function fvm_download_and_cache($hurl, $tkey, $inline=null, $disable_minification=false, $type=null, $handle=null){
 global $cachedir, $cachedirurl, $wp_domain, $wp_home, $wp_home_path;
 
 # filters and defaults
 $printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $hurl);
+$printhandle = ''; if($handle !== null) { $printhandle = "[$handle]"; }
 
 # try to open locally first, but skip if we are on windows
 if(fvm_server_is_windows() === false) {
@@ -346,7 +355,7 @@ if (stripos($hurl, $wp_domain) !== false) {
 		else { $code = fastvelocity_min_get_css($hurl, file_get_contents($f).$inline, $disable_minification); }
 		set_transient($tkey, $code, 7 * DAY_IN_SECONDS );
 		fvm_update_transient_keys($tkey); # keep track
-		$log = "$printurl --- Debug: File was opened from $f ---\n";
+		$log = "$printurl --- Debug: $printhandle File was opened from $f ---\n";
 		return array('log'=>$log, 'code'=>$code);
 	}
 	
@@ -358,7 +367,7 @@ if (stripos($hurl, $wp_domain) !== false) {
 		else { $code = fastvelocity_min_get_css($hurl, file_get_contents($f).$inline, $disable_minification); }
 		set_transient($tkey, $code, 7 * DAY_IN_SECONDS );
 		fvm_update_transient_keys($tkey); # keep track
-		$log = "$printurl --- Debug: File was opened from $f ---\n";
+		$log = "$printurl --- Debug: $printhandle File was opened from $f ---\n";
 		return array('log'=>$log, 'code'=>$code);
 	}
 }
@@ -373,7 +382,7 @@ if($code !== false) {
 	else { $code = fastvelocity_min_get_css($hurl, $code.$inline, $disable_minification); }
 	set_transient($tkey, $code, 7 * DAY_IN_SECONDS );
 	fvm_update_transient_keys($tkey); # keep track
-	$log = "$printurl --- Debug: Fetched url at $hurl \n";
+	$log = "$printurl --- Debug: $printhandle Fetched url at $hurl \n";
 	return array('log'=>$log, 'code'=>$code);
 }
 
@@ -387,7 +396,7 @@ if(stripos($hurl, $wp_domain) !== false && home_url() != site_url()) {
 		else { $code = fastvelocity_min_get_css($hurl, $code.$inline, $disable_minification); }
 		set_transient($tkey, $code, 7 * DAY_IN_SECONDS );
 		fvm_update_transient_keys($tkey); # keep track
-		$log = "$printurl --- Debug: Fetched url at $hurl \n";
+		$log = "$printurl --- Debug: $printhandle Fetched url at $hurl \n";
 		return array('log'=>$log, 'code'=>$code);
 	}
 }
@@ -402,7 +411,7 @@ if (stripos($hurl, $wp_domain) !== false) {
 		else { $code = fastvelocity_min_get_css($hurl, file_get_contents($f).$inline, $disable_minification); }
 		set_transient($tkey, $code, 7 * DAY_IN_SECONDS );
 		fvm_update_transient_keys($tkey); # keep track
-		$log = "$printurl --- Debug: File was opened from $f ---\n";
+		$log = "$printurl --- Debug: $printhandle File was opened from $f ---\n";
 		return array('log'=>$log, 'code'=>$code);
 	}
 	
@@ -414,7 +423,7 @@ if (stripos($hurl, $wp_domain) !== false) {
 		else { $code = fastvelocity_min_get_css($hurl, file_get_contents($f).$inline, $disable_minification); }
 		set_transient($tkey, $code, 7 * DAY_IN_SECONDS );
 		fvm_update_transient_keys($tkey); # keep track
-		$log = "$printurl --- Debug: File was opened from $f ---\n";
+		$log = "$printurl --- Debug: $printhandle File was opened from $f ---\n";
 		return array('log'=>$log, 'code'=>$code);
 	}
 }
@@ -422,7 +431,7 @@ if (stripos($hurl, $wp_domain) !== false) {
 	
 # else fail
 $code = false; 
-$log = " - FAILED --- Debug: Tried to fetch via wp_remote_get, curl and also to open it locally. URL: $hurl ---\n";
+$log = " - FAILED --- Debug: $printhandle Tried to fetch via wp_remote_get, curl and also to open it locally. URL: $hurl ---\n";
 return array('log'=>$log, 'code'=>$code);
 }
 
@@ -603,11 +612,12 @@ function fastvelocity_remove_cssjs_ver( $src ) {
 
 # rewrite cache files to http, https or dynamic
 function fvm_get_protocol($url) {
+	global $wp_domain;
 	$url = ltrim(str_ireplace(array('http://', 'https://'), '', $url), '/'); # better compatibility
 
 	# cdn support
 	$fvm_cdn_url = get_option('fastvelocity_min_fvm_cdn_url');
-	if(!empty($fvm_cdn_url) && filter_var($fvm_cdn_url, FILTER_VALIDATE_URL) !== FALSE) {
+	if(!empty($fvm_cdn_url)) {
 	$fvm_cdn_url = trim(trim(str_ireplace(array('http://', 'https://'), '', trim($fvm_cdn_url, '/'))), '/');
 	$url = str_ireplace($wp_domain, $fvm_cdn_url, $url);
 	}
@@ -674,19 +684,8 @@ return false;
 function fastvelocity_default_ignore($ignore) {
 if(is_array($ignore)) {
 	
-	# defaults, to be overwriten by api or transient
-	$exc = array('/fvm/cache/', '/Avada/assets/js/main.min.js', '/woocommerce-product-search/js/product-search.js', '/includes/builder/scripts/frontend-builder-scripts.js', '/assets/js/jquery.themepunch.tools.min.js');
-
-	# info and api call
-	$api = 'https://fastvelocity.com/api/fvm/ignore.txt';
-	$ctime = get_option('fvm-last-cache-update', '0'); 
-	$tkey = 'fvm-api-ignore-'.$ctime;
-	$ttl = 24 * 3600; # one day, in seconds
-	$json = fastvelocity_download($api, $tkey, $ttl);
-	if($json !== false) { 
-		$data = json_decode($json, true);
-		if (json_last_error() === JSON_ERROR_NONE && is_array($data)) { $exc = $data; }
-	}
+	# from the database
+	$exc = array_map('trim', explode("\n", get_option('fastvelocity_min_ignorelist', '')));
 	
 	# should we exclude jquery when defer is enabled?
 	$exclude_defer_jquery = get_option('fastvelocity_min_exclude_defer_jquery');
@@ -709,20 +708,12 @@ if(is_array($ignore)) {
 
 # IE only files that should always be ignored, without incrementing our groups
 function fastvelocity_ie_blacklist($url) {
+
+	# from the database
+	$exc = array_map('trim', explode("\n", get_option('fastvelocity_min_blacklist', '')));
 	
-	# defaults, to be overwriten by api or transient
-	$exc = array('/html5shiv.js', '/excanvas.js', '/avada-ie9.js', '/respond.js', '/respond.min.js', '/selectivizr.js', '/Avada/assets/css/ie.css', '/html5.js', '/IE9.js', '/fusion-ie9.js', '/vc_lte_ie9.min.css', '/old-ie.css', '/ie.css', '/vc-ie8.min.css', '/mailchimp-for-wp/assets/js/third-party/placeholders.min.js');	
-	
-	# info and api call
-	$api = 'https://fastvelocity.com/api/fvm/ie_blacklist.txt';
-	$ctime = get_option('fvm-last-cache-update', '0'); 
-	$tkey = 'fvm-api-ie-blacklist-'.$ctime;
-	$ttl = 24 * 3600; # one day, in seconds
-	$json = fastvelocity_download($api, $tkey, $ttl);
-	if($json !== false) { 
-		$data = json_decode($json, true);
-		if (json_last_error() === JSON_ERROR_NONE && is_array($data)) { $exc = $data; }
-	}
+	# must have
+	$exc[] = '/fvm/cache/';
 	
 	# is the url on our list and return
 	$res = fastvelocity_min_in_arrayi($url, $exc);
@@ -737,8 +728,8 @@ function fastvelocity_download($url, $tkey, $ttl) {
 	$rtlim = false; $rtlim = get_transient($tkey.'_access');
 	if ( $rtlim !== false) { return false; }
 	
-	# info (needed for google fonts woff files)
-	$uagent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/600.7.12 (KHTML, like Gecko) Version/8.0.7 Safari/600.7.12';
+	# info (needed for google fonts woff files + hinted fonts)
+	$uagent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586';
 	$data = false; $data = get_transient($tkey);
 	if ( $data === false) {
 		
