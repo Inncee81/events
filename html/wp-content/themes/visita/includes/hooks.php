@@ -295,7 +295,7 @@ function visita_organization_schema( ) {
         '@context'        => 'http://schema.org',
         '@type'           => 'Organization',
         'url'             => 'https://visita.vegas/',
-        'name'            => 'Visita Las Vegas;',
+        'name'            => 'Visita Las Vegas',
         'description'     => 'Visita Las Vegas: Eventos, Shows, Atracciones, Conciertos, Nightclubs, Hoteles y más.',
         'logo'            => array(
           '@context'      => 'http://schema.org',
@@ -311,8 +311,8 @@ function visita_organization_schema( ) {
         ),
         'sameAs' => array(
           'https://twitter.com/visita_vegas',
+          'https://www.facebook.com/VisitaVegas/',
           'https://plus.google.com/106513602005672773042',
-          'https://www.facebook.com/VisitaVegas-622985901191676/',
           'https://www.youtube.com/channel/UCjvmES5xtmea20CQnw2-m7A'
         )
       )

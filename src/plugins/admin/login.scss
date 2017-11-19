@@ -62,6 +62,10 @@ body.login #nav {
   text-align: center;
 }
 
-.login form p.forgetmenot {
-  float: none;
+login form {
+  box-shadow: none;
+  
+  p.forgetmenot {
+    float: none;
+  }
 }
