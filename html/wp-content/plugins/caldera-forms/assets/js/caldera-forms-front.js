@@ -1,4 +1,4 @@
-/*! GENERATED SOURCE FILE caldera-forms - v1.5.6.2 - 2017-10-12 *//**
+/*! GENERATED SOURCE FILE caldera-forms - v1.5.7.1 - 2017-11-09 *//**
  * Simple event bindings for form state
  *
  * In general, access through CFState.events() not directly.
@@ -332,8 +332,6 @@ function CFState(formId, $ ){
 		if ($field.length) {
 			$field.on('change keyup', function () {
 				var $el = $(this);
-				console.log( $field.attr( 'type' ) );
-				console.log( $el.attr( 'type' ) );
 				calcVals[$el.attr('id')] = findCalcVal( $el );
 				self.mutateState([$el.attr('id')],$el.val());
 			});
@@ -369,21 +367,27 @@ function CFState(formId, $ ){
 							break;
 					}
 
-					if( ! $collection.length ){
-						val = 0;
-					} else if ( 1 == $collection.length){
-						val = findCalcVal( $($collection[0]));
-					} else if ( 'checkbox' === type ) {
+					if ( 'checkbox' === type ) {
 						var $v, sum = 0;
-						$collection.each(function (k, v) {
-							$v = $(v);
-							if( $v.prop('checked')){
-								sum += parseFloat(findCalcVal($v));
-							}
-							val.push($v.val());
-						});
+						if ( $collection.length ) {
+							$collection.each(function (k, v) {
+								$v = $(v);
+								if ($v.prop('checked')) {
+									sum += parseFloat(findCalcVal($v));
+									val.push($v.val());
+								}
+							});
+						}else{
+							val = [];
+						}
+
 						calcVals[id] = sum;
-					}else{
+					} else if( ! $collection.length ){
+						val = 0;
+
+					} else if ( 1 == $collection.length ){
+						val = findCalcVal( $($collection[0]));
+					} else{
 						$collection.each(function (i, el) {
 							var $this = $(el);
 
@@ -6371,11 +6375,12 @@ function toggle_button_init(id, el){
 
 			 var value;
 			 for (var i = 0; i <= bindMap.length; i++) {
-			 	if( 'object' === typeof   bindMap[i] &&  bindMap[i].hasOwnProperty( 'to' ) && bindMap[i].hasOwnProperty( 'tag' )){
-
+			 	if( 'object' === typeof   bindMap[i] &&  bindMap[i].hasOwnProperty( 'to' ) && bindMap[i].hasOwnProperty( 'tag' ) ){
 
 					value = state.getState(bindMap[i].to);
-                    if( ! isNaN( value ) ){
+					if( 0 !== value && '0' !== value && ! value ){
+						value = '';
+                    }else if( ! isNaN( value ) ){
                         value = value.toString();
                     } else if( 'string' === typeof  value ){
 						value = value.replace(/(?:\r\n|\r|\n)/g, '<br />');
@@ -6867,6 +6872,7 @@ function toggle_button_init(id, el){
          * @since 1.5.6
          */
         var run = function(){
+            console.log(window[fieldConfig.callback]);
 			var result = window[fieldConfig.callback].apply(null, [state] );
 			if( ! isFinite( result ) ){
 				result = 0;
