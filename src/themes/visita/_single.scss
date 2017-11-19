@@ -85,6 +85,10 @@ body.page .entry-title {
     padding: .65em .75em;
     text-shadow: 1px 1px rgba(255, 255, 255, 0.4);
 
+    @include breakpoint(small down) {
+      font-size: .9em;
+    }
+
     &:after {
       float: right;
       content: $fa-var-angle-right;
@@ -318,5 +322,12 @@ body.page .entry-title {
     @include breakpoint(small down) {
       line-height: 3em;
     }
+  }
+}
+
+.caldera-grid {
+  [for=fld_5981410_1_44], 
+  [for=fld_5981410_1_18] {
+    display: none;
   }
 }
