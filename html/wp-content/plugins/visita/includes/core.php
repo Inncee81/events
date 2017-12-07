@@ -251,7 +251,7 @@ class Visita_Core {
       ),
     ) );
   }
-  
+
   /**
   * Save ACF fields
   *
@@ -394,16 +394,15 @@ class Visita_Core {
       'tax_query'      => $tax_query,
       'meta_query'     => array(
         array(
-          'relation'     => 'OR',
           array(
-            'value'    => array( $start, $end ),
+            'value'    => $end,
             'key'      => '_starts',
-            'compare'  => 'BETWEEN'
+            'compare'  => '<='
           ),
           array(
-            'value'    => array( $start, $end ),
+            'value'    => $start,
             'key'      => '_ends',
-            'compare'  => 'BETWEEN'
+            'compare'  => '>='
           ),
         ),
       )
