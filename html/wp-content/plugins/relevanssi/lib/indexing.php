@@ -1,15 +1,90 @@
 <?php
 
-function relevanssi_build_index($extend = false, $verbose = true, $post_limit = null) {
-	if (function_exists('wp_suspend_cache_addition'))
-		wp_suspend_cache_addition(true);	// Thanks to Julien Mession
-
+function relevanssi_count_total_posts() {
 	global $wpdb, $relevanssi_variables;
 	$relevanssi_table = $relevanssi_variables['relevanssi_table'];
+	$restriction = relevanssi_post_type_restriction();
+	$valid_status = relevanssi_valid_status_array();
+	$limit = "";
+	$extend = false;
 
-	set_time_limit(0);
+	$q = relevanssi_generate_indexing_query($valid_status, $extend, $restriction, $limit);
+	$q = str_replace('SELECT post.ID', 'SELECT COUNT(post.ID)', $q);
 
+	do_action('relevanssi_pre_indexing_query');
+	$count = $wpdb->get_var($q);
+
+	if (empty($count)) $count = 0;
+	
+	return $count;
+}
+
+function relevanssi_count_missing_posts() {
+	global $wpdb, $relevanssi_variables;
+	$relevanssi_table = $relevanssi_variables['relevanssi_table'];
+	$restriction = relevanssi_post_type_restriction();
+	$valid_status = relevanssi_valid_status_array();
+	$limit = "";
+	$extend = true;
+
+	$q = relevanssi_generate_indexing_query($valid_status, $extend, $restriction, $limit);
+	$q = str_replace('SELECT post.ID', 'SELECT COUNT(post.ID)', $q);
+
+	error_log($q);
+	do_action('relevanssi_pre_indexing_query');
+	$count = $wpdb->get_var($q);
+
+	if (empty($count)) $count = 0;
+
+	return $count;
+}
+
+function relevanssi_generate_indexing_query($valid_status, $extend = false, $restriction = "", $limit = "") {
+	global $wpdb, $relevanssi_variables;
+	$relevanssi_table = $relevanssi_variables['relevanssi_table'];
+	
+	if (!$extend) {
+		$q = "SELECT post.ID
+		FROM $wpdb->posts post
+		LEFT JOIN $wpdb->posts parent ON (post.post_parent=parent.ID)
+		WHERE
+			(post.post_status IN ($valid_status)
+			OR
+			(post.post_status='inherit'
+				AND(
+					(parent.ID is not null AND (parent.post_status IN ($valid_status)))
+					OR (post.post_parent=0)
+				)
+			))
+		$restriction ORDER BY post.ID DESC $limit";
+	}
+	else {
+		$q = "SELECT post.ID
+		FROM $wpdb->posts post
+		LEFT JOIN $wpdb->posts parent ON (post.post_parent=parent.ID)
+		LEFT JOIN $relevanssi_table r ON (post.ID=r.doc)
+		WHERE
+		r.doc is null
+		AND
+			(post.post_status IN ($valid_status)
+			OR
+			(post.post_status='inherit'
+				AND(
+					(parent.ID is not null AND (parent.post_status IN ($valid_status)))
+					OR (post.post_parent=0)
+				)
+			)
+		)
+		$restriction ORDER BY post.ID DESC $limit";
+	}
+
+	return $q;
+}
+
+function relevanssi_post_type_restriction() {
 	$post_types = array();
+	$restriction = "";
+
 	$types = get_option("relevanssi_index_post_types");
 	if (!is_array($types)) $types = array();
 	foreach ($types as $type) {
@@ -24,9 +99,14 @@ function relevanssi_build_index($extend = false, $verbose = true, $post_limit = 
 		$restriction = "";
 	}
 
+	return $restriction;
+}
+
+function relevanssi_valid_status_array() {
 	$valid_status_array = apply_filters('relevanssi_valid_status', array('publish', 'draft', 'private', 'pending', 'future'));
+	$valid_status = array();
+
 	if (is_array($valid_status_array) && count($valid_status_array) > 0) {
-		$valid_status = array();
 		foreach ($valid_status_array as $status) {
 			$valid_status[] = "'$status'";
 		}
@@ -37,10 +117,26 @@ function relevanssi_build_index($extend = false, $verbose = true, $post_limit = 
 		$valid_status = "'publish', 'draft', 'private', 'pending', 'future'";
 	}
 
+	return $valid_status;
+}
+
+function relevanssi_build_index($extend_offset = false, $verbose = true, $post_limit = null, $is_ajax = false) {
+	if (function_exists('wp_suspend_cache_addition'))
+		wp_suspend_cache_addition(true);	// Thanks to Julien Mession
+
+	global $wpdb, $relevanssi_variables;
+	$relevanssi_table = $relevanssi_variables['relevanssi_table'];
+
+	set_time_limit(0);
+
+	$restriction = relevanssi_post_type_restriction();
+
+	$valid_status = relevanssi_valid_status_array();
+
 	$n = 0;
 	$size = 0;
 
-	if (!$extend) {
+	if ($extend_offset === false) {
 		// truncate table first
 		relevanssi_truncate_index();
 
@@ -63,23 +159,11 @@ function relevanssi_build_index($extend = false, $verbose = true, $post_limit = 
 			$limit = " LIMIT $post_limit";
 		}
 
-        $q = "SELECT post.ID
-		FROM $wpdb->posts post
-		LEFT JOIN $wpdb->posts parent ON (post.post_parent=parent.ID)
-		WHERE
-			(post.post_status IN ($valid_status)
-			OR
-			(post.post_status='inherit'
-				AND(
-					(parent.ID is not null AND (parent.post_status IN ($valid_status)))
-					OR (post.post_parent=0)
-				)
-			))
-		$restriction $limit";
+		$q = relevanssi_generate_indexing_query($valid_status, $extend_offset, $restriction, $limit);
 
 		update_option('relevanssi_index', '');
 	}
-	else {
+	else if (!is_numeric($extend_offset)) {
 		// extending, so no truncate and skip the posts already in the index
 		$limit = get_option('relevanssi_index_limit', 200);
 
@@ -93,23 +177,28 @@ function relevanssi_build_index($extend = false, $verbose = true, $post_limit = 
 		else {
 			$limit = "";
 		}
-        $q = "SELECT post.ID
-		FROM $wpdb->posts post
-		LEFT JOIN $wpdb->posts parent ON (post.post_parent=parent.ID)
-		LEFT JOIN $relevanssi_table r ON (post.ID=r.doc)
-		WHERE
-		r.doc is null
-		AND
-			(post.post_status IN ($valid_status)
-			OR
-			(post.post_status='inherit'
-				AND(
-					(parent.ID is not null AND (parent.post_status IN ($valid_status)))
-					OR (post.post_parent=0)
-				)
-			)
-		)
-		$restriction $limit";
+
+		$extend = true;
+
+		$q = relevanssi_generate_indexing_query($valid_status, $extend, $restriction, $limit);
+	}
+	else {
+		// extending, so no truncate and skip the posts already in the index
+		$limit = get_option('relevanssi_index_limit', 200);
+
+		// if post limit parameter is present, numeric and > 0, use that
+		if (isset($post_limit) && is_numeric($post_limit) && $post_limit > 0) $limit = $post_limit;
+
+		if (is_numeric($limit) && $limit > 0) {
+			$size = $limit;
+			$limit = " LIMIT $limit OFFSET $extend_offset";
+		}
+		else {
+			$limit = "";
+		}
+
+		$extend = true;
+		$q = relevanssi_generate_indexing_query($valid_status, $extend, $restriction, $limit);
 	}
 
 	$custom_fields = relevanssi_get_custom_fields();
@@ -153,6 +242,14 @@ function relevanssi_build_index($extend = false, $verbose = true, $post_limit = 
 
 	if (function_exists('wp_suspend_cache_addition'))
 		wp_suspend_cache_addition(false);	// Thanks to Julien Mession
+
+	if ($is_ajax) {
+		$response = array(
+			'indexing_complete' => $complete,
+			'indexed' => $n,
+		);
+		return $response;
+	}
 
 	return array($complete, $n);
 }
@@ -315,8 +412,7 @@ function relevanssi_index_doc($indexpost, $remove_first = false, $custom_fields 
 		$custom_fields = get_post_custom_keys($post->ID);
 		$remove_underscore_fields = true;
 	}
-	$custom_fields = apply_filters('relevanssi_index_custom_fields', $custom_fields);
-
+	$custom_fields = apply_filters('relevanssi_index_custom_fields', $custom_fields, $post->ID);
 	if (is_array($custom_fields)) {
 		if ($debug) relevanssi_debug_echo("Custom fields to index: " . implode(", ", $custom_fields));
 		$custom_fields = array_unique($custom_fields);	// no reason to index duplicates
@@ -326,9 +422,11 @@ function relevanssi_index_doc($indexpost, $remove_first = false, $custom_fields 
 
 		foreach ($custom_fields as $field) {
 			if ($remove_underscore_fields) {
-				if (substr($field, 0, 1) == '_') continue;
+				if ($field !== '_relevanssi_pdf_content' && substr($field, 0, 1) === '_') continue;
 			}
-			$values = get_post_meta($post->ID, $field, false);
+			
+			$values = apply_filters('relevanssi_custom_field_value', get_post_meta($post->ID, $field, false), $field, $post->ID);
+			
 			if ("" == $values) continue;
 			foreach ($values as $value) {
 				// Quick hack : allow indexing of PODS relationship custom fields // TMV
@@ -358,6 +456,11 @@ function relevanssi_index_doc($indexpost, $remove_first = false, $custom_fields 
 	if (function_exists('relevanssi_index_mysql_columns')) {
 		if ($debug) relevanssi_debug_echo("Indexing MySQL columns.");
 		$insert_data = relevanssi_index_mysql_columns($insert_data, $post->ID);
+	}
+
+	if (function_exists('relevanssi_index_pdf_for_parent')) {
+		if ($debug) relevanssi_debug_echo("Indexing PDF content for parent post.");
+		$insert_data = relevanssi_index_pdf_for_parent($insert_data, $post->ID);
 	}
 
 	$index_titles = true;
@@ -693,7 +796,7 @@ function relevanssi_insert_edit($post_id) {
 	if ( 'auto-draft' == $post_status ) return;
 
     if ( $post_status == 'inherit' ) {
-        $post_type = $wpdb->get_var( "SELECT post_type FROM $wpdb->posts WHERE ID=$post_id" );
+        // $post_type = $wpdb->get_var( "SELECT post_type FROM $wpdb->posts WHERE ID=$post_id" );
 	    $post_status = $wpdb->get_var( "SELECT p.post_status FROM $wpdb->posts p, $wpdb->posts c WHERE c.ID=$post_id AND c.post_parent=p.ID" );
     }
 
@@ -803,6 +906,7 @@ function relevanssi_get_comments($postID) {
  */
 function relevanssi_index_acf(&$insert_data, $post_id, $field_name, $field_value) {
 	if (!is_admin() ) include_once( ABSPATH . 'wp-admin/includes/plugin.php' ); // otherwise is_plugin_active will cause a fatal error
+	if (!function_exists('is_plugin_active')) return;
 	if (!is_plugin_active('advanced-custom-fields/acf.php') &&
 		!is_plugin_active('advanced-custom-fields-pro/acf.php')) return;
 
@@ -828,4 +932,21 @@ function relevanssi_truncate_index() {
 	return $wpdb->query("TRUNCATE TABLE $relevanssi_table");
 }
 
-?>
+function relevanssi_remove_doc($id, $keep_internal_links = false) {
+	if (function_exists('relevanssi_premium_remove_doc')) {
+		relevanssi_premium_remove_doc($id, $keep_internal_links);
+	}
+	else {
+		global $wpdb, $relevanssi_variables;
+		
+			$D = get_option( 'relevanssi_doc_count');
+		
+			$q = "DELETE FROM " . $relevanssi_variables['relevanssi_table'] . " WHERE doc=$id";
+			$wpdb->query($q);
+			$rows_updated = $wpdb->query($q);
+		
+			if($rows_updated && $rows_updated > 0) {
+				update_option('relevanssi_doc_count', $D - $rows_updated);
+			}
+	}
+}
