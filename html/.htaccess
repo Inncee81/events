@@ -1,22 +1,22 @@
 
 RewriteEngine On
-RewriteCond %{HTTP_REFERER} !^http(s)?://(.+)?visita\.(vegas|dev)/ [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://(.+)?visita\.(vegas|com)/ [NC]
 RewriteRule /.+(bmp|txt|css|js|pdf|mp3|mp4|scss|md|patch|log|less|po)$ - [F,L]
 
 RewriteEngine On
 RewriteCond %{REQUEST_URI} /(comments-post|activate)\.php$
-RewriteCond %{HTTP_REFERER} !.*(visita.vegas|visita.dev) [OR]
+RewriteCond %{HTTP_REFERER} !.*(visita.vegas|visita.com) [OR]
 RewriteRule (.*) - [F,L]
 
 <IfModule pagespeed_module>
   ModPagespeed on
   ModPagespeedEnableFilters extend_cache
-  ModPagespeedCriticalImagesBeaconEnabled false 
+  ModPagespeedCriticalImagesBeaconEnabled false
   ModPagespeedEnableFilters recompress_jpeg,recompress_png,strip_image_meta_data,strip_image_color_profile
   ModPagespeedJpegRecompressionQuality -1
 </IfModule>
 
-SetEnvIf Origin "^(.*\.?(visita\.vegas|visita\.dev))$" ORIGIN_SUB_DOMAIN=$1
+SetEnvIf Origin "^(.*\.?(visita\.vegas|visita\.com))$" ORIGIN_SUB_DOMAIN=$1
 <FilesMatch "\.(woff2?|ttf|eot|svg)$">
   Header set Access-Control-Allow-Origin "%{ORIGIN_SUB_DOMAIN}e" env=ORIGIN_SUB_DOMAIN
 </FilesMatch>
