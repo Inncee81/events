@@ -87,8 +87,12 @@
 	
 			
 			$.post(ajaxurl, data, function(response) {
+				
+				if(response.cachesize.length > 0) { 
+					$("#fvm_cache_size").html(response.cachesize);
+				}
 
-				if(stamp == response.stamp) {
+				if(stamp == response.stamp) {					
 					if(response.js.length > 0) { 
 						$fastvelocity_min_jsprocessed.show();
 						
@@ -99,7 +103,7 @@
 									$li.find('pre').html(this.log);
 								}
 							} else {
-								$fastvelocity_min_jsprocessed_ul.append('<li class="'+this.hash+'"><span class="filename">'+this.filename+'</span> <span class="actions"><a href="#" class="log button button-primary">View Log</a></span><pre>'+this.log+'</pre></li><div class="clear"></div>');
+								$fastvelocity_min_jsprocessed_ul.append('<li class="'+this.hash+'"><span class="filename">'+this.filename+' ('+this.fsize+')</span> <span class="actions"><a href="#" class="log button button-primary">View Log</a></span><pre>'+this.log+'</pre></li><div class="clear"></div>');
 							}
 						});
 						
@@ -113,13 +117,13 @@
 									$li.find('pre').html(this.log);
 								}
 							} else {
-								$fastvelocity_min_cssprocessed_ul.append('<li class="'+this.hash+'"><span class="filename">'+this.filename+'</span> <span class="actions"><a href="#" class="log button button-primary">View Log</a></span><pre>'+this.log+'</pre></li><div class="clear"></div>');
+								$fastvelocity_min_cssprocessed_ul.append('<li class="'+this.hash+'"><span class="filename">'+this.filename+' ('+this.fsize+')</span> <span class="actions"><a href="#" class="log button button-primary">View Log</a></span><pre>'+this.log+'</pre></li><div class="clear"></div>');
 							}
 						});
 					}
 					
 					// check for new files
-					timeout = setTimeout(getFiles, 2500);
+					timeout = setTimeout(getFiles, 4000);
 				}
 			});
 		}

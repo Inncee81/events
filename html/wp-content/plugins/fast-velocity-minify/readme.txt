@@ -1,9 +1,9 @@
 === Fast Velocity Minify ===
 Contributors: Alignak
-Tags: merge, combine, concatenate, PHP Minify, YUI Compressor, CSS, javascript, JS, minification, minify, optimization, optimize, stylesheet, aggregate, cache, CSS, html, minimize, pagespeed, performance, speed, GTmetrix, pingdom
+Tags: merge, combine, concatenate, autoptimize, PHP Minify, YUI Compressor, CSS, javascript, JS, minification, minify, optimization, optimize, stylesheet, aggregate, cache, CSS, html, minimize, pagespeed, performance, speed, GTmetrix, pingdom
 Requires at least: 4.5
-Stable tag: 2.2.2
-Tested up to: 4.9
+Stable tag: 2.2.5
+Tested up to: 4.9.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -83,15 +83,15 @@ The ignore list is working but you need to remove query vars from static urls (e
 ...
 
 
-= Why are there several or a lot's of js and css files listed on the status page? =
+= Why are there several or lot's of JS and CSS files listed on the status page? =
 
-Those files are created whenever a new set of javascript or css files are found on your front end and it's due to your plugins and themes needing different js and css files per page, post, category, tag, homepage or even custom post types. If you always load the exact same css and javascript in every page on your site, you won't see as many files. Likewise, if you have some dynamic url for css or js that always changes in each pageview, you should add it to the ignore list.
+Those files are static files created whenever a new set of javascript or css files are found on your front end. Different pages may need different js and css files per page, post, category, tag, homepage or even custom post types. If you always load the exact same css and javascript in every page on your site, you won't see as many files. Likewise, if you have some dynamic url for css or js that always changes in each pageview, you should add it to the ignore list (else it will generate a new file everytime).
 
 ...
 
 = Can I update other plugins and themes? =
 
-Yes, but it's recommended that you purge the cached files (from the plugin status page) in order for the merging and minification cache files to be regenerated. The plugin will try to automatically purge some popular cache plugins. We still recommend, however, that you purge all caches on your cache plugin (whatever you use) "after" purging Fast Velocity Minify cache.
+Yes, but it's recommended that you purge the cached files (from the plugin status page) in order for the merging and minification cache files to be regenerated and for you to be sure the updates went smoothly. The plugin will try to automatically purge some popular cache plugins, however we still recommend that you purge all caches on your cache plugin /server (whatever you use) "after" purging Fast Velocity Minify cache.
 
 ...
 
@@ -104,7 +104,7 @@ The automatic purge is active for the following plugins and hosting: W3 Total Ca
 
 = Is it resource intensive, or will it use too much CPU on my shared hosting plan? =
 
-No it's not. The generation of the minified files is done only once per group of CSS or JS files (and only if needed). All pages that request the same group of CSS or JS files will also make use of that cache file. The cache file will be served from the uploads directory as a static file and there is no PHP involved.
+No it's not. The generation of the minified files is done only once per group of CSS or JS files (and only if needed). All pages that request the same group of CSS or JS files will also make use of that cache file. The cache file will be served as a static file and there is no PHP involved.
 
 ...
 
@@ -116,13 +116,13 @@ Yes, it generates a new cache file for every different set of JS and CSS require
 
 = Is it compatible with Adsense and other ad networks? =
 
-The plugin is compatible with any add network but also depends on how you're loading the ads into the site. We only merge and minify css and javascript files enqueued in the header and footer which would exclude any ads. If you're using a plugin that uses JS to insert the ads on the page, there could be issues. Please report on the support forum if you found such case.
+The plugin is compatible with any add network but also depends on how you're loading the ads into the site. We only merge and minify css and javascript files enqueued in the header and footer that match your own domain name... which would exclude any external ads. If you're using a plugin that uses JS to insert the ads on the page, there could be issues. Please report on the support forum if you found such case.
 
 ...
 
 = After installing, why did my site became slow? =
 
-Please note that the cache regeration happen's once per page or if the requested CSS + JS files change. If you need the same set of CSS and JS files in every page, the cache file will only be generated once and reused for all other pages. If you have a CSS or JS that uses a different name on every pageview, try to add it to the ignore list by using wildcards.
+Please note that the cache regeration happen's once per page or if the requested CSS + JS files change. If you need the same set of CSS and JS files in every page, the cache file will only be generated once and reused for all other pages. If you have a CSS or JS that is generated with php and uses a time based query string, that always generates a new files on every pageview. Try to add it to the ignore list by using wildcards.
 
 ...
 
@@ -210,7 +210,7 @@ This hides all optimization from editors and administrators, as long as they are
 = Is it compatible with Visual Composer and other editors ? =
 
 Visual composer, adds some style tags into your header and/or footer, however they simply print the code and don't use the wordpress `wp_add_inline_style` hook. 
-This means, we cannot easily capture that csa code and therefore it's left out of all the merging by Fast Velocity Minify.
+This means, we cannot easily capture that css code and therefore it's left out of all the merging by Fast Velocity Minify.
 You may have all else merged and minified correctly, however if that generated visual composer css code is important, those styles might be overwritten by the merged file, or that code can also overwrite the rules inside the css generated file.
 If you experience some styles missing, this could be the cause... but try the ignore list first.
 
@@ -268,11 +268,33 @@ If you would like to donate any amount to the plugin author (thank you in advanc
 
 == Upgrade Notice ==
 
-= 2.1.6 =
-Note: Kindly purge the plugin cache as well as your server /plugin cache after updating.
+= 2.2.4 =
+Note: Kindly re-save all options and purge all caches (the plugin cache as well as your server /plugin cache).
 
 
 == Changelog ==
+
+= 2.2.5 [2017.12.18] =
+* fixed a fatal error reported on the support forum
+
+= 2.2.4 [2017.12.17] =
+* added custom cache directory and url support
+* cleaned up some old unused code
+* updated to the latest PHP Minify version
+* added better descriptions and labels for some options
+* added auto exclusion for js and css files when defer for pagespeed is enabled
+
+= 2.2.3 [2017.12.16] =
+* added robots.txt and ajax requests to the exclusion list
+* added some cdn fixes
+* added a new Pro tab
+* added a global critical path css section
+* added an option to dequeue all css files
+* added an option to load CSS Async with LoadCSS (experimental)
+* added an option to merge external resources together
+* added the possibility to manage the default ignore list (reported files that cause conflicts when merged) 
+* added the possibility to manage the blacklist (files that cannot be merged with normal files)
+* added better descriptions and labels for some options
 
 = 2.2.2 [2017.11.12] =
 * fixed the current cdn option box
