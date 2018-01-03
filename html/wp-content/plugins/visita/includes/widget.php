@@ -70,9 +70,10 @@ class Visita_Widget extends WP_Widget {
 			'posts_per_page' => 4,
 			'post__not_in' => array( get_the_ID() ),
 			'tax_query' => array(	array(
-				'taxonomy' => 'clubs',
+				'taxonomy' => 'events',
 				'field'    => 'term_id',
-				'operator' => 'NOT NUll',
+				'operator' => 'NOT IN',
+				'terms'		 => array(44),
 			), $language ),
 		) );
 
