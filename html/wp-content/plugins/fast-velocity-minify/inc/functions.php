@@ -47,6 +47,17 @@ return array('cachebase'=>$cachebase,'tmpdir'=>$tmpdir, 'cachedir'=>$cachedir, '
 }
 
 
+# detect external or internal scripts
+function fvm_is_local_domain($src) {
+$locations = array(home_url(), site_url(), network_home_url(), network_site_url());
+foreach ($locations as $l) { 
+	$l = trim(trim(str_ireplace(array('http://', 'https://', 'www.', 'cdn.', 'static.', 'assets.'), '', trim($l)), '/')); 
+	if (stripos($src, $l) === false) { return true; }
+}
+return false;
+}
+
+
 # functions, get hurl info
 function fastvelocity_min_get_hurl($src, $wp_domain, $wp_home) {
 	
@@ -230,7 +241,8 @@ return fastvelocity_min_Minify_HTML::minify($html);
 
 # functions to minify HTML
 function fastvelocity_min_html_compression_finish($html) { return fastvelocity_min_minify_html($html); }
-function fastvelocity_min_html_compression_start() { 
+function fastvelocity_min_html_compression_start() {
+if (fastvelocity_exclude_contents() == true) { return; }
 $use_alt_html_minification = get_option('fastvelocity_min_use_alt_html_minification', '0');
 if($use_alt_html_minification == '1') { ob_start('fastvelocity_min_minify_alt_html'); }
 else { ob_start('fastvelocity_min_html_compression_finish'); }
@@ -269,6 +281,7 @@ function fastvelocity_format_filesize($bytes, $decimals = 2) {
 
 # get cache size and count
 function fastvelocity_get_cachestats() {
+clearstatcache();
 $dir = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(fvm_cachepath()['cachebase'], FilesystemIterator::SKIP_DOTS));
 $size = 0; foreach ( $dir as $file ) { $size += $file->getSize(); }
 return fastvelocity_format_filesize($size);
@@ -343,6 +356,7 @@ if(fvm_server_is_windows() === false) {
 if (stripos($hurl, $wp_domain) !== false) { 
 	# default
 	$f = str_ireplace(rtrim($wp_home, '/'), rtrim($wp_home_path, '/'), $hurl);
+	clearstatcache();
 	if (file_exists($f)) { 
 		if($type == 'js') { $code = fastvelocity_min_get_js($hurl, file_get_contents($f), $disable_minification); } 
 		else { $code = fastvelocity_min_get_css($hurl, file_get_contents($f).$inline, $disable_minification); }
@@ -355,6 +369,7 @@ if (stripos($hurl, $wp_domain) !== false) {
 	# failover when home_url != site_url
 	$nhurl = str_ireplace(site_url(), home_url(), $hurl);
 	$f = str_ireplace(rtrim($wp_home, '/'), rtrim($wp_home_path, '/'), $nhurl);
+	clearstatcache();
 	if (file_exists($f)) { 
 		if($type == 'js') { $code = fastvelocity_min_get_js($hurl, file_get_contents($f), $disable_minification); } 
 		else { $code = fastvelocity_min_get_css($hurl, file_get_contents($f).$inline, $disable_minification); }
@@ -399,6 +414,7 @@ if(stripos($hurl, $wp_domain) !== false && home_url() != site_url()) {
 if (stripos($hurl, $wp_domain) !== false) { 
 	# default
 	$f = str_ireplace(rtrim($wp_home, '/'), rtrim($wp_home_path, '/'), $hurl);
+	clearstatcache();
 	if (file_exists($f)) { 
 		if($type == 'js') { $code = fastvelocity_min_get_js($hurl, file_get_contents($f), $disable_minification); } 
 		else { $code = fastvelocity_min_get_css($hurl, file_get_contents($f).$inline, $disable_minification); }
@@ -411,6 +427,7 @@ if (stripos($hurl, $wp_domain) !== false) {
 	# failover when home_url != site_url
 	$nhurl = str_ireplace(site_url(), home_url(), $hurl);
 	$f = str_ireplace(rtrim($wp_home, '/'), rtrim($wp_home_path, '/'), $nhurl);
+	clearstatcache();
 	if (file_exists($f)) { 
 		if($type == 'js') { $code = fastvelocity_min_get_js($hurl, file_get_contents($f), $disable_minification); } 
 		else { $code = fastvelocity_min_get_css($hurl, file_get_contents($f).$inline, $disable_minification); }

@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.2.5
+Version: 2.2.6
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -127,7 +127,7 @@ $fvm_cdn_url = get_option('fastvelocity_min_fvm_cdn_url');
 $used_css_files = array();
 
 # default blacklist
-$exc = array('/html5shiv.js', '/excanvas.js', '/avada-ie9.js', '/respond.js', '/respond.min.js', '/selectivizr.js', '/Avada/assets/css/ie.css', '/html5.js', '/IE9.js', '/fusion-ie9.js', '/vc_lte_ie9.min.css', '/old-ie.css', '/ie.css', '/vc-ie8.min.css', '/mailchimp-for-wp/assets/js/third-party/placeholders.min.js');
+$exc = array('/html5shiv.js', '/excanvas.js', '/avada-ie9.js', '/respond.js', '/respond.min.js', '/selectivizr.js', '/Avada/assets/css/ie.css', '/html5.js', '/IE9.js', '/fusion-ie9.js', '/vc_lte_ie9.min.css', '/old-ie.css', '/ie.css', '/vc-ie8.min.css', '/mailchimp-for-wp/assets/js/third-party/placeholders.min.js', '/assets/js/plugins/wp-enqueue/min/webfontloader.js', '/a.optnmstr.com/app/js/api.min.js');
 if(!is_array($blacklist) || strlen(implode($blacklist)) == 0) { update_option('fastvelocity_min_blacklist', implode("\n", $exc)); }
 
 # default ignore list
@@ -207,6 +207,7 @@ function fastvelocity_min_files_callback() {
     $return = array('js' => array(), 'css' => array(), 'stamp' => $_POST['stamp'], 'cachesize'=> $size);
 	
 	# inspect directory with opendir, since glob might not be available in some systems
+	clearstatcache();
 	if ($handle = opendir($cachedir.'/')) {
 		while (false !== ($file = readdir($handle))) {
 			$file = $cachedir.'/'.$file;
@@ -899,6 +900,7 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 		$file_url = fvm_get_protocol($cachedirurl.'/'.$hash.'-'.$ctime.'.min.js');
 		
 		# generate a new cache file
+		clearstatcache();
 		if (!file_exists($file)) {
 			
 			# code and log initialization
@@ -1031,6 +1033,7 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 		$file_url = fvm_get_protocol($cachedirurl.'/'.$hash.'-'.$ctime.'.min.js');
 	
 		# generate a new cache file
+		clearstatcache();
 		if (!file_exists($file)) {
 			
 			# code and log initialization
@@ -1109,9 +1112,10 @@ $wp_scripts->done = $done;
 # enable defer for JavaScript (WP 4.1 and above) and remove query strings for ignored files
 ###########################################
 function fastvelocity_min_defer_js($tag, $handle, $src) {
-global $ignore, $enable_defer_js, $defer_for_pagespeed, $wp_domain, $exclude_defer_login;
+global $ignore, $blacklist, $ignorelist, $enable_defer_js, $defer_for_pagespeed, $wp_domain, $exclude_defer_login, $fvm_fix_editor;
 
 # no query strings
+$tag = trim($tag); # must cleanup
 if (stripos($src, '?ver') !== false) { 
 	$srcf = stristr($src, '?ver', true); 
 	$tag = str_ireplace($src, $srcf, $tag); 
@@ -1124,9 +1128,13 @@ if($exclude_defer_login == true && stripos($_SERVER["SCRIPT_NAME"], strrchr(wp_l
 # reprocess the ignore list to remove the /fvm/cache/ from the list (else won't defer)
 $nignore = array(); if(is_array($ignore)) { foreach ($ignore as $i) { if($i != '/fvm/cache/') { $nignore[] = $i; } } }
 
-# when to defer, order matters
-$defer = 0; if($enable_defer_js == true) { $defer = 1; }
-if (count($nignore) > 0 && fastvelocity_min_in_arrayi($src, $nignore)) { $defer = 0; }
+# return if in any ignore list
+if (count($nignore) > 0 && fastvelocity_min_in_arrayi($src, $nignore)) { return $tag; }
+if (count($blacklist) > 0 && fastvelocity_min_in_arrayi($src, $blacklist)) { return $tag; }
+if (count($ignorelist) > 0 && fastvelocity_min_in_arrayi($src, $ignorelist)) { return $tag; }
+
+# fix page editors
+if($fvm_fix_editor == true && is_user_logged_in()) { return $tag; }
 
 # get available nodes and add create with defer tag (if not async)
 $dom = new DOMDocument();
@@ -1140,26 +1148,30 @@ if ($nodes->length != 0) {
 	$tagdefer = $dom->saveHTML($node);
 }
 
-# skip the nignore list by default, defer the rest
-if ($defer == 0) {
+# when to defer, order matters
+if($enable_defer_js == true) { return $tagdefer; }
 
-# no defer
+# return if no defer, and there's no defer for pagespeed... else pagespeed processing
 if ($defer_for_pagespeed != true) { return $tag; } else { 
 
-# print code or return
+# return if external script url https://www.chromestatus.com/feature/5718547946799104
+if (fvm_is_local_domain($src) == true) { return $tag; }
+
+# return if there are linebreaks (will break document.write)
+if (stripos($tag, "\n") !== false) { return $tag; }
+
+# print code if there are no linebreaks, or return
 if(!empty($tagdefer)) { 
 	$deferinsights = '<script type="text/javascript">if(navigator.userAgent.match(/speed|gtmetrix|x11.*firefox\/53|x11.*chrome\/39/i)){document.write('.json_encode($tagdefer).');}else{document.write('.json_encode($tag).');}</script>';	
 	return preg_replace('#<script(.*?)>(.*?)</script>#is', $deferinsights, $tag);
 }
 
+# fallback
 return $tag; 
 }
 
-# normal defer enabled
-} else { return $tagdefer; }
 }
 ###########################################
-
 
 
 
@@ -1354,6 +1366,7 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 		$file_url = fvm_get_protocol($cachedirurl.'/'.$hash.'-'.$ctime.'.min.css'); 
 		
 		# generate a new cache file
+		clearstatcache();
 		if (!file_exists($file)) {
 			
 			# code and log initialization
@@ -1614,6 +1627,7 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 		$file_url = fvm_get_protocol($cachedirurl.'/'.$hash.'-'.$ctime.'.min.css');
 		
 		# generate a new cache file
+		clearstatcache();
 		if (!file_exists($file)) {
 			
 			# code and log initialization
