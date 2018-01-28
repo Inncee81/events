@@ -959,8 +959,13 @@ class Caldera_Forms_Admin {
 							// check view handler
 							$field = Caldera_Forms_Field_Util::get_field(  $row->slug, $form, true );
 
-							// maybe json?
-							$is_json = json_decode( $row->value, ARRAY_A );
+                                                        // maybe json?
+                                                        if ( is_string($row->value) ) {
+                                                            $is_json = json_decode( $row->value, ARRAY_A );
+                                                        } else if ( is_array($row->value) ) { //Process all checkbox values
+                                                            $is_json = $row->value;
+                                                        }
+
 							if ( ! empty( $is_json ) ) {
 								$row->value = $is_json;
 							}else  {
@@ -1046,7 +1051,7 @@ class Caldera_Forms_Admin {
 				Caldera_Forms::get_manage_cap(),
 				$this->plugin_slug, array( $this, 'render_admin' ),
 				'dashicons-cf-logo',
-				52.81321
+				'52.88'
 			);
 			add_submenu_page(
 				$this->plugin_slug,
@@ -1058,6 +1063,7 @@ class Caldera_Forms_Admin {
 			if( ! empty( $forms ) ){
 				foreach($forms as $form_id=>$form){
 					if(!empty($form['pinned'])){
+
 						$this->screen_prefix[] 	 = add_submenu_page(
 							$this->plugin_slug,
 							__('Caldera Forms', 'caldera-forms' ).' - ' . $form['name'], '- '.$form['name'],
@@ -1316,19 +1322,42 @@ class Caldera_Forms_Admin {
 			}else{
 
 				$form_id = sanitize_key( $_GET['form_id'] );
+				$form['_external_form'] = 1;
 				if( !empty( $_GET['pin_menu'] ) ){
 					$form['pinned'] = 1;
 				}
 				header("Content-Type: application/php");
 				header("Content-Disposition: attachment; filename=\"" . sanitize_file_name( strtolower( $form_id ) ) . "-include.php\";" );
 				echo '<?php' . "\r\n";
-				echo "/**\r\n * Caldera Forms - PHP Export \r\n * {$form['name']} \r\n * @version    " . CFCORE_VER . "\r\n * @license   GPL-2.0+\r\n * \r\n */\r\n\r\n\r\n";
+				echo "/**\r\n * Caldera Forms - PHP Export \r\n * {$form['name']} \r\n * @see https://calderaforms.com/doc/exporting-caldera-forms/ \r\n * @version    " . CFCORE_VER . "\r\n * @license   GPL-2.0+\r\n * \r\n */\r\n\r\n\r\n";
 
-				$structure = "/**\r\n * Filter admin forms to include custom form in admin\r\n *\r\n * @since 1.3.1\r\n *\r\n * @param array \$forms All registered forms\r\n */\r\n";
-				$structure .= 'add_filter( "caldera_forms_get_forms", function( $forms ){' . "\r\n";
-				$structure .= "\t" . '$forms["' . $form_id . '"] = apply_filters( "caldera_forms_get_form-' . $form_id . '", array() );' . "\r\n";
-				$structure .= "\t" . 'return $forms;' . "\r\n";
-				$structure .= "} );\r\n\r\n";
+				$callback_function = 'slug_register_caldera_forms_' . preg_replace("/[^A-Za-z0-9 ]/", '', $form_id);
+
+				$structure = sprintf( '
+                    /**
+                     * Hooks to load form.
+                     * Remove "caldera_forms_admin_forms" if you do not want this form to show in admin entry viewer
+                     */
+                    add_filter( "caldera_forms_get_forms", "%s" );
+                    add_filter( "caldera_forms_admin_forms", "%s" );
+                    /**
+                     * Add form to front-end and admin
+                     *
+                     * @param array $forms All registered forms
+                     *
+                     * @return array
+                     */
+                    function %s( $forms ) {
+                        $forms["%s"] = apply_filters( "caldera_forms_get_form-%s", array() );
+                        return $forms;
+                    };',
+                    $callback_function,
+                    $callback_function,
+                    $callback_function,
+                    $form_id,
+                    $form_id
+                );
+				$structure = ltrim($structure) . "\r\n\r\n";
 
 				$structure .= "/**\r\n * Filter form request to include form structure to be rendered\r\n *\r\n * @since 1.3.1\r\n *\r\n * @param \$form array form structure\r\n */\r\n";
 				$structure .= "add_filter( 'caldera_forms_get_form-{$form_id}', function( \$form ){\r\n return " . var_export( $form, true ) . ";\r\n" . '} );' . "\r\n";
