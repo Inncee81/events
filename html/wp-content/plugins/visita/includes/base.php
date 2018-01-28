@@ -67,7 +67,7 @@ class VisitaBase {
   *
   */
   protected $tabs = array();
-  
+
   /**
   *
   */
@@ -238,7 +238,7 @@ class VisitaBase {
         )
     ) );
   }
-  
+
   /**
   *
   *

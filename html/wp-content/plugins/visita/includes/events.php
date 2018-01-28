@@ -40,7 +40,7 @@ class VisitaEvents extends VisitaBase {
    * @since 1.0.0
    */
   function __construct( ) {
-
+    
     $this->position = 26;
     $this->is_home = true;
     $this->slug = __( 'event', 'visita' );
@@ -351,7 +351,7 @@ class VisitaEvents extends VisitaBase {
   *
   */
   function hreflang_attributes( $atts ) {
-    $atts['es'] =  str_replace("/$this->slug/", "/evento/", $atts['es']);
+    $atts['es'] = str_replace("/$this->slug/", "/evento/", $atts['es']);
     $atts['en'] = str_replace("/$this->slug/", "/$this->post_type/", $atts['en']);
     return $atts;
   }
@@ -459,6 +459,13 @@ class VisitaEvents extends VisitaBase {
           )
         ) );
       }
+    }
+
+    if ( is_tax('language') ) {
+      $query->is_tax = false;
+      $query->is_home = true;
+      $query->is_post_type_archive = true;
+      $query->set( 'post_type', 'event' );
     }
 
     if ( is_home() || is_post_type_archive( $this->post_type ) ) {
@@ -611,6 +618,21 @@ class VisitaEvents extends VisitaBase {
   }
 
   /**
+  * post exist by title
+  *
+  * @return void
+  * @since 2.0.1
+  */
+  function post_exists($title) {
+    global $wpdb;
+    return (int) $wpdb->get_var( $wpdb->prepare(
+      "SELECT ID FROM $wpdb->posts WHERE 1=1 AND post_title = %s AND post_type = %s",
+      wp_unslash( sanitize_post_field( 'post_title', $title, 0, 'db' ) ),
+      $this->post_type
+    ) );
+  }
+
+  /**
   * Import events from ticketmaster api
   *
   * @return void
@@ -639,7 +661,7 @@ class VisitaEvents extends VisitaBase {
         continue;
       }
 
-      if ( post_exists( $event->name ) ) {
+      if ( $this->post_exists( $event->name ) ) {
         continue;
       }
 
@@ -838,14 +860,3 @@ class VisitaEvents extends VisitaBase {
     }
   }
 }
-
-// UPDATE `visit_posts` SET post_type = 'event' WHERE post_type = 'evento';
-// UPDATE `visit_postmeta` SET meta_key = '_city' WHERE meta_key = 'ciudad';
-// UPDATE `visit_postmeta` SET meta_key = '_state' WHERE meta_key = 'estado';
-// UPDATE `visit_postmeta` SET meta_key = '_street' WHERE meta_key = 'calle';
-// UPDATE `visit_postmeta` SET meta_key = '_location' WHERE meta_key = 'location';
-// UPDATE `visit_postmeta` SET meta_key = '_zip' WHERE meta_key = 'codigo_postal';
-// UPDATE `visit_postmeta` SET meta_key = '_permanent' WHERE meta_key = '_permanente';
-// UPDATE `visit_postmeta` SET meta_value = 'events' WHERE meta_key = '_menu_item_object' AND meta_value = 'eventos';
-// UPDATE `visit_term_taxonomy`  SET taxonomy = 'events' WHERE taxonomy = 'eventos';
-// SET time_zone = '+00:00'; UPDATE IGNORE `visit_postmeta` f LEFT JOIN `visit_postmeta` h ON f.post_id = h.post_id  SET f.meta_value = round( unix_timestamp(CONCAT( f.meta_value, ' ', h.meta_value))), f.meta_key = '_starts' WHERE f.meta_key = '_fecha' AND h.meta_key = '_horario';

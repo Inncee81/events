@@ -36,6 +36,7 @@ class Visita_Core {
     add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 5, 2 );
 
     //short code
+    add_shortcode( 'clima', array( $this, 'shortcode_clima' ) );
     add_shortcode( 'lista-eventos', array( $this, 'shortcode_event_list' ) );
 
     //speed up wordpress
@@ -80,10 +81,11 @@ class Visita_Core {
    * @since 0.5.0
    */
   function activate( ) {
-    wp_schedule_event( time(), 'hourly', 'visita_get_weather' );
+    wp_schedule_event( time(), 'hourly', 'visita_get_weather', array('lang' => 'en') );
+    wp_schedule_event( time(), 'hourly', 'visita_get_weather', array('lang' => 'es') );
 
     if ( ! file_exists( WP_CONTENT_DIR . "/cache/_json/" ) ) {
-      @mkdir( WP_CONTENT_DIR . "/cache/_json/", 0755 );
+      @mkdir( WP_CONTENT_DIR . "/cache/_json/", 0755, true );
     }
 
     do_action( 'visita_activate' );
@@ -97,6 +99,11 @@ class Visita_Core {
   function deactivate( ) {
     do_action( 'visita_deactivate' );
     wp_clear_scheduled_hook( 'visita_get_weather' );
+
+    wp_clear_scheduled_hook( 'block_users' );
+    wp_clear_scheduled_hook( 'hyper_clean' );
+    wp_clear_scheduled_hook( 'ninja_forms_daily_action' );
+    wp_clear_scheduled_hook( 'caldera_forms_tracking_send_rows' );
   }
 
   /**
@@ -148,6 +155,7 @@ class Visita_Core {
   */
   function add_rewrite_rules( ) {
     global $wp_rewrite;
+    add_post_type_support( 'page', AMP_QUERY_VAR );
 
     $wp_rewrite->pagination_base = __( 'page', 'visita' );
     add_rewrite_rule(
@@ -189,13 +197,92 @@ class Visita_Core {
   * @return void
   * @since 1.0.1
   */
-  function visita_get_weather( ) {
-    $responds = wp_remote_get( 'https://api.apixu.com/v1/current.json?key=d5c0c8ccdd194cf4b0003734172201&q=89109' );
+  function visita_get_weather( $lang ) {
+    $responds = wp_remote_get(
+      "https://api.apixu.com/v1/forecast.json?key=d5c0c8ccdd194cf4b0003734172201&days=5&q=89109&lang=${lang}"
+    );
     if ( $responds['body'] ) {
-      if ( $fh = @fopen(WP_CONTENT_DIR . "/cache/_json/clima.json", "w" ) ){
+      if ( $fh = @fopen(WP_CONTENT_DIR . "/cache/_json/${lang}.json", "w" ) ) {
         fwrite( $fh, $responds['body']);
         fclose( $fh );
       }
+    }
+  }
+
+  /**
+  *
+  * @return void
+  * @since 2.0.1
+  */
+  function shortcode_clima( ) {
+    if ( $content = file_get_contents(WP_CONTENT_DIR . "/cache/_json/es.json") ) {
+      $data = json_decode($content);
+
+      $weather_icon = '';
+      if ($data->current->condition->icon) {
+        $weather_icon = sprintf(
+          '<img src="%2$s" alt="%1$s" title="%1$s">',
+          esc_attr( $data->current->condition->text ),
+          esc_url( str_replace(
+            '//cdn.apixu.com/weather',
+            plugins_url( 'visita/img' ),
+            $data->current->condition->icon
+          ) )
+        );
+      }
+
+
+      $forecast_days = '';
+      foreach ($data->forecast->forecastday as $forecast) {
+        $forecast_days .= sprintf(
+          '<div class="apixu-weather-forecast-day">
+            <div class="apixu-weather-forecast-day-abbr">%3$s</div>
+            <img src="%5$s" alt="%2$s" title="%2$s">
+            <div class="small">%2$s</div>
+            <div class="weather forecast day temp">%4$s%1$s&deg;C</div>
+          </div>',
+          esc_attr( (int)$forecast->day->avgtemp_c ),
+          esc_attr( $forecast->day->condition->text ),
+          esc_attr( date_i18n('D', $forecast->date_epoch ) ),
+          esc_html( $forecast->day->avgtemp_c > 0 ? '+' : '' ),
+          esc_url( str_replace(
+            '//cdn.apixu.com/weather',
+            plugins_url( 'visita/img' ),
+            $forecast->day->condition->icon
+          ) )
+        );
+      }
+
+      // print_r($data);
+      return sprintf(
+        '<div class="apixu-weather-todays-stats-location">
+          <div class="apixu-weather-todays-stats-big-pict">%13$s</div>
+          <div class="apixu_desc">%4$s</div>
+          <div class="awe_desc">%1$s, %2$s</div>
+          <div class="apixu-weather-current-temp"><span>%5$s%3$s&deg;C</span></div>
+          <div class="apixu-weather-todays-stats">
+            <div class="awe_desc">%12$s%5$s%9$s&deg;C</div>
+            <div class="awe_humidty">%11$s %6$s%%</div>
+            <div class="awe_wind">%10$s %7$s KH / %8$s</div>
+          </div>
+        </div> %14$s',
+        esc_html($data->location->name),
+        esc_html($data->location->region),
+        esc_html($data->current->temp_c),
+        esc_html($data->current->condition->text),
+        esc_html($data->current->temp_c > 0 ? '+' : ''),
+
+        esc_html($data->current->humidity),
+        esc_html($data->current->wind_kph),
+        esc_html($data->current->wind_dir),
+        esc_html($data->current->feelslike_c),
+
+        esc_html__('Wind:', 'visita'),
+        esc_html__('Humidity:', 'visita'),
+        esc_html__('Feels like:', 'visita'),
+        $weather_icon,
+        $forecast_days
+      );
     }
   }
 
@@ -290,8 +377,9 @@ class Visita_Core {
    * @since 3.0.0
    */
   function remove_unwanted_menus() {
-    remove_menu_page( 'amp-plugin-options' );
+    remove_menu_page( 'amp-options' );
 
+    remove_submenu_page( 'caldera-forms', 'cf-pro' );
     remove_submenu_page( 'caldera-forms', 'cf-pro' );
     remove_submenu_page( 'caldera-forms', 'caldera-form-support' );
     remove_submenu_page( 'caldera-forms', 'caldera-forms-extend' );
@@ -442,5 +530,3 @@ class Visita_Core {
     );
   }
 }
-
-// UPDATE `visit_options` SET `option_value` = 'visita' WHERE option_name = 'template';
