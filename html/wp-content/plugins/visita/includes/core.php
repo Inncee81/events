@@ -235,11 +235,13 @@ class Visita_Core {
       $forecast_days = '';
       foreach ($data->forecast->forecastday as $forecast) {
         $forecast_days .= sprintf(
-          '<div class="apixu-weather-forecast-day">
-            <div class="apixu-weather-forecast-day-abbr">%3$s</div>
-            <img src="%5$s" alt="%2$s" title="%2$s">
-            <div class="small">%2$s</div>
-            <div class="weather forecast day temp">%4$s%1$s&deg;C</div>
+          '<div class="column column-block">
+            <div class="text-center">
+              <div>%3$s</div>
+              <img src="%5$s" alt="%2$s" title="%2$s">
+              <div class="show-for-medium">%2$s</div>
+              <div>%4$s%1$s&deg;C</div>
+            </div>
           </div>',
           esc_attr( (int)$forecast->day->avgtemp_c ),
           esc_attr( $forecast->day->condition->text ),
@@ -255,17 +257,22 @@ class Visita_Core {
 
       // print_r($data);
       return sprintf(
-        '<div class="apixu-weather-todays-stats-location">
-          <div class="apixu-weather-todays-stats-big-pict">%13$s</div>
-          <div class="apixu_desc">%4$s</div>
-          <div class="awe_desc">%1$s, %2$s</div>
-          <div class="apixu-weather-current-temp"><span>%5$s%3$s&deg;C</span></div>
-          <div class="apixu-weather-todays-stats">
-            <div class="awe_desc">%12$s%5$s%9$s&deg;C</div>
-            <div class="awe_humidty">%11$s %6$s%%</div>
-            <div class="awe_wind">%10$s %7$s KH / %8$s</div>
+        '<div class="row weather-current">
+          <div class="small-12 medium-4 columns text-center">
+            <div class="weather-image">%13$s</div>
+            <div class="weather-text">%4$s</div>
+            <div>%1$s, %2$s</div>
           </div>
-        </div> %14$s',
+          <div class="small-12 medium-8 columns text-center medium-text-left">
+            <div class="weather-deg">%5$s%3$s&deg;C</div>
+            <div class="row weather-detail">
+              <div class="small-12 columns">%11$s %6$s%%</div>
+              <div class="small-12 columns">%10$s %7$s KH / %8$s</div>
+              <div class="small-12 columns">%12$s %5$s%9$s&deg;C</div>
+            </div>
+          </div>
+        </div>
+        <div class="row small-up-5 weather-forecast">%14$s</div>',
         esc_html($data->location->name),
         esc_html($data->location->region),
         esc_html($data->current->temp_c),
