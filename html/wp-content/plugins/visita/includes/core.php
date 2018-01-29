@@ -155,7 +155,7 @@ class Visita_Core {
   */
   function add_rewrite_rules( ) {
     global $wp_rewrite;
-    add_post_type_support( 'page', AMP_QUERY_VAR );
+    // add_post_type_support( 'page', AMP_QUERY_VAR );
 
     $wp_rewrite->pagination_base = __( 'page', 'visita' );
     add_rewrite_rule(
