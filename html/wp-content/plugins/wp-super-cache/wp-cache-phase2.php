@@ -158,8 +158,8 @@ function wp_cache_serve_cache_file() {
 			if ( isset( $wp_cache_disable_utf8 ) == false || $wp_cache_disable_utf8 == 0 )
 				header( "Content-type: text/html; charset=UTF-8" );
 
-			header( "Vary: Accept-Encoding, Cookie" );
-			header( "Cache-Control: max-age=3, must-revalidate" );
+			// header( "Vary: Accept-Encoding, Cookie" );
+			// header( "Cache-Control: max-age=3, must-revalidate" );
 			$size = function_exists( 'mb_strlen' ) ? mb_strlen( $cachefiledata, '8bit' ) : strlen( $cachefiledata );
 			if ( $wp_cache_gzip_encoding ) {
 				if ( isset( $wpsc_served_header ) && $wpsc_served_header ) {
