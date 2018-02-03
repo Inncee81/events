@@ -54,7 +54,7 @@
           <a href="<?php echo home_url() ?>" title="<?php esc_attr( get_bloginfo( 'name' ) ) ?>" rel="home"><?php bloginfo( 'name' ) ?></a>
         </div>
 
-        <form action="/" class="search-form" method="get">
+        <form action="<?php echo home_url() ?>" class="search-form" method="get">
           <input type="search" class="search-field" name="s" placeholder="<?php esc_attr_e('Search: events, shows, hotels...', 'visita') ?>" />
           <input type="submit" class="hidden" />
         </form>

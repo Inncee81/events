@@ -28,9 +28,13 @@
     <?php visita_before_loop(); ?>
 
     <div class="entry-content" itemprop="text">
-    <?php while ( have_posts() ) : the_post(); ?>
-      <?php get_template_part( 'content', get_post_type() ); ?>
-    <?php endwhile; ?>
+      <?php if ( have_posts() ) {
+        while ( have_posts() ) : the_post();
+          get_template_part( 'content', get_post_type() );
+        endwhile;
+      } else {
+        printf( '<div class="row event callout"><h3 class="columns text-center"><strong>%s</strong></h3></div>', __( 'Sorry, but nothing matched your search terms. Please try a different search.', 'visita' ));
+      } ?>
     </div>
 
     <?php visita_after_loop(); ?>
