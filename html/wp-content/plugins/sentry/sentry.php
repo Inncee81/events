@@ -35,7 +35,7 @@ define( 'SENTRY_ABSPATH', str_replace( "\\", "/", dirname( __FILE__ ) ) );
 
 include_once( SENTRY_ABSPATH . '/autoload.php');
 
-if ( class_exists( 'Raven_Autoloader' ) ){
+if ( ! WP_DEBUG && class_exists( 'Raven_Autoloader' ) ) {
 
   Raven_Autoloader::register();
 
