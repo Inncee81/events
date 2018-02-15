@@ -371,3 +371,22 @@ function visita_head_metatags( ) {
   }
 }
 add_action( 'visita_site_metatags', 'visita_head_metatags', 20 );
+
+/**
+*
+*/
+function visita_document_title_parts( $title_parts ) {
+  if ( !is_front_page() ) {
+    $title_parts['site'] =  "\xE2\xAD\x90 " . get_bloginfo('name');
+  }
+  return $title_parts;
+}
+add_action( 'document_title_parts', 'visita_document_title_parts', 500 );
+
+/**
+*
+*/
+function visita_document_title_separator() {
+  return '|';
+}
+add_action( 'document_title_separator', 'visita_document_title_separator', 500 );
