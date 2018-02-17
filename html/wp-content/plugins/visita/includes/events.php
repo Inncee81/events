@@ -40,7 +40,7 @@ class VisitaEvents extends VisitaBase {
    * @since 1.0.0
    */
   function __construct( ) {
-    
+
     $this->position = 26;
     $this->is_home = true;
     $this->slug = __( 'event', 'visita' );
@@ -510,20 +510,19 @@ class VisitaEvents extends VisitaBase {
     //save each field
     foreach ( $values as $meta_key => $meta_value ) {
 
-      if ( $meta_key == '_times' ) {
+      $starts = $ends = false;
 
-        $starts = $ends = false;
-
+      if ( $meta_key == '_times' && is_array($meta_value)) {
         foreach ( $meta_value as $time ) {
           $time = strtotime( "{$time['_date']} {$time['_time']}" );
 
           $starts = ( $time < $starts || ! $starts ) ? $time : $starts;
           $ends = ( $time >= $ends || ! $ends ) ? ( $time + ( $values['_duration'] * 60 ) ) : $ends;
         }
-
-        update_post_meta( $post_id, '_ends', $ends );
-        update_post_meta( $post_id, '_starts', $starts );
       }
+
+      update_post_meta( $post_id, '_ends', $ends );
+      update_post_meta( $post_id, '_starts', $starts );
     }
   }
 
