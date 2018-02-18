@@ -131,8 +131,15 @@ class Visita_Core {
   */
   function parse_request_vars( $query ) {
 
+
     if ( isset( $query->query_vars['orden'] ) ) {
       $query->query_vars['order'] = $query->query_vars['orden'];
+    }
+
+    if ( isset( $query->query_vars['s'] ) ) {
+      if ( isset( $query->query_vars['post_type'] ) ) {
+        unset( $query->query_vars['post_type'] );
+      }
     }
 
     if ( isset( $query->query_vars['por'] ) ) {

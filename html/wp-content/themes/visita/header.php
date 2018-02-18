@@ -51,10 +51,10 @@
       <div class="small-12 columns">
 
         <div class="site-logo">
-          <a href="<?php echo home_url() ?>" title="<?php esc_attr( get_bloginfo( 'name' ) ) ?>" rel="home"><?php bloginfo( 'name' ) ?></a>
+          <a href="<?php echo home_url( get_query_var('lang') ) ?>" title="<?php esc_attr( get_bloginfo( 'name' ) ) ?>" rel="home"><?php bloginfo( 'name' ) ?></a>
         </div>
 
-        <form action="<?php echo home_url() ?>" class="search-form" method="get">
+        <form action="<?php echo home_url( get_query_var('lang') ) ?>" class="search-form" method="get">
           <input type="search" class="search-field" name="s" placeholder="<?php esc_attr_e('Search: events, shows, hotels...', 'visita') ?>" />
           <input type="submit" class="hidden" />
         </form>
