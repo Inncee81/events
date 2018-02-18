@@ -84,10 +84,6 @@ class Visita_Core {
     wp_schedule_event( time(), 'hourly', 'visita_get_weather', array('lang' => 'en') );
     wp_schedule_event( time(), 'hourly', 'visita_get_weather', array('lang' => 'es') );
 
-    if ( ! file_exists( WP_CONTENT_DIR . "/cache/_json/" ) ) {
-      @mkdir( WP_CONTENT_DIR . "/cache/_json/", 0755, true );
-    }
-
     do_action( 'visita_activate' );
   }
 
@@ -208,6 +204,11 @@ class Visita_Core {
     $responds = wp_remote_get(
       "https://api.apixu.com/v1/forecast.json?key=d5c0c8ccdd194cf4b0003734172201&days=5&q=89109&lang=${lang}"
     );
+
+    if ( ! file_exists( WP_CONTENT_DIR . "/cache/_json/" ) ) {
+      @mkdir( WP_CONTENT_DIR . "/cache/_json/", 0755, true );
+    }
+
     if ( $responds['body'] ) {
       if ( $fh = @fopen(WP_CONTENT_DIR . "/cache/_json/${lang}.json", "w" ) ) {
         fwrite( $fh, $responds['body']);
