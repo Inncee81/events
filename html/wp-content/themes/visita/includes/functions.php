@@ -451,9 +451,7 @@ function visita_event_dates( ) {
       return false;
     }
 
-    if ( ! $starts = get_post_meta( get_the_ID(), '_starts', true ) ) {
-      return false;
-    }
+    $starts = (int) get_post_meta( get_the_ID(), '_starts', true );
 
     foreach( (array) $times as $time ) {
 
