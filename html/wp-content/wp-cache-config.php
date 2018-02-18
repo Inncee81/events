@@ -6,10 +6,9 @@ See wp-cache.php for author details.
 */
 
 $cache_gc_email_me = 0;
-$wpsc_last_post_update = 1506763767; //Added by WP-Cache Manager
 $cached_direct_pages = array(  );
 $wpsc_save_headers = 1;
-$cache_time_interval = '86400';
+$cache_time_interval = '43200';
 $cache_schedule_type = 'interval';
 $wp_cache_home_path = '/'; //Added by WP-Cache Manager
 $dismiss_gc_warning = 1; //Added by WP-Cache Manager
@@ -33,7 +32,7 @@ if ( ! defined('WPCACHEHOME') ) {
 $cache_compression = 1; //Added by WP-Cache Manager
 $cache_enabled = true;
 $super_cache_enabled = true;
-$cache_max_time = 432000;
+$cache_max_time = 43200;
 //$use_flock = true; // Set it true or false if you know what to use
 $cache_path = WP_CONTENT_DIR . '/cache'; //Added by WP-Cache Manager
 $file_prefix = 'cache-';
