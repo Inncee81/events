@@ -82,7 +82,7 @@ class Visita_Core {
    * @since 0.5.0
    */
   function activate( ) {
-    wp_schedule_event( time(), 'hourly', 'every_three_hours', array('lang' => 'es') );
+    wp_schedule_event( time(), 'every_three_hours', 'visita_get_weather', array('lang' => 'es') );
 
     do_action( 'visita_activate' );
   }
@@ -94,7 +94,10 @@ class Visita_Core {
    */
   function deactivate( ) {
     do_action( 'visita_deactivate' );
-    wp_clear_scheduled_hook( 'visita_get_weather' );
+
+    wp_clear_scheduled_hook( 'every_three_hours', array('lang' => 'es') );
+    wp_clear_scheduled_hook( 'visita_get_weather', array('lang' => 'en') );
+    wp_clear_scheduled_hook( 'visita_get_weather', array('lang' => 'es') );
   }
 
   /**
