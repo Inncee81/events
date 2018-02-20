@@ -33,6 +33,7 @@ class Visita_Core {
     //disable acf save hook
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
     add_action( 'acf/init', array( $this, 'disable_save_action' ) );
+    add_filter( 'cron_schedules', array( $this, 'add_cron_schedule') );
     add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 5, 2 );
 
     //short code
@@ -81,8 +82,7 @@ class Visita_Core {
    * @since 0.5.0
    */
   function activate( ) {
-    wp_schedule_event( time(), 'hourly', 'visita_get_weather', array('lang' => 'en') );
-    wp_schedule_event( time(), 'hourly', 'visita_get_weather', array('lang' => 'es') );
+    wp_schedule_event( time(), 'hourly', 'every_three_hours', array('lang' => 'es') );
 
     do_action( 'visita_activate' );
   }
@@ -95,11 +95,18 @@ class Visita_Core {
   function deactivate( ) {
     do_action( 'visita_deactivate' );
     wp_clear_scheduled_hook( 'visita_get_weather' );
+  }
 
-    wp_clear_scheduled_hook( 'block_users' );
-    wp_clear_scheduled_hook( 'hyper_clean' );
-    wp_clear_scheduled_hook( 'ninja_forms_daily_action' );
-    wp_clear_scheduled_hook( 'caldera_forms_tracking_send_rows' );
+  /**
+  * Add new cron scheule interval
+  */
+  function add_cron_schedule( $schedules ) {
+    $schedules['every_three_hours'] = array(
+      'interval'  => 10800,
+      'display'   => __( 'Every 3 Hours', 'textdomain' )
+    );
+
+    return $schedules;
   }
 
   /**
@@ -204,6 +211,10 @@ class Visita_Core {
     $responds = wp_remote_get(
       "https://api.apixu.com/v1/forecast.json?key=d5c0c8ccdd194cf4b0003734172201&days=5&q=89109&lang=${lang}"
     );
+
+    if (is_wp_error($responds)) {
+      return false;
+    }
 
     if ( ! file_exists( WP_CONTENT_DIR . "/cache/_json/" ) ) {
       @mkdir( WP_CONTENT_DIR . "/cache/_json/", 0755, true );
