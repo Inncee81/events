@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.2.6
+Version: 2.2.7
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -127,7 +127,7 @@ $fvm_cdn_url = get_option('fastvelocity_min_fvm_cdn_url');
 $used_css_files = array();
 
 # default blacklist
-$exc = array('/html5shiv.js', '/excanvas.js', '/avada-ie9.js', '/respond.js', '/respond.min.js', '/selectivizr.js', '/Avada/assets/css/ie.css', '/html5.js', '/IE9.js', '/fusion-ie9.js', '/vc_lte_ie9.min.css', '/old-ie.css', '/ie.css', '/vc-ie8.min.css', '/mailchimp-for-wp/assets/js/third-party/placeholders.min.js', '/assets/js/plugins/wp-enqueue/min/webfontloader.js', '/a.optnmstr.com/app/js/api.min.js');
+$exc = array('/html5shiv.js', '/html5shiv-printshiv.min.js', '/excanvas.js', '/avada-ie9.js', '/respond.js', '/respond.min.js', '/selectivizr.js', '/Avada/assets/css/ie.css', '/html5.js', '/IE9.js', '/fusion-ie9.js', '/vc_lte_ie9.min.css', '/old-ie.css', '/ie.css', '/vc-ie8.min.css', '/mailchimp-for-wp/assets/js/third-party/placeholders.min.js', '/assets/js/plugins/wp-enqueue/min/webfontloader.js', '/a.optnmstr.com/app/js/api.min.js');
 if(!is_array($blacklist) || strlen(implode($blacklist)) == 0) { update_option('fastvelocity_min_blacklist', implode("\n", $exc)); }
 
 # default ignore list
@@ -862,7 +862,7 @@ $is_footer = 0; if (isset($wp_scripts->registered[$handle]->extra["group"]) || i
 	# IE only files don't increment things
 	$ieonly = fastvelocity_ie_blacklist($hurl);
 	if($ieonly == true) { continue; }
-	
+
 	# skip ignore list, scripts with conditionals, external scripts
 	if ((!fastvelocity_min_in_arrayi($hurl, $ignore) && !isset($wp_scripts->registered[$handle]->extra["conditional"]) && fvm_internal_url($hurl, $wp_home)) || empty($hurl)) {
 			
@@ -885,6 +885,9 @@ $is_footer = 0; if (isset($wp_scripts->registered[$handle]->extra["group"]) || i
 		wp_enqueue_script($handle, $hurl, array(), null, true);
 	}
 endforeach;
+
+
+
 
 
 # loop through header scripts and merge
@@ -915,9 +918,9 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 					$hurl = fastvelocity_min_get_hurl($wp_scripts->registered[$handle]->src, $wp_domain, $wp_home);
 					$printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $hurl);
 					
-					# get css from hurl, if available and valid
+					# get code from hurl, if available and valid
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
-					$newcode = false; $newcode = get_transient($tkey);
+					$newcode = false; $newcode = fvm_get_transient($tkey);
 					if ( $newcode === false) {
 						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_js_minification, 'js', $handle);
 						if(is_array($res)) {
@@ -1050,7 +1053,7 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 					
 					# get css from hurl, if available and valid
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
-					$newcode = false; $newcode = get_transient($tkey);
+					$newcode = false; $newcode = fvm_get_transient($tkey);
 					if ( $newcode === false) {
 						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_js_minification, 'js', $handle);
 						if(is_array($res)) {
@@ -1255,7 +1258,7 @@ if(!$skip_google_fonts && count($google_fonts) > 0) {
 		
 		# google fonts download and inlining, ignore logs
 		$tkey = 'fvm-cache-'.$ctime.hash('adler32', $concat_google_fonts);
-		$newcode = false; $newcode = get_transient($tkey);
+		$newcode = false; $newcode = fvm_get_transient($tkey);
 		if ( $newcode === false) {
 			$res = fvm_download_and_cache($concat_google_fonts, $tkey, null, $disable_css_minification, 'css');
 			if(is_array($res)) { $newcode = $res['code']; }
@@ -1383,7 +1386,7 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 					
 					# get css from hurl, if available and valid
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
-					$newcode = false; $newcode = get_transient($tkey);
+					$newcode = false; $newcode = fvm_get_transient($tkey);
 					if ( $newcode === false) {
 						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_css_minification, 'css', $handle);
 						if(is_array($res)) {
@@ -1519,7 +1522,7 @@ if(!$skip_google_fonts && count($google_fonts) > 0) {
 		
 		# google fonts download and inlining, ignore logs
 		$tkey = 'fvm-cache-'.$ctime.hash('adler32', $concat_google_fonts);
-		$newcode = false; $newcode = get_transient($tkey);
+		$newcode = false; $newcode = fvm_get_transient($tkey);
 		if ( $newcode === false) {
 			$res = fvm_download_and_cache($concat_google_fonts, $tkey, null, $disable_css_minification, 'css');
 			if(is_array($res)) { $newcode = $res['code']; }
@@ -1644,7 +1647,7 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 					
 					# get css from hurl, if available and valid
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
-					$newcode = false; $newcode = get_transient($tkey);
+					$newcode = false; $newcode = fvm_get_transient($tkey);
 					if ( $newcode === false) {
 						$res = fvm_download_and_cache($hurl, $tkey, null, $disable_css_minification, 'css', $handle);
 						if(is_array($res)) {

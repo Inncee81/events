@@ -1,9 +1,9 @@
 === Fast Velocity Minify ===
 Contributors: Alignak
-Tags: PHP Minify, YUI Compressor, GTmetrix, Pingdom, Pagespeed, CSS Merging, JS Merging, CSS Minification, JS Minification, Speed Optimization, HTML Minification, Performance
+Tags: CSSTidy, JSMin, YUI Compressor, GTmetrix, Pingdom, Pagespeed, CSS Minification, JS Minification, Speed Optimization, HTML Minification, Performance
 Requires at least: 4.5
-Stable tag: 2.2.6
-Tested up to: 4.9.1
+Stable tag: 2.2.7
+Tested up to: 4.9.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -30,26 +30,25 @@ I can offer you aditional `custom made` optimization on top of this plugin. If y
 *	Handles scripts loaded both in the header & footer separately
 *	Keeps the order of the scripts even if you exclude some files from minification
 *	Supports localized scripts (https://codex.wordpress.org/Function_Reference/wp_localize_script)
-*	Minifies CSS and JS with PHP Minify only, no third party software or libraries needed.
-*	Option to use YUI Compressor rather than PHP Minify (you you have "exec" and "java" available on your system).
+*	Minifies CSS, JS and HTML with PHP only
+*	Option to use YUI Compressor (you must have "exec" and "java" available on your system).
 *	Option to defer JavaScript and CSS files.
-*	Stores the cache files in the uploads directory.
-*	View the status and logs on the WordPress admin page.
-*	Option to Minify HTML for further improvements.
-*	Ability to turn off minification
-*	Ability to turn off CSS or JS optimization seperatly (by disabling either css or js processing)
+*	Cache files are stored and served directly from the disk.
+*	View merging logs on the admin page.
+*	Ability to turn off CSS, JS or HTML processing
 *	Ability to manually ignore scripts or css
 *	Support for conditional scripts and styles
 *	Support for multisite installations
 *	Support for gzip_static on Nginx
-*	Support for the CDN Enabler plugin
+*	CDN support
 *	Auto purging of cache files on W3 Total Cache, WP Supercache, WP Rocket, Wp Fastest Cache, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, Nginx Cache (by Till Krüss ), SG Optimizer, Godaddy Managed WordPress Hosting and WP Engine (read the FAQs)
 *	Support for preconnect and preload headers
 *	and some more...
 
 
 = Notes =
-*	The JavaScript minification is by [PHP Minify](https://github.com/matthiasmullie/minify)
+*	The JavaScript minification is by JSMin](https://github.com/rgrove/jsmin-php/blob/master/jsmin.php)
+*	The CSS minification is by [CSSTidy](https://github.com/Cerdic/CSSTidy)
 *	The alternative JavaScript minification is by [YUI Compressor](http://yui.github.io/yuicompressor/)
 *	Compatible with Nginx, HHVM and PHP 7. 
 *	Minimum requirements are PHP 5.5 and WP 4.4, from version 1.4.0 onwards
@@ -71,151 +70,111 @@ I can offer you aditional `custom made` optimization on top of this plugin. If y
 == Frequently Asked Questions ==
 
 = How can I exclude certain assets by wildcard? =
-
-Each line on the ignore list will try to match a substring against all CSS or JS files, for example: `//yoursite.com/wp-content/plugins/some-plugin/js/` will ignore all files inside that directory. You can also shorten the url like `/some-plugin/js/` and then it will match any css or js url that has `/some-plugin/js/` on the path. Obviously, doing `/js/` would match any files inside any "/js/" directory and in any location, so to avoid unexpected situations please always use the longest, most specific path you can use. 
-
+Each line on the ignore list will try to match a substring against all CSS or JS files, for example: `//yoursite.com/wp-content/plugins/some-plugin/js/` will ignore all files that have this on the path. You can also shorten the url like `/some-plugin/js/` and then it will match any css or js url that has `/some-plugin/js/` on the path. Obviously, doing `/js/` would match any files inside any "/js/" directory and in any location, so to avoid unexpected situations please always use the longest, most specific path you can use. 
 ...
 
 = Why is the ignore list not working? =
-
-The ignore list may be working, just try to use partial paths (see wildcard help above) and use relative urls only without any query vars. 
-
+The ignore list may be working, just try to use partial paths (see wildcard help above) and use relative urls only without any query vars. Example, if you want to exclude a file names `/jquery.js?v=1234` simply add the wildcard `/jquery.js` before the question mark.
 ...
 
-
-= Why are there several or lot's of JS and CSS files listed on the status page, or why the cache directory takes so much space? =
-
-Well, some sites and themes have a combined CSS size above 1+ MB, so when you have 200 files, that's 200+ MB. 
-Different pages may need different JS and CSS files per page, post, category, tag, homepage or even custom post types, but if the requirements never change and you always load the exact same files on every page, you won't see as many files. Likewise, if you have some dynamic url for CSS or JS that always changes in each pageview (the query var for example), you must add it to the ignore list (else it will generate a new cache file every pageview).
-
+= There are too many JS or CSS files generated, or the cache directory is taking too much space. =
+a) Different pages may need different JS and CSS files per page, post, category, tag, homepage or even custom post types, therefore you need a file per requirement. b) If you have a dynamic CSS file that changes its name on each page view (the query var for example), you must add it by wildcard to the ignore list (else it will generate a new cache file every page view).
 ...
-
 = Can I update plugins and themes? =
+Yes, but it is recommended that you purge all caches in order. First from the plugin status page, then your cache plugin and finally your hosting provider cache system. This is to make sure that your update, is not breaking things, which you wouldn’t see until FVM cached files or the page cache expires.
 
-Yes, but it's recommended that you purge the cache (from the plugin status page) in order for the merging and minification cache files to be regenerated and for you to be sure the updates went smoothly. The plugin will also try to automatically purge some popular cache plugins, however we still recommend that you purge all caches on your cache plugin / server (whatever you use) "after" purging Fast Velocity Minify cache.
-
-...
-
-= Is it compatible with other caching plugins? =
-
-You must disable any features on your theme or cache plugins, that perform minification of css, html and js.
-The plugin will try to automatically purge several popular cache plugins, however we still recommend you to purge all caches (on whatever you use) if you also  manually purge the cache on the plugin settings for some reason.
+= Is it compatible with other caching plugins, or other speed optimization plugins? =
+Yes and No. You must disable any features on your theme or plugins, which perform minification of css, html and js, else double minification may break your layout. It’s also inefficient to do the same work twice.
+The plugin will try to automatically purge several popular cache plugins, however we still recommend you to purge all caches (on whatever you use) if you also manually purge the cache on the plugin settings for some reason.
 The automatic purge is active for the following plugins and hosting: W3 Total Cache, WP Supercache, WP Rocket, Wp Fastest Cache, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, SG Optimizer, Godaddy Managed WordPress Hosting and WP Engine
 
 ...
 
 = Is it resource intensive, or will it use too much CPU on my shared hosting plan? =
-
-No it's not. On the first run, each single file is minified into an intermediate cache. When a new group of files is found, it reuses those files and merges them into a new static cache file. All pages that request the same group of CSS or JS files will also make use of that file.
-
+No, it is not. Cache files are saved on your disk, so as long as you have a fast SSD disk, you have nothing to worry about.
 ...
-
 = Is it compatible with multisites? =
-
-Yes, it generates a new cache file for every different set of JS and CSS requirements it finds. 
-
+Yes, it generates a new cache file for every different set of JS and CSS requirements it finds, but you need to setup the settings for each site individually (the settings may need to be different for each site).
 ...
-
 = Is it compatible with Adsense and other ad networks? =
-
-The plugin is compatible with any add network but also depends on how you're loading the ads into the site. We only merge and minify css and javascript files enqueued in the header and footer that match your own domain name... which would exclude any external ads. If you're using a plugin that uses JS to insert the ads on the page, there could be issues. Please report on the support forum if you found such case.
+The plugin is compatible with any add network but also depends on how you are loading the ads into the site. We only merge and minify css and JavaScript files enqueued in the header and footer that match your own domain name... which would exclude any external ads. If you are using a plugin that uses JS to insert the ads on the page, there could be issues. Please report on the support forum if you found such case.
 
 ...
 
 = After installing, why did my site feels slow to load? =
-
-The cache regeration happen's once per url or if the included CSS + JS files change. If you need the same set of CSS and JS files in every page, the cache file will only be generated once and reused for all other pages, however if you have a CSS or JS that is generated dynamically and uses a time based query string, (url changes on every pageview), you must add it to the ignore list by wildcard.
+If you have a CSS or JS that is generated dynamically with PHP and uses a time based query string, (url changes on every page view), you must add it to the ignore list by wildcard. If you don’t do this, every single pageview will generate a new file cache, thus filling your storage very quickly.
 
 ...
 
-= How do I use the precompressed files with gzip_static on Nginx? =
+= How do I use the pre-compressed files with gzip_static on Nginx? =
 
 When we merge and minify the css and js files, we also create a `.gz` file to be used with `gzip_static` on Nginx. You need to enable this feature on your Nginx configuration file if you want to make use of it.
 
 ...
 
-= Where is the YUI Compressor option gone to? =
-
-This functionality depends on wheter you have exec and java available on your system and PHP can detect it or not. It will be visible on the basic Settings page under the JavaScript Options section and it's available for JS files only.
+= Where is the YUI Compressor option? =
+This functionality depends on whether you have exec and java available on your system and PHP can detect it or not. It will be visible on the basic Settings page under the JavaScript Options section and it is available for JS files only.
 
 ...
 
 = After installing, why are some images and sliders not working? =
 
-a) You cannot do double minification as it will break things, so make sure you have disabled any features on your theme or other plugins, that perform minification of css, html and js files.
+a) You cannot do double minification as it will break things, so make sure you have disabled any features on your theme or other plugins, which perform minification of css, html and js files.
 
 b) Are you trying to use the defer JS or CSS options, without understanding exactly how it works? Be advised that most themes do not work properly with those options on.
 
-c) The plugin relies on PHP Minify to minify javascript and css files, however it's not a perfect library and there are plugins that are already minified and do not output a min.js or min.css name and end up being minified again. Try to disable minification on JS and CSS files and purge the cache.
+c) Try to disable minification on JS and CSS files and purge the cache.
 
-d) Sometimes a plugin conflicts with another when merged. Try to disable CSS processing first and see if it works. Try to disable JS processing second and see if it works. Try to disable HTML minification last and see if it works. If one of those work, you know there's a conflict.
+d) Sometimes a plugin conflicts with another when merged. Try to disable CSS processing first and see if it works. Try to disable JS processing second and see if it works. Try to disable HTML minification last and see if it works. If one of those work, you know where is a conflict.
 
-e) If you have a conflict, try to add each CSS and each JS to the ignore list, one by one until you find the one that causes the conflict. If you have no idea which files to add, check the log file on the status page for a list of files.
+e) If you have a conflict, try to add each CSS and each JS to the ignore list, one by one until you find the one that causes the conflict. If you have no idea, which files to add, check the log file on the status page for a list of files.
 
 ...
 
-= Why are some of the CSS and JS files not being merged ? =
+= Why are some of the CSS and JS files not being merged? =
 
 The plugin only processes (same domain) JS and CSS files enqueued using the official method outlined here: https://developer.wordpress.org/themes/basics/including-css-javascript/
-
-Some developers enqueue all files properly but may still "print" conditional tags directly in the header, while they should be following the example as explained on the codex: https://developer.wordpress.org/reference/functions/wp_script_add_data/
-
-Because "printing CSS and JS tags on the header and footer is evil" (seriously), we cannot capture those files and merge them together.
-
-There are also specific ways to enqueue files meant to be loaded for IE users only, mobile users, desktop users, printers, etc, else those may be merged together and break things. There is a blacklist and default ignore list on the PRO tab because of this.
+Furthermore, there is a blacklist, an ignore list and a default ignore list (check the Pro tab for a list of files). These are all known files, which cause trouble, but feel free to try again.
 
 ...
 
 = How can I load CSS async, get the critical path or why is there a flash of unstyle content when I enable this? =
-
 This is an advanced option for highly skilled developers. Do not try to fiddle with these settings if you are not one, as it will almost certainly break your site layout and functionality. 
-
 Loading CSS async only works properly and consistently, when you have one single CSS file being generated and your critical path is generic enough to be common on all pages.
 
 ...
 
 = How to undo all changes done by the plugin? =
-
-The plugin itself doesn't do any "changes" to your site and all original files are untouched. It intercepts the enqueued CSS and JS files, processes and hides them, while enqueuing the newly optimized cached version of those files. As with any plugin, simply disable or uninstall the plugin, purge all caches you may have in use (plugins, server, cloudflare, etc) and the site will go back to what it was before installing it. The plugin doesn't delete anything from the database or modify any of your files.
-
+The plugin itself does not do any "changes" to your site and all original files are untouched. It also does not create or delete tables on the database. As with any plugin, simply disable or uninstall the plugin, purge all caches (plugins, server, cloudflare, etc.) and the site will go back to what it was before installing it. The plugin does not delete anything from the database or modify any of your files.
 ...
 
 = Why is it that even though I have disabled or deleted the plugin, the design is still broken? =
-
-Some "cheap" or so called "optimized" hosting providers, implement a misconfigured and agressive cache on their servers, and then are also "smart" enough to ignore your multiple cache purge requests if those are too frequent. 
-
-Some providers use a "deploy system", where you upload / replace / delete the files via sftp, but those are not reflected on the live site immediatly. This means that in some cases, you can delete your whole wordpress instalation via sftp, and the site still works perfectly fine even after purging the cache.
-
-You may have deleted the physical files from the disk, but that's either just some random storage they gave you and that they sync to the main server every few hours, or it may be the actual live server but with a file cache layer on top of it (so the old code keeps running even though you have deleted the files).
-
-The only solution is to contact your hosting company and ask them why you have deleted the plugin and purged your cache, but the live site doesn't reflect the changes.
-
+Some hosting providers have very aggressive caches on their servers, and they will ignore your multiple cache purge requests if those are too frequent. Contact your hosting and have them purge varnish, object cache, memcached, redis, APC, or whatever system they may use. 
+Some providers also use a "deploy system" where you can upload / replace / delete the files via sftp, but those are not reflected on the live site immediately. It’s merely a copy, which will be synced sometime later automatically. The only solution is to contact your hosting company and ask them why you have deleted the plugin and purged your cache, but the live site does not reflect the changes. 
 Providers well known to have this issue are hostgator and iPage (please report others if you find them).
+...
+
+= My layout is broken if I disable the plugin, but works fine if I enable it. =
+See the previous answer for the reason. As soon as you disable the plugin, the cache is purged and any references to `/wp-content/uploads/fvm/` on your html, must disappear. If it did not, there is a cache problem somewhere causing this. Contact your hosting company to manually purge your caches. 
+...
+
+= Why is my Visual Composer or Page Editor not working? =
+Kindly enable the "Fix Page Editors" and purge the cache. 
+This option hides all optimization from logged in users, so it is as if the plugin is disabled. Not logged in users and search engines, still see the optimized version. If this doesn’t work for you, please open a support request on the forum.
+...
+
+= Why is NextGEN Gallery not working? =
+You need to have render blocking jQuery for this plugin (it's a requirement), so you must exclude the jquery library via the ignore list. NextGEN Gallery CSS files, for the majority cannot be merged (even if you copy paste manually one after the other), due to the lack of speceficity on CSS. I have reported this to the author on https://wordpress.org/support/topic/lack-of-css-specificity-and-conflict-when-merging/ so meanwhile, you can either inline all css or add their css files to the ignore list.
 
 ...
 
-= Why is my Visual Composer, or Page Editor not working ? =
-
-Some plugins and themes need to edit the layout and styles on the frontend. When they need to do that, they enqueue several extra js and css files that are caught by this plugin and get merged together, when in fact those need to load seperatly. If you encounter such issue of your page editor not working on the frontend, kindly enable the "Fix Page Editors" and purge your caches. 
-
-This option hides all optimization from logged in users, so it's as iff the plugin has been disabled. Not logged in users and search engines, still see the optimized version.
-
-...
 
 = How should I use the "Preload Images" and what is it for? =
-
-Certain themes and plugins, either load large images or sliders on the homepage. Most of them will also load "above the fold" causing the "Prioritize visible content" or the "Eliminate render-blocking JavaScript and CSS in above-the-fold content" message on pagespeed insights.
-
-While this may not work when the images are large, you can use the "Preload Images" for the first relevant images that load above the fold, such as the logo or the first image of a slider. Please note however, this is for images that show up in all pages, not just the homepage. 
-
-Don't put too many images here as those are downloaded in high priority and it will slow down the rest of the page load.
-
+You can use the "Preload Images" for the first relevant images that load above the fold on all pages, such as the logo or social icons. Do not put too many images here as those are downloaded in high priority and it will slow down the rest of the page load.
 ...
 
 = What are the recommended cloudflare settings for this plugin? =
-
 On the "Speed" tab, deselect the Auto Minify for JavaScript, CSS and HTML as well as the Rocket Loader option as there is no benefit of using them with our plugin (we already minify things). 
-
 Those options can also break the design due to double minification or the fact that the Rocket Loader is still experimental (you can read about that on the "Help" link under each selected option on cloudflare).
 
 ...
@@ -226,7 +185,7 @@ Before getting angry because you have no answer within a few hours (even with pa
 
 The plugins directory is an open source, free service where developers and programmers contribute (on their free time) with plugins that can be downloaded and installed by anyone "at their own risk" and are all released under the GPL license.
 
-While all plugins have to be approved and reviewed by the wordpress team before being published ( for dangerous code, spam, etc ) this doesn't change the license or add any warranty. All plugins are provided as they are, free of charge and should be used at your own risk (so you should make backups before installing any plugin or performing updates) and it's your sole responsability if you break your site after installing a plugin from the plugins directory.
+While all plugins have to be approved and reviewed by the WordPress team before being published ( for dangerous code, spam, etc. ) this doesn't change the license or add any warranty. All plugins are provided as they are, free of charge and should be used at your own risk (so you should make backups before installing any plugin or performing updates) and it's your sole responsibility if you break your site after installing a plugin from the plugins directory.
 
 Support is provided by plugin authors on their free time and without warranty of a reply, so you can experience different levels of support level from plugin to plugin. As the author of this plugin I strive to provide support on a daily basis and I can take a look and help you with some issues related with my plugin, but please note that this is done out of my goodwill and in no way I have any legal or moral obligation for doing this. I'm also available for hiring if you need custom made speed optimizations (check my profile links).
 
@@ -236,16 +195,17 @@ For a full version of the license, please read: https://wordpress.org/about/gpl/
 
 = Where can I get support or report bugs? =
 
-You can get support on the official wordpress plugin page at: https://wordpress.org/support/plugin/fast-velocity-minify 
-You can also see my profile and check my links if you wish to hire me for custom speed optimization on wordpress or extra features. 
+You can get support on the official WordPress plugin page at https://wordpress.org/support/plugin/fast-velocity-minify 
+You can also see my profile and check my links if you wish to hire me for custom speed optimization on WordPress or extra features. 
 
 ...
 
 = How can I donate to the plugin author? =
 
-If you would like to donate any amount to the plugin author (thank you in advance), you can do it via Paypal at https://goo.gl/vpLrSV
+If you would like to donate any amount to the plugin author (thank you in advance), you can do it via PayPal at https://goo.gl/vpLrSV
 
 ...
+
 
 
 == Upgrade Notice ==
@@ -255,6 +215,13 @@ Note: Kindly re-save all options and purge all caches (the plugin cache as well 
 
 
 == Changelog ==
+
+= 2.2.7 [2018.02.19] =
+* fixed a bug with the blacklist functionality
+* replaced PHP Minify with JSMin as the default JS minification 
+* replaced PHP Minify with CSSTidy as the default CSS minification
+* replaced PHP Minify with Minify HTML as the default HTML minification
+* moved the intermediary cache from transients to disk files
 
 = 2.2.6 [2018.01.06] =
 * fixed a bug with html minification on some files that should not be minified
