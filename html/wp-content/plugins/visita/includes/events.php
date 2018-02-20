@@ -550,6 +550,9 @@ class VisitaEvents extends VisitaBase {
       return;
     }
 
+    require_once( ABSPATH . '/wp-admin/includes/image.php' );
+    require_once( ABSPATH . '/wp-admin/includes/media.php' );
+
     // generate image sizes
     $filetype   = wp_check_filetype( $tmp );
     $attach_id  = media_handle_sideload( array(
