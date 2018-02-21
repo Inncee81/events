@@ -519,10 +519,10 @@ class VisitaEvents extends VisitaBase {
           $starts = ( $time < $starts || ! $starts ) ? $time : $starts;
           $ends = ( $time >= $ends || ! $ends ) ? ( $time + ( $values['_duration'] * 60 ) ) : $ends;
         }
-      }
 
-      update_post_meta( $post_id, '_ends', $ends );
-      update_post_meta( $post_id, '_starts', $starts );
+        update_post_meta( $post_id, '_ends', $ends );
+        update_post_meta( $post_id, '_starts', $starts );
+      }
     }
   }
 
