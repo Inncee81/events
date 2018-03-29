@@ -341,6 +341,13 @@ amp-carousel > amp-img > img {
 	color: #ababab;
 	text-decoration: none;
 }
+.hidden {
+	display: none
+}
+
+.amp-header-meta .location span {
+	margin-right: 5px;
+}
 
 .taxonomy-links {
   font-size: .7em;

@@ -2,10 +2,10 @@
 /*
 Plugin Name: Fast Velocity Minify
 Plugin URI: http://fastvelocity.com
-Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
+Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations.
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.2.7
+Version: 2.2.8
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -27,35 +27,35 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 # check for minimum requirements and prevent activation or disable if not fully compatible
 function fvm_compat_checker() {
-	global $wp_version; 
-	
+	global $wp_version;
+
 	# defaults
 	$error = '';
 	$nwpv = implode('.', array_slice(explode('.', $wp_version), 0, 2)); # get 2 p only
-	
+
 	# php version requirements
-	if (version_compare( PHP_VERSION, '5.4', '<' )) { 
-		$error = 'Fast Velocity Minify requires PHP 5.4 or higher. You’re still on '. PHP_VERSION; 
+	if (version_compare( PHP_VERSION, '5.4', '<' )) {
+		$error = 'Fast Velocity Minify requires PHP 5.4 or higher. You’re still on '. PHP_VERSION;
 	}
 
-	# php extension requirements	
-	if (!extension_loaded('mbstring')) { 
-		$error = 'Fast Velocity Minify requires the PHP mbstring module to be installed on the server.'; 
+	# php extension requirements
+	if (!extension_loaded('mbstring')) {
+		$error = 'Fast Velocity Minify requires the PHP mbstring module to be installed on the server.';
 	}
-	
+
 	# wp version requirements
-	if ( $nwpv < '4.5' ) { 
-		$error = 'Fast Velocity Minify requires WP 4.5 or higher. You’re still on ' . $wp_version; 
+	if ( $nwpv < '4.5' ) {
+		$error = 'Fast Velocity Minify requires WP 4.5 or higher. You’re still on ' . $wp_version;
 	}
 
-	
-	if ((is_plugin_active(plugin_basename( __FILE__ )) && !empty($error)) || !empty($error)) { 
+
+	if ((is_plugin_active(plugin_basename( __FILE__ )) && !empty($error)) || !empty($error)) {
 		if (isset($_GET['activate'])) { unset($_GET['activate']); }
-			deactivate_plugins( plugin_basename( __FILE__ )); 
-			add_action('admin_notices', function() use ($error){ 
-				echo '<div class="notice notice-error is-dismissible"><p><strong>'.$error.'</strong></p></div>'; 
+			deactivate_plugins( plugin_basename( __FILE__ ));
+			add_action('admin_notices', function() use ($error){
+				echo '<div class="notice notice-error is-dismissible"><p><strong>'.$error.'</strong></p></div>';
 			});
-	} 
+	}
 }
 add_action('admin_init', 'fvm_compat_checker');
 
@@ -100,7 +100,7 @@ $disable_css_merge = get_option('fastvelocity_min_disable_css_merge');
 $disable_js_minification = get_option('fastvelocity_min_disable_js_minification');
 $disable_css_minification = get_option('fastvelocity_min_disable_css_minification');
 $use_yui = get_option('fastvelocity_min_use_yui');
-$remove_print_mediatypes = get_option('fastvelocity_min_remove_print_mediatypes'); 
+$remove_print_mediatypes = get_option('fastvelocity_min_remove_print_mediatypes');
 $skip_html_minification = get_option('fastvelocity_min_skip_html_minification');
 $use_alt_html_minification = get_option('fastvelocity_min_use_alt_html_minification');
 $strip_htmlcomments = get_option('fastvelocity_min_strip_htmlcomments');
@@ -144,21 +144,21 @@ if(is_admin()) {
     add_action('admin_init', 'fastvelocity_min_register_settings');
     register_deactivation_hook( __FILE__, 'fastvelocity_min_plugin_deactivate');
 } else {
-		
+
 	# skip on certain post_types or if there are specific keys on the url or if editor or admin
-	if(!fastvelocity_exclude_contents()) {	
-	
+	if(!fastvelocity_exclude_contents()) {
+
 	# actions for frontend only
-	if(!$disable_js_merge) { 
+	if(!$disable_js_merge) {
 		add_action( 'wp_print_scripts', 'fastvelocity_min_merge_header_scripts', PHP_INT_MAX );
-		add_action( 'wp_print_footer_scripts', 'fastvelocity_min_merge_footer_scripts', 9.999999 ); 
+		add_action( 'wp_print_footer_scripts', 'fastvelocity_min_merge_footer_scripts', 9.999999 );
 	}
-	if(!$disable_css_merge) { 
+	if(!$disable_css_merge) {
 		add_action('wp_head', 'fvm_buffer_placeholder_top', 0);
-		add_action('wp_print_styles', 'fastvelocity_min_merge_header_css', PHP_INT_MAX ); 
+		add_action('wp_print_styles', 'fastvelocity_min_merge_header_css', PHP_INT_MAX );
 		add_action('wp_print_footer_scripts', 'fastvelocity_min_merge_footer_css', 9.999999 );
 	}
-	if(!$skip_emoji_removal) { 
+	if(!$skip_emoji_removal) {
 		add_action( 'init', 'fastvelocity_min_disable_wp_emojicons' );
 	}
 
@@ -172,19 +172,19 @@ add_action( 'plugins_loaded', 'fastvelocity_fix_editor' );
 function fastvelocity_fix_editor() {
 global $fvm_fix_editor, $disable_js_merge, $disable_css_merge, $skip_emoji_removal;
 if($fvm_fix_editor == true && is_user_logged_in()) {
-	if(!$disable_js_merge) {	
+	if(!$disable_js_merge) {
 		remove_action( 'wp_print_scripts', 'fastvelocity_min_merge_header_scripts', PHP_INT_MAX );
-		remove_action( 'wp_print_footer_scripts', 'fastvelocity_min_merge_footer_scripts', 9.999999 ); 
+		remove_action( 'wp_print_footer_scripts', 'fastvelocity_min_merge_footer_scripts', 9.999999 );
 	}
-	if(!$disable_css_merge) { 
+	if(!$disable_css_merge) {
 		remove_action('wp_head', 'fvm_buffer_placeholder_top', 0);
-		remove_action('wp_print_styles', 'fastvelocity_min_merge_header_css', PHP_INT_MAX ); 
+		remove_action('wp_print_styles', 'fastvelocity_min_merge_header_css', PHP_INT_MAX );
 		remove_action('wp_print_footer_scripts', 'fastvelocity_min_merge_footer_css', 9.999999 );
 	}
-	if(!$skip_emoji_removal) { 
+	if(!$skip_emoji_removal) {
 		remove_action( 'init', 'fastvelocity_min_disable_wp_emojicons' );
 	}
-} 
+}
 }
 
 
@@ -205,7 +205,7 @@ function fastvelocity_min_files_callback() {
 	# default
 	$size = fastvelocity_get_cachestats();
     $return = array('js' => array(), 'css' => array(), 'stamp' => $_POST['stamp'], 'cachesize'=> $size);
-	
+
 	# inspect directory with opendir, since glob might not be available in some systems
 	clearstatcache();
 	if ($handle = opendir($cachedir.'/')) {
@@ -220,7 +220,7 @@ function fastvelocity_min_files_callback() {
                 if ($ext == 'css' && file_exists($mincss)) { $filename = basename($mincss); }
                 if ($ext == 'js' && file_exists($minjs)) { $filename = basename($minjs); }
 				$fsize = fastvelocity_format_filesize(filesize($file));
-				
+
 				# get location, hash, log
 				$info = explode('-', $filename);
 				$hash = $info['1'];
@@ -274,7 +274,7 @@ function fastvelocity_min_register_settings() {
 	register_setting('fvm-group', 'fastvelocity_min_preconnect');
 	register_setting('fvm-group', 'fastvelocity_min_fvm_fix_editor');
 	register_setting('fvm-group', 'fastvelocity_min_fvm_cdn_url');
-	
+
 	# pro version (for private usage... or if you know what you're doing)
 	register_setting('fvm-group-pro', 'fastvelocity_min_loadcss');
 	register_setting('fvm-group-pro', 'fastvelocity_min_fvm_removecss');
@@ -290,9 +290,9 @@ function fastvelocity_min_register_settings() {
 
 # add settings link on plugin page
 function fastvelocity_min_settings_link($links) {
-if (is_plugin_active(plugin_basename( __FILE__ ))) { 
-$settings_link = '<a href="options-general.php?page=fastvelocity-min&tab=settings">Settings</a>'; 
-array_unshift($links, $settings_link); 
+if (is_plugin_active(plugin_basename( __FILE__ ))) {
+$settings_link = '<a href="options-general.php?page=fastvelocity-min&tab=settings">Settings</a>';
+array_unshift($links, $settings_link);
 }
 return $links;
 }
@@ -317,7 +317,7 @@ $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'status';
 <?php
 
 # purge all caches
-if(isset($_POST['purgeall']) && $_POST['purgeall'] == 1) { 
+if(isset($_POST['purgeall']) && $_POST['purgeall'] == 1) {
 fvm_purge_all(); # purge all
 echo  __('<div class="notice notice-success is-dismissible"><p>The <strong>CSS and JS</strong> files have been purged!</p></div>');
 echo fastvelocity_purge_others(); # purge third party caches
@@ -325,7 +325,7 @@ echo fastvelocity_purge_others(); # purge third party caches
 ?>
 
 <h2 class="nav-tab-wrapper wp-clearfix">
-    <a href="?page=fastvelocity-min&tab=status" class="nav-tab <?php echo $active_tab == 'status' ? 'nav-tab-active' : ''; ?>">Status</a> 
+    <a href="?page=fastvelocity-min&tab=status" class="nav-tab <?php echo $active_tab == 'status' ? 'nav-tab-active' : ''; ?>">Status</a>
     <a href="?page=fastvelocity-min&tab=settings" class="nav-tab <?php echo $active_tab == 'settings' ? 'nav-tab-active' : ''; ?>">Settings</a>
 	<a href="?page=fastvelocity-min&tab=pro" class="nav-tab <?php echo $active_tab == 'pro' ? 'nav-tab-active' : ''; ?>">Pro</a>
 	<a href="?page=fastvelocity-min&tab=server" class="nav-tab <?php echo $active_tab == 'server' ? 'nav-tab-active' : ''; ?>">Server Info</a>
@@ -339,13 +339,13 @@ echo fastvelocity_purge_others(); # purge third party caches
     <div id="poststuff">
         <div id="fastvelocity_min_processed" class="postbox-container">
 			<div class="meta-box">
-			
+
 				<div class="postbox" id="tab-purge">
                     <h3 class="hndle"><span>Purge the cache files </span></h3>
                     <div class="inside" id="fastvelocity_min_topbtns">
                         <ul class="processed">
 						<li id="purgeall-row">
-							<span class="filename">Purge FVM cache directory (<span id="fvm_cache_size"><?php echo fastvelocity_get_cachestats(); ?></span>)</span> 
+							<span class="filename">Purge FVM cache directory (<span id="fvm_cache_size"><?php echo fastvelocity_get_cachestats(); ?></span>)</span>
 							<span class="actions">
 							<form method="post" id="fastvelocity_min_clearall" action="<?php echo admin_url('options-general.php?page=fastvelocity-min&tab=status'); ?>">
 							<input type="hidden" name="purgeall" value="1" />
@@ -354,8 +354,8 @@ echo fastvelocity_purge_others(); # purge third party caches
 						</li>
 						</ul>
                     </div>
-                </div>				
-			
+                </div>
+
                 <div class="postbox" id="tab-js">
                     <h3 class="hndle"><span>List of processed JS files</span></h3>
                     <div class="inside" id="fastvelocity_min_jsprocessed">
@@ -369,7 +369,7 @@ echo fastvelocity_purge_others(); # purge third party caches
                         <ul class="processed"></ul>
                     </div>
                 </div>
-					
+
             </div>
         </div>
     </div>
@@ -403,7 +403,7 @@ Fix Page Editors <span class="note-info">[ If selected, logged in users will byp
 <tr>
 <th scope="row">URL Options</th>
 <td>
-<?php 
+<?php
 # what to select
 $sel = get_option('fastvelocity_min_default_protocol');
 $a = ''; if($sel == 'dynamic' || empty($sel)) { $a = ' checked="checked"'; }
@@ -690,7 +690,7 @@ Skip deferring completely on the login page <span class="note-info">[ If selecte
 <label for="fastvelocity_min_fvm_removecss">
 <input name="fastvelocity_min_fvm_removecss" type="checkbox" id="fastvelocity_min_fvm_removecss" value="1" <?php echo checked(1 == get_option('fastvelocity_min_fvm_removecss'), true, false); ?>>
 Dequeue all CSS files <span class="note-info">[ Use this if you have your uncss code, your own css file or want to test how the critical path css looks like ]</span></label>
-</td> 
+</td>
 </tr>
 </tbody></table>
 
@@ -794,10 +794,10 @@ Async CSS with LoadCSS<span class="note-info">[ Only works if "Inline all header
 <p class="submit"><input type="submit" name="fastvelocity_min_save_options" id="fastvelocity_min_save_options" class="button button-primary" value="Save Changes"></p>
 </form>
 
-<?php 
+<?php
 }
 
-if( $active_tab == 'server' ) { 
+if( $active_tab == 'server' ) {
 fvm_get_generalinfo();
 }
 ?>
@@ -808,12 +808,12 @@ fvm_get_generalinfo();
     <div id="poststuff">
         <div id="fastvelocity_min_processed" class="postbox-container">
 			<div class="meta-box-sortables ui-sortable">
-		
+
 				<div class="postbox" id="tab-info">
                     <h3 class="hndle"><span>Frequently Asked Questions</span></h3>
                     <div class="inside"><? echo fastvelocity_min_readme($plugindir.'readme.txt'); ?></div>
                 </div>
-			
+
             </div>
         </div>
     </div>
@@ -838,7 +838,7 @@ global $wp_scripts, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl
 if(!is_object($wp_scripts)) { return false; }
 $scripts = wp_clone($wp_scripts);
 $scripts->all_deps($scripts->queue);
-$ctime = get_option('fvm-last-cache-update', '0'); 
+$ctime = get_option('fvm-last-cache-update', '0');
 $header = array();
 
 # mark as done (as we go)
@@ -855,30 +855,30 @@ $is_footer = 0; if (isset($wp_scripts->registered[$handle]->extra["group"]) || i
 
 	# skip footer scripts for now
 	if($is_footer != 1) {
-		
+
 	# get full url
 	$hurl = fastvelocity_min_get_hurl($wp_scripts->registered[$handle]->src, $wp_domain, $wp_home);
-	
+
 	# IE only files don't increment things
 	$ieonly = fastvelocity_ie_blacklist($hurl);
 	if($ieonly == true) { continue; }
 
 	# skip ignore list, scripts with conditionals, external scripts
 	if ((!fastvelocity_min_in_arrayi($hurl, $ignore) && !isset($wp_scripts->registered[$handle]->extra["conditional"]) && fvm_internal_url($hurl, $wp_home)) || empty($hurl)) {
-			
+
 		# process
 		if(isset($header[count($header)-1]['handle']) || count($header) == 0) {
 			array_push($header, array('handles'=>array()));
 		}
-			
+
 		# push it to the array
 		array_push($header[count($header)-1]['handles'], $handle);
 
 		# external and ignored scripts
-	} else { 
+	} else {
 		array_push($header, array('handle'=>$handle));
 	}
-	
+
 	# make sure that the scripts skipped here, show up in the footer
 	} else {
 		$hurl = fastvelocity_min_get_hurl($wp_scripts->registered[$handle]->src, $wp_domain, $wp_home);
@@ -893,31 +893,31 @@ endforeach;
 # loop through header scripts and merge
 for($i=0,$l=count($header);$i<$l;$i++) {
 	if(!isset($header[$i]['handle'])) {
-		
+
 		# static cache file info + done
-		$done = array_merge($done, $header[$i]['handles']);		
+		$done = array_merge($done, $header[$i]['handles']);
 		$hash = 'header-'.hash('adler32',implode('',$header[$i]['handles']));
 
 		# create cache files and urls
 		$file = $cachedir.'/'.$hash.'-'.$ctime.'.min.js';
 		$file_url = fvm_get_protocol($cachedirurl.'/'.$hash.'-'.$ctime.'.min.js');
-		
+
 		# generate a new cache file
 		clearstatcache();
 		if (!file_exists($file)) {
-			
+
 			# code and log initialization
 			$log = '';
-			$code = '';	
-		
+			$code = '';
+
 			# minify and write to file
 			foreach($header[$i]['handles'] as $handle) :
 				if(!empty($wp_scripts->registered[$handle]->src)) {
-					
+
 					# get hurl per handle
 					$hurl = fastvelocity_min_get_hurl($wp_scripts->registered[$handle]->src, $wp_domain, $wp_home);
 					$printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $hurl);
-					
+
 					# get code from hurl, if available and valid
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
 					$newcode = false; $newcode = fvm_get_transient($tkey);
@@ -930,41 +930,41 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 					} else {
 						$newlog = "$printurl --- Debug: Fetched from transients cache with key $tkey ---\n";
 					}
-		
+
 					# append
-					if($newcode !== false) { 
+					if($newcode !== false) {
 						$code.= $newcode;
-						$log.= $newlog;					
-					}	
-			
+						$log.= $newlog;
+					}
+
 				# consider dependencies on handles with an empty src
 				} else {
 					wp_dequeue_script($handle); wp_enqueue_script($handle);
 				}
-			endforeach;	
-			
+			endforeach;
+
 			# prepare log
 			$log = "PROCESSED on ".date('r')."\n".$log."PROCESSED from ".home_url(add_query_arg( NULL, NULL ))."\n";
-			
+
 			# generate cache, write log
 			file_put_contents($file.'.txt', $log);
 			file_put_contents($file, $code);
 			file_put_contents($file.'.gz', gzencode(file_get_contents($file), 9));
 		}
-		
+
 		# register minified file
-		wp_register_script("fvm-header-$i", $file_url, array(), null, false); 
-		
+		wp_register_script("fvm-header-$i", $file_url, array(), null, false);
+
 		# add all extra data from wp_localize_script
 		$data = array();
-		foreach($header[$i]['handles'] as $handle) { 					
+		foreach($header[$i]['handles'] as $handle) {
 			if(isset($wp_scripts->registered[$handle]->extra['data'])) { $data[] = $wp_scripts->registered[$handle]->extra['data']; }
 		}
 		if(count($data) > 0) { $wp_scripts->registered["fvm-header-$i"]->extra['data'] = implode("\n", $data); }
-		
+
 		# enqueue file
 		wp_enqueue_script("fvm-header-$i");
-	
+
 	# other scripts need to be requeued for the order of files to be kept
 	} else {
 		wp_dequeue_script($header[$i]['handle']); wp_enqueue_script($header[$i]['handle']);
@@ -984,7 +984,7 @@ $wp_scripts->done = $done;
 function fastvelocity_min_merge_footer_scripts() {
 global $wp_scripts, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_js_merge, $disable_js_minification, $enable_defer_js, $exclude_defer_jquery;
 if(!is_object($wp_scripts)) { return false; }
-$ctime = get_option('fvm-last-cache-update', '0'); 
+$ctime = get_option('fvm-last-cache-update', '0');
 $scripts = wp_clone($wp_scripts);
 $scripts->all_deps($scripts->queue);
 $footer = array();
@@ -1001,24 +1001,24 @@ foreach( $scripts->to_do as $handle ) :
 
 	# get full url
 	$hurl = fastvelocity_min_get_hurl($wp_scripts->registered[$handle]->src, $wp_domain, $wp_home);
-	
+
 	# IE only files don't increment things
 	$ieonly = fastvelocity_ie_blacklist($hurl);
 	if($ieonly == true) { continue; }
-	
+
 	# skip ignore list, scripts with conditionals, external scripts
 	if ((!fastvelocity_min_in_arrayi($hurl, $ignore) && !isset($wp_scripts->registered[$handle]->extra["conditional"]) && fvm_internal_url($hurl, $wp_home)) || empty($hurl)) {
-			
+
 		# process
 		if(isset($footer[count($footer)-1]['handle']) || count($footer) == 0) {
 			array_push($footer, array('handles'=>array()));
 		}
-		
+
 		# push it to the array
 		array_push($footer[count($footer)-1]['handles'], $handle);
-				
+
 	# external and ignored scripts
-	} else { 
+	} else {
 		array_push($footer, array('handle'=>$handle));
 	}
 endforeach;
@@ -1026,31 +1026,31 @@ endforeach;
 # loop through footer scripts and merge
 for($i=0,$l=count($footer);$i<$l;$i++) {
 	if(!isset($footer[$i]['handle'])) {
-		
+
 		# static cache file info + done
-		$done = array_merge($done, $footer[$i]['handles']);		
+		$done = array_merge($done, $footer[$i]['handles']);
 		$hash = 'footer-'.hash('adler32',implode('',$footer[$i]['handles']));
 
 		# create cache files and urls
 		$file = $cachedir.'/'.$hash.'-'.$ctime.'.min.js';
 		$file_url = fvm_get_protocol($cachedirurl.'/'.$hash.'-'.$ctime.'.min.js');
-	
+
 		# generate a new cache file
 		clearstatcache();
 		if (!file_exists($file)) {
-			
+
 			# code and log initialization
 			$log = '';
-			$code = '';	
-		
+			$code = '';
+
 			# minify and write to file
 			foreach($footer[$i]['handles'] as $handle) :
 				if(!empty($wp_scripts->registered[$handle]->src)) {
-					
+
 					# get hurl per handle
 					$hurl = fastvelocity_min_get_hurl($wp_scripts->registered[$handle]->src, $wp_domain, $wp_home);
 					$printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $hurl);
-					
+
 					# get css from hurl, if available and valid
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
 					$newcode = false; $newcode = fvm_get_transient($tkey);
@@ -1063,41 +1063,41 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 					} else {
 						$newlog = "$printurl --- Debug: Fetched from transients cache with key $tkey ---\n";
 					}
-		
+
 					# append
-					if($newcode !== false) { 
+					if($newcode !== false) {
 						$code.= $newcode;
-						$log.= $newlog;					
-					}	
-			
+						$log.= $newlog;
+					}
+
 				# consider dependencies on handles with an empty src
 				} else {
 					wp_dequeue_script($handle); wp_enqueue_script($handle);
 				}
-			endforeach;	
-			
+			endforeach;
+
 			# prepare log
 			$log = "PROCESSED on ".date('r')."\n".$log."PROCESSED from ".home_url(add_query_arg( NULL, NULL ))."\n";
-		
+
 			# generate cache, write log
 			file_put_contents($file.'.txt', $log);
 			file_put_contents($file, $code);
 			file_put_contents($file.'.gz', gzencode(file_get_contents($file), 9));
 		}
-		
+
 		# register minified file
-		wp_register_script("fvm-footer-$i", $file_url, array(), null, false); 
-		
+		wp_register_script("fvm-footer-$i", $file_url, array(), null, false);
+
 		# add all extra data from wp_localize_script
 		$data = array();
-		foreach($footer[$i]['handles'] as $handle) { 					
+		foreach($footer[$i]['handles'] as $handle) {
 			if(isset($wp_scripts->registered[$handle]->extra['data'])) { $data[] = $wp_scripts->registered[$handle]->extra['data']; }
 		}
 		if(count($data) > 0) { $wp_scripts->registered["fvm-footer-$i"]->extra['data'] = implode("\n", $data); }
-		
+
 		# enqueue file
 		wp_enqueue_script("fvm-footer-$i");
-	
+
 	# other scripts need to be requeued for the order of files to be kept
 	} else {
 		wp_dequeue_script($footer[$i]['handle']); wp_enqueue_script($footer[$i]['handle']);
@@ -1119,10 +1119,10 @@ global $ignore, $blacklist, $ignorelist, $enable_defer_js, $defer_for_pagespeed,
 
 # no query strings
 $tag = trim($tag); # must cleanup
-if (stripos($src, '?ver') !== false) { 
-	$srcf = stristr($src, '?ver', true); 
-	$tag = str_ireplace($src, $srcf, $tag); 
-	$src = $srcf; 
+if (stripos($src, '?ver') !== false) {
+	$srcf = stristr($src, '?ver', true);
+	$tag = str_ireplace($src, $srcf, $tag);
+	$src = $srcf;
 }
 
 # should we exclude defer on the login page?
@@ -1143,9 +1143,9 @@ if($fvm_fix_editor == true && is_user_logged_in()) { return $tag; }
 $dom = new DOMDocument();
 libxml_use_internal_errors(true);
 @$dom->loadHTML($tag);
-$nodes = $dom->getElementsByTagName('script'); 
+$nodes = $dom->getElementsByTagName('script');
 $tagdefer = '';
-if ($nodes->length != 0) { 
+if ($nodes->length != 0) {
 	$node = $dom->getElementsByTagName('script')->item(0);
 	if (!$node->hasAttribute('async')) { $node->setAttribute('defer','defer'); };
 	$tagdefer = $dom->saveHTML($node);
@@ -1155,7 +1155,7 @@ if ($nodes->length != 0) {
 if($enable_defer_js == true) { return $tagdefer; }
 
 # return if no defer, and there's no defer for pagespeed... else pagespeed processing
-if ($defer_for_pagespeed != true) { return $tag; } else { 
+if ($defer_for_pagespeed != true) { return $tag; } else {
 
 # return if external script url https://www.chromestatus.com/feature/5718547946799104
 if (fvm_is_local_domain($src) == true) { return $tag; }
@@ -1164,13 +1164,13 @@ if (fvm_is_local_domain($src) == true) { return $tag; }
 if (stripos($tag, "\n") !== false) { return $tag; }
 
 # print code if there are no linebreaks, or return
-if(!empty($tagdefer)) { 
-	$deferinsights = '<script type="text/javascript">if(navigator.userAgent.match(/speed|gtmetrix|x11.*firefox\/53|x11.*chrome\/39/i)){document.write('.json_encode($tagdefer).');}else{document.write('.json_encode($tag).');}</script>';	
+if(!empty($tagdefer)) {
+	$deferinsights = '<script type="text/javascript">if(navigator.userAgent.match(/speed|gtmetrix|x11.*firefox\/53|x11.*chrome\/39/i)){document.write('.json_encode($tagdefer).');}else{document.write('.json_encode($tag).');}</script>';
 	return preg_replace('#<script(.*?)>(.*?)</script>#is', $deferinsights, $tag);
 }
 
 # fallback
-return $tag; 
+return $tag;
 }
 
 }
@@ -1184,7 +1184,7 @@ return $tag;
 function fastvelocity_min_merge_header_css() {
 global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css, $force_inline_googlefonts, $remove_googlefonts, $loadcss, $critical_path_css, $fvm_remove_css;
 if(!is_object($wp_styles)) { return false; }
-$ctime = get_option('fvm-last-cache-update', '0'); 
+$ctime = get_option('fvm-last-cache-update', '0');
 $styles = wp_clone($wp_styles);
 $styles->all_deps($styles->queue);
 $done = $styles->done;
@@ -1198,7 +1198,7 @@ if($fvm_remove_css != false) {
 	foreach( $styles->to_do as $handle ) :
 		$done = array_merge($done, array($handle));
 	endforeach;
-	
+
 	# remove from queue
 	$wp_styles->done = $done;
 	return false;
@@ -1213,35 +1213,35 @@ $uniq = array(); $gfonts = array();
 foreach( $styles->to_do as $handle):
 
 	# conditionals
-	$conditional = NULL; if(isset($wp_styles->registered[$handle]->extra["conditional"])) { 
+	$conditional = NULL; if(isset($wp_styles->registered[$handle]->extra["conditional"])) {
 		$conditional = $wp_styles->registered[$handle]->extra["conditional"]; # such as ie7, ie8, ie9, etc
 	}
-	
+
 	# mediatype
 	$mediatype = isset($wp_styles->registered[$handle]->args) ? $wp_styles->registered[$handle]->args : 'all'; # such as all, print, mobile, etc
-	if ($mediatype == 'screen' || $mediatype == 'screen, print') { $mediatype = 'all'; } 
-	
+	if ($mediatype == 'screen' || $mediatype == 'screen, print') { $mediatype = 'all'; }
+
 	# full url or empty
-	$hurl = fastvelocity_min_get_hurl($wp_styles->registered[$handle]->src, $wp_domain, $wp_home); 	
-	
+	$hurl = fastvelocity_min_get_hurl($wp_styles->registered[$handle]->src, $wp_domain, $wp_home);
+
 	# mark duplicates as done and remove from the queue
 	if(!empty($hurl)) {
-		$key = hash('adler32', $hurl); 
+		$key = hash('adler32', $hurl);
 		if (isset($uniq[$key])) { $done = array_merge($done, array($handle)); continue; } else { $uniq[$key] = $handle; }
 	}
-	
+
 	# array of info to save
 	$arr = array('handle'=>$handle, 'url'=>$hurl, 'conditional'=>$conditional, 'mediatype'=>$mediatype);
-	
+
 	# google fonts to the top (collect and skip process array)
-	if (stripos($hurl, 'fonts.googleapis.com') !== false) { 
+	if (stripos($hurl, 'fonts.googleapis.com') !== false) {
 	if($remove_googlefonts != false) { $done = array_merge($done, array($handle)); continue; } # mark as done if to be removed
 	if(!$skip_google_fonts) { $google_fonts[$handle] = $hurl; } else {
 		wp_enqueue_style($handle); # skip google fonts optimization?
 	}
-	continue; 
-	} 
-	
+	continue;
+	}
+
 	# all else
 	$process[$handle] = $arr;
 
@@ -1255,7 +1255,7 @@ if(!$skip_google_fonts && count($google_fonts) > 0) {
 	if($force_inline_googlefonts == false) {
 			wp_enqueue_style('header-fvm-fonts', fvm_get_protocol($concat_google_fonts), array(), null, 'all');
 	} else {
-		
+
 		# google fonts download and inlining, ignore logs
 		$tkey = 'fvm-cache-'.$ctime.hash('adler32', $concat_google_fonts);
 		$newcode = false; $newcode = fvm_get_transient($tkey);
@@ -1263,13 +1263,13 @@ if(!$skip_google_fonts && count($google_fonts) > 0) {
 			$res = fvm_download_and_cache($concat_google_fonts, $tkey, null, $disable_css_minification, 'css');
 			if(is_array($res)) { $newcode = $res['code']; }
 		}
-		
+
 		# inline css or fail
-		if($newcode !== false) { 
-			echo '<style type="text/css" media="all">'.$newcode.'</style>'."\n";				
+		if($newcode !== false) {
+			echo '<style type="text/css" media="all">'.$newcode.'</style>'."\n";
 		} else {
 			echo "<!-- GOOGLE FONTS REQUEST FAILED for $concat_google_fonts -->\n";     # log if failed
-		}	
+		}
 	}
 }
 
@@ -1291,27 +1291,27 @@ $mediatype = $process[$handle]['mediatype'];
 	# IE only files don't increment things
 	$ieonly = fastvelocity_ie_blacklist($hurl);
 	if($ieonly == true) { continue; }
-	
+
 	# skip ignore list, conditional css, external css
 	if ((!fastvelocity_min_in_arrayi($hurl, $ignore) && !isset($conditional) && fvm_internal_url($hurl, $wp_home)) || empty($hurl)) {
-	
+
 	# colect inline css for this handle
-	if(isset($wp_styles->registered[$handle]->extra['after']) && is_array($wp_styles->registered[$handle]->extra['after'])) { 
+	if(isset($wp_styles->registered[$handle]->extra['after']) && is_array($wp_styles->registered[$handle]->extra['after'])) {
 		$inline_css[$handle] = fastvelocity_min_minify_css_string(implode('', $wp_styles->registered[$handle]->extra['after'])); # save
 		$wp_styles->registered[$handle]->extra['after'] = null; # dequeue
-	}	
-	
+	}
+
 	# process
 	if(isset($header[count($header)-1]['handle']) || count($header) == 0 || $header[count($header)-1]['media'] != $mediatype) {
-		array_push($header, array('handles'=>array(), 'media'=>$mediatype)); 
+		array_push($header, array('handles'=>array(), 'media'=>$mediatype));
 	}
-	
+
 	# push it to the array
 	array_push($header[count($header)-1]['handles'], $handle);
 
 	# external and ignored css
 	} else {
-		
+
 		# normal enqueuing
 		array_push($header, array('handle'=>$handle));
 	}
@@ -1323,19 +1323,19 @@ if(!$skip_cssorder) {
 	if(count($header) > 0) {
 
 		# get unique mediatypes
-		$allmedia = array(); 
-		foreach($header as $array) { 
-			if(isset($array['media'])) { $allmedia[$array['media']] = ''; } 
+		$allmedia = array();
+		foreach($header as $array) {
+			if(isset($array['media'])) { $allmedia[$array['media']] = ''; }
 		}
 
 		# extract handles by mediatype
-		$grouphandles = array(); 
-		foreach ($allmedia as $md=>$var) { 
-			foreach($header as $array) { 
-				if (isset($array['media']) && $array['media'] == $md) { 
-					foreach($array['handles'] as $h) { $grouphandles[$md][] = $h; } 
-				} 
-			} 
+		$grouphandles = array();
+		foreach ($allmedia as $md=>$var) {
+			foreach($header as $array) {
+				if (isset($array['media']) && $array['media'] == $md) {
+					foreach($array['handles'] as $h) { $grouphandles[$md][] = $h; }
+				}
+			}
 		}
 
 		# reset and reorder header by mediatypes
@@ -1347,43 +1347,43 @@ if(!$skip_cssorder) {
 
 # critical path
 if(!empty($critical_path_css) && $critical_path_css != false) {
-	echo '<style id="critical-path-global" type="text/css" media="all">'.$critical_path_css.'</style>'."\n"; 
+	echo '<style id="critical-path-global" type="text/css" media="all">'.$critical_path_css.'</style>'."\n";
 }
 
 
 # loop through header css and merge
 for($i=0,$l=count($header);$i<$l;$i++) {
 	if(!isset($header[$i]['handle'])) {
-		
+
 		# get has for the inline css in this group
 		$inline_css_group = array();
 		foreach($header[$i]['handles'] as $h) { if(isset($inline_css[$h]) && !empty($inline_css[$h])) { $inline_css_group[] = $inline_css[$h]; } }
 		$inline_css_hash = md5(implode('',$inline_css_group));
-		
+
 		# static cache file info + done
-		$done = array_merge($done, $header[$i]['handles']);		
+		$done = array_merge($done, $header[$i]['handles']);
 		$hash = 'header-'.hash('adler32',implode('',$header[$i]['handles']).$inline_css_hash);
 
 		# create cache files and urls
 		$file = $cachedir.'/'.$hash.'-'.$ctime.'.min.css';
-		$file_url = fvm_get_protocol($cachedirurl.'/'.$hash.'-'.$ctime.'.min.css'); 
-		
+		$file_url = fvm_get_protocol($cachedirurl.'/'.$hash.'-'.$ctime.'.min.css');
+
 		# generate a new cache file
 		clearstatcache();
 		if (!file_exists($file)) {
-			
+
 			# code and log initialization
 			$log = '';
-			$code = '';	
-		
+			$code = '';
+
 			# minify and write to file
 			foreach($header[$i]['handles'] as $handle) :
 				if(!empty($wp_styles->registered[$handle]->src)) {
-					
+
 					# get hurl per handle
 					$hurl = fastvelocity_min_get_hurl($wp_styles->registered[$handle]->src, $wp_domain, $wp_home);
 					$printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $hurl);
-					
+
 					# get css from hurl, if available and valid
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
 					$newcode = false; $newcode = fvm_get_transient($tkey);
@@ -1396,36 +1396,36 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 					} else {
 						$newlog = "$printurl --- Debug: Fetched from transients cache with key $tkey ---\n";
 					}
-		
+
 					# append
-					if($newcode !== false) { 
-						$code.= $newcode; 
+					if($newcode !== false) {
+						$code.= $newcode;
 						if(isset($inline_css[$handle]) && !empty($inline_css[$handle])) { $code.= $inline_css[$handle]; } # add inline css on the fly
-						$log.= $newlog;					
-					}	
-			
+						$log.= $newlog;
+					}
+
 				# consider dependencies on handles with an empty src
 				} else {
 					wp_dequeue_script($handle); wp_enqueue_script($handle);
 				}
-			endforeach;	
-			
+			endforeach;
+
 			# prepare log
 			$log = "PROCESSED on ".date('r')."\n".$log."PROCESSED from ".home_url(add_query_arg( NULL, NULL ))."\n";
-			
+
 			# generate cache, write log
 			file_put_contents($file.'.txt', $log);
 			file_put_contents($file, $code);
 			file_put_contents($file.'.gz', gzencode(file_get_contents($file), 9));
-						
+
 		}
-		
+
 		# register and enqueue minified file, consider excluding of mediatype "print" and inline css
 		if ($remove_print_mediatypes != 1 || ($remove_print_mediatypes == 1 && $header[$i]['media'] != 'print')) {
 			if($force_inline_css != false) {
 				echo '<style type="text/css" media="'.$header[$i]['media'].'">'.file_get_contents($file).'</style>';
 			} else {
-				
+
 				# move CSS to footer with loadCSS ?
 				if($loadcss != false) {
 					if($fvm_remove_css != true) {
@@ -1445,11 +1445,11 @@ EOF;
 
 					}
 				} else {
-				
+
 					# default
-					wp_register_style("fvm-header-$i", $file_url, array(), null, $header[$i]['media']); 
+					wp_register_style("fvm-header-$i", $file_url, array(), null, $header[$i]['media']);
 					wp_enqueue_style("fvm-header-$i");
-				
+
 				}
 			}
 		}
@@ -1473,7 +1473,7 @@ $wp_styles->done = $done;
 function fastvelocity_min_merge_footer_css() {
 global $wp_styles, $wp_domain, $wp_home, $wp_home_path, $cachedir, $cachedirurl, $ignore, $disable_css_merge, $disable_css_minification, $skip_google_fonts, $skip_cssorder, $remove_print_mediatypes, $force_inline_css_footer, $force_inline_googlefonts, $remove_googlefonts, $loadcss, $fvm_remove_css;
 if(!is_object($wp_styles)) { return false; }
-$ctime = get_option('fvm-last-cache-update', '0'); 
+$ctime = get_option('fvm-last-cache-update', '0');
 $styles = wp_clone($wp_styles);
 $styles->all_deps($styles->queue);
 $done = $styles->done;
@@ -1486,7 +1486,7 @@ if($fvm_remove_css != false) {
 	foreach( $styles->to_do as $handle ) :
 		$done = array_merge($done, array($handle));
 	endforeach;
-	
+
 	# remove from queue
 	$wp_styles->done = $done;
 	return false;
@@ -1500,13 +1500,13 @@ $ignore = fastvelocity_default_ignore($ignore);
 foreach( $styles->to_do as $handle ) :
 	# dequeue and get a list of google fonts, or requeue external
 	$hurl = fastvelocity_min_get_hurl($wp_styles->registered[$handle]->src, $wp_domain, $wp_home);
-	if (stripos($hurl, 'fonts.googleapis.com') !== false) { 
-		wp_dequeue_style($handle); 
+	if (stripos($hurl, 'fonts.googleapis.com') !== false) {
+		wp_dequeue_style($handle);
 		if($remove_googlefonts != false) { $done = array_merge($done, array($handle)); continue; } # mark as done if to be removed
-		if(!$skip_google_fonts) { $google_fonts[$handle] = $hurl; } else { 
+		if(!$skip_google_fonts) { $google_fonts[$handle] = $hurl; } else {
 				wp_enqueue_style($handle); # skip google fonts optimization?
-		} 
-	} else { 
+		}
+	} else {
 		wp_dequeue_style($handle); wp_enqueue_style($handle); # failsafe
 	}
 endforeach;
@@ -1519,7 +1519,7 @@ if(!$skip_google_fonts && count($google_fonts) > 0) {
 	if($force_inline_googlefonts == false) {
 		wp_enqueue_style('footer-fvm-fonts', fvm_get_protocol($concat_google_fonts), array(), null, 'all');
 	} else {
-		
+
 		# google fonts download and inlining, ignore logs
 		$tkey = 'fvm-cache-'.$ctime.hash('adler32', $concat_google_fonts);
 		$newcode = false; $newcode = fvm_get_transient($tkey);
@@ -1527,13 +1527,13 @@ if(!$skip_google_fonts && count($google_fonts) > 0) {
 			$res = fvm_download_and_cache($concat_google_fonts, $tkey, null, $disable_css_minification, 'css');
 			if(is_array($res)) { $newcode = $res['code']; }
 		}
-		
+
 		# inline css or fail
-		if($newcode !== false) { 
-			echo '<style type="text/css" media="all">'.$newcode.'</style>';				
+		if($newcode !== false) {
+			echo '<style type="text/css" media="all">'.$newcode.'</style>';
 		} else {
 			echo "<!-- GOOGLE FONTS REQUEST FAILED for $concat_google_fonts -->\n";     # log if failed
-		}	
+		}
 	}
 }
 
@@ -1546,39 +1546,39 @@ foreach( $styles->to_do as $handle ) :
 
 	# get full url
 	$hurl = fastvelocity_min_get_hurl($wp_styles->registered[$handle]->src, $wp_domain, $wp_home);
-	
+
 	# media type
 	$media = isset($wp_styles->registered[$handle]->args) ? $wp_styles->registered[$handle]->args : 'all';
-	
+
 	# IE only files don't increment things
 	$ieonly = fastvelocity_ie_blacklist($hurl);
 	if($ieonly == true) { continue; }
-	
+
 	# conditionals
-	$conditional = NULL; if(isset($wp_styles->registered[$handle]->extra["conditional"])) { 
+	$conditional = NULL; if(isset($wp_styles->registered[$handle]->extra["conditional"])) {
 		$conditional = $wp_styles->registered[$handle]->extra["conditional"]; # such as ie7, ie8, ie9, etc
 	}
-	
+
 	# skip ignore list, conditional css, external css
 	if ((!fastvelocity_min_in_arrayi($hurl, $ignore) && !isset($conditional) && fvm_internal_url($hurl, $wp_home)) || empty($hurl)) {
-			
+
 		# colect inline css for this handle
-		if(isset($wp_styles->registered[$handle]->extra['after']) && is_array($wp_styles->registered[$handle]->extra['after'])) { 
+		if(isset($wp_styles->registered[$handle]->extra['after']) && is_array($wp_styles->registered[$handle]->extra['after'])) {
 			$inline_css[$handle] = fastvelocity_min_minify_css_string(implode('', $wp_styles->registered[$handle]->extra['after'])); # save
 			$wp_styles->registered[$handle]->extra['after'] = null; # dequeue
-		}	
-			
+		}
+
 		# process
 		if(isset($footer[count($footer)-1]['handle']) || count($footer) == 0 || $footer[count($footer)-1]['media'] != $wp_styles->registered[$handle]->args) {
 			array_push($footer, array('handles'=>array(),'media'=>$media));
 		}
-	
+
 		# push it to the array get latest modified time
 		array_push($footer[count($footer)-1]['handles'], $handle);
-		
+
 	# external and ignored css
 	} else {
-		
+
 		# normal enqueueing
 		array_push($footer, array('handle'=>$handle));
 	}
@@ -1590,19 +1590,19 @@ if(!$skip_cssorder) {
 	if(count($footer) > 0) {
 
 		# get unique mediatypes
-		$allmedia = array(); 
-		foreach($footer as $key=>$array) { 
-			if(isset($array['media'])) { $allmedia[$array['media']] = ''; } 
+		$allmedia = array();
+		foreach($footer as $key=>$array) {
+			if(isset($array['media'])) { $allmedia[$array['media']] = ''; }
 		}
 
 		# extract handles by mediatype
-		$grouphandles = array(); 
-		foreach ($allmedia as $md=>$var) { 
-			foreach($footer as $array) { 
-				if (isset($array['media']) && $array['media'] == $md) { 
-					foreach($array['handles'] as $h) { $grouphandles[$md][] = $h; } 
-				} 
-			} 
+		$grouphandles = array();
+		foreach ($allmedia as $md=>$var) {
+			foreach($footer as $array) {
+				if (isset($array['media']) && $array['media'] == $md) {
+					foreach($array['handles'] as $h) { $grouphandles[$md][] = $h; }
+				}
+			}
 		}
 
 		# reset and reorder footer by mediatypes
@@ -1615,36 +1615,36 @@ if(!$skip_cssorder) {
 # loop through footer css and merge
 for($i=0,$l=count($footer);$i<$l;$i++) {
 	if(!isset($footer[$i]['handle'])) {
-		
+
 		# get has for the inline css in this group
 		$inline_css_group = array();
 		foreach($footer[$i]['handles'] as $h) { if(isset($inline_css[$h]) && !empty($inline_css[$h])) { $inline_css_group[] = $inline_css[$h]; } }
 		$inline_css_hash = md5(implode('',$inline_css_group));
-		
+
 		# static cache file info + done
-		$done = array_merge($done, $footer[$i]['handles']);		
+		$done = array_merge($done, $footer[$i]['handles']);
 		$hash = 'footer-'.hash('adler32',implode('',$footer[$i]['handles']).$inline_css_hash);
 
 		# create cache files and urls
 		$file = $cachedir.'/'.$hash.'-'.$ctime.'.min.css';
 		$file_url = fvm_get_protocol($cachedirurl.'/'.$hash.'-'.$ctime.'.min.css');
-		
+
 		# generate a new cache file
 		clearstatcache();
 		if (!file_exists($file)) {
-			
+
 			# code and log initialization
 			$log = '';
-			$code = '';	
-		
+			$code = '';
+
 			# minify and write to file
 			foreach($footer[$i]['handles'] as $handle) :
 				if(!empty($wp_styles->registered[$handle]->src)) {
-					
+
 					# get hurl per handle
 					$hurl = fastvelocity_min_get_hurl($wp_styles->registered[$handle]->src, $wp_domain, $wp_home);
 					$printurl = str_ireplace(array(site_url(), home_url(), 'http:', 'https:'), '', $hurl);
-					
+
 					# get css from hurl, if available and valid
 					$tkey = 'fvm-cache-'.$ctime.hash('adler32', $hurl);
 					$newcode = false; $newcode = fvm_get_transient($tkey);
@@ -1657,28 +1657,28 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 					} else {
 						$newlog = "$printurl --- Debug: Fetched from transients cache with key $tkey ---\n";
 					}
-		
+
 					# append
-					if($newcode !== false) { 
+					if($newcode !== false) {
 						$code.= $newcode;
 						if(isset($inline_css[$handle]) && !empty($inline_css[$handle])) { $code.= $inline_css[$handle]; } # add inline css on the fly
-						$log.= $newlog;					
-					}	
-			
+						$log.= $newlog;
+					}
+
 				# consider dependencies on handles with an empty src
 				} else {
 					wp_dequeue_script($handle); wp_enqueue_script($handle);
 				}
-			endforeach;	
-			
+			endforeach;
+
 			# prepare log
 			$log = "PROCESSED on ".date('r')."\n".$log."PROCESSED from ".home_url(add_query_arg( NULL, NULL ))."\n";
-			
+
 			# generate cache, add inline css, write log
 			file_put_contents($file.'.txt', $log);
 			file_put_contents($file, $code); # preserve style tags
 			file_put_contents($file.'.gz', gzencode(file_get_contents($file), 9));
-		
+
 		}
 
 		# register and enqueue minified file, consider excluding of mediatype "print" and inline css
@@ -1686,14 +1686,14 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 			if($force_inline_css_footer != false) {
 				echo '<style type="text/css" media="'.$footer[$i]['media'].'">'.file_get_contents($file).'</style>';
 			} else {
-				
+
 				# footer css
 				if($loadcss != false) {
 					if($fvm_remove_css != true) {
 						echo '<link rel="stylesheet" type="text/css" media="'.$footer[$i]['media'].'" href="'.$file_url.'">';
 					}
 				} else {
-					wp_register_style("fvm-footer-$i", $file_url, array(), null, $footer[$i]['media']); 
+					wp_register_style("fvm-footer-$i", $file_url, array(), null, $footer[$i]['media']);
 					wp_enqueue_style("fvm-footer-$i");
 				}
 			}
@@ -1715,8 +1715,8 @@ $wp_styles->done = $done;
 ###########################################
 # defer CSS globally from the header (order matters)
 ###########################################
-function fvm_add_loadcss() { 
-global $force_inline_css, $loadcss, $fvm_remove_css; 
+function fvm_add_loadcss() {
+global $force_inline_css, $loadcss, $fvm_remove_css;
 if($force_inline_css == true && $loadcss != false && $fvm_remove_css != true) {
 
 		# echo LoadCSS scripts
@@ -1735,7 +1735,7 @@ if (!is_admin()) { add_action('wp_head', 'fvm_add_loadcss', PHP_INT_MAX); }
 ###########################################
 # add preconnect and preload headers
 ###########################################
-function fvm_buffer_placeholder_top() { 
+function fvm_buffer_placeholder_top() {
 global $preload, $preconnect;
 
 # defaults
@@ -1744,8 +1744,8 @@ $meta = array();
 # preconnect resources
 # https://css-tricks.com/prefetching-preloading-prebrowsing/
 if(count($preconnect) > 0) {
-	$a = array(); foreach ($preconnect as $b) { 
-		if(!empty($b)) { $a[] = '<link href="'.str_ireplace(array('http://', 'https://'), '//', $b).'" rel="preconnect">'; } 
+	$a = array(); foreach ($preconnect as $b) {
+		if(!empty($b)) { $a[] = '<link href="'.str_ireplace(array('http://', 'https://'), '//', $b).'" rel="preconnect">'; }
 	}
 	if(count($a) > 0) { $meta[] = implode('', $a); }
 }
@@ -1753,10 +1753,10 @@ if(count($preconnect) > 0) {
 # preload resources (beta: homepage only)
 # https://css-tricks.com/prefetching-preloading-prebrowsing/
 if((is_home() || is_front_page()) && count($preload) > 0) {
-	$a = array(); 
-	foreach ($preload as $b) { 
-	if(!empty($b)) { 
-		$meta[] = '<link rel="preload" as="image" href="'.str_ireplace(array('http://', 'https://'), '//', $b).'">'; 
+	$a = array();
+	foreach ($preload as $b) {
+	if(!empty($b)) {
+		$meta[] = '<link rel="preload" as="image" href="'.str_ireplace(array('http://', 'https://'), '//', $b).'">';
 	}
 	}
 }
@@ -1768,7 +1768,7 @@ echo implode('', $meta);
 
 # remove query from static assets and process defering (if enabled)
 if (!is_admin()) {
-add_filter('script_loader_tag', 'fastvelocity_min_defer_js', 10, 3); 
+add_filter('script_loader_tag', 'fastvelocity_min_defer_js', 10, 3);
 add_filter('style_loader_src', 'fastvelocity_remove_cssjs_ver', 10, 2);
 }
 
@@ -1777,4 +1777,3 @@ add_filter('style_loader_src', 'fastvelocity_remove_cssjs_ver', 10, 2);
 if(!$skip_html_minification && !is_admin()) {
 	add_action('template_redirect', 'fastvelocity_min_html_compression_start', PHP_INT_MAX);
 }
-

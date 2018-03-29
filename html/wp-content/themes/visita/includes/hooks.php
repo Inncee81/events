@@ -354,16 +354,16 @@ function visita_head_metatags( ) {
   }
 
 	if ( is_front_page() || is_tax() || is_post_type_archive() ){
-		echo '<meta property="og:image" content="'. site_url( '/wp-content/themes/visita/img/visita.jpg' )  .'" />'. "\n";
-		echo '<meta name="twitter:image:src" content="'. site_url( '/wp-content/themes/visita/img/visita.jpg' )  .'">'. "\n";
+		echo '<meta property="og:image" content="'. site_url( '/wp-content/themes/visita/img/visita.jpg')  .'" />'. "\n";
+		echo '<meta name="twitter:image:src" content="'. site_url( '/wp-content/themes/visita/img/visita.jpg')  .'">'. "\n";
     echo '<link rel="image_src" href="' . site_url( '/wp-content/themes/visita/img/visita.jpg' )  . '"  />' . "\n";
 	}
 
   if ( has_post_thumbnail( get_the_ID() ) && is_singular() ) {
-    if( $image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ),  'large' ) ) {
+    if ( $image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ),  'large' ) ) {
       echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
-      echo '<meta name="twitter:image:src" content="'. esc_url( $image[0] )  .'">'. "\n";
-      echo '<meta property="og:image" content="'. esc_url( $image[0] )  .'" />'. "\n";
+      echo '<meta name="twitter:image:src" content="'. esc_url($image[0])  .'">'. "\n";
+      echo '<meta property="og:image" content="'. esc_url($image[0])  .'" />'. "\n";
       echo '<meta property="og:image:width" content="'. esc_attr( $image[1] )  .'" />'. "\n";
       echo '<meta property="og:image:height" content="'. esc_attr( $image[2] )  .'" />'. "\n";
       echo '<link rel="image_src" href="' . esc_url( $image[0] ) . '"  />' . "\n";
