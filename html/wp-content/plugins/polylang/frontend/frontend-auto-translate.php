@@ -21,7 +21,7 @@ class PLL_Frontend_Auto_Translate {
 		$this->curlang = &$polylang->curlang;
 
 		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) ); // after main Polylang filter
-		add_filter( 'get_terms_args', array( $this, 'get_terms_args' ), 10, 2 );
+		add_filter( 'get_terms_args', array( $this, 'get_terms_args' ), 20, 2 );
 	}
 
 	/**
@@ -80,7 +80,7 @@ class PLL_Frontend_Auto_Translate {
 		$arr = array();
 		if ( ! empty( $qv['category_name'] ) ) {
 			foreach ( explode( ',', $qv['category_name'] ) as $slug ) {
-				$arr[] = ( ( $cat = wpcom_vip_get_category_by_slug( $slug ) ) && ( $tr_id = $this->get_term( $cat->term_id ) ) && ! is_wp_error( $tr = get_category( $tr_id ) ) ) ? $tr->slug : $slug;
+				$arr[] = $this->get_translated_term_by( 'slug', $slug, 'category' );
 			}
 
 			$qv['category_name'] = implode( ',', $arr );
@@ -102,7 +102,7 @@ class PLL_Frontend_Auto_Translate {
 		if ( ! empty( $qv['tag'] ) ) {
 			$sep = strpos( $qv['tag'], ',' ) !== false ? ',' : '+'; // Two possible separators for tag slugs
 			foreach ( explode( $sep, $qv['tag'] ) as $slug ) {
-				$arr[] = ( ( $tag = wpcom_vip_get_term_by( 'slug', $slug, 'post_tag' ) ) && ( $tr_id = $this->get_term( $tag->term_id ) ) && ! is_wp_error( $tr = get_tag( $tr_id ) ) ) ? $tr->slug : $slug;
+				$arr[] = $this->get_translated_term_by( 'slug', $slug, 'post_tag' );
 			}
 
 			$qv['tag'] = implode( $sep, $arr );
@@ -118,7 +118,7 @@ class PLL_Frontend_Auto_Translate {
 			$arr = array();
 			if ( ! empty( $qv[ $key ] ) ) {
 				foreach ( $qv[ $key ] as $slug ) {
-					$arr[] = ( ( $tag = wpcom_vip_get_term_by( 'slug', $slug, 'post_tag' ) ) && ( $tr_id = $this->get_term( $tag->term_id ) ) && ! is_wp_error( $tr = get_tag( $tr_id ) ) ) ? $tr->slug : $slug;
+					$arr[] = $this->get_translated_term_by( 'slug', $slug, 'post_tag' );
 				}
 
 				$qv[ $key ] = $arr;
@@ -133,7 +133,7 @@ class PLL_Frontend_Auto_Translate {
 			if ( ! empty( $qv[ $tax->query_var ] ) ) {
 				$sep = strpos( $qv[ $tax->query_var ], ',' ) !== false ? ',' : '+'; // Two possible separators
 				foreach ( explode( $sep, $qv[ $tax->query_var ] ) as $slug ) {
-					$arr[] = ( ( $tag = wpcom_vip_get_term_by( 'slug', $slug, $taxonomy ) ) && ( $tr_id = $this->get_term( $tag->term_id ) ) && ! is_wp_error( $tr = get_term( $tr_id, $taxonomy ) ) ) ? $tr->slug : $slug;
+					$arr[] = $this->get_translated_term_by( 'slug', $slug, $taxonomy );
 				}
 
 				$qv[ $tax->query_var ] = implode( $sep, $arr );
@@ -238,7 +238,7 @@ class PLL_Frontend_Auto_Translate {
 				$arr = array();
 				$field = isset( $q['field'] ) && in_array( $q['field'], array( 'slug', 'name' ) ) ? $q['field'] : 'term_id';
 				foreach ( (array) $q['terms'] as $t ) {
-					$arr[] = ( ( $tag = wpcom_vip_get_term_by( $field, $t, $q['taxonomy'] ) ) && ( $tr_id = $this->get_term( $tag->term_id ) ) && ! is_wp_error( $tr = get_term( $tr_id, $q['taxonomy'] ) ) ) ? $tr->$field : $t;
+					$arr[] = $this->get_translated_term_by( $field, $t, $q['taxonomy'] );
 				}
 
 				$tax_queries[ $key ]['terms'] = $arr;
@@ -251,5 +251,35 @@ class PLL_Frontend_Auto_Translate {
 		}
 
 		return $tax_queries;
+	}
+
+	/**
+	 * Translates a term given one field.
+	 *
+	 * @since 2.3.3
+	 *
+	 * @param string     $field    Either 'slug', 'name', 'term_id', or 'term_taxonomy_id'
+	 * @param string|int $term     Search for this term value
+	 * @param string     $taxonomy Taxonomy name.
+	 * @return string|int Translated term slug, name, term_id or term_taxonomy_id
+	 */
+	protected function get_translated_term_by( $field, $term, $taxonomy ) {
+		if ( 'term_id' === $field ) {
+			if ( $tr_id = $this->get_term( $term ) ) {
+				return $tr_id;
+			}
+		} else {
+			$terms = get_terms( $taxonomy, array( $field => $term, 'lang' => '' ) );
+
+			if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+				$t = reset( $terms );
+				$tr_id = $this->get_term( $t->term_id );
+
+				if ( ! is_wp_error( $tr = get_term( $tr_id, $taxonomy ) ) ) {
+					return $tr->$field;
+				}
+			}
+		}
+		return $term;
 	}
 }
