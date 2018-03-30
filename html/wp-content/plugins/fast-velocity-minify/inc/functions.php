@@ -20,7 +20,7 @@ function fvm_minify_html_output($buffer) {
 	$minify_html_utf8 = 'yes';
 	$minify_html_xhtml = 'no';
 	$minify_html_relative = 'no';
-	$minify_html_scheme = 'yes';
+	$minify_html_scheme = 'no';
 
 	# utf8 or not?
 	if ( $minify_html_utf8 == 'yes' && mb_detect_encoding($buffer, 'UTF-8', true) ) {
@@ -80,7 +80,6 @@ function fvm_minify_html_output($buffer) {
 		$buffer = str_replace( array ( 'https://' . $_SERVER['HTTP_HOST'] . '/', 'http://' . $_SERVER['HTTP_HOST'] . '/', '//' . $_SERVER['HTTP_HOST'] . '/' ), array( '/', '/', '/' ), $buffer );
 	if ( $minify_html_scheme == 'yes' )
 		$buffer = str_replace( array( 'http://', 'https://' ), '//', $buffer );
-		$buffer = str_replace( 'twitter:image:src" content="//', 'twitter:image:src" content="https://', $buffer );
 
 	return ($buffer);
 }
