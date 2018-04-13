@@ -4,7 +4,7 @@ Donate link: 		https://duplicate-post.lopo.it/
 Tags: 				duplicate post, copy, clone
 Requires at least: 	3.6
 Tested up to: 		4.9
-Stable tag: 		3.2.1
+Stable tag: 		3.2.2
 License: 			GPLv2 or later
 License URI: 		http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +23,7 @@ How it works:
 
 3. In 'Edit Posts'/'Edit Pages', you can click on 'New Draft' link below the post/page title.
 
-4. On the post edit screen, you can click on 'Copy to a new draft' above "Cancel"/"Move to trash". 
+4. On the post edit screen, you can click on 'Copy to a new draft' above "Cancel"/"Move to trash" or in the admin bar. 
 
 5. While viewing a post as a logged in user, you can click on 'Copy to a new draft' in the admin bar.
 
@@ -75,6 +75,9 @@ If Duplicate Post is still in English, or if there are some untraslated strings,
 6. Bulk clone action.
 
 == Upgrade Notice ==
+
+= 3.2.2 =
+Adds compatibility with Gutenberg UI and fixes a problem with slugs on new installs
 
 = 3.2.1 =
 Fixes some problems with Multisite, WPML, revisions
@@ -140,6 +143,11 @@ Some users have experienced a fatal error when upgrading to v1.1: this may fix i
 New features and customization, WP 3.0 compatibility: you should upgrade if you want to copy Custom Posts with Custom Taxonomies.
 
 == Changelog ==
+
+= 3.2.2 (2018-04-13) =
+* The "Admin bar" option shows the link in the post edit screen too, so you can use the plugin with Gutenberg enabled
+* Option for "Slug" not set by default on new installations 
+* Better display of icon in the Admin bar on small screens
 
 = 3.2.1 (2017-11-25) =
 * Fixing some issues of the 3.* trunk before major redesign
