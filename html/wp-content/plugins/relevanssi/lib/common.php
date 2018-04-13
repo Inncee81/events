@@ -50,7 +50,7 @@ function relevanssi_wpml_filter( $data ) {
 				if ( $sitepress->is_translated_post_type( $hit->post_type ) ) {
 					$id = apply_filters( 'wpml_object_id', $hit->ID, $hit->post_type, false );
 					// This is a post in a translated post type.
-					if ( $id === $hit->ID ) {
+					if ( intval( $hit->ID ) === $id ) {
 						// The post exists in the current language, and can be included.
 						$filtered_hits[] = $hit;
 					}
@@ -689,12 +689,13 @@ function relevanssi_default_post_ok( $post_ok, $post_id ) {
 			// Current user has the required capabilities and can see the page.
 			$post_ok = true;
 		}
+
+		if ( function_exists( 'members_can_current_user_view_post' ) ) {
+			// Members.
+			$post_ok = members_can_current_user_view_post( $post_id );
+		}
 	}
 
-	if ( function_exists( 'members_can_current_user_view_post' ) ) {
-		// Members.
-		$post_ok = members_can_current_user_view_post( $post_id );
-	}
 	if ( defined( 'GROUPS_CORE_VERSION' ) ) {
 		// Groups.
 		$current_user = wp_get_current_user();
@@ -703,7 +704,7 @@ function relevanssi_default_post_ok( $post_ok, $post_id ) {
 	if ( class_exists( 'MeprUpdateCtrl' ) && MeprUpdateCtrl::is_activated() ) {
 		// Memberpress.
 		$post    = get_post( $post_id );
-		$post_ok = MeprRule::is_locked( $post );
+		$post_ok = ! MeprRule::is_locked( $post );
 	}
 	if ( defined( 'SIMPLE_WP_MEMBERSHIP_VER' ) ) {
 		// Simple Membership.
@@ -2000,4 +2001,26 @@ function relevanssi_flatten_array( array $array ) {
 		$return_value .= ' ' . $value;
 	}
 	return $return_value;
+}
+
+/**
+ * Sanitizes hex color strings.
+ *
+ * A copy of sanitize_hex_color(), because that isn't always available.
+ *
+ * @param string $color A hex color string to sanitize.
+ *
+ * @return string Sanitized hex string, or an empty string.
+ */
+function relevanssi_sanitize_hex_color( $color ) {
+	if ( '' === $color ) {
+		return '';
+	}
+
+	// 3 or 6 hex digits, or the empty string.
+	if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+		return $color;
+	}
+
+	return '';
 }
