@@ -127,7 +127,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 
 			if ( WP_CACHE == true ) {
 				add_action( 'template_redirect', array( $this, 'compress_html_markup' ), 1 );
-				
+
 				add_filter( 'wp_get_attachment_url', array( $this, 'attachment_url'), 100 );
 				add_filter( 'stylesheet_directory_uri', array( $this, 'attachment_url'), 50 );
       }
@@ -401,7 +401,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		}
 
 		function attachment_url($url) {
-			return str_replace( array('http://'), 'http://s.', $url );
+			return str_replace( array('https://'), 'https://s.', $url );
 		}
 
 		/*
