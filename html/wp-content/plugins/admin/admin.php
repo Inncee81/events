@@ -126,7 +126,10 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 			add_action( 'pre_comment_on_post', array( $this, 'check_comment_nonce' ) );
 
 			if ( WP_CACHE == true ) {
-        add_action( 'template_redirect', array( $this, 'compress_html_markup' ), 1 );
+				add_action( 'template_redirect', array( $this, 'compress_html_markup' ), 1 );
+				
+				add_filter( 'wp_get_attachment_url', array( $this, 'attachment_url'), 100 );
+				add_filter( 'stylesheet_directory_uri', array( $this, 'attachment_url'), 50 );
       }
 		}
 
@@ -395,6 +398,10 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 				return site_url( 'signedout/', 'login'  );
 
 			return  site_url( str_replace( array('wp-login.php' ), 'access', $path ) );
+		}
+
+		function attachment_url($url) {
+			return str_replace( array('http://'), 'http://s.', $url );
 		}
 
 		/*

@@ -12,7 +12,8 @@ article iframe[allowfullscreen] {
   margin: 0;
 
   img {
-    min-width: 100%;
+    height: auto;
+    max-width: 100%;
     -moz-transition: transform .4s ease-out;
     -webkit-transition: -webkit-transform .4s ease-out;
     transition: transform .4s ease-out;

@@ -13,8 +13,8 @@ const lazyLoad = new LazyLoad();
 
   // document ready
   $( function( ) {
-    $( '<link/>', Object.assign( stylesheet, { href: visita.fonts } ) ).appendTo( 'head' );
     $( '<link/>', Object.assign( stylesheet, { href: visita.styles } ) ).appendTo( 'head' );
+    $( '<link/>', Object.assign( stylesheet, { href: visita.fonts } ) ).appendTo( 'head' );
   } );
 
   //check  window size for loading
