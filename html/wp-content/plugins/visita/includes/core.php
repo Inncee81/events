@@ -505,7 +505,7 @@ class Visita_Core {
       $start = strtotime( "first day of $fecha 0:00" );
     }
 
-    $meta_query = ($fecha && $end) ? array(
+    $meta_query = ($start && $end) ? array(
       array(
         array(
           'value'    => $end,
