@@ -17,13 +17,9 @@
 <div class="row">
   <div class="small-12 columns">
 
-    <?php visita_before_loop(); ?>
-
 		<?php while (have_posts()) : the_post(); ?>
       <?php get_template_part( 'content', 'page' ); ?>
 		<?php endwhile; ?>
-
-    <?php visita_after_loop(); ?>
 
   </div>
 </div>

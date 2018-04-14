@@ -5,6 +5,11 @@ const lazyLoad = new LazyLoad();
 
 ( ( $, doc ) => {
 
+  $('.site-logo .weather')
+  .attr('title', visita.units)
+  .text(visita.weather)
+
+
   let mobileLoaded = false;
   const stylesheet = {
     type: 'text/css',

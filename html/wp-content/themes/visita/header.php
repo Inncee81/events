@@ -52,6 +52,7 @@
 
         <div class="site-logo">
           <a href="<?php echo home_url() ?>" title="<?php esc_attr( get_bloginfo( 'name' ) ) ?>" rel="home"><?php bloginfo( 'name' ) ?></a>
+          <a href="<?php esc_url(__('/en/las-vegas-weather/', 'visita' ))?>" class="weather"></a>
         </div>
 
         <form action="<?php echo home_url() ?>" class="search-form" method="get">

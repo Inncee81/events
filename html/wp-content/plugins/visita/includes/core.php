@@ -83,7 +83,7 @@ class Visita_Core {
    */
   function activate( ) {
     wp_schedule_event( time(), 'every_three_hours', 'visita_get_weather', array('lang' => 'es') );
-
+    wp_schedule_event( time(), 'every_three_hours', 'visita_get_weather', array('lang' => 'en') );
     do_action( 'visita_activate' );
   }
 
@@ -94,8 +94,6 @@ class Visita_Core {
    */
   function deactivate( ) {
     do_action( 'visita_deactivate' );
-
-    wp_clear_scheduled_hook( 'every_three_hours', array('lang' => 'es') );
     wp_clear_scheduled_hook( 'visita_get_weather', array('lang' => 'en') );
     wp_clear_scheduled_hook( 'visita_get_weather', array('lang' => 'es') );
   }
@@ -108,7 +106,6 @@ class Visita_Core {
       'interval'  => 10800,
       'display'   => __( 'Every 3 Hours', 'textdomain' )
     );
-
     return $schedules;
   }
 
@@ -116,11 +113,9 @@ class Visita_Core {
   *
   */
   function change_language( $locale ) {
-
     if ( isset( $_SERVER['REQUEST_URI'] ) && stripos( $_SERVER['REQUEST_URI'], 'en' ) == 1 ) {
       return "en_US";
     }
-
     return $locale;
   }
 
@@ -237,7 +232,10 @@ class Visita_Core {
   * @since 2.0.1
   */
   function shortcode_clima( ) {
-    if ( $content = file_get_contents(WP_CONTENT_DIR . "/cache/_json/es.json") ) {
+
+    $lang = get_locale() == 'es_MX' ? 'es' : 'en';
+
+    if ( $content = file_get_contents(WP_CONTENT_DIR . "/cache/_json/{$lang}.json") ) {
       $data = json_decode($content);
 
       $weather_icon = '';
@@ -260,15 +258,16 @@ class Visita_Core {
           '<div class="column column-block">
             <div class="text-center">
               <div>%3$s</div>
-              <img src="%5$s" alt="%2$s" title="%2$s">
+              <img src="%6$s" alt="%2$s" title="%2$s">
               <div class="show-for-medium">%2$s</div>
-              <div>%4$s%1$s&deg;C</div>
+              <div>%5$s%1$s&deg;%4$s</div>
             </div>
           </div>',
-          esc_attr( (int)$forecast->day->avgtemp_c ),
+          ($lang == 'es') ? (int) $forecast->day->avgtemp_c : (int) $forecast->day->avgtemp_f,
           esc_attr( $forecast->day->condition->text ),
           esc_attr( date_i18n('D', $forecast->date_epoch ) ),
-          esc_html( $forecast->day->avgtemp_c > 0 ? '+' : '' ),
+          esc_attr( ($lang == 'es') ? 'C' : 'F'),
+          ( (($lang == 'es') ? $forecast->day->avgtemp_c : $forecast->day->avgtemp_f) > 0 ? '+' : '' ),
           esc_url( str_replace(
             '//cdn.apixu.com/weather',
             plugins_url( 'visita/img' ),
@@ -281,34 +280,36 @@ class Visita_Core {
       return sprintf(
         '<div class="row weather-current">
           <div class="small-12 medium-4 columns text-center">
-            <div class="weather-image">%13$s</div>
+            <div class="weather-image">%14$s</div>
             <div class="weather-text">%4$s</div>
             <div>%1$s, %2$s</div>
           </div>
           <div class="small-12 medium-8 columns text-center medium-text-left">
-            <div class="weather-deg">%5$s%3$s&deg;C</div>
+            <div class="weather-deg">%5$s%3$s&deg;%13$s</div>
             <div class="row weather-detail">
               <div class="small-12 columns">%11$s %6$s%%</div>
               <div class="small-12 columns">%10$s %7$s KH / %8$s</div>
-              <div class="small-12 columns">%12$s %5$s%9$s&deg;C</div>
+              <div class="small-12 columns">%12$s %5$s%9$s&deg;%13$s</div>
             </div>
           </div>
         </div>
-        <div class="row small-up-5 weather-forecast">%14$s</div>',
+        <div class="row small-up-5 weather-forecast">%15$s</div>',
         esc_html($data->location->name),
         esc_html($data->location->region),
-        esc_html($data->current->temp_c),
+        esc_html(($lang == 'es') ? $data->current->temp_c : $data->current->temp_f),
         esc_html($data->current->condition->text),
-        esc_html($data->current->temp_c > 0 ? '+' : ''),
+        ( (($lang == 'es') ? $data->current->temp_c : $data->current->temp_f) > 0 ? '+' : ''),
 
         esc_html($data->current->humidity),
         esc_html($data->current->wind_kph),
         esc_html($data->current->wind_dir),
-        esc_html($data->current->feelslike_c),
+        esc_html(($lang == 'es') ? $data->current->feelslike_c : $data->current->feelslike_f),
 
         esc_html__('Wind:', 'visita'),
         esc_html__('Humidity:', 'visita'),
         esc_html__('Feels like:', 'visita'),
+        esc_attr( ($lang == 'es') ? 'C' : 'F'),
+
         $weather_icon,
         $forecast_days
       );

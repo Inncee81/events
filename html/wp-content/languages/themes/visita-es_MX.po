@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2018-02-02 22:27-0800\n"
-"PO-Revision-Date: 2018-02-02 22:27-0800\n"
+"POT-Creation-Date: 2018-04-14 00:36-0700\n"
+"PO-Revision-Date: 2018-04-14 00:36-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -61,7 +61,7 @@ msgstr "Editar"
 msgid "Link to %s"
 msgstr "Enlace a %s"
 
-#: content-event.php:60 content-page.php:46 content-post.php:48
+#: content-event.php:60 content-page.php:48 content-post.php:48
 #: content-show.php:60 content.php:51 parts/location.php:43
 msgid "Continue <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Continuar <span class=\"meta-nav\">&rarr;</span>"
@@ -82,15 +82,19 @@ msgstr "visita.vegas creado por"
 msgid "http://xparkmedia.com"
 msgstr "http://es.xparkmedia.com"
 
-#: header.php:58
+#: header.php:55
+msgid "/en/las-vegas-weather/"
+msgstr "/clima-las-vegas/"
+
+#: header.php:59
 msgid "Search: events, shows, hotels..."
 msgstr "Buscar: eventos, shows, hoteles…"
 
-#: header.php:67
+#: header.php:68
 msgid "Skip to content"
 msgstr "Ir al contenido"
 
-#: header.php:68
+#: header.php:69
 msgid "Menu"
 msgstr "Menú"
 

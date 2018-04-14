@@ -41,10 +41,14 @@
     <span itemprop="author" class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
   </header><!-- .entry-header -->
 
+  <?php if ( is_page() ) visita_before_loop(); ?>
+
   <?php if ( is_page() ) : ?>
     <div itemprop="description" class="entry-content">
       <?php the_content( __( 'Continue <span class="meta-nav">&rarr;</span>', 'visita' ) ); ?>
     </div><!-- .entry-content -->
   <?php endif; // is_single() ?>
+  
+  <?php if ( is_page() ) visita_after_loop(); ?>
 
 </article><!-- #post-<?php the_ID(); ?> -->
