@@ -464,16 +464,18 @@ class Visita_Core {
   */
   function shortcode_event_list( $atts ) {
 
+
     extract( shortcode_atts( array(
         'mes' => false,
         'fecha' => false,
         'semana' => false,
         'categoria' => false,
+        'lista' => false,
       ), $atts, 'lista-eventos' )
     );
 
     // we need a date
-    if ( ! $fecha && ! $semana && ! $mes ) {
+    if ( ! $fecha && ! $semana && ! $mes && ! $lista ) {
       return;
     }
 
@@ -503,6 +505,26 @@ class Visita_Core {
       $start = strtotime( "first day of $fecha 0:00" );
     }
 
+    $meta_query = ($fecha && $end) ? array(
+      array(
+        array(
+          'value'    => $end,
+          'key'      => '_starts',
+          'compare'  => '<='
+        ),
+        array(
+          'value'    => $start,
+          'key'      => '_ends',
+          'compare'  => '>='
+        ),
+      ),
+    ) : array();
+
+    // list of post
+    $post_ids = ($lista) ?
+      explode( ',', $lista )
+    : array();
+
     $query = new WP_Query(array(
 			'post_type'      => array( 'event' ),
 			'posts_per_page' => 40,
@@ -510,21 +532,10 @@ class Visita_Core {
 			'orderby'        => 'meta_value',
 			'order'          => 'ASC',
       'tax_query'      => $tax_query,
-      'meta_query'     => array(
-        array(
-          array(
-            'value'    => $end,
-            'key'      => '_starts',
-            'compare'  => '<='
-          ),
-          array(
-            'value'    => $start,
-            'key'      => '_ends',
-            'compare'  => '>='
-          ),
-        ),
-      )
+      'meta_query'     => $meta_query,
+      'post__in'       => $post_ids,
     ) );
+
 
     $list = '';
     foreach( $query->posts as $post ) {
