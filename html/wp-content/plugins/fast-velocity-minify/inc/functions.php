@@ -840,8 +840,10 @@ function fastvelocity_download($url, $tkey, $ttl) {
 	$data = false; $data = fvm_get_transient($tkey, $ttl);
 	if ( $data === false) {
 
+		$theme = wp_get_theme();
+
 		# get contents and cache for the ttl time
-		$response = wp_remote_get($url, array('user-agent'=>$uagent, 'timeout' => 7, 'httpversion' => '1.1', 'sslverify'=>false));
+		$response = wp_remote_get($url . '?v=' . $theme->version, array('user-agent'=>$uagent, 'timeout' => 7, 'httpversion' => '1.1', 'sslverify'=>false));
 		$res_code = wp_remote_retrieve_response_code($response);
 		if($res_code == '200') {
 			$data = wp_remote_retrieve_body($response);
