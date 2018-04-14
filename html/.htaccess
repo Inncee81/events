@@ -17,7 +17,7 @@ RewriteRule (.*) - [F,L]
 </IfModule>
 
 SetEnvIf Origin "^(.*\.?(visita\.vegas|visita\.com))$" ORIGIN_SUB_DOMAIN=$1
-<FilesMatch "\.(woff2?|ttf|eot|svg)$">
+<FilesMatch "\.(woff2?|ttf|eot|svg|json)$">
   Header set Access-Control-Allow-Origin "%{ORIGIN_SUB_DOMAIN}e" env=ORIGIN_SUB_DOMAIN
 </FilesMatch>
 
