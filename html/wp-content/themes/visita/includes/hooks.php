@@ -181,17 +181,12 @@ function visita_scripts_enqueues( ) {
   // Loads JavaScript file.
   wp_enqueue_script( 'visita', get_template_directory_uri() . '/js/visita.js', array( 'jquery' ), $theme->version, true );
 
-  $weather = $weather_icon = $units = '';
-  if ( $weather_json = $Visita_Core->get_weather_data() ) {
-    $units = $weather_json->unit == 'c' ? 'celsius' : 'freiheit';
-    $weather = $weather_json->now . "&deg;" . $weather_json->unit;
-    $weather_icon = $weather_json->now_icon;
-  }
+  $lang = visita_get_lang();
 
   wp_localize_script( 'visita', 'visita', array(
-    'units' => esc_attr( $units ),
-    'weather' => esc_attr( $weather),
-    'weather_icon' => esc_url( $weather_icon ),
+    'weather_unit' => ($lang == 'es') ? 'c' : 'f',
+    'weather_text' => ($lang == 'es') ? 'celsius' : 'freiheit',
+    'weather' => esc_url( "/wp-content/cache/_json/{$lang}.json" ),
     'fonts' => "https://fonts.googleapis.com/css?family=Roboto:300,400,500",
     'styles' => get_template_directory_uri() . "/style.css?ver=" . $theme->version,
     'tablet' => get_template_directory_uri() . "/tablet.css?ver=" . $theme->version,

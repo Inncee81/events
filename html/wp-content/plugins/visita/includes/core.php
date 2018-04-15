@@ -25,12 +25,14 @@ class Visita_Core {
 
     //
     add_action( 'wp', array( $this, 'display_widgets' ), 100 );
-    add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 100 );
     add_action( 'widgets_init', array( $this, 'widgets_init' ), 100 );
     add_action( 'parse_request', array( $this, 'parse_request_vars' ) );
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
     add_action( 'after_setup_theme', array( $this, 'register_post_types'), 0 );
+
+    add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
+    add_filter( 'wpsc_protected_directories', array( $this, 'protect_json' ) );
 
     //disable acf save hook
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
@@ -193,7 +195,18 @@ class Visita_Core {
   * @since 1.0.1
   */
   function srm_max_redirects( ) {
-    return 350;
+    return 380;
+  }
+
+  /**
+  *
+  * @param $protected_directories array
+  * @return array
+  * @since 2.2.1
+  */
+  function protect_json( $protected_directories ) {
+    $protected_directories[] = '_json';
+    return $protected_directories;
   }
 
   /**
@@ -220,6 +233,13 @@ class Visita_Core {
       if ( $fh = @fopen(WP_CONTENT_DIR . "/cache/_json/${lang}.json", "w" ) ) {
         fwrite( $fh, $responds['body']);
         fclose( $fh );
+
+        if ( function_exists('wpsc_delete_url_cache') ) {
+          wpsc_delete_url_cache(
+            get_permalink( ($lang == 'es' ? 7057 : 8041) )
+          );
+        }
+
       }
     }
   }
@@ -252,7 +272,6 @@ class Visita_Core {
         $weather_json->now_feelslike = (int) $weather_json->current->feelslike_c;
       }
 
-      $weather_json->direction = $weather_json->now > 0 ? '+' : '-';
       $weather_json->now_icon = str_replace(
         '//cdn.apixu.com/weather', plugins_url( 'visita/img' ),
         $weather_json->current->condition->icon
@@ -267,7 +286,6 @@ class Visita_Core {
           $weather_json->forecast->forecastday[$key]->avgtemp = $temp = (int) $forecast->day->avgtemp_c;
         }
 
-        $weather_json->forecast->forecastday[$key]->direction = $temp > 0 ? '+' : '-·';
         $weather_json->forecast->forecastday[$key]->icon = str_replace(
           '//cdn.apixu.com/weather', plugins_url( 'visita/img' ),
           $forecast->day->condition->icon
@@ -301,16 +319,15 @@ class Visita_Core {
           '<div class="column column-block">
             <div class="text-center">
               <div>%3$s</div>
-              <img src="%6$s" alt="%2$s" title="%2$s">
+              <img src="%5$s" alt="%2$s" title="%2$s">
               <div class="show-for-medium">%2$s</div>
-              <div>%5$s%1$s&deg;%4$s</div>
+              <div>%1$s&deg;%4$s</div>
             </div>
           </div>',
           esc_html( $forecast->avgtemp ),
           esc_attr( $forecast->day->condition->text ),
-          esc_attr( date_i18n('D', $forecast->date_epoch ) ),
+          esc_attr( date_i18n( 'D', $forecast->date_epoch ) ),
           esc_html( $forecast->unit ),
-          esc_html( $forecast->direction ),
           esc_url( $forecast->icon )
         );
       }
@@ -318,25 +335,24 @@ class Visita_Core {
       return sprintf(
         '<div class="row weather-current">
           <div class="small-12 medium-4 columns text-center">
-            <div class="weather-image">%14$s</div>
+            <div class="weather-image">%13$s</div>
             <div class="weather-text">%4$s</div>
             <div>%1$s, %2$s</div>
           </div>
           <div class="small-12 medium-8 columns text-center medium-text-left">
-            <div class="weather-deg">%5$s%3$s&deg;%13$s</div>
+            <div class="weather-deg">%3$s&deg;%12$s</div>
             <div class="row weather-detail">
-              <div class="small-12 columns">%11$s %6$s%%</div>
-              <div class="small-12 columns">%10$s %7$s KH / %8$s</div>
-              <div class="small-12 columns">%12$s %5$s%9$s&deg;%13$s</div>
+              <div class="small-12 columns">%10$s %5$s%%</div>
+              <div class="small-12 columns">%9$s %6$s KH / %7$s</div>
+              <div class="small-12 columns">%11$s %8$s&deg;%12$s</div>
             </div>
           </div>
         </div>
-        <div class="row small-up-5 weather-forecast">%15$s</div>',
+        <div class="row small-up-5 weather-forecast">%14$s</div>',
         esc_html( $data->location->name ),
         esc_html( $data->location->region ),
         esc_html( $data->now ),
         esc_html( $data->current->condition->text ),
-        esc_html( $data->direction ),
 
         esc_html( $data->current->humidity ),
         esc_html( $data->current->wind_kph ),

@@ -5,10 +5,11 @@ const lazyLoad = new LazyLoad();
 
 ( ( $, doc ) => {
 
-  $('.site-logo .weather')
-  .attr('title', visita.units)
-  .text(visita.weather)
-
+  $.get(visita.weather, (data) => {
+    $('.site-logo .weather')
+    .attr('title', visita.weather_text)
+    .text(data.current[`temp_${visita.weather_unit}`] + `\u00b0${visita.weather_unit.toUpperCase()}`)
+  })
 
   let mobileLoaded = false;
   const stylesheet = {

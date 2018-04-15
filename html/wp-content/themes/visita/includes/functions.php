@@ -89,6 +89,18 @@ if ( ! function_exists( 'visita_before_page' ) ) {
 }
 
 /**
+* return short lang name
+*
+* @see header.php
+* @return void
+*/
+if ( ! function_exists( 'visita_get_lang' ) ) {
+  function visita_get_lang( ) {
+    return substr( get_locale(), 0, 2 );
+  }
+}
+
+/**
 * Display share toolbar
 *
 * @return void
