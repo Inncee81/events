@@ -1085,8 +1085,10 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 			file_put_contents($file.'.gz', gzencode(file_get_contents($file), 9));
 		}
 
+		$theme 	= wp_get_theme();
+
 		# register minified file
-		wp_register_script("fvm-footer-$i", $file_url, array(), null, false);
+		wp_register_script("fvm-footer-$i", $file_url, array(), $theme->version, false);
 
 		# add all extra data from wp_localize_script
 		$data = array();
@@ -1119,11 +1121,11 @@ global $ignore, $blacklist, $ignorelist, $enable_defer_js, $defer_for_pagespeed,
 
 # no query strings
 $tag = trim($tag); # must cleanup
-if (stripos($src, '?ver') !== false) {
-	$srcf = stristr($src, '?ver', true);
-	$tag = str_ireplace($src, $srcf, $tag);
-	$src = $srcf;
-}
+// if (stripos($src, '?ver') !== false) {
+// 	$srcf = stristr($src, '?ver', true);
+// 	$tag = str_ireplace($src, $srcf, $tag);
+// 	$src = $srcf;
+// }
 
 # should we exclude defer on the login page?
 if($exclude_defer_login == true && stripos($_SERVER["SCRIPT_NAME"], strrchr(wp_login_url(), '/')) !== false){ return $tag; }
