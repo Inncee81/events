@@ -25,6 +25,10 @@ SetEnvIf Origin "^(.*\.?(visita\.vegas|visita\.com))$" ORIGIN_SUB_DOMAIN=$1
   Header set Service-Worker-Allowed: /
 </FilesMatch>
 
+<FilesMatch "(en|es)\.json$">
+  Header set Cache-Control "max-age=180,must-revalidate,public"
+</FilesMatch>
+
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
