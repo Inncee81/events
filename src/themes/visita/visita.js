@@ -8,7 +8,7 @@ const lazyLoad = new LazyLoad();
   $.get(visita.weather, (data) => {
     $('.site-logo .weather')
     .attr('title', visita.weather_text)
-    .text(data.current[`temp_${visita.weather_unit}`] + `\u00b0${visita.weather_unit.toUpperCase()}`)
+    .text(Math.round(data.current[`temp_${visita.weather_unit}`]) + `\u00b0${visita.weather_unit.toUpperCase()}`)
   })
 
   let mobileLoaded = false;
