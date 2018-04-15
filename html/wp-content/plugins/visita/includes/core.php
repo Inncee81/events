@@ -263,13 +263,13 @@ class Visita_Core {
       $weather_json = json_decode($weather_data);
       $weather_json->unit = 'F';
       $weather_json->lang = $lang;
-      $weather_json->now = (int) $weather_json->current->temp_f;
-      $weather_json->now_feelslike = (int) $weather_json->current->feelslike_f;
+      $weather_json->now = round($weather_json->current->temp_f);
+      $weather_json->now_feelslike = round($weather_json->current->feelslike_f);
 
       if ($lang == 'es') {
         $weather_json->unit = "C";
-        $weather_json->now = (int) $weather_json->current->temp_c;
-        $weather_json->now_feelslike = (int) $weather_json->current->feelslike_c;
+        $weather_json->now = round($weather_json->current->temp_c);
+        $weather_json->now_feelslike = round($weather_json->current->feelslike_c);
       }
 
       $weather_json->now_icon = str_replace(
@@ -279,11 +279,11 @@ class Visita_Core {
 
       foreach ( $weather_json->forecast->forecastday as $key => $forecast ) {
         $weather_json->forecast->forecastday[$key]->unit = 'F';
-        $weather_json->forecast->forecastday[$key]->avgtemp = $temp = (int) $forecast->day->avgtemp_f;
+        $weather_json->forecast->forecastday[$key]->avgtemp = $temp = round($forecast->day->avgtemp_f);
 
         if ($lang == 'es') {
           $weather_json->forecast->forecastday[$key]->unit = "C";
-          $weather_json->forecast->forecastday[$key]->avgtemp = $temp = (int) $forecast->day->avgtemp_c;
+          $weather_json->forecast->forecastday[$key]->avgtemp = $temp = round($forecast->day->avgtemp_c);
         }
 
         $weather_json->forecast->forecastday[$key]->icon = str_replace(
