@@ -170,8 +170,7 @@ function visita_scripts_enqueues( ) {
   }
 
   $theme = wp_get_theme();
-
-  global $wp_scripts;
+  global $wp_scripts, $Visita_Core;
 
   // Loads the Internet Explorer specific stylesheet.
   // see: http://codex.wordpress.org/Conditional_Comment_CSS
@@ -182,17 +181,17 @@ function visita_scripts_enqueues( ) {
   // Loads JavaScript file.
   wp_enqueue_script( 'visita', get_template_directory_uri() . '/js/visita.js', array( 'jquery' ), $theme->version, true );
 
-  $weather = $weather_icon = ''; $lang = get_locale() == 'es_MX' ? 'es' : 'en';
-  if ( $weather_json = file_get_contents(WP_CONTENT_DIR . "/cache/_json/{$lang}.json") ) {
-    $data = json_decode($weather_json);
-    $weather = ($lang == 'es') ? (int) $data->current->temp_c . "&deg;C" : (int) $data->current->temp_f . "&deg;F";
-    $weather_icon = str_replace('//cdn.apixu.com/weather', plugins_url( 'visita/img' ), $data->current->condition->icon);
+  $weather = $weather_icon = $units = '';
+  if ( $weather_json = $Visita_Core->get_weather_data() ) {
+    $units = $weather_json->unit == 'c' ? 'celsius' : 'freiheit';
+    $weather = $weather_json->now . "&deg;" . $weather_json->unit;
+    $weather_icon = $weather_json->now_icon;
   }
 
   wp_localize_script( 'visita', 'visita', array(
-    'weather' => esc_attr($weather),
-    'weather_icon' => esc_url($weather_icon),
-    'units' => esc_attr( ($lang == 'es') ? 'celsius' : 'freiheit'),
+    'units' => esc_attr( $units ),
+    'weather' => esc_attr( $weather),
+    'weather_icon' => esc_url( $weather_icon ),
     'fonts' => "https://fonts.googleapis.com/css?family=Roboto:300,400,500",
     'styles' => get_template_directory_uri() . "/style.css?ver=" . $theme->version,
     'tablet' => get_template_directory_uri() . "/tablet.css?ver=" . $theme->version,

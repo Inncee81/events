@@ -13,6 +13,8 @@
 
 class Visita_Core {
 
+  public $weather_data = false;
+
   /**
    * Constructor
    *
@@ -132,7 +134,6 @@ class Visita_Core {
   */
   function parse_request_vars( $query ) {
 
-
     if ( isset( $query->query_vars['orden'] ) ) {
       $query->query_vars['order'] = $query->query_vars['orden'];
     }
@@ -144,14 +145,12 @@ class Visita_Core {
     }
 
     if ( isset( $query->query_vars['por'] ) ) {
-
       $por = $query->query_vars['por'];
       $map = array(
         'fecha' => 'starts',
         'precio' => 'price',
         'nombre' => 'name'
       );
-
       $query->query_vars['orderby'] = ( isset( $map[ $por ] ) ) ? $map[ $por ] : $por;
     }
 
@@ -163,7 +162,6 @@ class Visita_Core {
   */
   function add_rewrite_rules( ) {
     global $wp_rewrite;
-    // add_post_type_support( 'page', AMP_QUERY_VAR );
 
     $wp_rewrite->pagination_base = __( 'page', 'visita' );
     add_rewrite_rule(
@@ -228,31 +226,76 @@ class Visita_Core {
 
   /**
   *
+  * @return object
+  * @since 2.2.1
+  */
+  function get_weather_data() {
+
+    if ( $this->weather_data ) {
+      return $this->weather_data;
+    }
+
+    $lang = get_locale() == 'es_MX' ? 'es' : 'en';
+    $file = WP_CONTENT_DIR . "/cache/_json/{$lang}.json";
+
+    if (file_exists($file) && $weather_data = file_get_contents($file) ) {
+
+      $weather_json = json_decode($weather_data);
+      $weather_json->unit = 'F';
+      $weather_json->lang = $lang;
+      $weather_json->now = (int) $weather_json->current->temp_f;
+      $weather_json->now_feelslike = (int) $weather_json->current->feelslike_f;
+
+      if ($lang == 'es') {
+        $weather_json->unit = "C";
+        $weather_json->now = (int) $weather_json->current->temp_c;
+        $weather_json->now_feelslike = (int) $weather_json->current->feelslike_c;
+      }
+
+      $weather_json->direction = $weather_json->now > 0 ? '+' : '-';
+      $weather_json->now_icon = str_replace(
+        '//cdn.apixu.com/weather', plugins_url( 'visita/img' ),
+        $weather_json->current->condition->icon
+      );
+
+      foreach ( $weather_json->forecast->forecastday as $key => $forecast ) {
+        $weather_json->forecast->forecastday[$key]->unit = 'F';
+        $weather_json->forecast->forecastday[$key]->avgtemp = $temp = (int) $forecast->day->avgtemp_f;
+
+        if ($lang == 'es') {
+          $weather_json->forecast->forecastday[$key]->unit = "C";
+          $weather_json->forecast->forecastday[$key]->avgtemp = $temp = (int) $forecast->day->avgtemp_c;
+        }
+
+        $weather_json->forecast->forecastday[$key]->direction = $temp > 0 ? '+' : '-';
+        $weather_json->forecast->forecastday[$key]->icon = str_replace(
+          '//cdn.apixu.com/weather', plugins_url( 'visita/img' ),
+          $forecast->day->condition->icon
+        );
+      }
+
+      return $this->weather_data = $weather_json;
+    }
+
+    return false;
+  }
+
+  /**
+  *
   * @return void
   * @since 2.0.1
   */
   function shortcode_clima( ) {
 
-    $lang = get_locale() == 'es_MX' ? 'es' : 'en';
-
-    if ( $content = file_get_contents(WP_CONTENT_DIR . "/cache/_json/{$lang}.json") ) {
-      $data = json_decode($content);
-
-      $weather_icon = '';
-      if ($data->current->condition->icon) {
-        $weather_icon = sprintf(
-          '<img src="%2$s" alt="%1$s" title="%1$s">',
-          esc_attr( $data->current->condition->text ),
-          esc_url( str_replace(
-            '//cdn.apixu.com/weather',
-            plugins_url( 'visita/img' ),
-            $data->current->condition->icon
-          ) )
-        );
-      }
-
+    if ( $data = $this->get_weather_data() ) {
 
       $forecast_days = '';
+      $weather_icon = sprintf(
+        '<img src="%1$s" alt="%2$s" title="%2$s">',
+        esc_url( $data->now_icon ),
+        esc_attr( $data->current->condition->text )
+      );
+
       foreach ($data->forecast->forecastday as $forecast) {
         $forecast_days .= sprintf(
           '<div class="column column-block">
@@ -263,20 +306,15 @@ class Visita_Core {
               <div>%5$s%1$s&deg;%4$s</div>
             </div>
           </div>',
-          ($lang == 'es') ? (int) $forecast->day->avgtemp_c : (int) $forecast->day->avgtemp_f,
+          esc_html( $forecast->avgtemp ),
           esc_attr( $forecast->day->condition->text ),
           esc_attr( date_i18n('D', $forecast->date_epoch ) ),
-          esc_attr( ($lang == 'es') ? 'C' : 'F'),
-          ( (($lang == 'es') ? $forecast->day->avgtemp_c : $forecast->day->avgtemp_f) > 0 ? '+' : '' ),
-          esc_url( str_replace(
-            '//cdn.apixu.com/weather',
-            plugins_url( 'visita/img' ),
-            $forecast->day->condition->icon
-          ) )
+          esc_html( $forecast->unit ),
+          esc_html( $forecast->direction ),
+          esc_url( $forecast->icon )
         );
       }
 
-      // print_r($data);
       return sprintf(
         '<div class="row weather-current">
           <div class="small-12 medium-4 columns text-center">
@@ -294,21 +332,21 @@ class Visita_Core {
           </div>
         </div>
         <div class="row small-up-5 weather-forecast">%15$s</div>',
-        esc_html($data->location->name),
-        esc_html($data->location->region),
-        esc_html(($lang == 'es') ? $data->current->temp_c : $data->current->temp_f),
-        esc_html($data->current->condition->text),
-        ( (($lang == 'es') ? $data->current->temp_c : $data->current->temp_f) > 0 ? '+' : ''),
+        esc_html( $data->location->name ),
+        esc_html( $data->location->region ),
+        esc_html( $data->now ),
+        esc_html( $data->current->condition->text ),
+        esc_html( $data->direction ),
 
-        esc_html($data->current->humidity),
-        esc_html($data->current->wind_kph),
-        esc_html($data->current->wind_dir),
-        esc_html(($lang == 'es') ? $data->current->feelslike_c : $data->current->feelslike_f),
+        esc_html( $data->current->humidity ),
+        esc_html( $data->current->wind_kph ),
+        esc_html( $data->current->wind_dir ),
+        esc_html( $data->now_feelslike ),
 
-        esc_html__('Wind:', 'visita'),
-        esc_html__('Humidity:', 'visita'),
-        esc_html__('Feels like:', 'visita'),
-        esc_attr( ($lang == 'es') ? 'C' : 'F'),
+        esc_html__( 'Wind:', 'visita'),
+        esc_html__( 'Humidity:', 'visita'),
+        esc_html__( 'Feels like:', 'visita'),
+        esc_attr($data->unit),
 
         $weather_icon,
         $forecast_days
@@ -464,7 +502,6 @@ class Visita_Core {
   */
   function shortcode_event_list( $atts ) {
 
-
     extract( shortcode_atts( array(
         'mes' => false,
         'fecha' => false,
@@ -539,7 +576,7 @@ class Visita_Core {
 
     $list = '';
     foreach( $query->posts as $post ) {
-      $from = get_post_meta( $post->ID, '_starts', true );
+      $from = (int) get_post_meta( $post->ID, '_starts', true );
       $list .= sprintf(
       '<li itemscope itemtype="http://schema.org/Event">
         <a itemprop="url" class="url" href="%1$s" title="%2$s" rel="bookmark">
