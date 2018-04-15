@@ -267,7 +267,7 @@ class Visita_Core {
           $weather_json->forecast->forecastday[$key]->avgtemp = $temp = (int) $forecast->day->avgtemp_c;
         }
 
-        $weather_json->forecast->forecastday[$key]->direction = $temp > 0 ? '+' : '-';
+        $weather_json->forecast->forecastday[$key]->direction = $temp > 0 ? '+' : '-·';
         $weather_json->forecast->forecastday[$key]->icon = str_replace(
           '//cdn.apixu.com/weather', plugins_url( 'visita/img' ),
           $forecast->day->condition->icon
