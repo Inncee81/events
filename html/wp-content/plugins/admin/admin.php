@@ -220,7 +220,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 
 			//remove comments
 			$html = preg_replace('/<!--([^(\[>|<)])(?:(?!-->).)*-->/s', '', $html);
-			$html = preg_replace('/>\s+</', '><', $html);
+			$html = preg_replace('/>(?![a-z])\s+</', '><', $html);
 			$html = str_ireplace('<p></p>', '', $html);
 
 			return $html;
