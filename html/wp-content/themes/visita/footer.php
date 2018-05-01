@@ -14,7 +14,7 @@
     <?php visita_after_main(); ?>
   </main> <!--main  -->
 
-  <footer class="footer text-center medium-text-left">
+  <footer itemscope itemtype="http://schema.org/WPHeader" class="footer text-center medium-text-left">
 
     <nav id="nav-social">
 			<a class="screen-reader-text" href="#nav" role="button" rel="nofollow" title="<?php esc_attr_e( 'Skip to navigation', 'visita' ) ?>"><?php esc_html_e( 'Skip to top navigation', 'visita' ) ?></a>

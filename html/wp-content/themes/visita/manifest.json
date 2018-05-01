@@ -8,6 +8,9 @@
   "gcm_user_visible_only": true,
   "display": "standalone",
   "start_url": "/",
+  "theme_color": "#200d35",
+  "background_color": "#ffffff",
+  "display": "standalone",
   "icons": [
     {
       "src": "/wp-content/themes/visita/icons/icon-48.png",

@@ -22,6 +22,7 @@ $breakpoint-classes: (small medium);
 @import 'typography/typography';
 @import 'font-awesome/scss/variables';
 
+@include foundation-global-styles;
 @include foundation-text-alignment;
 @include foundation-visibility-classes;
 

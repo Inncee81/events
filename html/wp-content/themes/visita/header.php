@@ -33,7 +33,6 @@
 <link rel="shortcut icon" sizes="192x192" href="<?php stylesheet_directory_uri('/icons/icon-192.png') ?>">
 <link rel="apple-touch-icon icon" sizes="72x72" href="<?php stylesheet_directory_uri('/icons/icon-72.png') ?>" />
 <link rel="apple-touch-icon icon" sizes="114x114" href="<?php stylesheet_directory_uri('/icons/icon-114.png') ?>" />
-<link rel="apple-touch-icon icon" sizes="144x144" href="<?php stylesheet_directory_uri('/icons/icon-144.png') ?>" />
 <link rel="apple-touch-icon icon" sizes="192x192" href="<?php stylesheet_directory_uri('/icons/icon-192.png') ?>" />
 
 <?php wp_head(); ?>
@@ -43,9 +42,9 @@
 
 <?php visita_before_page(); ?>
 
-<div class="page">
+<div itemscope itemtype="http://schema.org/WebPage" class="page">
 
-  <header class="header">
+  <header itemscope itemtype="http://schema.org/WPHeader" class="header">
 
     <div class="row">
       <div class="small-12 columns">
@@ -73,4 +72,4 @@
 
   </header> <!--.header  -->
 
-  <main itemscope itemtype="http://schema.org/WebPage">
+  <main class="main">

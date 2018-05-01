@@ -8,7 +8,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 export default {
   ...defaultConfig,
   watch: true,
-  devtool: 'eval',
+  devtool: 'eval-source-map',
   plugins: [
     new ExtractTextPlugin({
       allChunks: true,

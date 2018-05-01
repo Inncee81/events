@@ -519,3 +519,7 @@ ul.event-list {
 	text-decoration: none;
 	line-height: 1.5em;
 }
+
+.amp-carousel .amp-wp-article-featured-image {
+	display: none;
+}

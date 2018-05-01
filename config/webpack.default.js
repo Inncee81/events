@@ -41,12 +41,14 @@ export default {
           use: [
             { loader: 'css-loader',
               options: {
+                sourceMap: true,
                 url: false,
               }
             },
             {
               loader: 'sass-loader',
               options: {
+                sourceMap: true,
                 includePaths: [
                   './node_modules/foundation-sites/scss',
                   './node_modules/font-awesome/',

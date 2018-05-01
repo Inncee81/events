@@ -1,4 +1,3 @@
-
 .menu.align-center li {
   display: inline-block;
 }
@@ -14,19 +13,17 @@
   border-radius: 2em;
   height: 38px;
   margin: 0 5px;
-  padding: .95em;
+  padding: 0.95em;
   text-align: center;
   width: 38px;
 }
 
 #nav {
   a {
-    color: $gray-lightest;
-
     @include breakpoint(medium down) {
       border-bottom: $menu-mobile-border;
       display: block;
-      padding: .65rem 1.35em
+      padding: 0.65rem 1.35em;
     }
   }
 }
@@ -34,13 +31,12 @@
 .menu-toggle {
   a:after {
     float: right;
-    margin-right: .5em;
+    margin-right: 0.5em;
     font-family: FontAwesome;
     font-size: 1.35em;
     margin-top: -6px;
     content: $fa-var-bars;
   }
-
   @include breakpoint(medium up) {
     display: none;
   }
@@ -53,7 +49,6 @@
 
 .menu-main {
   margin: 0;
-
   @include breakpoint(medium up) {
     text-align: center;
   }
@@ -65,36 +60,37 @@
   li {
     position: relative;
     display: inline-block;
-
     @include breakpoint(small down) {
       display: block;
       width: 100%;
     }
 
     &.current-menu-item > a {
-      background-color: lighten( $primary-color, 11 );
+      background-color: lighten($primary-color, 11);
     }
 
-    &:hover, &:focus,
-    &.current-menu-parent > a  {
-      background-color: lighten( $primary-color, 6 );
+    &.current-menu-parent > a,
+    &:focus,
+    &:hover {
+      background-color: lighten($primary-color, 6);
     }
 
     a {
       @include breakpoint(medium up) {
-        padding: .65rem 1.35em;
+        padding: 0.65rem 1.35em;
         display: block;
       }
 
-      &:hover, &:focus {
-        background-color: lighten( $primary-color, 11 );
+      &:focus,
+      &:hover {
+        background-color: lighten($primary-color, 11);
       }
     }
   }
 
   .sub-menu {
     text-align: left;
-    background-color: lighten( $primary-color, 6 );
+    background-color: lighten($primary-color, 6);
 
     li {
       display: none;
@@ -115,7 +111,6 @@
       float: right;
       font-family: FontAwesome;
       content: $fa-var-angle-down;
-
       @include breakpoint(medium up) {
         position: relative;
         right: -.75em;
@@ -126,7 +121,6 @@
       content: $fa-var-angle-right;
     }
   }
-
   @include breakpoint(small down) {
     li.plus {
       display: block;
@@ -144,16 +138,14 @@
       }
     }
   }
-
   @include breakpoint(small down) {
     display: none;
   }
 }
 
-
 @include breakpoint(small down) {
-  .menu-item-328,
-  .menu-item-121 {
+  .menu-item-121,
+  .menu-item-328 {
     > a:after {
       margin-right: 104px;
     }
