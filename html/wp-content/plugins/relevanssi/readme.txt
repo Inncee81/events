@@ -5,7 +5,7 @@ Tags: search, relevance, better search
 Requires at least: 4.0
 Tested up to: 5.0
 Requires PHP: 5.6
-Stable tag: 4.0.7
+Stable tag: 4.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,7 @@ Do note that using Relevanssi may require large amounts (hundreds of megabytes) 
 * Highlight search terms in the documents when user clicks through search results.
 * Search comments, tags, categories and custom fields.
 * Multisite friendly.
+* bbPress support.
 
 = Advanced features =
 * Adjust the weighting for titles, tags and comments.
@@ -129,6 +130,22 @@ Each document database is full of useless words. All the little words that appea
 
 == Changelog ==
 
+= 4.0.9 =
+* Fixes broken tag and category indexing and searching. If you use tags and categories, rebuild the index after updating.
+* Fixes phrase highlighting in documents.
+* New filter: `relevanssi_indexing_restriction` allows filtering posts before indexing.
+* New WooCommerce product visibility filtering tool makes WooCommerce product indexing faster.
+* MemberPress post controls were loose and showed drafts to searchers. That is now fixed.
+* Highlighting was too loose, even if matching was set to whole words.
+* Highlighting now works better in cases where there's a hyphen or an apostrophe inside a word.
+
+= 4.0.8 =
+* Fixed cases where Relevanssi added an ellipsis even if the excerpt was from the start of the post.
+* Highlighting now works with numeric search strings.
+* Improved highlighting for accented words. Thanks to Paul Ryan.
+* A surplus comma at the end of post exclusion setting won't break the search anymore.
+* Fixed instructions for adjusting the throttle limit.
+
 = 4.0.7 =
 * Recent post bonus is now applied to searches.
 * Exact term setting can now be disabled.
@@ -152,6 +169,12 @@ Each document database is full of useless words. All the little words that appea
 * ACF Flexible Content field indexing didn't work properly, possibly due to a change in ACF. That should now work better.
 
 == Upgrade notice ==
+
+= 4.0.9 =
+* Fixes broken tag and category searching and indexing. Reindex after the update!
+
+= 4.0.8 =
+* Improvements to highlighting and excerpts.
 
 = 4.0.7 =
 * Small bug fixes.

@@ -100,6 +100,8 @@ function relevanssi_generate_indexing_query( $valid_status, $extend = false, $re
 	global $wpdb, $relevanssi_variables;
 	$relevanssi_table = $relevanssi_variables['relevanssi_table'];
 
+	$restriction = apply_filters( 'relevanssi_indexing_restriction', $restriction );
+
 	if ( ! $extend ) {
 		$q = "SELECT post.ID
 		FROM $wpdb->posts post
@@ -725,7 +727,6 @@ function relevanssi_index_doc( $index_post, $remove_first = false, $custom_field
 			 * @param object $post             The full post object.
 			 */
 			$filtered_title = apply_filters( 'relevanssi_post_title_before_tokenize', $post->post_title, $post );
-
 			/** This filter is documented in wp-includes/post-template.php */
 			$filtered_title = apply_filters( 'the_title', $filtered_title, $post->ID );
 			/**
@@ -734,6 +735,7 @@ function relevanssi_index_doc( $index_post, $remove_first = false, $custom_field
 			 * @param boolean If true, remove stopwords. Default true.
 			 */
 			$title_tokens = relevanssi_tokenize( $filtered_title, apply_filters( 'relevanssi_remove_stopwords_in_titles', true ), $min_word_length );
+
 			if ( $debug ) {
 				relevanssi_debug_echo( "\tTitle, tokenized: " . implode( ' ', array_keys( $titles ) ) );
 			}
@@ -856,6 +858,7 @@ function relevanssi_index_doc( $index_post, $remove_first = false, $custom_field
 				remove_shortcode( 'edd_register' );
 				remove_shortcode( 'swpm_protected' ); // Simple Membership Partially Protected content.
 				remove_shortcode( 'gravityform' ); // Gravity Forms.
+				remove_shortcode( 'sdm_latest_downloads' ); // SDM Simple Download Monitor.
 
 				$post_before_shortcode = $post;
 				$contents              = do_shortcode( $contents );
@@ -1023,7 +1026,7 @@ function relevanssi_index_taxonomy_terms( $post = null, $taxonomy = '', $insert_
 			foreach ( $tag_tokens as $token => $count ) {
 				$n++;
 
-				if ( 'post_tags' === $taxonomy ) {
+				if ( 'post_tag' === $taxonomy ) {
 					$insert_data[ $token ]['tag'] = $count;
 				} elseif ( 'category' === $taxonomy ) {
 					$insert_data[ $token ]['category'] = $count;

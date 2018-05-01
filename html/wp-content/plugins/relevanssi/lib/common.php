@@ -9,126 +9,6 @@
  */
 
 /**
- * Filters posts based on WPML language.
- *
- * Attaches to 'relevanssi_hits_filter' to restrict WPML searches to the current
- * language. Whether this filter is used or not depends on the option
- * 'relevanssi_wpml_only_current'. Thanks to rvencu for the initial code.
- *
- * @global object $sitepress The WPML global object.
- *
- * @param array $data Index 0 has the array of results, index 1 has the search query.
- *
- * @return array $data The whole parameter array, with the filtered posts in the index 0.
- */
-function relevanssi_wpml_filter( $data ) {
-	$filter_enabled = get_option( 'relevanssi_wpml_only_current' );
-	if ( 'on' === $filter_enabled ) {
-		$current_blog_language = get_bloginfo( 'language' );
-		$filtered_hits         = array();
-		foreach ( $data[0] as $hit ) {
-			if ( is_integer( $hit ) ) {
-				// In case "fields" is set to "ids", fetch the post object we need.
-				$hit = get_post( $hit );
-			}
-
-			if ( isset( $hit->blog_id ) ) {
-				// This is a multisite search.
-				switch_to_blog( $hit->blog_id );
-				if ( function_exists( 'icl_object_id' ) ) {
-					// Reset the WPML cache when blog is switched, otherwise WPML
-					// will be confused.
-					global $wpml_post_translations;
-					$wpml_post_translations->reload();
-				}
-			}
-
-			global $sitepress;
-
-			// Check if WPML is used.
-			if ( function_exists( 'icl_object_id' ) && ! function_exists( 'pll_is_translated_post_type' ) ) {
-				if ( $sitepress->is_translated_post_type( $hit->post_type ) ) {
-					$id = apply_filters( 'wpml_object_id', $hit->ID, $hit->post_type, false );
-					// This is a post in a translated post type.
-					if ( intval( $hit->ID ) === $id ) {
-						// The post exists in the current language, and can be included.
-						$filtered_hits[] = $hit;
-					}
-				} else {
-					// This is not a translated post type, so include all posts.
-					$filtered_hits[] = $hit;
-				}
-			} elseif ( get_bloginfo( 'language' ) === $current_blog_language ) {
-				// If there is no WPML but the target blog has identical language with current blog,
-				// we use the hits. Note en-US is not identical to en-GB!
-				$filtered_hits[] = $hit;
-			}
-
-			if ( isset( $hit->blog_id ) ) {
-				restore_current_blog();
-			}
-		}
-
-		return array( $filtered_hits, $data[1] );
-	}
-
-	return $data;
-}
-
-/**
- * Removes the Polylang language filters.
- *
- * If the Polylang allow all option is enabled ('relevanssi_polylang_all_languages'),
- * removes the Polylang language filter. By default Polylang filters the languages
- * using a taxonomy query.
- *
- * @param object $query WP_Query object we need to clean up.
- */
-function relevanssi_polylang_filter( $query ) {
-	$polylang_allow_all = get_option( 'relevanssi_polylang_all_languages' );
-	if ( 'on' === $polylang_allow_all ) {
-		$ok_queries = array();
-
-		if ( ! isset( $query->tax_query ) ) {
-			// No tax query set, backing off.
-			return;
-		}
-
-		if ( ! isset( $query->tax_query->queries ) || ! is_array( $query->tax_query->queries ) ) {
-			// No tax query set, backing off.
-			return;
-		}
-
-		foreach ( $query->tax_query->queries as $tax_query ) {
-			if ( 'language' !== $tax_query['taxonomy'] ) {
-				// Not a language tax query.
-				$ok_queries[] = $tax_query;
-			}
-		}
-		$query->tax_query->queries = $ok_queries;
-
-		if ( isset( $query->query_vars['tax_query'] ) ) {
-			// Tax queries can be here as well, so let's sweep this one too.
-			$ok_queries = array();
-			foreach ( $query->query_vars['tax_query'] as $tax_query ) {
-				if ( 'language' !== $tax_query['taxonomy'] ) {
-					$ok_queries[] = $tax_query;
-				}
-			}
-			$query->query_vars['tax_query'] = $ok_queries;
-		}
-
-		if ( isset( $query->query_vars['taxonomy'] ) && 'language' === $query->query_vars['taxonomy'] ) {
-			// Another way to set the taxonomy.
-			unset( $query->query_vars['taxonomy'] );
-			unset( $query->query_vars['term'] );
-		}
-	}
-
-	return $query;
-}
-
-/**
  * Gets the next key-direction pair from the orderby array.
  *
  * Fetches a key-direction pair from the orderby array. Converts key names to match
@@ -703,8 +583,10 @@ function relevanssi_default_post_ok( $post_ok, $post_id ) {
 	}
 	if ( class_exists( 'MeprUpdateCtrl' ) && MeprUpdateCtrl::is_activated() ) {
 		// Memberpress.
-		$post    = get_post( $post_id );
-		$post_ok = ! MeprRule::is_locked( $post );
+		$post = get_post( $post_id );
+		if ( MeprRule::is_locked( $post ) ) {
+			$post_ok = false;
+		}
 	}
 	if ( defined( 'SIMPLE_WP_MEMBERSHIP_VER' ) ) {
 		// Simple Membership.
@@ -978,7 +860,7 @@ function relevanssi_get_custom_fields() {
 /**
  * Trims multibyte strings.
  *
- * Removes the 194+160 non-breakable spaces and removes whitespace.
+ * Removes the 194+160 non-breakable spaces, removes null bytes and removes whitespace.
  *
  * @param string $string The source string.
  *
@@ -986,8 +868,23 @@ function relevanssi_get_custom_fields() {
  */
 function relevanssi_mb_trim( $string ) {
 	$string = str_replace( chr( 194 ) . chr( 160 ), '', $string );
+	$string = str_replace( "\0", '', $string );
 	$string = preg_replace( '/(^\s+)|(\s+$)/us', '', $string );
 	return $string;
+}
+
+/**
+ * Wraps the relevanssi_mb_trim() function so that it can be used as a callback for
+ * array_walk().
+ *
+ * @since 2.1.4
+ *
+ * @see relevanssi_mb_trim.
+ *
+ * @param string $string String to trim.
+ */
+function relevanssi_array_walk_trim( &$string ) {
+	$string = relevanssi_mb_trim( $string );
 }
 
 /**
@@ -1027,7 +924,7 @@ function relevanssi_remove_punct( $a ) {
 	}
 
 	$quote_replacement = ' ';
-	if ( isset( $punct_options['quote'] ) && 'remove' === $punct_options['quote'] ) {
+	if ( isset( $punct_options['quotes'] ) && 'remove' === $punct_options['quotes'] ) {
 		$quote_replacement = '';
 	}
 
@@ -1056,9 +953,9 @@ function relevanssi_remove_punct( $a ) {
 		'©'                     => '',
 		'&shy;'                 => '',
 		'&nbsp;'                => ' ',
-		'&#8217;'               => ' ',
 		chr( 194 ) . chr( 160 ) => ' ',
 		'×'                     => ' ',
+		'&#8217;'               => $quote_replacement,
 		"'"                     => $quote_replacement,
 		'’'                     => $quote_replacement,
 		'‘'                     => $quote_replacement,
@@ -1475,6 +1372,9 @@ function relevanssi_add_synonyms( $query ) {
 			$key   = strval( trim( $parts[0] ) );
 			$value = trim( $parts[1] );
 
+			if ( is_numeric( $key ) ) {
+				$key = " $key";
+			}
 			$synonyms[ $key ][ $value ] = true;
 		}
 
@@ -1488,19 +1388,24 @@ function relevanssi_add_synonyms( $query ) {
 
 			foreach ( $terms as $term ) {
 				$term = trim( $term );
-				if ( in_array( strval( $term ), array_keys( $synonyms ), true ) ) { // Strval(), otherwise numbers cause problems.
+				if ( is_numeric( $term ) ) {
+					$term = " $term";
+				}
+				if ( in_array( $term, array_keys( $synonyms ), true ) ) { // Strval(), otherwise numbers cause problems.
 					if ( isset( $synonyms[ strval( $term ) ] ) ) { // Necessary, otherwise terms like "02" can cause problems.
 						$new_terms = array_merge( $new_terms, array_keys( $synonyms[ strval( $term ) ] ) );
 					}
 				}
 			}
 			if ( count( $new_terms ) > 0 ) {
+				$new_terms = array_unique( $new_terms );
 				foreach ( $new_terms as $new_term ) {
 					$query .= " $new_term";
 				}
 			}
 		}
 	}
+
 	return $query;
 }
 
@@ -1717,9 +1622,10 @@ function relevanssi_add_highlight( $permalink ) {
 	if ( isset( $highlight_docs ) && 'off' !== $highlight_docs && ! empty( $query ) ) {
 		global $post;
 		$frontpage_id = get_option( 'page_on_front' );
+		// We won't add the highlight parameter for the front page, as that will break the link.
 		if ( is_object( $post ) && $post->ID !== $frontpage_id ) {
-			// We won't add the highlight parameter for the front page, as that will break the link.
-			$permalink = esc_attr( add_query_arg( array( 'highlight' => rawurlencode( get_search_query() ) ), $permalink )
+			$query     = str_replace( '&quot;', '"', $query );
+			$permalink = esc_attr( add_query_arg( array( 'highlight' => rawurlencode( $query ) ), $permalink )
 			);
 		}
 	}
@@ -1779,7 +1685,9 @@ function relevanssi_permalink( $link, $link_post = null ) {
 	if ( is_object( $post ) && property_exists( $post, 'relevanssi_link' ) ) {
 		$link = $post->relevanssi_link;
 	}
-	$link = relevanssi_add_highlight( $link );
+	if ( is_search() ) {
+		$link = relevanssi_add_highlight( $link );
+	}
 	return $link;
 }
 
@@ -2015,6 +1923,10 @@ function relevanssi_flatten_array( array $array ) {
 function relevanssi_sanitize_hex_color( $color ) {
 	if ( '' === $color ) {
 		return '';
+	}
+
+	if ( '#' !== substr( $color, 0, 1 ) ) {
+		$color = '#' . $color;
 	}
 
 	// 3 or 6 hex digits, or the empty string.
