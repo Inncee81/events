@@ -27,11 +27,8 @@ class Visita_Core {
     add_action( 'wp', array( $this, 'display_widgets' ), 100 );
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 100 );
     add_action( 'widgets_init', array( $this, 'widgets_init' ), 100 );
-    add_action( 'parse_request', array( $this, 'parse_request_vars' ) );
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
     add_action( 'after_setup_theme', array( $this, 'register_post_types'), 0 );
-
-    add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
     add_filter( 'wpsc_protected_directories', array( $this, 'protect_json' ) );
 
     //disable acf save hook
@@ -50,7 +47,9 @@ class Visita_Core {
     }
 
     if ( ! is_admin() ) {
+      add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
       add_filter( 'locale', array( $this, 'change_language'), 500 );
+      add_action( 'parse_request', array( $this, 'parse_request_vars' ) );
       return;
     }
 
@@ -205,7 +204,8 @@ class Visita_Core {
   * @since 2.2.1
   */
   function protect_json( $protected_directories ) {
-    $protected_directories[] = '_json';
+    $protected_directories[] = WP_CONTENT_DIR . '/cache/_json';
+    $protected_directories[] = wpsc_get_realpath(WP_CONTENT_DIR) . '/cache/_json';
     return $protected_directories;
   }
 
