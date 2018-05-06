@@ -5,7 +5,7 @@ RewriteRule /.+(bmp|txt|css|js|pdf|mp3|mp4|scss|md|patch|log|less|po)$ - [F,L]
 
 RewriteEngine On
 RewriteCond %{REQUEST_URI} /(comments-post|activate)\.php$
-RewriteCond %{HTTP_REFERER} !.*(visita.vegas|visita.com) [OR]
+RewriteCond %{HTTP_REFERER} !.*visita\.(vegas|com) [OR]
 RewriteRule (.*) - [F,L]
 
 <IfModule pagespeed_module>
@@ -16,7 +16,7 @@ RewriteRule (.*) - [F,L]
   ModPagespeedJpegRecompressionQuality -1
 </IfModule>
 
-SetEnvIf Origin "^(.*\.?(visita\.vegas|visita\.com))$" ORIGIN_SUB_DOMAIN=$1
+SetEnvIf Origin "^(.*\.?visita\.(vegas|com))$" ORIGIN_SUB_DOMAIN=$1
 <FilesMatch "\.(woff2?|ttf|eot|svg|json)$">
   Header set Access-Control-Allow-Origin "%{ORIGIN_SUB_DOMAIN}e" env=ORIGIN_SUB_DOMAIN
 </FilesMatch>
