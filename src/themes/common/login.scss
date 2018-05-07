@@ -1,4 +1,3 @@
-@import 'global';
 
 .login,
 html {
@@ -53,7 +52,7 @@ body.login #nav {
   text-align: center;
 }
 
-login form {
+.login form {
   box-shadow: none;
 
   p.forgetmenot {
