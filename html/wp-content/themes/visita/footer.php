@@ -11,7 +11,7 @@
 * @since available since 0.1.0
 */
 ?>
-    <?php visita_after_main(); ?>
+    <?php visita_after_main(); global $visita_options; ?>
   </main> <!--main  -->
 
   <footer itemscope itemtype="http://schema.org/WPHeader" class="footer text-center medium-text-left">
@@ -27,7 +27,7 @@
 
 		<div class="site-credits">
       <?php printf( '<span class="powered">%1$s</span> <a href="%2$s" title="%3$s" target="_blank"> %3$s </a>',
-				esc_attr(  __('visita.vegas by'), 'visita' ),
+				esc_attr( $visita_options['domain'] . ' por '),
 				esc_url( __( 'http://xparkmedia.com', 'visita' ) ),
 				esc_attr( 'Xpark Media', 'visita' )
 			); ?>
