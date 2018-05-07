@@ -3,11 +3,11 @@
 $global-font-size: 100%;
 $global-width: rem-calc(1200);
 $global-lineheight: 1.5;
-$primary-color: #200042;
+$primary-color: #7d0346;
 
 $foundation-palette: (
   primary: $primary-color,
-  secondary: #00ff2a,
+  secondary: #ff00a3,
   success: #3adb76,
   warning: #ffc000,
   alert: #ec5840,
@@ -64,7 +64,7 @@ $header-font-family: $font-sans;
 $input-border: 1px solid $gray-light;
 $input-shadow-focus: '';
 
-$menu-mobile-border: 1px solid lighten( #200042, 15 );
+$menu-mobile-border: 1px solid lighten( #7b0043, 15 );
 
 $tab-item-font-size: .9em;
 $tab-item-padding: 1em 1.1em;

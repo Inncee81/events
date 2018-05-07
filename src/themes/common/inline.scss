@@ -1,0 +1,84 @@
+
+@import '../_vendor/normalize-scss/sass/normalize';
+@import '../_vendor/sassy-lists/stylesheets/helpers/missing-dependencies';
+@import '../_vendor/sassy-lists/stylesheets/helpers/true';
+@import '../_vendor/sassy-lists/stylesheets/functions/purge';
+@import '../_vendor/sassy-lists/stylesheets/functions/remove';
+@import '../_vendor/sassy-lists/stylesheets/functions/replace';
+@import '../_vendor/sassy-lists/stylesheets/functions/to-list';
+
+// Sass utilities
+@import 'util/util';
+
+$breakpoint-classes: (small medium);
+
+// Global variables and styles
+@import 'global';
+
+// Components
+@import 'grid/grid';
+@import 'components/visibility';
+@import 'typography/typography';
+@import 'font-awesome/scss/variables';
+
+@include foundation-global-styles;
+@include foundation-text-alignment;
+@include foundation-visibility-classes;
+
+html {
+  box-sizing: border-box;
+  font-size: $global-font-size;
+}
+
+// Set box-sizing globally to handle padding and border widths
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+// Default body styles
+body {
+  margin: 0;
+  padding: 0;
+
+  background: $body-background;
+
+  font-family: $body-font-family;
+  font-weight: $global-weight-normal;
+  line-height: $global-lineheight;
+  color: $body-font-color;
+}
+
+a {
+  text-decoration: none;
+}
+
+article, aside, footer, header, nav, section {
+  display: block;
+}
+
+.menu {
+  margin: 0;
+  padding: 0;
+}
+
+.column, .columns {
+  display: inline-block;
+
+  @include -zf-breakpoint-value('auto', $grid-column-gutter) {
+    $padding: rem-calc($-zf-bp-value) / 2;
+
+    padding-right: $padding;
+    padding-left: $padding;
+  }
+}
+
+@import 'icons';
+@import 'site';
+@import 'menus';
+@import 'mobile';
+@import 'nav-links';
+@import 'posts';
+@import 'media';
+@import 'weather';

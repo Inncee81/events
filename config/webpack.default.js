@@ -6,15 +6,22 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 export default {
   entry: {
     'themes/visita/js/visita.js': './src/themes/visita/visita.js',
+    'themes/vidalatina/js/visita.js': './src/themes/vidalatina/vidalatina.js',
     'plugins/visita/js/admin.js': './src/plugins/visita/admin.js',
 
-    'plugins/admin/css/login.css': './src/plugins/admin/login.scss',
+    'themes/visita/login.css': './src/themes/vidalatina/login.scss',
+    'themes/vidalatina/login.css': './src/themes/vidalatina/login.scss',
+    'themes/visita/editor-style.css': './src/themes/common/editor-style.scss',
+    'themes/vidalatina/editor-style.css': './src/themes/common/editor-style.scss',
+    'themes/visita/inline.css': './src/themes/visita/inline.scss',
+    'themes/vidalatina/inline.css': './src/themes/vidalatina/inline.scss',
+    'themes/visita/tablet.css': './src/themes/common/tablet.scss',
+    'themes/vidalatina/tablet.css': './src/themes/common/tablet.scss',
+    'themes/visita/style.css': './src/themes/visita/style.scss',
+    'themes/vidalatina/style.css': './src/themes/vidalatina/style.scss',
+
     'plugins/visita/css/admin.css': './src/plugins/visita/admin.scss',
     'plugins/visita/css/fields.css': './src/plugins/visita/fields.scss',
-    'themes/visita/style.css': './src/themes/visita/style.scss',
-    'themes/visita/inline.css': './src/themes/visita/inline.scss',
-    'themes/visita/tablet.css': './src/themes/visita/tablet.scss',
-    'themes/visita/editor-style.css': './src/themes/visita/editor-style.scss',
   },
   output: {
     filename: '[name]',

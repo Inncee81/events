@@ -41,7 +41,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		* Make sure that new language(.mo ) files have 'ims-' as base name
 		*/
 		protected $styles 	= array();
-		protected $version 	= '3.0.0';
+		protected $version 	= '3.0.1';
 		protected $domain 	= 'xparkmedia';
 
 
@@ -170,7 +170,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		* @since 1.0.0
 		*/
 		function custom_login( ) {
-			wp_enqueue_style( 'admin-login', plugins_url( 'css/login.css', __FILE__ ), NULL, $this->version );
+			wp_enqueue_style( 'admin-login', get_stylesheet_directory_uri() . '/login.css', NULL, $this->version );
 		}
 
 		/**

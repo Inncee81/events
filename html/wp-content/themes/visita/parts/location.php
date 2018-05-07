@@ -21,7 +21,7 @@
       esc_attr( sprintf( __( 'Link to %s', 'visita' ), the_title_attribute( 'echo=0' ) ) )
     )
   ?>
-  <span class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
+  <span class="author vcard hidden"><em class="fn"><?php bloginfo('name') ?></em></span>
   <div class="entry-meta">
     <?php visita_price_range( true ); ?>
     <?php visita_get_location_date(); ?>

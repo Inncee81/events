@@ -39,7 +39,7 @@
       )
     ?>
     <?php visita_get_post_date(); ?>
-    <span itemprop="author" class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
+    <span itemprop="author" class="author vcard hidden"><em class="fn"><?php bloginfo('name') ?></em></span>
     <?php if ( is_single() ) visita_share_botton(); ?>
   </header><!-- .entry-header -->
 

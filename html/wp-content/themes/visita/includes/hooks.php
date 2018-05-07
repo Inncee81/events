@@ -15,12 +15,14 @@
 * Add metag data per content if data is available
 */
 function visita_add_head_metatags( ) {
+  global $visita_options;
+
   echo '<link rel="dns-prefetch" href="//cdn.apixu.com" />' . "\n";
-  echo '<link rel="dns-prefetch" href="//s.visita.vegas" />' . "\n";
   echo '<link rel="dns-prefetch" href="//cdn.onesignal.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//fonts.gstatic.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//fonts.googleapis.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//pagead2.googlesyndication.com" />' . "\n";
+  echo '<link rel="dns-prefetch" href="//s.' . esc_attr($visita_options['domain']) . '" />' . "\n";
 }
 add_action( 'wp_head', 'visita_add_head_metatags', 2 );
 
@@ -40,6 +42,7 @@ function visita_theme_setup( ) {
   /**
   * Global time date format
   */
+  $visita_options['domain'] = 'visita.vegas';
   $visita_options['date_time_format'] = get_option('date_format') . ' ' . get_option('time_format');
 
   /**
@@ -85,7 +88,6 @@ function visita_theme_setup( ) {
   * @see https://developer.wordpress.org/reference/functions/add_theme_support/#Post_Thumbnails
   */
   add_theme_support( 'post-thumbnails' );
-  // set_post_thumbnail_size( 800, 320, true );
   add_image_size( 'featured-mobile', 600,  240, true );
 
   // This theme uses its own gallery styles.
@@ -139,7 +141,7 @@ function visita_style_enqueues( ) {
   $theme 	= wp_get_theme();
 
   wp_register_style( 'font-open-sans', 'https://fonts.googleapis.com/css?family=Roboto:300,400,500' );
-  wp_register_style( 'visita', get_template_directory_uri() . "/style.css", false, $theme->version, 'all' );
+  wp_register_style( 'visita', get_stylesheet_directory_uri() . "/style.css", false, $theme->version, 'all' );
 }
 add_action( 'wp_enqueue_scripts', 'visita_style_enqueues' );
 
@@ -148,7 +150,7 @@ add_action( 'wp_enqueue_scripts', 'visita_style_enqueues' );
 */
 function visita_inline_styles( ) {
 
-  if ( $content = file_get_contents( get_template_directory() . "/inline.css") ) {
+  if ( $content = file_get_contents( get_stylesheet_directory() . "/inline.css") ) {
     echo "<style>{$content}</style>";
   }
 
@@ -188,8 +190,8 @@ function visita_scripts_enqueues( ) {
     'weather_text' => ($lang == 'es') ? 'celsius' : 'freiheit',
     'weather' => esc_url( "/wp-content/cache/_json/{$lang}.json" ),
     'fonts' => "https://fonts.googleapis.com/css?family=Roboto:300,400,500",
-    'styles' => get_template_directory_uri() . "/style.css?ver=" . $theme->version,
-    'tablet' => get_template_directory_uri() . "/tablet.css?ver=" . $theme->version,
+    'styles' => get_stylesheet_directory_uri() . "/style.css?ver=" . $theme->version,
+    'tablet' => get_stylesheet_directory_uri() . "/tablet.css?ver=" . $theme->version,
   ) );
 }
 add_action( 'wp_enqueue_scripts', 'visita_scripts_enqueues' );
@@ -304,8 +306,8 @@ function visita_organization_schema( ) {
         ),
         'aggregateRating' => array(
           '@type'         => 'AggregateRating',
-          'ratingValue'   => '4.3',
-          'reviewCount'   => '1357'
+          'ratingValue'   => '4.35',
+          'reviewCount'   => '1421'
         ),
         'sameAs' => array(
           'https://twitter.com/visita_vegas',
