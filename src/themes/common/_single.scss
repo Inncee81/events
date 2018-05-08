@@ -7,6 +7,7 @@ body.page .entry-title {
   padding: 1em 0;
 }
 
+
 .single {
 
   .date {
@@ -15,6 +16,10 @@ body.page .entry-title {
 
   .venue {
     font-weight: 700;
+    &:before {
+      content: '\f041';
+      margin-right: 5px;
+    }
   }
 
   h4 {
