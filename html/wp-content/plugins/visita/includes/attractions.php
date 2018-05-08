@@ -116,6 +116,7 @@ class VisitaAttractions extends VisitaBase {
           'choices' => array(
             'Store' => __( 'Store', 'visita' ),
             'Park' => __( 'Park', 'visita' ),
+            'Hotel' => __( 'Hotel', 'visita' ),
             'Museum' => __( 'Museum', 'visita' ),
             'Aquarium' => __( 'Aquarium', 'visita' ),
             'ComedyClub' => __( 'Comedy Club', 'visita' ),
