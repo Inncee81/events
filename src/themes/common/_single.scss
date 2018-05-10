@@ -122,9 +122,19 @@ body.page .entry-title {
     }
   }
 
-  .price-action.inactive {
+  .inactive,
+  .no-events {
     color: $gray-dark;
     background-color: $gray-lightest;
+
+    &:after {
+      content: '';
+    }
+  }
+
+  .no-events {
+    color: #828282;
+    text-align: center;
   }
 
   .entry-content {

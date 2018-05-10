@@ -458,15 +458,24 @@ function visita_get_location_date( ) {
 * @return void
 */
 function visita_event_dates( ) {
-  if ( $price = get_post_meta( get_the_ID(), '_price', true ) ) {
 
-    if ( ! $times = get_post_meta( get_the_ID(), '_times', true ) ) {
-      return false;
-    }
+  if ( has_term( 44, 'events' ) ) {
+    printf(
+      '<div class="price">
+        <span class="price-action no-events">%1$s</span>
+      </div>',
+      esc_attr__( 'No dates currently available', 'visita' )
+    );
+    return false;
+  }
 
-    $starts = (int) get_post_meta( get_the_ID(), '_starts', true );
+  if ( ! $times = get_post_meta( get_the_ID(), '_times', true ) ) {
+    return false;
+  }
 
-    foreach( (array) $times as $time ) {
+  $starts = (int) get_post_meta( get_the_ID(), '_starts', true );
+
+  foreach( (array) $times as $time ) {
 
       $time = wp_parse_args( $time, array(
         '_date_link' => '',
@@ -496,7 +505,6 @@ function visita_event_dates( ) {
         esc_attr( $date < $today ? 'inactive' : '' )
       );
     }
-  }
 }
 
 /**

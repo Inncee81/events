@@ -875,7 +875,11 @@ class VisitaEvents extends VisitaBase {
           'key'      => '_ends',
           'compare'  => '<',
           'value'    => strtotime( 'Today' ),
-        )
+        ),
+        // array(
+        //   'value'    => 0,
+        //   'key'      => '_permanent',
+        // )
       )
     ) );
 
