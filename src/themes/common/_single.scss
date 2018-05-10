@@ -16,10 +16,15 @@ body.page .entry-title {
 
   .venue {
     font-weight: 700;
+
     &:before {
       content: '\f041';
       margin-right: 5px;
     }
+  }
+
+  .venue.empty {
+    display: none;
   }
 
   h4 {

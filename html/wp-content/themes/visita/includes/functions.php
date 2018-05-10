@@ -346,9 +346,9 @@ function visita_price_range( $itemprop = false ) {
 function visita_entry_meta( ) {
 
   printf(
-    '<a href="%7$s" rel="external" target="_blank" class="venue"><span itemprop="name">%1$s</span></a>
+    '<a href="%8$s" rel="external" target="_blank" class="venue %7$s"><span itemprop="name">%1$s</span></a>
       <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="address">
-        <a href="%7$s" rel="external" target="_blank">
+        <a href="%8$s" rel="external" target="_blank">
           <span itemprop="streetAddress" class="street">%2$s</span>
           <span itemprop="addressLocality" class="city">%3$s</span>
           <span itemprop="addressRegion" class="state">%4$s</span>
@@ -356,12 +356,13 @@ function visita_entry_meta( ) {
         </a>
       </address>' . '' .'
     <span itemprop="telephone" class="phone tel hidden">%6$s</span>',
-    esc_html( get_post_meta( get_the_ID(), '_location', true ) ),
+    esc_html( $location = get_post_meta( get_the_ID(), '_location', true ) ),
     esc_html( get_post_meta( get_the_ID(), '_street', true ) ),
     esc_html( get_post_meta( get_the_ID(), '_city', true ) ),
     esc_html( get_post_meta( get_the_ID(), '_state', true ) ),
     esc_html( get_post_meta( get_the_ID(), '_zip', true ) ),
     esc_html( get_post_meta( get_the_ID(), '_phone', true ) ),
+    esc_html( ! $location ? 'empty' : '' ),
     esc_url( 'https://www.google.com/maps/search/' .
       implode( '+',
         explode(' ',

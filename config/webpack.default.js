@@ -9,7 +9,7 @@ export default {
     'themes/vidalatina/js/visita.js': './src/themes/vidalatina/vidalatina.js',
     'plugins/visita/js/admin.js': './src/plugins/visita/admin.js',
 
-    'themes/visita/login.css': './src/themes/vidalatina/login.scss',
+    'themes/visita/login.css': './src/themes/visita/login.scss',
     'themes/vidalatina/login.css': './src/themes/vidalatina/login.scss',
     'themes/visita/editor-style.css': './src/themes/common/editor-style.scss',
     'themes/vidalatina/editor-style.css': './src/themes/common/editor-style.scss',
