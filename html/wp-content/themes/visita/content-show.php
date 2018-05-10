@@ -17,7 +17,7 @@
 
   <?php if ( has_post_thumbnail() ) : ?>
     <figure class="hmedia">
-      <a href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title_attribute(); ?>" class="image url enclosure">
+      <a href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title_attribute(); ?>" class="image url enclosure" rel="bookmark">
         <?php the_post_thumbnail( 'post-thumbnail', array( 'class' => 'photo' ) ); ?>
       </a>
       <meta class="image" itemprop="image" content="<?php the_post_thumbnail_url()?>" />

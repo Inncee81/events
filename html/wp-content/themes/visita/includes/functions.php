@@ -473,6 +473,7 @@ function visita_event_dates( ) {
     return false;
   }
 
+  $price = get_post_meta( get_the_ID(), '_price', true );
   $starts = (int) get_post_meta( get_the_ID(), '_starts', true );
 
   foreach( (array) $times as $time ) {
