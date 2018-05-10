@@ -341,6 +341,8 @@ function visita_head_metatags( ) {
   echo '<meta name="twitter:site" content="@visita_vegas">' . "\n";
 
   if ( is_tax() && $description = term_description() ) {
+    global $wp;
+    echo '<link rel="canonical" href="' . esc_url( site_url($wp->request) ) . '/" />' . "\n";
     echo '<meta name="description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
     echo '<meta name="twitter:description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
   }
