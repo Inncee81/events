@@ -582,38 +582,54 @@ class VisitaEvents extends VisitaBase {
 
     foreach( $json as $event ) {
 
-      //  $start = strtotime( $event->startDate );
-      $end = new DateTime( $event->endDate );
+      $end = new DateTime( @$event->endDate );
       $start = new DateTime( $event->startDate );
 
-      if ( isset( $event->performer[0]->name ) )
-        $event->name = $event->performer[0]->name;
+      $performers = array();
+      if ( is_array( $event->performer ) ){
+
+        if ( isset( $event->performer[0]->name ) )
+          $event->name = $event->performer[0]->name;
+
+        foreach ( $event->performer as $performer ) {
+          $performers[] = array(
+            '_name' =>  ucwords( strtolower( $performer->name ) ),
+          );
+        }
+      }
 
       if ( is_array( $event->offers ) )
         $event->offers = $event->offers[0];
 
       $this->save_event( array(
-        'post_title'   => $event->name,
-        'image'        => $event->image,
-        'tax_input'    => array(
-          'eventos'    =>  20
+        'post_title'         => ucwords( strtolower( $event->name ) ),
+        'image'              => $event->image,
+        'tax_input'          => array(
+          $this->taxonomy    =>  array( 20 )
         ),
-        'meta_input'   => array(
-          '_location'  => $event->location->name,
-          '_street'    => $event->location->address->streetAddress,
-          '_state'     => $event->location->address->addressRegion,
-          '_city'      => $event->location->address->addressLocality,
-          '_zip'       => $event->location->address->postalCode,
-          '_ends'      => $end->format('U'),
-          '_starts'    => $start->format('U'),
-          '_price_max' => $event->offers->highPrice,
-          '_price'     => (isset( $event->offers->price ) ? $event->offers->price : $event->offers->lowPrice ),
-          '_link'      => (isset( $event->offers->url ) ? $event->offers->url : $event->url ) ,
-          '_times'            => array( array(
-            '_date'           => $start->format( 'm/d/y' ),
-            '_time'           => $start->format( 'g:i A' ),
-            '_availability'   => 'InStock',
+        'meta_input'         => array(
+          '_event_type'      => 'MusicEvent',
+          '_location'        => ucwords( strtolower( $event->location->name ) ),
+          '_street'          => $event->location->address->streetAddress,
+          '_state'           => $event->location->address->addressRegion,
+          '_city'            => $event->location->address->addressLocality,
+          '_zip'             => $event->location->address->postalCode,
+          '_ends'            => $end->format('U'),
+          '_starts'          => $start->format('U'),
+          '_price_max'       => $event->offers->highPrice,
+          '_price'           => (isset( $event->offers->price ) ? $event->offers->price : $event->offers->lowPrice ),
+          '_link'            => (isset( $event->offers->url ) ? $event->offers->url : $event->url ) ,
+          '_performers'      => $performers,
+          '_times'           => array( array(
+            '_date'          => $start->format( 'm/d/y' ),
+            '_time'          => $start->format( 'g:i A' ),
+            '_availability'  => 'InStock',
           )),
+          '_description'     => $this->get_description(
+                                  "{$event->name} {$event->location->name}",
+                                  $start->format('U'),
+                                  $start->format('U')
+          ),
         )
       ) );
     }
@@ -646,7 +662,7 @@ class VisitaEvents extends VisitaBase {
       'https://app.ticketmaster.com/discovery/v2/events.json?' .
       http_build_query( array(
         'size'      => 20,
-        'stateCode' => 'nv',
+        'stateCode' => 'nv',  //city
         'apikey'    => $this->ticketmater_key,
         'keyword'   => ( empty( $keyword ) ? 'latin' : $keyword ),
       ) )
@@ -683,6 +699,15 @@ class VisitaEvents extends VisitaBase {
         );
       }
 
+      $performers = array();
+      if ( is_array( $event->_embedded->attractions ) ){
+        foreach ( $event->_embedded->attractions as $performer ) {
+          $performers[] = array(
+            '_name' =>  ucwords( $performer->name ),
+          );
+        }
+      }
+
       $date     = $event->dates->start->localDate;
       $time     = $event->dates->start->localTime;
 
@@ -691,9 +716,10 @@ class VisitaEvents extends VisitaBase {
           'image'               => $event->image,
           'post_status'         => 'publish',
           'tax_input'           => array(
-            'eventos'           =>  20
+            $this->taxonomy    =>  array( 20 )
           ),
           'meta_input'          => array(
+            '_event_type'       => 'MusicEvent',
             '_event_id'         => $event->id,
             '_location'         => $event->_embedded->venues[0]->name,
             '_street'           => $event->_embedded->venues[0]->address->line1,
@@ -705,6 +731,7 @@ class VisitaEvents extends VisitaBase {
             '_price_max'        => $event->priceRanges[0]->max,
             '_starts'           => strtotime( "$date $time" ),
             '_ends'             => strtotime( "$date $time + 120 minutes" ),
+            '_performers'       => $performers,
             '_times'            => array( array(
               '_date'           => $event->dates->start->localDate,
               '_time'           => $event->dates->start->localTime,
@@ -832,8 +859,7 @@ class VisitaEvents extends VisitaBase {
   }
 
   /**
-  * Expired events
-  * and delete unprocess orders
+  * Expired events and delete unprocessed events
   *
   * @return void
   * @since 0.5.0

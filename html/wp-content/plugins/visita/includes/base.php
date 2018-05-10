@@ -178,13 +178,15 @@ class VisitaBase {
   * @since 3.0.0
   */
   function get_description( $title, $date, $time, $city = 'Las Vegas' ) {
-    return ucwords( strtolower( $title ) )
-    . " en $city, "
-    . sprintf(
-       date_i18n( 'l j %\s F Y %\s g:i a.', strtotime( "$date $time" ) ),
-       __( 'from', 'visita' ),
-       __( 'to', 'visita' )
-    );
+    return ucwords( str_ireplace(
+        array('of las vegas', 'las vegas'), '', strtolower( $title )
+      ) )
+      . " en $city, "
+      . sprintf(
+          lcfirst( date_i18n( 'l j %\s F Y %\s g:i a.', strtotime( "$date $time" ) ) ),
+          __( 'from', 'visita' ),
+          __( 'to', 'visita' )
+      );
   }
 
   /**
