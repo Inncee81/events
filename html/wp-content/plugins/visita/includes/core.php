@@ -72,10 +72,10 @@ class Visita_Core {
    * @since 0.5.0
    */
   function register_post_types( ) {
-    $this->show = new VisitaShows();
-    $this->club = new VisitaClubs();
-    $this->event = new VisitaEvents();
-    $this->hotel = new VisitaHotels();
+    $this->show       = new VisitaShows();
+    $this->club       = new VisitaClubs();
+    $this->event      = new VisitaEvents();
+    $this->hotel      = new VisitaHotels();
     $this->attraction = new VisitaAttractions();
   }
 
