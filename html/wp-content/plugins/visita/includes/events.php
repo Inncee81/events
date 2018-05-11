@@ -876,42 +876,42 @@ class VisitaEvents extends VisitaBase {
           'compare'  => '<',
           'value'    => strtotime( 'Today' ),
         ),
-        // array(
-        //   'value'    => 0,
-        //   'key'      => '_permanent',
-        // )
       )
     ) );
 
     foreach( $posts as $post ) {
-      $start = strtotime( '+ 1 year', current_time( 'timestamp' ) );
-      wp_insert_post(
-        array_replace_recursive( (array) $post, array(
-          'tax_input'          => array(
-            $this->taxonomy    => array( 44 )
-          ),
-          'meta_input'         => array(
-            '_location'        => '',
-            '_street'          => '',
-            '_ends'            => '',
-            '_starts'          => $start,
-            '_ends'            => strtotime( '+ 120 minutes', $start ),
-            '_price_max'       => '',
-            '_price'           => '',
-            '_link'            => '',
-            '_times'           => array( array(
-              '_date'          => date_i18n( 'm/d/y', $start ),
-              '_time'          => date_i18n( 'g:i A', $start ),
-              '_availability'  => 'PreSale',
-            ) ),
-            '_description'     => $this->get_description(
-                                  "{$post->post_title}",
-                                  date_i18n( 'm/d/y', $start ),
-                                  ''
+      if ( get_post_meta( $post->ID, '_permanent', true ) ) {
+        $start = strtotime( '+ 1 year', current_time( 'timestamp' ) );
+        wp_insert_post(
+          array_replace_recursive( (array) $post, array(
+            'tax_input'          => array(
+              $this->taxonomy    => array( 44 )
             ),
-          )
-        ))
-      );
+            'meta_input'         => array(
+              '_location'        => '',
+              '_street'          => '',
+              '_ends'            => '',
+              '_starts'          => $start,
+              '_ends'            => strtotime( '+ 120 minutes', $start ),
+              '_price_max'       => '',
+              '_price'           => '',
+              '_link'            => '',
+              '_times'           => array( array(
+                '_date'          => date_i18n( 'm/d/y', $start ),
+                '_time'          => date_i18n( 'g:i A', $start ),
+                '_availability'  => 'PreSale',
+              ) ),
+              '_description'     => $this->get_description(
+                                    "{$post->post_title}",
+                                    date_i18n( 'm/d/y', $start ),
+                                    ''
+              ),
+            )
+          ))
+        );
+      } else {
+        wp_trash_post( $post->ID );
+      }
     }
   }
 }
