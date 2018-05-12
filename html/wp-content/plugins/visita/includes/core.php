@@ -531,7 +531,7 @@ class Visita_Core {
     if ( function_exists( 'pll_current_language') ) {
       $language = array(
         'operator' => 'IN',
-        'field'    => 'term_id',
+        'field'    => 'slug',
         'taxonomy' => 'language',
         'terms'	=> $query->get_param( 'lang' ) == 'en-US' ? 'en' : 'es'
       );
