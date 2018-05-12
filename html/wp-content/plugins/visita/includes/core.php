@@ -527,6 +527,9 @@ class Visita_Core {
       return $response;
     }
 
+    add_filter( 'the_posts', 'relevanssi_query', 99, 2 );
+    add_filter( 'relevanssi_search_ok', '__return_true' );
+
     $language = false;
     if ( function_exists( 'pll_current_language') ) {
       $language = array(
