@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2018-04-14 00:36-0700\n"
-"PO-Revision-Date: 2018-04-14 00:36-0700\n"
+"POT-Creation-Date: 2018-05-11 23:49-0700\n"
+"PO-Revision-Date: 2018-05-11 23:49-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -50,21 +50,25 @@ msgstr "Buscar  &hellip;"
 msgid "Back to top"
 msgstr "Subir"
 
-#: content-event.php:29 content-page.php:29 content-post.php:29
-#: content-show.php:29 content.php:29 parts/location.php:12
+#: content-event.php:29 content-hotel.php:29 content-page.php:29
+#: content-post.php:29 content-show.php:29 content.php:29 parts/location.php:12
 msgid "Edit"
 msgstr "Editar"
 
-#: content-event.php:38 content-page.php:38 content-post.php:38
-#: content-show.php:38 content.php:38 parts/location.php:21
+#: content-event.php:38 content-hotel.php:38 content-page.php:38
+#: content-post.php:38 content-show.php:38 content.php:38 parts/location.php:21
 #, php-format
 msgid "Link to %s"
 msgstr "Enlace a %s"
 
-#: content-event.php:60 content-page.php:48 content-post.php:48
-#: content-show.php:60 content.php:51 parts/location.php:43
+#: content-event.php:60 content-hotel.php:70 content-page.php:48
+#: content-post.php:48 content-show.php:60 content.php:51 parts/location.php:43
 msgid "Continue <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Continuar <span class=\"meta-nav\">&rarr;</span>"
+
+#: content-hotel.php:60
+msgid "Haz tu reservación"
+msgstr "Haz tu reservación"
 
 #: footer.php:20
 msgid "Skip to navigation"
@@ -74,125 +78,117 @@ msgstr "Ir a la Navegacíon"
 msgid "Skip to top navigation"
 msgstr "Ir a la Navegacíon"
 
-#: footer.php:30
-msgid "visita.vegas by"
-msgstr "visita.vegas creado por"
-
 #: footer.php:31
 msgid "http://xparkmedia.com"
 msgstr "http://es.xparkmedia.com"
 
-#: header.php:55
+#: header.php:54
 msgid "/en/las-vegas-weather/"
 msgstr "/clima-las-vegas/"
 
-#: header.php:59
+#: header.php:58
 msgid "Search: events, shows, hotels..."
 msgstr "Buscar: eventos, shows, hoteles…"
 
-#: header.php:68
+#: header.php:67
 msgid "Skip to content"
 msgstr "Ir al contenido"
 
-#: header.php:69
+#: header.php:68
 msgid "Menu"
 msgstr "Menú"
 
-#: includes/functions.php:100
+#: includes/functions.php:112
 msgid "eMail"
 msgstr "eMail"
 
-#: includes/functions.php:101
+#: includes/functions.php:113
 msgid "Facebook"
 msgstr ""
 
-#: includes/functions.php:102
+#: includes/functions.php:114
 msgid "Google+"
 msgstr ""
 
-#: includes/functions.php:103
+#: includes/functions.php:115
 msgid "Twitter"
 msgstr ""
 
-#: includes/functions.php:104
+#: includes/functions.php:116
 msgid "Reddit"
 msgstr ""
 
-#: includes/functions.php:105
+#: includes/functions.php:117
 msgid "StumbleUpon"
 msgstr ""
 
-#: includes/functions.php:167
+#: includes/functions.php:179
 msgid "Navigation"
 msgstr "Navigación"
 
-#: includes/functions.php:196
+#: includes/functions.php:208
 msgid "Post navigation"
 msgstr "Navegación"
 
-#: includes/functions.php:199
+#: includes/functions.php:211
 msgctxt "Previous post link"
 msgid "%title"
 msgstr "%title"
 
-#: includes/functions.php:200
+#: includes/functions.php:212
 msgctxt "Next post link"
 msgid "%title"
 msgstr "%title"
 
-#: includes/functions.php:324
+#: includes/functions.php:336
 msgid "Prices in U.S. dollars"
 msgstr "Precios en dólares estadounidenses"
 
-#: includes/functions.php:325
+#: includes/functions.php:337
 msgid "prices may vary."
 msgstr "precios pueden variar."
 
-#: includes/functions.php:503 includes/functions.php:533
+#: includes/functions.php:467
+msgid "No dates currently available"
+msgstr "No fechas disponibles"
+
+#: includes/functions.php:525 includes/functions.php:555
 msgid "Every Day"
 msgstr "Todos los días"
 
-#: includes/functions.php:504
+#: includes/functions.php:526
 msgid "24 Hours"
 msgstr "24 Horas"
 
-#: includes/functions.php:534
+#: includes/functions.php:556
 msgid " to "
 msgstr " a "
 
-#: includes/hooks.php:99
+#: includes/hooks.php:101
 msgid "Top Menu"
 msgstr "Menú superior"
 
-#: includes/hooks.php:100
+#: includes/hooks.php:102
 msgid "Social Menu"
 msgstr "Menú de enlaces sociales"
 
-#: includes/hooks.php:101
+#: includes/hooks.php:103
 msgid "Header Menu"
 msgstr "Menú principal"
 
-#: includes/hooks.php:102
+#: includes/hooks.php:104
 msgid "Footer Menu"
 msgstr "Menú inferior"
 
-#: includes/hooks.php:116
+#: includes/hooks.php:118
 msgid "Main Widget Area"
 msgstr "Área de widgets"
 
-#: includes/hooks.php:118
+#: includes/hooks.php:120
 msgid "Main sidebar: displays on pages and posts."
 msgstr ""
 
-#: includes/hooks.php:186
-msgid "celsius"
-msgstr "centigrados"
-
-#: includes/hooks.php:187
-msgid "freiheit"
-msgstr "freiheit"
-
-#: includes/hooks.php:245
+#: includes/hooks.php:250
 msgid "Move Up"
 msgstr "Subir"
 
@@ -211,6 +207,15 @@ msgid ""
 msgstr ""
 "Lo sentimos, pero no se encuentra nada con estos términos de búsqueda. Por "
 "favor, inténtalo de nuevo."
+
+#~ msgid "visita.vegas by"
+#~ msgstr "visita.vegas creado por"
+
+#~ msgid "celsius"
+#~ msgstr "centigrados"
+
+#~ msgid "freiheit"
+#~ msgstr "freiheit"
 
 #~ msgid "- 24 Hours"
 #~ msgstr "- 24 Horas"
