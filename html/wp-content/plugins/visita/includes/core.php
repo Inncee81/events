@@ -527,10 +527,21 @@ class Visita_Core {
       return $response;
     }
 
+    $language = false;
+    if ( function_exists( 'pll_current_language') ) {
+      $language = array(
+        'operator' => 'IN',
+        'field'    => 'term_id',
+        'taxonomy' => 'language',
+        'terms'	=> $query->get_param( 'lang' ) == 'en-US' ? 'en' : 'es'
+      );
+    }
+
     $results = new WP_Query( array(
       'posts_per_page'  => 12,
       'post_status'     => 'publish',
       's'               => $term,
+      'tax_query'       => array(	$language ),
     ) );
 
     foreach ( $results->posts as $post ) {

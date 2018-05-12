@@ -115,13 +115,14 @@ const lazyLoad = new LazyLoad();
   //
   $.ajaxSetup({
     headers: {
-      'Authorization': 'Basic c2VhcmNoOk9NcGowUXVlRippUSpwQnI5WGIwQndURw==' 
+      'Authorization': 'Basic c2VhcmNoOk9NcGowUXVlRippUSpwQnI5WGIwQndURw=='
     }
   })
 
 	$('.search-field').autocomplete({
     minLength: 2,
     source: (query, suggest) => {
+      query.lang = $('html').attr('lang')
       $.get( '/wp-json/vv/v1/s', query, ( res ) => {
         suggest(res);
       })
