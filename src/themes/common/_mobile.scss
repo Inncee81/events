@@ -26,7 +26,7 @@ main {
 .site-logo {
   font: 300 1.3em/1.5 $font-sans;
   letter-spacing: -.05em;
-  margin: 0 0 0.5rem;
+  margin: 0 auto 0.5rem;
 
   a:hover, a:focus {
     color: $white;
@@ -48,12 +48,12 @@ main {
     content: $fa-var-search;
     left: .75em;
     position: absolute;
-    top: .35em;
+    top: 22%;
   }
 
   &-field[type='search'] {
     font-size: 1.1em;
-    height: 1.85em;
+    height: 2.5em;
     margin-bottom: .5em;
     padding-left: 2.5em;
     border: 1px solid $gray-light;

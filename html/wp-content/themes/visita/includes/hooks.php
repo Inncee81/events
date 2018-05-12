@@ -181,6 +181,7 @@ function visita_scripts_enqueues( ) {
   $wp_scripts->add_data( 'visita-html5', 'conditional', ' lt IE 9' );
 
   // Loads JavaScript file.
+  wp_enqueue_script( 'jquery-ui-autocomplete' );
   wp_enqueue_script( 'visita', get_template_directory_uri() . '/js/visita.js', array( 'jquery' ), $theme->version, true );
 
   $lang = visita_get_lang();

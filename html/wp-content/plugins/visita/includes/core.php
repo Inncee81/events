@@ -27,6 +27,7 @@ class Visita_Core {
     add_action( 'wp', array( $this, 'display_widgets' ), 100 );
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 100 );
     add_action( 'widgets_init', array( $this, 'widgets_init' ), 100 );
+    add_action( 'rest_api_init', array( $this, 'rest_api_register_routes') );
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
     add_action( 'after_setup_theme', array( $this, 'register_post_types'), 0 );
     add_filter( 'wpsc_protected_directories', array( $this, 'protect_json' ) );
@@ -496,6 +497,54 @@ class Visita_Core {
   }
 
   /**
+   * WP REST API register custom search endpoints
+   *
+   * @since 2.2.9
+   */
+  function rest_api_register_routes() {
+    register_rest_route( 'vv/v1', '/s', array(
+      'methods'  => 'GET',
+      'callback' => array( $this, 'rest_api_search' ),
+    ) );
+  }
+
+  /**
+   * Return search results
+   *
+   * @return object WP_REST_Response
+   * @since 2.2.9
+   */
+  function rest_api_search( $query ) {
+
+    $data = array();
+    $response = new WP_REST_Response( $data );
+    $response->header(
+      'Cache-Control',
+      'max-age=1800, must-revalidate, public'
+    );
+
+    if ( empty( $term = $query->get_param( 'term' ) ) ) {
+      return $response;
+    }
+
+    $results = new WP_Query( array(
+      'posts_per_page'  => 12,
+      'post_status'     => 'publish',
+      's'               => $term,
+    ) );
+
+    foreach ( $results->posts as $post ) {
+      $data[] = array(
+        'label' => $post->post_title,
+        'link' => get_permalink( $post->ID ),
+      );
+    }
+
+    $response->set_data($data);
+    return $response;
+  }
+
+  /**
   *
   */
   function display_widget( ) {
@@ -598,7 +647,7 @@ class Visita_Core {
         <a itemprop="url" class="url" href="%1$s" title="%2$s" rel="bookmark">
           <meta class="image" itemprop="image" content="%8$s" />
           <time itemprop="startDate" datetime="%4$s">%5$s</time> <strong itemprop="name">%3$s</strong>
-          <em itemprop="location" itemscope itemtype="http://schema.org/Place">' . __( 'at', 'visita' ) . '
+          <em class="%9$s" itemprop="location" itemscope itemtype="http://schema.org/Place">' . __( 'at', 'visita' ) . '
             <span itemprop="name">%6$s</span>
             <span class="hidden" itemprop="address" itemscope>%7$s</span>
           </em>
@@ -609,9 +658,10 @@ class Visita_Core {
         esc_html( $post->post_title ),
         esc_attr( date_i18n( 'c', $from ) ),
         esc_html( date_i18n( 'j M', $from ) ),
-        esc_html( get_post_meta( $post->ID, '_location', true ) ),
+        esc_html( $location = get_post_meta( $post->ID, '_location', true ) ),
         esc_html( get_post_meta( $post->ID, '_street', true ) ),
-        get_the_post_thumbnail_url( $post )
+        get_the_post_thumbnail_url( $post ),
+        esc_html( ! $location ? 'empty' : '' )
       );
     }
 

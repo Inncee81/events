@@ -1,17 +1,13 @@
 .site-logo {
   position: relative;
+  max-width: 560px;
   .weather {
     top: 10%;
-    right: 23%;
+    right: .5em;
     position: absolute;
     display: block;
     font-size: .85em;
-    @include breakpoint(medium down) {
-      right: 8%;
-    }
-    @include breakpoint(small down) {
-      right: 4%;
-    }
+
     &:hover, &:focus {
       color: #ffc000;
     }

@@ -111,4 +111,24 @@ const lazyLoad = new LazyLoad();
     }
   } );
 
+
+  //
+  $.ajaxSetup({
+    headers: {
+      'Authorization': 'Basic c2VhcmNoOk9NcGowUXVlRippUSpwQnI5WGIwQndURw==' 
+    }
+  })
+
+	$('.search-field').autocomplete({
+    minLength: 2,
+    source: (query, suggest) => {
+      $.get( '/wp-json/vv/v1/s', query, ( res ) => {
+        suggest(res);
+      })
+    },
+    select: ( event, ui )  => {
+      window.location.href = ui.item.link;
+    }
+  })
+
 } )( jQuery, document );

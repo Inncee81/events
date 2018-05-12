@@ -1,0 +1,20 @@
+
+.ui-autocomplete {
+  max-width: 560px;
+  background: #fff;
+  margin: 0 0.635rem;
+  display: block;
+  box-sizing: border-box;
+  box-shadow: 0 9px 12px 2px rgba(0, 0, 0, 0.27);
+  li {
+    list-style: none;
+    display: block;
+    padding: .5em 1em;
+    cursor: pointer;
+    border-bottom: solid 1px #ddd;
+    &:hover, &:focus {
+      color: #000;
+      background-color: #f5f5f5;
+    }
+  }
+}
