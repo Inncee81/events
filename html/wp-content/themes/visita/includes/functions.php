@@ -144,6 +144,7 @@ function visita_default_social_menu( $args = array() ){
   $links 			  = '';
   $social_links = array(
     'Email'     => 'mailto:support@visita.vegas',
+    'Blog'       => '/blog/',
     'Facebook'  => '//www.facebook.com/VisitaVegas/',
     'Twitter'   => '//twitter.com/visita_vegas',
     'RSS'       => '/feed/',
