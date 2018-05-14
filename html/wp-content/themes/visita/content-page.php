@@ -13,7 +13,7 @@
  */
  ?>
 
-<article itemscope itemtype="https://schema.org/Article" <?php post_class(); ?>>
+<article itemscope itemtype="https://schema.org/Blog" <?php post_class(); ?>>
 
   <?php if ( has_post_thumbnail() ) : ?>
     <figure class="hmedia">
@@ -38,7 +38,10 @@
         esc_attr( sprintf( __( 'Link to %s', 'visita' ), the_title_attribute( 'echo=0' ) ) )
       )
     ?>
-    <span itemprop="author" class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
+    <div class="entry-meta hidden">
+      <?php visita_get_post_date(); ?>
+      <span itemprop="author" class="author vcard hidden"><em class="fn"><?php bloginfo('name') ?></em></span>
+    </div><!-- .entry-meta -->
   </header><!-- .entry-header -->
 
   <?php if ( is_page() ) visita_before_loop(); ?>
@@ -48,7 +51,7 @@
       <?php the_content( __( 'Continue <span class="meta-nav">&rarr;</span>', 'visita' ) ); ?>
     </div><!-- .entry-content -->
   <?php endif; // is_single() ?>
-  
+
   <?php if ( is_page() ) visita_after_loop(); ?>
 
 </article><!-- #post-<?php the_ID(); ?> -->

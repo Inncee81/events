@@ -13,7 +13,7 @@
  */
  ?>
 
-<article itemscope itemtype="https://schema.org/Blog" <?php post_class(); ?>>
+<article itemscope itemtype="https://schema.org/Article" <?php post_class(); ?>>
 
   <?php if ( has_post_thumbnail() ) : ?>
     <figure class="hmedia">
@@ -23,14 +23,16 @@
       <meta class="image" itemprop="image" content="<?php the_post_thumbnail_url()?>" />
       <figcaption class="fn"><?php the_title_attribute(); ?></figcaption>
     </figure>
+  <?php else: // has_post_thumbnail() ?>
+    <meta class="image" itemprop="image" content="<?php stylesheet_directory_uri('/icons/icon-192.png')?>" />
   <?php endif; // has_post_thumbnail() ?>
 
   <header class="entry-header<?php if ( ! is_single() ) echo ' float' ?>">
     <?php edit_post_link( __( 'Edit', 'visita' ), '<span class="edit-link">', '</span>' ); ?>
     <?php
       printf(
-        '<%3$s itemprop="name" class="entry-title">
-          <a href="%1$s" itemprop="url" class="url" title="%4$s" rel="bookmark">%2$s</a>
+        '<%3$s itemprop="headline" class="entry-title">
+          <a href="%1$s" itemprop="url mainEntityOfPage" class="url" title="%4$s" rel="bookmark">%2$s</a>
         </%3$s>',
         get_permalink(),
         esc_html( get_the_title() ),
@@ -38,8 +40,16 @@
         esc_attr( sprintf( __( 'Link to %s', 'visita' ), the_title_attribute( 'echo=0' ) ) )
       )
     ?>
-    <?php visita_get_post_date(); ?>
-    <span itemprop="author" class="author vcard hidden"><em class="fn"><?php bloginfo('name') ?></em></span>
+    <div class="entry-meta hidden">
+      <span itemprop="author" class="author vcard"><em class="fn"><?php bloginfo('name') ?></em></span>
+      <span itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop="name" content="<?php bloginfo('name') ?>" />
+        <span itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+          <meta itemprop="url" content="<?php stylesheet_directory_uri('/icons/icon-192.png')?>"  />
+        </span>
+      </span>
+      <?php visita_get_post_date(); ?>
+    </div><!-- .entry-meta -->
     <?php if ( is_single() ) visita_share_botton(); ?>
   </header><!-- .entry-header -->
 

@@ -426,7 +426,7 @@ function visita_get_post_date( ) {
   printf(
     '<div class="date">
       <time itemprop="dateModified" class="updated hidden" datetime="%4$s">%3$s</time>
-      <time itemprop="dateCreated" class="entry-date published" datetime="%2$s">%1$s</time>
+      <time itemprop="datePublished" class="entry-date published" datetime="%2$s">%1$s</time>
     </div>',
     esc_html( get_the_date( ) ),
     esc_attr( get_the_date( 'c' ) ),

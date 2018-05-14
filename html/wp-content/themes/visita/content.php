@@ -38,9 +38,9 @@
         esc_attr( sprintf( __( 'Link to %s', 'visita' ), the_title_attribute( 'echo=0' ) ) )
       )
     ?>
-    <span class="author vcard hidden"><em class="fn">Visita.Vegas</em></span>
-    <div class="entry-meta">
-      <?php //visita_get_start_time(); visita_entry_meta(); ?>
+    <div class="entry-meta hidden">
+      <?php visita_get_post_date(); ?>
+      <span itemprop="author" class="author vcard hidden"><em class="fn"><?php bloginfo('name') ?></em></span>
       <?php if (is_single()) visita_entry_tax( $post ) ?>
     </div><!-- .entry-meta -->
   </header><!-- .entry-header -->
