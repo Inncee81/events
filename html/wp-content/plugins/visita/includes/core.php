@@ -655,27 +655,28 @@ class Visita_Core {
 
     $list = '';
     foreach( $query->posts as $post ) {
-      $from = (int) get_post_meta( $post->ID, '_starts', true );
+      $starts = (int) get_post_meta( $post->ID, '_starts', true );
       $list .= sprintf(
       '<li itemscope itemtype="http://schema.org/Event">
         <a itemprop="url" class="url" href="%1$s" title="%2$s" rel="bookmark">
           <meta class="image" itemprop="image" content="%8$s" />
           <time itemprop="startDate" datetime="%4$s">%5$s</time> <strong itemprop="name">%3$s</strong>
-          <em class="%9$s" itemprop="location" itemscope itemtype="http://schema.org/Place">' . __( 'at', 'visita' ) . '
+          <span class="%9$s" itemprop="location" itemscope itemtype="http://schema.org/Place">' . __( 'at', 'visita' ) . '
             <span itemprop="name">%6$s</span>
             <span class="hidden" itemprop="address" itemscope>%7$s</span>
-          </em>
+          </span>
         </a>
       </li>',
         get_permalink( $post->ID ),
         esc_attr( $post->post_title ),
         esc_html( $post->post_title ),
-        esc_attr( date_i18n( 'c', $from ) ),
-        esc_html( date_i18n( 'j M', $from ) ),
+        esc_attr( date_i18n( 'c', $starts ) ),
+        esc_html( date_i18n( 'j M', $starts ) ),
         esc_html( $location = get_post_meta( $post->ID, '_location', true ) ),
         esc_html( get_post_meta( $post->ID, '_street', true ) ),
         get_the_post_thumbnail_url( $post ),
-        esc_html( ! $location ? 'empty' : '' )
+        esc_html( ! $location ? 'em empty' : 'em' ),
+        esc_attr( date_i18n( 'c', $ends ) )
       );
     }
 

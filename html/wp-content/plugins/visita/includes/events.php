@@ -479,17 +479,18 @@ class VisitaEvents extends VisitaBase {
   }
 
   /**
-  *
-  * @return void
+  * Return json data from url
+  * 
+  * @return array
   * @since 0.5.0
   */
   function json_data_from_url( $url ) {
-    if ( $content = file_get_contents( $url ) ) {
+    if ( $content = @file_get_contents( $url ) ) {
       if (preg_match('/<script(.+)(type="application\/ld\+json")([^<]+)?>([\s\S]*?)<\/script>/i', $content, $matches ) ) {
         return json_decode( $matches[4] );
       }
     }
-    return json_decode( array() );
+    return array();
   }
 
   /**
