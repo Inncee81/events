@@ -349,7 +349,7 @@ function visita_entry_meta( ) {
   printf(
     '<a href="%8$s" rel="external" target="_blank" class="venue %7$s"><span itemprop="name">%1$s</span></a>
       <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="address">
-        <a href="%8$s" rel="external" target="_blank">
+        <a href="%8$s?hl=%9$s" rel="external" target="_blank">
           <span itemprop="streetAddress" class="street">%2$s</span>
           <span itemprop="addressLocality" class="city">%3$s</span>
           <span itemprop="addressRegion" class="state">%4$s</span>
@@ -374,7 +374,8 @@ function visita_entry_meta( ) {
           get_post_meta( get_the_ID(), '_zip', true )
         )
       )
-    )
+    ),
+    esc_attr_x('en', 'Google map language', 'visita')
   );
 }
 
