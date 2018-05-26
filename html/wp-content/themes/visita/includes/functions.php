@@ -487,8 +487,8 @@ function visita_event_dates( ) {
         '_date' => date_i18n('Y-m-d', $starts),
       ));
 
-      $today = strtotime( 'today' );
-      $date = strtotime( $time['_date'] );
+      $today  = current_time( 'timestamp' );
+      $date   = strtotime( $time['_date'] . $time['_time'] );
 
       printf(
         '<div class="price" itemprop="price" content="%4$s">
