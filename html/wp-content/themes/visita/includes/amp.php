@@ -27,7 +27,11 @@ function visita_amp_post_template_data( $data ) {
     'amp-youtube' => 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js',
   ) );
 
-  $data['body_class'] .= 'amp-' . get_post_type();
+  if (is_single()) {
+    $data['body_class'] .= 'single';
+  }
+
+  $data['body_class'] .= ' amp-' . get_post_type();
   if ( ! empty( $data['amp_component_scripts']['amp-carousel'] ) ) {
     $data['body_class'] .= ' amp-carousel';
   }

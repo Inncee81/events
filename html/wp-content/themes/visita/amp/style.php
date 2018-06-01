@@ -520,6 +520,16 @@ ul.event-list {
 	line-height: 1.5em;
 }
 
+.single .no-events {
+  color: #828282;
+  text-align: center;
+	background-color: #f5f5f5;
+}
+.single .inactive:after,
+.single .no-events:after {
+    content: "";
+}
+
 .amp-carousel .amp-wp-article-featured-image {
 	display: none;
 }
