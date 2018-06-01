@@ -343,7 +343,6 @@ function visita_head_metatags( ) {
 
   if ( is_tax() && $description = term_description() ) {
     global $wp;
-    echo '<link rel="canonical" href="' . esc_url( site_url($wp->request) ) . '/" />' . "\n";
     echo '<meta name="description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
     echo '<meta name="twitter:description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
   }
@@ -357,6 +356,7 @@ function visita_head_metatags( ) {
   }
 
 	if ( is_front_page() || is_tax() || is_post_type_archive() ){
+    echo '<link rel="canonical" href="' . esc_url( site_url( $wp->request ) ) . '/" />' . "\n";
 		echo '<meta property="og:image" content="'. site_url( '/wp-content/themes/visita/img/visita.jpg')  .'" />'. "\n";
 		echo '<meta name="twitter:image:src" content="'. site_url( '/wp-content/themes/visita/img/visita.jpg')  .'">'. "\n";
     echo '<link rel="image_src" href="' . site_url( '/wp-content/themes/visita/img/visita.jpg' )  . '"  />' . "\n";
