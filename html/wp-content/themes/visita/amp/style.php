@@ -93,6 +93,15 @@ tbody th, tbody td {
   padding: .325em .35em ;
 }
 
+.screen-reader-text,
+.show-for-sr, .show-on-focus {
+  position: absolute!important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+}
+
 /* Quotes */
 
 blockquote {
@@ -379,7 +388,7 @@ amp-carousel > amp-img > img {
   display: block;
   padding: .65em .75em;
   text-decoration: none;
-  font-size: .9em;
+  font-size: .8em;
 	line-height: normal;
 }
 
@@ -532,4 +541,56 @@ ul.event-list {
 
 .amp-carousel .amp-wp-article-featured-image {
 	display: none;
+}
+
+.single-top {
+  padding-top: .5em;
+}
+
+.nav-links {
+  padding: 10px 12px;
+}
+
+.nav-next, .nav-previous {
+	font-size: .9em;
+	box-sizing: border-box;
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+  width: 49%;
+}
+
+
+.nav-previous {
+  text-align: left;
+  padding-left: 10px;
+}
+
+.nav-next {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.nav-next a,
+.nav-previous a {
+  display: block;
+  height: 20px;
+  position: relative;
+  vertical-align: middle;
+}
+
+.nav-next a:after,
+.nav-previous a:before {
+  position: absolute;
+  top: 0;
+}
+
+.nav-next a:after {
+	content: '>';
+	right: -10px;
+}
+
+.nav-previous a:before {
+	content: '<';
+	left: -10px;
 }

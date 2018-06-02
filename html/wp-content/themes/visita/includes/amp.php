@@ -92,3 +92,37 @@ function visita_amp_set_custom_template( $file, $type, $post ) {
   return $file;
 }
 add_filter( 'amp_post_template_file', 'visita_amp_set_custom_template', 10, 3 );
+
+
+/**
+* Display single post navigation
+*
+* @param string $class class attribute to identify menu location
+* @return void
+*/
+function visita_amp_post_nav( $class = '' ){
+
+  // Don't print empty markup if there's nowhere to navigate.
+  $previous 	= ( is_attachment() ) ? get_post( $post->post_parent ) : get_adjacent_post( false, '', true );
+  $next     	= get_adjacent_post( false, '', false);
+
+  if ( ! $next && ! $previous ) return;
+  ?>
+  <nav class="navigation post-navigation <?php echo $class ?>">
+    <h6 class="screen-reader-text"><?php esc_html_e( 'Post navigation', 'xclusive' ); ?></h6>
+    <div class="nav-links">
+
+      <div class="nav-previous">
+        <a href="<?php echo esc_url(amp_get_permalink($previous->ID)) ?>" rel="previous">
+          <?php echo wp_kses_data($previous->post_title) ?>
+        </a>
+      </div>
+      <div class="nav-next">
+        <a href="<?php echo esc_url(amp_get_permalink($next->ID)) ?>" rel="next">
+          <?php echo wp_kses_data($next->post_title) ?>
+        </a>
+      </div>
+    </div><!-- .nav-links -->
+  </nav><!-- .navigation -->
+  <?php
+}

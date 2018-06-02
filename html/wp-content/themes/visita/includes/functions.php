@@ -198,23 +198,22 @@ function visita_content_nav( $css ) { ?>
 */
 function visita_post_nav( $class = '' ){
 
- // Don't print empty markup if there's nowhere to navigate.
-$previous 	= ( is_attachment() ) ? get_post( $post->post_parent ) : get_adjacent_post( false, '', true );
-$next     	= get_adjacent_post( false, '', false);
+  // Don't print empty markup if there's nowhere to navigate.
+  $previous 	= ( is_attachment() ) ? get_post( $post->post_parent ) : get_adjacent_post( false, '', true );
+  $next     	= get_adjacent_post( false, '', false);
 
-  if ( ! $next && ! $previous )
-  return;
-?>
-<nav class="navigation post-navigation <?php echo $class ?>">
-  <h6 class="screen-reader-text"><?php esc_html_e( 'Post navigation', 'xclusive' ); ?></h6>
-  <div class="nav-links">
+    if ( ! $next && ! $previous ) return;
+  ?>
+  <nav class="navigation post-navigation <?php echo $class ?>">
+    <h6 class="screen-reader-text"><?php esc_html_e( 'Post navigation', 'xclusive' ); ?></h6>
+    <div class="nav-links">
 
-    <div class="nav-previous"><?php previous_post_link( '%link', _x( '%title', 'Previous post link', 'xclusive' ) ); ?></div>
-    <div class="nav-next"><?php next_post_link( '%link', _x( '%title', 'Next post link', 'xclusive' ) ); ?></div>
+      <div class="nav-previous"><?php previous_post_link( '%link', _x( '%title', 'Previous post link', 'xclusive' ) ); ?></div>
+      <div class="nav-next"><?php next_post_link( '%link', _x( '%title', 'Next post link', 'xclusive' ) ); ?></div>
 
-  </div><!-- .nav-links -->
-</nav><!-- .navigation -->
-<?php
+    </div><!-- .nav-links -->
+  </nav><!-- .navigation -->
+  <?php
 }
 
 
