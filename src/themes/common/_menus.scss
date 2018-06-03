@@ -20,6 +20,7 @@
 
 #nav {
   a {
+    color: $white;
     @include breakpoint(medium down) {
       border-bottom: $menu-mobile-border;
       display: block;
