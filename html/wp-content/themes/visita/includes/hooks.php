@@ -292,7 +292,7 @@ function visita_organization_schema( ) {
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://visita.vegas/?s={query}",
-      "query-input": "required"
+      "query-input": "required name=query"
     }
   }</script>';
 
