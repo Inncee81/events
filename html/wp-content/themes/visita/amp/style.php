@@ -95,7 +95,7 @@ tbody th, tbody td {
 
 .screen-reader-text,
 .show-for-sr, .show-on-focus {
-  position: absolute!important;
+  position: absolute;
   width: 1px;
   height: 1px;
   overflow: hidden;

@@ -284,6 +284,18 @@ add_filter( 'wp_get_attachment_image_attributes', 'visita_attachment_image_attri
 */
 function visita_organization_schema( ) {
 
+  echo
+  '<script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "url": "https://visita.vegas/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://visita.vegas/?s={query}",
+      "query-input": "required"
+    }
+  }</script>';
+
   // add it only to the home page
   if ( ! is_front_page() ) {
     return;
