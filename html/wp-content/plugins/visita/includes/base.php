@@ -472,13 +472,12 @@ class VisitaBase {
     if ( is_home() && $this->is_home ) {
       $query->is_post_type_archive = true;
       $query->set( 'post_type', $this->post_type );
-      $query->query_vars['tax_query'] = array(
-        array(
-          'taxonomy' => 'events',
-          'field'    => 'term_id',
-          'operator' => 'NOT IN',
-          'terms'		 => array(44),
-      ), $query->query_vars['tax_query'] );
+      $query->query_vars['tax_query'][] = array(
+        'taxonomy' => 'events',
+        'field'    => 'term_id',
+        'operator' => 'NOT IN',
+        'terms'		 => array(44),
+      );
     }
 
     if ( is_post_type_archive( $this->post_type )) {
