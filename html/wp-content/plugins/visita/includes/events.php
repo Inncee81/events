@@ -513,7 +513,7 @@ class VisitaEvents extends VisitaBase {
 
       $starts = $ends = false;
 
-      if ( $meta_key == '_times' && is_array($meta_value)) {
+      if ($meta_key == '_times' && is_array($meta_value)) {
         foreach ( $meta_value as $time ) {
           $time = strtotime( "{$time['_date']} {$time['_time']}" );
 
@@ -523,6 +523,11 @@ class VisitaEvents extends VisitaBase {
 
         update_post_meta( $post_id, '_ends', $ends );
         update_post_meta( $post_id, '_starts', $starts );
+      }
+      
+      if ( $meta_key == '_times' && empty($meta_value)) {
+        update_post_meta( $post_id, '_ends', '' );
+        update_post_meta( $post_id, '_starts', '' );     
       }
     }
   }
@@ -882,7 +887,7 @@ class VisitaEvents extends VisitaBase {
 
     foreach( $posts as $post ) {
       if ( get_post_meta( $post->ID, '_permanent', true ) ) {
-        $start = strtotime( '+ 1 year', current_time( 'timestamp' ) );
+        $start = strtotime( '+ 1 year', current_time( 'timestamp' ) ); 
         wp_insert_post(
           array_replace_recursive( (array) $post, array(
             'tax_input'          => array(
@@ -891,7 +896,6 @@ class VisitaEvents extends VisitaBase {
             'meta_input'         => array(
               '_location'        => '',
               '_street'          => '',
-              '_ends'            => '',
               '_starts'          => $start,
               '_ends'            => strtotime( '+ 120 minutes', $start ),
               '_price_max'       => '',
