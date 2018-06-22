@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations.
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.3.1
+Version: 2.3.2
 License: GPL2
 
 ------------------------------------------------------------------------
