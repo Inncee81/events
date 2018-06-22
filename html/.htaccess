@@ -3,7 +3,7 @@
   ModPagespeed on
   ModPagespeedEnableFilters extend_cache
   ModPagespeedCriticalImagesBeaconEnabled false
-  ModPagespeedEnableFilters recompress_jpeg,recompress_png,strip_image_meta_data,strip_image_color_profile
+  ModPagespeedEnableFilters responsive_images,resize_images,recompress_jpeg,recompress_png,strip_image_meta_data,strip_image_color_profile
   ModPagespeedJpegRecompressionQuality -1
 </IfModule>
 
@@ -12,7 +12,7 @@
 </FilesMatch>
 
 <FilesMatch "(en|es)\.json$">
-  Header set Cache-Control "max-age=180,must-revalidate,public"
+  Header set Cache-Control "max-age=3600,must-revalidate,public"
 </FilesMatch>
 
 # BEGIN WordPress
