@@ -676,7 +676,7 @@ class Visita_Core {
         esc_html( get_post_meta( $post->ID, '_street', true ) ),
         get_the_post_thumbnail_url( $post ),
         esc_html( ! $location ? 'em empty' : 'em' ),
-        esc_attr( date_i18n( 'c', $ends ) )
+        esc_attr( date_i18n( 'c', $end ) )
       );
     }
 
