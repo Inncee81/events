@@ -218,6 +218,7 @@ class VisitaClubs extends VisitaBase {
     //basics
     add_action( 'init', array( $this, 'register_post_type' ) );
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 200 );
+    add_action( 'document_title_parts', array( $this, 'title_tax_parts' ), 250 );
 
     //fields
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );

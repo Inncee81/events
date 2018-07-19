@@ -154,7 +154,7 @@ class VisitaBase {
   /**
   *
   * @return array
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function title_parts( $title_parts ) {
     if ( ! is_singular( $this->post_type ) ) {
@@ -170,19 +170,31 @@ class VisitaBase {
 
     return $title_parts;
   }
+  
+  /**
+  *
+  * @return array
+  * @since 2.0.2
+  */
+  function title_tax_parts( $title_parts ) { 
+    if ( is_tax( $this->taxonomy ) ) {
+      $title_parts['title'] = $this->taxonomy_label . " ". $title_parts['title'];
+    }
+    return $title_parts;
+  }
 
   /**
   * Format event description for SEO
   *
   * @return string
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function get_description( $title, $date, $time, $city = 'Las Vegas' ) {
     $format = ( $date && $time ) ? 'l j %\s F Y %\s g:i a.' : 'Y %\s g:i a.';
     return ucwords( str_ireplace(
         array('of las vegas', 'las vegas'), '', strtolower( $title )
       ) )
-      . " en $city, "
+      . " de $city, "
       . sprintf(
           lcfirst( date_i18n( $format, strtotime( "$date $time" ) ) ),
           __( 'from', 'visita' ),
@@ -194,7 +206,7 @@ class VisitaBase {
    * Add admin styles and scripts
    *
    * @return void
-   * @since 3.0.0
+   * @since 1.0.0
    */
   function admin_scripts( ) {
     if ( get_current_screen()->id === $this->post_type ) {
@@ -206,7 +218,7 @@ class VisitaBase {
   /**
   *
   * @return void
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function register_post_type( ) {
 
@@ -246,7 +258,7 @@ class VisitaBase {
   *
   *
   * @return void
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function head_metatags() {
     if ( is_post_type_archive( $this->post_type ) && $this->description ){
@@ -259,7 +271,7 @@ class VisitaBase {
   * Get Post ID by using meta_key and media_value
   *
   * @return bool|unit
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function get_id_by_metadata( $meta_key, $media_value ) {
 
@@ -276,7 +288,7 @@ class VisitaBase {
   * Sort objects by title and date
   *
   * @return string
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function adjacent_post_where( $direction ) {
     global $wpdb, $post;
@@ -299,7 +311,7 @@ class VisitaBase {
   * Sort objects by title and date
   *
   * @return string
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function adjacent_post_sort( $direction ) {
     return esc_sql( " ORDER BY p.post_title $direction LIMIT 1 " );
@@ -309,7 +321,7 @@ class VisitaBase {
   * Sort objects by title and date
   *
   * @return string
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function adjacent_post_next_sort( ) {
     return $this->adjacent_post_sort( "ASC" );
@@ -319,7 +331,7 @@ class VisitaBase {
   * Sort objects by title and date
   *
   * @return string
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function adjacent_post_next_where( ) {
     return $this->adjacent_post_where( ">" );
@@ -329,7 +341,7 @@ class VisitaBase {
   * Sort objects by title and date
   *
   * @return string
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function adjacent_post_previous_sort( ) {
     return $this->adjacent_post_sort( "DESC" );
@@ -339,7 +351,7 @@ class VisitaBase {
   * Sort objects by title and date
   *
   * @return string
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function adjacent_post_previous_where( ) {
     return $this->adjacent_post_where( "<" );
@@ -348,7 +360,7 @@ class VisitaBase {
   /**
   *
   * @return string
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function get_name( ) {
     return $this->name;
@@ -380,7 +392,7 @@ class VisitaBase {
   * Add additional rewrites
   *
   * @return bool|unit
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function add_rewrite_rules( ) {
     global $wp_rewrite;
@@ -401,7 +413,7 @@ class VisitaBase {
   /**
   *
   * @return bool
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function register_acf_fields( ) {
     if ( $this->fields ) {
@@ -415,7 +427,7 @@ class VisitaBase {
   * @param $post_id int
   * @param $values array
   * @return void
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function save_acf_data( $post_id, $values ) {
     if ( get_current_screen()->post_type !== $this->post_type ) {
@@ -435,7 +447,7 @@ class VisitaBase {
   * @param $post_id int
   * @param $field array acf filed array
   * @return array|mix
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function load_repeater_values( $value, $post_id, $field ) {
 
@@ -518,7 +530,7 @@ class VisitaBase {
   /**
   *
   * @return string
-  * @since 3.0.0
+  * @since 1.0.0
   */
   function sort_tax( $query ) {
     if ( ! $query->is_main_query() || is_search() ) {

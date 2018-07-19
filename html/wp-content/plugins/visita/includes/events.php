@@ -288,6 +288,7 @@ class VisitaEvents extends VisitaBase {
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 200 );
     add_action( 'visita_deactivate', array( $this, 'deactivate' ) );
     add_action( 'document_title_parts', array( $this, 'title_parts' ), 200 );
+    add_action( 'document_title_parts', array( $this, 'title_tax_parts' ), 250 );
 
     //translation
     add_filter( 'rewrite_rules_array', array( $this, 'rewrite_rules_array' ) );
@@ -907,7 +908,7 @@ class VisitaEvents extends VisitaBase {
                 '_availability'  => 'PreSale',
               ) ),
               '_description'     => $this->get_description(
-                                    "{$post->post_title}",
+                                    "{$post->post_title} en Las Vegas",
                                     date_i18n( 'm/d/y', $start ),
                                     ''
               ),

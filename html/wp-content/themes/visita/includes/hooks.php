@@ -353,7 +353,10 @@ add_filter( 'get_the_archive_title', 'visita_get_the_archive_title' );
 function visita_head_metatags( ) {
   echo '<meta name="twitter:site" content="@visita_vegas">' . "\n";
 
-  if ( is_tax() && $description = term_description() ) {
+  if ( is_tax() && $description = trim(term_description()) ) {
+    if (is_paged()) {
+      $description .= sprintf(__(' Page %d', 'visita'), get_query_var('paged'));
+    }
     echo '<meta name="description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
     echo '<meta name="twitter:description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
   }
