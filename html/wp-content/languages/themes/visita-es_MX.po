@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2018-05-23 01:29-0700\n"
-"PO-Revision-Date: 2018-05-23 01:30-0700\n"
+"POT-Creation-Date: 2018-07-19 00:51-0700\n"
+"PO-Revision-Date: 2018-07-19 00:51-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -94,6 +94,10 @@ msgstr "Ir al contenido"
 msgid "Menu"
 msgstr "Menú"
 
+#: includes/amp.php:112 includes/functions.php:208
+msgid "Post navigation"
+msgstr "Navegación"
+
 #: includes/functions.php:112
 msgid "eMail"
 msgstr "eMail"
@@ -122,46 +126,42 @@ msgstr ""
 msgid "Navigation"
 msgstr "Navigación"
 
-#: includes/functions.php:209
-msgid "Post navigation"
-msgstr "Navegación"
-
-#: includes/functions.php:212
+#: includes/functions.php:211
 msgctxt "Previous post link"
 msgid "%title"
 msgstr "%title"
 
-#: includes/functions.php:213
+#: includes/functions.php:212
 msgctxt "Next post link"
 msgid "%title"
 msgstr "%title"
 
-#: includes/functions.php:337
+#: includes/functions.php:336
 msgid "Prices in U.S. dollars"
 msgstr "Precios en dólares estadounidenses"
 
-#: includes/functions.php:338
+#: includes/functions.php:337
 msgid "prices may vary."
 msgstr "precios pueden variar."
 
-#: includes/functions.php:378
+#: includes/functions.php:377
 msgctxt "Google map language"
 msgid "en"
 msgstr "es-419"
 
-#: includes/functions.php:469
+#: includes/functions.php:468
 msgid "No dates currently available"
 msgstr "No fechas disponibles"
 
-#: includes/functions.php:527 includes/functions.php:557
+#: includes/functions.php:526 includes/functions.php:556
 msgid "Every Day"
 msgstr "Todos los días"
 
-#: includes/functions.php:528
+#: includes/functions.php:527
 msgid "24 Hours"
 msgstr "24 Horas"
 
-#: includes/functions.php:558
+#: includes/functions.php:557
 msgid " to "
 msgstr " a "
 
@@ -192,6 +192,11 @@ msgstr ""
 #: includes/hooks.php:250
 msgid "Move Up"
 msgstr "Subir"
+
+#: includes/hooks.php:358
+#, php-format
+msgid " Page %d"
+msgstr " Página %d"
 
 #: includes/theme-options.php:19
 msgid "Maximum page width"
@@ -612,9 +617,6 @@ msgstr ""
 
 #~ msgid "Published by"
 #~ msgstr "Publicado por"
-
-#~ msgid "Page"
-#~ msgstr "Página"
 
 #~ msgid "Next page"
 #~ msgstr "Próxima página"
