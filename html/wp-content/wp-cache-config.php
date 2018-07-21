@@ -6,7 +6,7 @@ See wp-cache.php for author details.
 */
 
 $wp_cache_preload_on = 1;
-$wp_cache_preload_taxonomies = 1;
+$wp_cache_preload_taxonomies = 0;
 $wp_cache_preload_posts = 'all';
 $wp_cache_preload_interval = 0;
 $cache_gc_email_me = 0;
