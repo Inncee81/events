@@ -5,11 +5,14 @@ WP-Cache Config Sample File
 See wp-cache.php for author details.
 */
 
+$wp_cache_preload_on = 1;
+$wp_cache_preload_taxonomies = 1;
+$wp_cache_preload_posts = 'all';
+$wp_cache_preload_interval = 0;
 $cache_gc_email_me = 0;
 $cached_direct_pages = array(  );
 $wpsc_save_headers = 1;
-$cache_time_interval = '43200';
-$cache_schedule_type = 'interval';
+$cache_time_interval = '0';
 $wp_cache_home_path = '/'; //Added by WP-Cache Manager
 $dismiss_gc_warning = 1; //Added by WP-Cache Manager
 $wp_cache_mobile_groups = '';
