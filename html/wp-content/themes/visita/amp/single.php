@@ -17,7 +17,7 @@
 
 <?php visita_amp_post_nav( 'single-top' ); ?>
 
-<?php $this->load_parts( array( 'content-event' ) ); ?>
+<?php $this->load_parts( array( 'content-' . get_post_type() ) ); ?>
 
 <?php visita_amp_post_nav( 'single-bottom' ); ?>
 

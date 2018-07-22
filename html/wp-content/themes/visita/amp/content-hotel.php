@@ -16,9 +16,18 @@
 	</header>
 
 	<div class="amp-dates">
-		<?php visita_opening_hours(); ?>
+		<div class="day">
+      <?php
+      if ($link = visita_get_external_link( ) ) {
+        printf(
+          '<a class="action" href="%1$s" itemprop="url" rel="external">%2$s</a>',
+          esc_url( $link ),
+          esc_html__( 'Haz tu reservación', 'visita' )
+        );
+      }
+      ?>
+    </div>
 	</div>
-
 
 	<div class="amp-wp-article-content">
 		<?php echo $this->get( 'post_amp_content' ); // amphtml content; no kses ?>
