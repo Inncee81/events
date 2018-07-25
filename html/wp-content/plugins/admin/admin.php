@@ -127,11 +127,6 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 
 			if ( WP_CACHE == true ) {
 				add_action( 'template_redirect', array( $this, 'compress_html_markup' ), 1 );
-
-				add_filter( 'wp_get_attachment_url', array( $this, 'attachment_url'), 100 );
-				add_filter( 'template_directory_uri', array( $this, 'attachment_url'), 50 );
-				add_filter( 'stylesheet_directory_uri', array( $this, 'attachment_url'), 50 );
-
       }
 		}
 

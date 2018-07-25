@@ -6,9 +6,7 @@ See wp-cache.php for author details.
 */
 
 $wp_cache_preload_on = 1;
-$wp_cache_preload_taxonomies = 0;
 $wp_cache_preload_posts = 'all';
-$wp_cache_preload_interval = 0;
 $cache_gc_email_me = 0;
 $cached_direct_pages = array(  );
 $wpsc_save_headers = 1;
@@ -39,7 +37,7 @@ $cache_max_time = 43200;
 //$use_flock = true; // Set it true or false if you know what to use
 $cache_path = WP_CONTENT_DIR . '/cache'; //Added by WP-Cache Manager
 $file_prefix = 'cache-';
-$ossdlcdn = 0;
+$ossdlcdn = 1;
 
 // Array of files that have 'wp-' but should still be cached
 $cache_acceptable_files = array( 'wp-comments-popup.php', 'wp-links-opml.php', 'wp-locations.php' );
