@@ -284,17 +284,19 @@ add_filter( 'wp_get_attachment_image_attributes', 'visita_attachment_image_attri
 */
 function visita_organization_schema( ) {
 
-  echo
-  '<script type="application/ld+json">{
-    "@context": "http://schema.org",
-    "@type": "WebSite",
-    "url": "https://visita.vegas/",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://visita.vegas/?s={query}",
-      "query-input": "required name=query"
-    }
-  }</script>';
+  printf(
+    '<script type="application/ld+json">%s</script>', 
+    wp_json_encode(array(
+      '@context'        => 'http://schema.org',
+      '@type'           => 'WebSite',
+      'url'             => home_url(),
+      'potentialAction' => array(
+        '@type'         => 'SearchAction',
+        'target'        => home_url('?s={query}'),
+        'query-input'   => 'required name=query'
+      )
+    ))
+  );
 
   // add it only to the home page
   if ( ! is_front_page() ) {
@@ -302,34 +304,32 @@ function visita_organization_schema( ) {
   }
 
   printf(
-    '<script type="application/ld+json">%1$s</script>',
-    json_encode(
-      array(
-        '@context'        => 'http://schema.org',
-        '@type'           => 'Organization',
-        'url'             => 'https://visita.vegas/',
-        'name'            => 'Visita Las Vegas',
-        'description'     => 'Visita Las Vegas: Eventos, Shows, Atracciones, Conciertos, Nightclubs, Hoteles y más.',
-        'logo'            => array(
-          '@context'      => 'http://schema.org',
-          '@type'         => 'ImageObject',
-          'url'           => get_stylesheet_directory_uri() .'/icon/icon-144.png',
-          'width'         => 144,
-          'height'        => 144
-        ),
-        'aggregateRating' => array(
-          '@type'         => 'AggregateRating',
-          'ratingValue'   => '4.35',
-          'reviewCount'   => '1421'
-        ),
-        'sameAs' => array(
-          'https://twitter.com/visita_vegas',
-          'https://www.facebook.com/VisitaVegas/',
-          'https://plus.google.com/106513602005672773042',
-          'https://www.youtube.com/channel/UCjvmES5xtmea20CQnw2-m7A'
-        )
+    '<script type="application/ld+json">%s</script>',
+    wp_json_encode(array(
+      '@context'        => 'http://schema.org',
+      '@type'           => 'Organization',
+      'url'             => home_url(),
+      'name'            => 'Visita Las Vegas',
+      'description'     => 'Visita Las Vegas: Eventos, Shows, Atracciones, Conciertos, Nightclubs, Hoteles y más.',
+      'logo'            => array(
+        '@context'      => 'http://schema.org',
+        '@type'         => 'ImageObject',
+        'url'           => get_stylesheet_directory_uri() .'/icon/icon-144.png',
+        'width'         => 144,
+        'height'        => 144
+      ),
+      'aggregateRating' => array(
+        '@type'         => 'AggregateRating',
+        'ratingValue'   => '4.41',
+        'reviewCount'   => '1821'
+      ),
+      'sameAs' => array(
+        'https://twitter.com/visita_vegas',
+        'https://www.facebook.com/VisitaVegas/',
+        'https://plus.google.com/106513602005672773042',
+        'https://www.youtube.com/channel/UCjvmES5xtmea20CQnw2-m7A'
       )
-    )
+    ))
   );
 }
 add_action( 'wp_footer', 'visita_organization_schema', 5 );
