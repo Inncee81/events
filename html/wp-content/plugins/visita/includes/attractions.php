@@ -260,6 +260,7 @@ class VisitaAttractions extends VisitaBase {
       add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
       add_action( 'wp', array( $this, 'after_posts_selection' ), 20 );
       add_action( 'visita_before_loop', array( $this, 'sort_tabs'), 50 );
+      add_action( 'wp_footer', array( $this, 'schemaorg_breadcrumbs' ), 0 );
       add_action( 'visita_site_metatags', array( $this, 'head_metatags' ), 20 );
       add_action( 'template_redirect', array( $this, 'redirect_404' ), 20, 100 );
 

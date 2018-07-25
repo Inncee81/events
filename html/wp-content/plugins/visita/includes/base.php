@@ -560,4 +560,73 @@ class VisitaBase {
       }
     }
   }
+  
+  /**
+  * add schem.org breadcrumbs
+  * 
+  * @since 2.0.2
+  */
+  function schemaorg_breadcrumbs( ) {
+    if (
+      !is_tax( $this->taxonomy )
+      && !is_singular( $this->post_type ) 
+      && !is_post_type_archive( $this->post_type )) {
+      return;
+    }
+    
+    $count = 1;
+    $breadcrumbs = array(
+      '@context'  => 'http://schema.org',
+      '@type' => 'BreadcrumbList',
+      'itemListElement' => array(
+        array(
+          '@type' => 'ListItem',
+          'position' =>	$count,
+          'item' => array(
+            '@id' => home_url(),
+            'name' => __('Home'),
+          )
+        )
+      )
+    );
+    
+    if ( is_singular( $this->post_type ) ) {
+      $breadcrumbs['itemListElement'][] = array(
+        '@type' => 'ListItem',
+        'position' =>	$count++,
+        'item' => array(
+          '@id' => home_url($this->taxonomy_slug),
+          'name' => $this->taxonomy_label,
+        )
+      );
+      $breadcrumbs['itemListElement'][] = array(
+        '@type' => 'ListItem',
+        'position' =>	$count++,
+        'item' => array(
+          '@id' => get_permalink(),
+          'name' => get_the_title(),
+        )
+      );
+    }
+    if ( is_tax( $this->taxonomy ) ) {
+      $breadcrumbs['itemListElement'][] = array(
+        '@type' => 'ListItem',
+        'position' =>	$count++,
+        'item' => array(
+          '@id' => home_url($this->taxonomy_slug),
+          'name' => $this->taxonomy_label,
+        )
+      );
+      $breadcrumbs['itemListElement'][] = array(
+        '@type' => 'ListItem',
+        'position' =>	$count++,
+        'item' => array(
+          '@id' => get_term_link(get_queried_object()->ID),
+          'name' => get_queried_object()->name,
+        )
+      );
+    }
+    
+    printf('<script type="application/ld+json">%s</script>', wp_json_encode( $breadcrumbs ));
+  }
 }
