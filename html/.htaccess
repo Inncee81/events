@@ -7,13 +7,36 @@
   ModPagespeedJpegRecompressionQuality -1
 </IfModule>
 
+<FilesMatch "(en|es)\.json$">
+  Header set Cache-Control "max-age=3600,must-revalidate,public"
+</FilesMatch>
+
+# ----------------------------------------------------------------------
+# | Allow / Block  access  to files                                    |
+# ----------------------------------------------------------------------
+
+# Block access to some file extensions
+<IfModule mod_rewrite.c>
+  RewriteRule \.(scss|md|patch|log|less|po)$ - [F,L,NC]
+</IfModule>
+
+# Block access .txt files except those in the root directory
+<IfModule mod_rewrite.c>
+  RewriteRule (\/(.+).txt)$ - [F,L,NC]
+</IfModule>
+
 <FilesMatch "sw\.js">
   Header set Service-Worker-Allowed: /
 </FilesMatch>
 
-<FilesMatch "(en|es)\.json$">
-  Header set Cache-Control "max-age=3600,must-revalidate,public"
+SetEnvIf Origin "^(.*\.?(visita\.(vegas|com)))$" ORIGIN_SUB_DOMAIN=$1
+<FilesMatch "\.(woff2?|ttf|eot|svg)$">
+  Header set Access-Control-Allow-Origin "%{ORIGIN_SUB_DOMAIN}e" env=ORIGIN_SUB_DOMAIN
 </FilesMatch>
+
+# ----------------------------------------------------------------------
+# | REWRITES                                                           |
+# ----------------------------------------------------------------------
 
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
