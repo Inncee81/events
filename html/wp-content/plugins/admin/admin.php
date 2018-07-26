@@ -102,6 +102,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 			if ( is_admin( ) ) {
 
 				add_filter( 'name_save_pre', array( $this, 'seo_slugs'), 100 );
+				add_action( 'admin_menu', array( $this, 'remove_unwanted_menus'), 100 );
 				add_filter( 'tiny_mce_before_init', array( $this, 'extended_editor_valid_elements' ) );
 
 				return;
@@ -375,6 +376,21 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 				wp_redirect( site_url( str_replace( array( 'wp-login.php' ), 'access', $_SERVER['REQUEST_URI'] ) ) );
 				die();
 			}
+		}
+		
+		/**
+		 * Remove admin menus
+		 *
+		 * @return void
+		 * @since 3.0.0
+		 */
+		function remove_unwanted_menus() {
+			remove_menu_page( 'amp-options' );
+
+			remove_submenu_page( 'caldera-forms', 'cf-pro' );
+			remove_submenu_page( 'caldera-forms', 'cf-pro' );
+			remove_submenu_page( 'caldera-forms', 'caldera-form-support' );
+			remove_submenu_page( 'caldera-forms', 'caldera-forms-extend' );
 		}
 
 		/*
