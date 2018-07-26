@@ -111,16 +111,19 @@ function visita_amp_post_nav( $class = '' ){
   <nav class="navigation post-navigation <?php echo $class ?>">
     <h6 class="screen-reader-text"><?php esc_html_e( 'Post navigation', 'xclusive' ); ?></h6>
     <div class="nav-links">
-
       <div class="nav-previous">
-        <a href="<?php echo esc_url(amp_get_permalink($previous->ID)) ?>" rel="previous">
-          <?php echo wp_kses_data($previous->post_title) ?>
-        </a>
+        <?php if ($previous): ?>
+          <a href="<?php echo esc_url(amp_get_permalink($previous->ID)) ?>" rel="previous">
+            <?php echo wp_kses_data($previous->post_title) ?>
+          </a>
+        <?php endif ?>
       </div>
       <div class="nav-next">
-        <a href="<?php echo esc_url(amp_get_permalink($next->ID)) ?>" rel="next">
-          <?php echo wp_kses_data($next->post_title) ?>
-        </a>
+        <?php if ($next): ?>
+          <a href="<?php echo esc_url(amp_get_permalink($next->ID)) ?>" rel="next">
+            <?php echo wp_kses_data($next->post_title) ?>
+          </a>
+        <?php endif ?>
       </div>
     </div><!-- .nav-links -->
   </nav><!-- .navigation -->
