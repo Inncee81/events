@@ -56,3 +56,14 @@ function visita_gtm_tag( ) {
   })(window,document,\'script\',\'dataLayer\',\'GTM-N4P3GK\');</script>';
 }
 add_action( 'visita_before_page', 'visita_gtm_tag', 5 );
+
+
+function visita_enable_page_level_ads() {
+  if (is_archive() || is_home()) {
+    echo '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script> (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-1000685253996582", enable_page_level_ads: true
+    }); </script>';
+  }
+}
+add_action( 'wp_head', 'visita_enable_page_level_ads', 2 );

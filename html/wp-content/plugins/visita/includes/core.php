@@ -584,14 +584,16 @@ class Visita_Core {
     extract( shortcode_atts( array(
         'mes' => false,
         'fecha' => false,
-        'semana' => false,
-        'categoria' => false,
         'lista' => false,
+        'semana' => false,
+        'proximos' => false,
+        'categoria' => false,
+        'titulo' => __( 'All Events', 'admin' ),
       ), $atts, 'lista-eventos' )
     );
 
     // we need a date
-    if ( ! $fecha && ! $semana && ! $mes && ! $lista ) {
+    if ( ! $fecha && ! $semana && ! $mes && ! $lista && ! $proximos ) {
       return;
     }
 
@@ -619,6 +621,12 @@ class Visita_Core {
     if ( $fecha ) {
       $end = strtotime( "last day of $fecha 23:59" );
       $start = strtotime( "first day of $fecha 0:00" );
+    }
+    
+    // 30 dias
+    if ( $proximos ) {
+      $end = strtotime( "today +20 days" );
+      $start = strtotime( "today" );
     }
 
     $meta_query = ($start && $end) ? array(
@@ -683,7 +691,7 @@ class Visita_Core {
     return sprintf(
       '<h2><a href="/" title="%1$s" rel="bookmark">%2$s</a></h2>
       <ul class="event-list">%3$s</ul>',
-      esc_attr__( 'All Events', 'admin' ),
+      esc_attr($titulo),
       __( 'Events', 'visita'),
       $list
     );

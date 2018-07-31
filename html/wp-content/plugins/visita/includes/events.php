@@ -430,7 +430,7 @@ class VisitaEvents extends VisitaBase {
   * @since 3.0.0
   */
   function sort_tax( $query ) {
-    if ( ! $query->is_main_query() || is_search() ) {
+    if ( ! $query->is_main_query() ) {
       return;
     }
 
@@ -470,7 +470,7 @@ class VisitaEvents extends VisitaBase {
       $query->set( 'post_type', 'event' );
     }
 
-    if ( is_home() || is_post_type_archive( $this->post_type ) ) {
+    if ( is_search() || is_home() || is_post_type_archive( $this->post_type ) ) {
       $query->query_vars['tax_query'][] = array(
         'taxonomy'  => $this->taxonomy,
         'field'    	=> 'term_id',
