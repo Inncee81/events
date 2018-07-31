@@ -63,5 +63,10 @@ main {
     &::placeholder {
       color: $gray-medium;
     }
+    
+    &:focus, 
+    &:active {
+      border-color: #4d0ff1;
+    }
   }
 }

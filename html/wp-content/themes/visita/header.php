@@ -55,7 +55,7 @@
         </div>
 
         <form action="<?php echo home_url() ?>" class="search-form" method="get">
-          <input type="search" class="search-field" name="s" />
+          <input type="search" class="search-field" name="s" /><span></span>
           <input type="submit" class="hidden" />
         </form>
 
