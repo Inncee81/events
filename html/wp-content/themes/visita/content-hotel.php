@@ -55,7 +55,7 @@
       <?php
       if ($link = visita_get_external_link( ) ) {
         printf(
-          '<a class="action" href="%1$s" itemprop="url" rel="external">%2$s</a>',
+          '<a class="price-action" href="%1$s" itemprop="url" rel="external">%2$s</a>',
           esc_url( $link ),
           esc_html__( 'Haz tu reservación', 'visita' )
         );
