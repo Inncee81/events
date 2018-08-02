@@ -26,7 +26,7 @@
 		</nav><!--.top-nav-->
 
 		<div class="site-credits">
-      <?php printf( '<span class="powered">%1$s</span> <a href="%2$s" title="%3$s" target="_blank"> %3$s </a>',
+      <?php printf( '<span class="powered">%1$s</span> <a href="%2$s" title="%3$s" target="_blank" rel="noopener"> %3$s </a>',
 				esc_attr( $visita_options['domain'] . ' por '),
 				esc_url( __( 'http://xparkmedia.com', 'visita' ) ),
 				esc_attr( 'Xpark Media', 'visita' )

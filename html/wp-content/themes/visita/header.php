@@ -55,7 +55,8 @@
         </div>
 
         <form action="<?php echo home_url() ?>" class="search-form" method="get">
-          <input type="search" class="search-field" name="s" /><span></span>
+          <label class="screen-reader-text" for="topsearch"><?php esc_html_e( 'Search', 'visita' ) ?></label>
+          <input type="search" id="topsearch" class="search-field" name="s" /><span></span>
           <input type="submit" class="hidden" />
         </form>
 

@@ -151,6 +151,12 @@ add_action( 'wp_enqueue_scripts', 'visita_style_enqueues' );
 function visita_inline_styles( ) {
 
   if ( $content = file_get_contents( get_stylesheet_directory() . "/inline.css") ) {
+    printf(
+      '<link rel="preload" href="%s" as="style">
+       <link rel="preload" href="%s" as="style">',
+       get_stylesheet_directory_uri() . "/style.css",
+       'https://fonts.googleapis.com/css?family=Roboto:300,400,500' 
+    );
     echo "<style>{$content}</style>";
   }
 
@@ -285,7 +291,7 @@ add_filter( 'wp_get_attachment_image_attributes', 'visita_attachment_image_attri
 function visita_organization_schema( ) {
 
   printf(
-    '<script type="application/ld+json">%s</script>', 
+    '<script type="application/ld+json">%s</script>',
     wp_json_encode(array(
       '@context'        => 'http://schema.org',
       '@type'           => 'WebSite',

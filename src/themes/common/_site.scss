@@ -4,8 +4,8 @@ html, body {
 }
 
 html {
-  @include breakpoint(small down) {
-    font-size: 90% !important;
+  @include breakpoint(360px down) {
+    font-size: 90% ;
   }
 }
 

@@ -119,7 +119,7 @@ function visita_share_botton( ) {
 
   foreach ( $sharelinks as $share => $data ) {
     $links .= sprintf(
-      '<a href="%1$s" title="%2$s" class="%3$s" target="_blank" rel="nofollow"></a>',
+      '<a href="%1$s" title="%2$s" class="%3$s" target="_blank" rel="nofollow noopener"></a>',
       esc_attr( sprintf( $data['url'], urlencode( get_permalink() ), urlencode( get_the_title() ) ) ),
       esc_attr( $data['name'] ),
       esc_attr( 'sh-' . $share )
@@ -153,7 +153,7 @@ function visita_default_social_menu( $args = array() ){
   foreach( $social_links as $name => $link ){
     $links .= sprintf(
       '<li class="social-%2$s">
-        <a class="fa fa-%2$s" href="%1$s" title="%2$s" rel="nofollow" target="_blank"></a>
+        <a class="fa fa-%2$s" href="%1$s" title="%2$s" target="_blank" rel="nofollow noopener"></a>
       </li>',
       esc_url( $link ),
       esc_attr( strtolower( $name ) ),
@@ -346,9 +346,9 @@ function visita_price_range( $itemprop = false ) {
 function visita_entry_meta( ) {
 
   printf(
-    '<a href="%8$s?hl=%9$s" rel="external" target="_blank" class="venue %7$s"><span itemprop="name">%1$s</span></a>
+    '<a href="%8$s?hl=%9$s" target="_blank" rel="external noopener" class="venue %7$s"><span itemprop="name">%1$s</span></a>
       <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="address">
-        <a href="%8$s?hl=%9$s" rel="external" target="_blank">
+        <a href="%8$s?hl=%9$s" target="_blank" rel="external noopener" >
           <span itemprop="streetAddress" class="street">%2$s</span>
           <span itemprop="addressLocality" class="city">%3$s</span>
           <span itemprop="addressRegion" class="state">%4$s</span>
@@ -491,7 +491,7 @@ function visita_event_dates( ) {
 
       printf(
         '<div class="price" itemprop="price" content="%4$s">
-          <a class="price-action %8$s" href="%5$s" itemprop="url" rel="external">%2$s - %1$s</a>
+          <a class="price-action %8$s" href="%5$s" itemprop="url" rel="external noopener">%2$s - %1$s</a>
           <link itemprop="availability" href="http://schema.org/%6$s" />
           <meta itemprop="priceCurrency" content="USD" />
           <meta itemprop="validFrom" content="%7$s" />
@@ -520,7 +520,7 @@ function visita_opening_hours( ) {
       printf(
         '<div class="day">
           <meta itemprop="openingHours" content="%1$s %8$s-%7$s">
-          <a class="action" href="%6$s" itemprop="url" rel="external">%2$s: %3$s %5$s %4$s</a>
+          <a class="action" href="%6$s" itemprop="url" rel="external noopener">%2$s: %3$s %5$s %4$s</a>
         </div>',
         esc_attr( $hour['_day'] == 'all' ? 'Mo,Tu,We,Th,Fr,Sa,Su' : date( 'D', strtotime( $hour['_day'] ) ) ),
         esc_attr( $hour['_day'] == 'all' ? __( 'Every Day', 'visita' ) : date_i18n( 'l', strtotime( $hour['_day'] ) ) ),
@@ -548,7 +548,7 @@ function visita_get_time_range( ) {
     foreach ( $days as $day ) {
       printf(
         '<div class="day" itemprop="price" content="%5$s">
-          <a class="action" href="%6$s" itemprop="url" rel="external">%1$s %2$s %4$s - %3$s</a>
+          <a class="action" href="%6$s" itemprop="url" rel="external noopener">%1$s %2$s %4$s - %3$s</a>
           <link itemprop="availability" href="http://schema.org/InStock" />
           <meta itemprop="priceCurrency" content="USD" />
           <meta itemprop="validFrom" content="%7$s" />
