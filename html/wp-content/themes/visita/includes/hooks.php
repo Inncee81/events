@@ -137,11 +137,8 @@ function visita_style_enqueues( ) {
   if ( is_admin() ) {
     return;
   }
-
-  $theme 	= wp_get_theme();
-
   wp_register_style( 'font-open-sans', 'https://fonts.googleapis.com/css?family=Roboto:300,400,500' );
-  wp_register_style( 'visita', get_stylesheet_directory_uri() . "/style.css", false, $theme->version, 'all' );
+  wp_register_style( 'visita', get_stylesheet_directory_uri() . "/style.css", false, wp_get_theme()->version, 'all' );
 }
 add_action( 'wp_enqueue_scripts', 'visita_style_enqueues' );
 
@@ -152,10 +149,11 @@ function visita_inline_styles( ) {
 
   if ( $content = file_get_contents( get_stylesheet_directory() . "/inline.css") ) {
     printf(
-      '<link rel="preload" href="%s" as="style">
-       <link rel="preload" href="%s" as="style">',
+      '<link rel="preload" href="%3$s" as="style">
+       <link rel="preload" href="%2$s?ver=%1$s" as="style">',
+       wp_get_theme()->version,
        get_stylesheet_directory_uri() . "/style.css",
-       'https://fonts.googleapis.com/css?family=Roboto:300,400,500' 
+       'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
     );
     echo "<style>{$content}</style>";
   }
