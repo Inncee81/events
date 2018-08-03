@@ -50,6 +50,6 @@
     "webpack-dev-server": "~2.4.1"
   },
   "dependencies": {
-    "vanilla-lazyload": "^10.0.1"
+    "vanilla-lazyload": "^8.11.0"
   }
 }
