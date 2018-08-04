@@ -19,6 +19,7 @@
   img {
     height: auto;
     max-width: 100%;
+    margin-top: -3px;
     position: relative;
     -moz-transition: transform .4s ease-out;
     -webkit-transition: -webkit-transform .4s ease-out;
@@ -27,7 +28,7 @@
 
   .image::before {
     display: block;
-    position: absolute;
+    position: relative;
     content: '';
     left: -200px;
     width: 200px;
