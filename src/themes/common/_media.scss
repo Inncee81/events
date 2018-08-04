@@ -25,15 +25,15 @@
     transition: transform .4s ease-out;
   }
 
-  img:before {
+  .image::before {
     display: block;
     position: absolute;
-    content: "";
+    content: '';
     left: -200px;
     width: 200px;
-    height: 4px;
-    background-color: #ddd;
-    animation: loading 3s linear infinite;
+    height: 3px;
+    background-color: #ccc;
+    animation: loading 2s linear infinite;
   }
 
   &:hover img {
@@ -62,7 +62,7 @@
   }
 
   @include breakpoint(375 down) {
-    height: 136px;
+    height: 125px;
     margin: 0 .25em 10px;
   }
 
