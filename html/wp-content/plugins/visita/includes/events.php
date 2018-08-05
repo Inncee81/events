@@ -48,7 +48,7 @@ class VisitaEvents extends VisitaBase {
     $this->singular = __( 'Event', 'visita' );
     $this->taxonomy_slug = __( 'events', 'visita' );
     $this->taxonomy_label = __( 'Events', 'visita' );
-    $this->description = __( 'Visita Las Vegas (guía de turismo en español) Eventos, Shows, Atracciones, Conciertos, Nightclubs, Hoteles y más.' , 'visita');
+    $this->description = __( 'Visita Las Vegas Eventos, Shows, Atracciones, Conciertos, Nightclubs, Hoteles y más en español.' , 'visita');
 
     $this->event_data = array_replace_recursive( $this->default_data, array(
       'post_type'   => $this->post_type,
@@ -482,7 +482,7 @@ class VisitaEvents extends VisitaBase {
 
   /**
   * Return json data from url
-  * 
+  *
   * @return array
   * @since 0.5.0
   */
@@ -526,10 +526,10 @@ class VisitaEvents extends VisitaBase {
         update_post_meta( $post_id, '_ends', $ends );
         update_post_meta( $post_id, '_starts', $starts );
       }
-      
+
       if ( $meta_key == '_times' && empty($meta_value)) {
         update_post_meta( $post_id, '_ends', '' );
-        update_post_meta( $post_id, '_starts', '' );     
+        update_post_meta( $post_id, '_starts', '' );
       }
     }
   }
@@ -889,7 +889,7 @@ class VisitaEvents extends VisitaBase {
 
     foreach( $posts as $post ) {
       if ( get_post_meta( $post->ID, '_permanent', true ) ) {
-        $start = strtotime( '+ 1 year', current_time( 'timestamp' ) ); 
+        $start = strtotime( '+ 1 year', current_time( 'timestamp' ) );
         wp_insert_post(
           array_replace_recursive( (array) $post, array(
             'tax_input'          => array(
