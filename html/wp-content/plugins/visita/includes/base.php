@@ -170,13 +170,13 @@ class VisitaBase {
 
     return $title_parts;
   }
-  
+
   /**
   *
   * @return array
   * @since 2.0.2
   */
-  function title_tax_parts( $title_parts ) { 
+  function title_tax_parts( $title_parts ) {
     if ( is_tax( $this->taxonomy ) ) {
       $title_parts['title'] = $this->taxonomy_label . " ". $title_parts['title'];
     }
@@ -560,20 +560,20 @@ class VisitaBase {
       }
     }
   }
-  
+
   /**
   * add schem.org breadcrumbs
-  * 
+  *
   * @since 2.0.2
   */
   function schemaorg_breadcrumbs( ) {
     if (
       !is_tax( $this->taxonomy )
-      && !is_singular( $this->post_type ) 
+      && !is_singular( $this->post_type )
       && !is_post_type_archive( $this->post_type )) {
       return;
     }
-    
+
     $count = 1;
     $breadcrumbs = array(
       '@context'  => 'http://schema.org',
@@ -589,7 +589,7 @@ class VisitaBase {
         )
       )
     );
-    
+
     if ( is_singular( $this->post_type ) ) {
       $breadcrumbs['itemListElement'][] = array(
         '@type' => 'ListItem',
@@ -626,7 +626,7 @@ class VisitaBase {
         )
       );
     }
-    
+
     printf('<script type="application/ld+json">%s</script>', wp_json_encode( $breadcrumbs ));
   }
 }

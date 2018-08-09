@@ -51,6 +51,7 @@ class Visita_Core {
       add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
       add_filter( 'locale', array( $this, 'change_language'), 500 );
       add_action( 'parse_request', array( $this, 'parse_request_vars' ) );
+      add_action( 'wp_footer', array( $this, 'schemaorg_breadcrumbs' ), 0 );
       return;
     }
 
@@ -622,7 +623,7 @@ class Visita_Core {
       $end = strtotime( "last day of $fecha 23:59" );
       $start = strtotime( "first day of $fecha 0:00" );
     }
-    
+
     // 30 dias
     if ( $proximos ) {
       $end = strtotime( "today +20 days" );
@@ -695,5 +696,56 @@ class Visita_Core {
       __( 'Events', 'visita'),
       $list
     );
+  }
+
+  /**
+  * add schem.org breadcrumbs
+  *
+  * @since 2.0.2
+  */
+  function schemaorg_breadcrumbs( ) {
+
+    if (
+      !is_category()
+      && !is_singular( 'post' )) {
+      return;
+    }
+
+    $count = 1;
+    $breadcrumbs = array(
+      '@context'  => 'http://schema.org',
+      '@type' => 'BreadcrumbList',
+      'itemListElement' => array(
+        array(
+          '@type' => 'ListItem',
+          'position' =>	$count,
+          'item' => array(
+            '@id' => home_url(''),
+            'name' => __('Home'),
+          )
+        )
+      )
+    );
+
+    $breadcrumbs['itemListElement'][] = array(
+      '@type' => 'ListItem',
+      'position' =>	$count++,
+      'item' => array(
+        '@id' => home_url('blog'),
+        'name' => __('Blog'),
+      )
+    );
+
+    if ( is_singular( 'post' ) ) {
+      $breadcrumbs['itemListElement'][] = array(
+        '@type' => 'ListItem',
+        'position' =>	$count++,
+        'item' => array(
+          '@id' => get_permalink(),
+          'name' => get_the_title(),
+        )
+      );
+    }
+    printf('<script type="application/ld+json">%s</script>', wp_json_encode( $breadcrumbs ));
   }
 }

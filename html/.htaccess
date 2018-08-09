@@ -17,7 +17,7 @@
 
 # Block access to some file extensions
 <IfModule mod_rewrite.c>
-  RewriteRule \.(scss|md|patch|log|less|po)$ - [F,L,NC]
+  RewriteRule \.(scss|md|patch|log|less|po|mo)$ - [F,L,NC]
 </IfModule>
 
 # Block access .txt files except those in the root directory

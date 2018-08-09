@@ -289,10 +289,3 @@ class VisitaAttractions extends VisitaBase {
     add_filter( 'get_previous_post_where', array( $this, 'adjacent_post_previous_where' ), 20 );
   }
 }
-
-// UPDATE `visit_postmeta` SET meta_key = '_day' WHERE meta_key = '_dias';
-// UPDATE `visit_postmeta` SET meta_key = '_open' WHERE meta_key = '_horario';
-// UPDATE `visit_postmeta` SET meta_key = '_close' WHERE meta_key = '_cierran';
-// UPDATE `visit_posts` SET post_type = 'attraction' WHERE post_type = 'atraccion';
-// UPDATE `visit_term_taxonomy`  SET taxonomy = 'attractions' WHERE taxonomy = 'atracciones';
-// UPDATE `visit_postmeta` SET meta_value = 'attractions' WHERE meta_key = '_menu_item_object' AND meta_value = 'atracciones';
