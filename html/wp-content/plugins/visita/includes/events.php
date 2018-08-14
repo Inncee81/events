@@ -874,49 +874,49 @@ class VisitaEvents extends VisitaBase {
   */
   function expire_events( ) {
 
-    $posts = get_posts( array(
-      'post_status'  => 'any',
-      'posts_per_page' => -1,
-      'post_type'    => $this->post_type,
-      'meta_query'   => array(
-        array(
-          'key'      => '_ends',
-          'compare'  => '<',
-          'value'    => strtotime( 'Today' ),
-        ),
-      )
-    ) );
+    $yesterday = date_i18n( 'Ymd',
+      strtotime( 'yesterday', current_time( 'timestamp' ) )
+    );
 
-    foreach( $posts as $post ) {
-      if ( get_post_meta( $post->ID, '_permanent', true ) ) {
-        $start = strtotime( '+ 1 year', current_time( 'timestamp' ) );
-        wp_insert_post(
-          array_replace_recursive( (array) $post, array(
-            'tax_input'          => array(
-              $this->taxonomy    => array( 44 )
-            ),
+    global $wpdb;
+    $posts = $wpdb->get_results(
+      $wpdb->prepare(
+        "SELECT post_id ID, meta_value times FROM $wpdb->postmeta
+        WHERE meta_key = '_times' AND meta_value LIKE %s"
+      , "%{$yesterday}%" )
+    );
+
+    foreach ( $posts as $post ) {
+      $times = array();
+
+      foreach( maybe_unserialize($post->times) as $time ) {
+        if ( $time['_date'] > $yesterday ) {
+          $times[] = $time;
+        }
+      }
+
+      update_post_meta($post->ID, '_times',  $times);
+
+      if ( empty( $times ) ) {
+        if ( get_post_meta( $post->ID, '_permanent', true ) ) {
+          wp_set_object_terms( $post->ID,  array( 44 ), $this->taxonomy );
+          return wp_update_post(array(
+            'ID'                 => $post->ID,
             'meta_input'         => array(
               '_location'        => '',
               '_street'          => '',
-              '_starts'          => $start,
-              '_ends'            => strtotime( '+ 120 minutes', $start ),
+              '_starts'          => '',
+              '_ends'            => '',
               '_price_max'       => '',
               '_price'           => '',
               '_link'            => '',
-              '_times'           => array( array(
-                '_date'          => date_i18n( 'm/d/y', $start ),
-                '_time'          => date_i18n( 'g:i A', $start ),
-                '_availability'  => 'PreSale',
-              ) ),
-              '_description'     => $this->get_description(
-                                    "{$post->post_title} en Las Vegas",
-                                    date_i18n( 'm/d/y', $start ),
-                                    ''
+              '_description'     => sprintf(
+                __("%s Las Vegas, guía turística con los mejores eventos, shows y conciertos con información en español."),
+                get_the_title( $post->ID )
               ),
             )
-          ))
-        );
-      } else {
+          ));
+        }
         wp_trash_post( $post->ID );
       }
     }

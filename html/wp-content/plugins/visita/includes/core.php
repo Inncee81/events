@@ -87,8 +87,8 @@ class Visita_Core {
    * @since 0.5.0
    */
   function activate( ) {
-    wp_schedule_event( time(), 'every_three_hours', 'visita_get_weather', array('lang' => 'es') );
-    wp_schedule_event( time(), 'every_three_hours', 'visita_get_weather', array('lang' => 'en') );
+    wp_schedule_event( time(), 'every_two_half_hours', 'visita_get_weather', array('lang' => 'es') );
+    wp_schedule_event( time(), 'every_two_half_hours', 'visita_get_weather', array('lang' => 'en') );
     do_action( 'visita_activate' );
   }
 
@@ -107,9 +107,9 @@ class Visita_Core {
   * Add new cron scheule interval
   */
   function add_cron_schedule( $schedules ) {
-    $schedules['every_three_hours'] = array(
-      'interval'  => 10800,
-      'display'   => __( 'Every 3 Hours', 'textdomain' )
+    $schedules['every_two_half_hours'] = array(
+      'interval'  => 9000,
+      'display'   => __( 'Every 2 Hours', 'textdomain' )
     );
     return $schedules;
   }
@@ -206,8 +206,9 @@ class Visita_Core {
   * @since 2.2.1
   */
   function protect_json( $protected_directories ) {
-    $protected_directories[] = WP_CONTENT_DIR . '/cache/_json';
-    $protected_directories[] = wpsc_get_realpath(WP_CONTENT_DIR) . '/cache/_json';
+    $protected_directories[] = WP_CONTENT_DIR . '/cache/_json/';
+    $protected_directories[] = WP_CONTENT_DIR . '/cache/_json/en.json';
+    $protected_directories[] = WP_CONTENT_DIR . '/cache/_json/es.json';
     return $protected_directories;
   }
 
