@@ -433,11 +433,13 @@ class VisitaShows extends VisitaBase {
         $starts = $ends = false;
 
         foreach ( (array) $meta_value as $day ) {
-          $_to = strtotime( ( $day['_to'] == 'all' ? 'monday' : $day['_to'] ) . $day['_time'] . ' this week' ) - $thisweek;
-          $_from = strtotime( ( $day['_from'] == 'all' ? 'monday' : $day['_from'] ) . $day['_time'] . ' this week' ) - $thisweek;
+          if ( isset( $day['_to'] ) && isset( $day['_from'] ) ) {
+            $_to = strtotime( ( $day['_to'] == 'all' ? 'monday' : $day['_to'] ) . $day['_time'] . ' this week' ) - $thisweek;
+            $_from = strtotime( ( $day['_from'] == 'all' ? 'monday' : $day['_from'] ) . $day['_time'] . ' this week' ) - $thisweek;
 
-          $starts = ( $_from < $starts || ! $starts ) ? $_from : $starts;
-          $ends = ( $_to >= $_to || ! $_to ) ? ( $_to + ( $values['_duration'] * 60 ) ) : $ends;
+            $starts = ( $_from < $starts || ! $starts ) ? $_from : $starts;
+            $ends = ( $_to >= $_to || ! $_to ) ? ( $_to + ( $values['_duration'] * 60 ) ) : $ends;
+          }
         }
 
         update_post_meta( $post_id, '_ends', $ends );
