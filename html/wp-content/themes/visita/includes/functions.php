@@ -119,10 +119,11 @@ function visita_share_botton( ) {
 
   foreach ( $sharelinks as $share => $data ) {
     $links .= sprintf(
-      '<a href="%1$s" title="%2$s" class="%3$s" target="_blank" rel="nofollow noopener"></a>',
+      '<a href="%1$s" title="%2$s" class="%3$s" target="_blank" rel="nofollow noopener">%4$s</a>',
       esc_attr( sprintf( $data['url'], urlencode( get_permalink() ), urlencode( get_the_title() ) ) ),
-      esc_attr( $data['name'] ),
-      esc_attr( 'sh-' . $share )
+      esc_attr( sprintf( __('Share on %s', 'visita' ), $data['name'] ) ),
+      esc_attr( 'sh-' . $share ),
+      esc_attr( $data['name'] )
     );
   }
 
@@ -144,7 +145,7 @@ function visita_default_social_menu( $args = array() ){
   $links 			  = '';
   $social_links = array(
     'Email'     => 'mailto:support@visita.vegas',
-    'Blog'       => '/blog/',
+    'Blog'      => '/blog/',
     'Facebook'  => '//www.facebook.com/VisitaVegas/',
     'Twitter'   => '//twitter.com/visita_vegas',
     'RSS'       => '/feed/',
@@ -153,7 +154,7 @@ function visita_default_social_menu( $args = array() ){
   foreach( $social_links as $name => $link ){
     $links .= sprintf(
       '<li class="social-%2$s">
-        <a class="fa fa-%2$s" href="%1$s" title="%2$s" target="_blank" rel="nofollow noopener"></a>
+        <a class="fa fa-%2$s" href="%1$s" title="%2$s" target="_blank" rel="nofollow noopener">%2$s</a>
       </li>',
       esc_url( $link ),
       esc_attr( strtolower( $name ) ),
@@ -182,8 +183,8 @@ function visita_content_nav( $css ) { ?>
 
       <?php echo paginate_links( array(
         'mid_size' => 1,
-        'prev_text'=> '',
-        'next_text' => '',
+        'prev_text'=> __( 'Previous', 'visita' ),
+        'next_text' => __( 'Next', 'visita' ),
       )) ?>
 
     </div><!-- .nav-links -->
@@ -348,7 +349,7 @@ function visita_entry_meta( ) {
   printf(
     '<a href="%8$s?hl=%9$s" target="_blank" rel="external noopener" class="venue %7$s"><span itemprop="name">%1$s</span></a>
       <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="address">
-        <a href="%8$s?hl=%9$s" target="_blank" rel="external noopener" >
+        <a href="%8$s?hl=%9$s" target="_blank" rel="external noopener" tabindex="-1" >
           <span itemprop="streetAddress" class="street">%2$s</span>
           <span itemprop="addressLocality" class="city">%3$s</span>
           <span itemprop="addressRegion" class="state">%4$s</span>

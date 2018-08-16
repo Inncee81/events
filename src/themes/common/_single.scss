@@ -63,7 +63,7 @@ body.page .entry-title {
   }
 
   .location a {
-    color: $gray-dark;
+    color: $gray-darker;
   }
 
   .columns > .hentry {
@@ -238,6 +238,11 @@ body.page .entry-title {
   text-align: center;
   line-height: 2.25em;
   color: #a0a5aa;
+  overflow: hidden;
+
+  &:before {
+    margin: 0 22px 0 9px;
+  }
 
   &:hover, &:focus {
     color: #fff;
@@ -245,27 +250,27 @@ body.page .entry-title {
   }
 }
 
-.sh-em:after {
+.sh-em:before {
   content: '\f0e0'
 }
 
-.sh-fb:after {
+.sh-fb:before {
   content: '\f09a'
 }
 
-.sh-gp:after {
+.sh-gp:before {
   content: '\f0d5'
 }
 
-.sh-tw:after {
+.sh-tw:before {
   content: '\f099'
 }
 
-.sh-ri:after {
+.sh-ri:before {
   content: '\f281'
 }
 
-.sh-su:after {
+.sh-su:before {
   content: '\f1a4'
 }
 

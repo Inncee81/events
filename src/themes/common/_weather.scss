@@ -5,7 +5,6 @@
     top: 10%;
     right: .5em;
     position: absolute;
-    display: block;
     font-size: .85em;
 
     &:hover, &:focus {
@@ -15,7 +14,9 @@
 }
 
 .weather {
-
+  &[aria-hidden=false] {
+    display: block;
+  }
   &-deg {
     font-size: 3.5em;
     font-weight: 300;

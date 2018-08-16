@@ -15,7 +15,11 @@
   margin: 0 5px;
   padding: 0.95em;
   text-align: center;
+  overflow: hidden;
   width: 38px;
+  &:before {
+    margin-right: 5em;
+  }
 }
 
 #nav {

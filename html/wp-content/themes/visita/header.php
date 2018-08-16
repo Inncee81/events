@@ -49,13 +49,15 @@
 
         <div class="site-logo">
           <a href="<?php echo home_url() ?>" title="<?php esc_attr( get_bloginfo( 'name' ) ) ?>" rel="home"><?php bloginfo( 'name' ) ?></a>
-          <a href="<?php echo esc_url(__('/en/las-vegas-weather/', 'visita' ))?>" class="weather" rel="bookmark"></a>
+          <a href="<?php echo esc_url(__('/en/las-vegas-weather/', 'visita' ))?>" class="weather" rel="bookmark" aria-hidden="true">
+            <?php esc_html_e( 'Weather', 'visita' ) ?>
+          </a>
         </div>
 
         <form action="<?php echo home_url() ?>" class="search-form" method="get">
           <label class="screen-reader-text" for="topsearch"><?php esc_html_e( 'Search', 'visita' ) ?></label>
           <input type="search" id="topsearch" class="search-field" name="s" /><span></span>
-          <input type="submit" class="hidden" />
+          <input type="submit" class="hidden" value="<?php esc_html_e( 'Submit', 'visita' ) ?>" aria-hidden="true" />
         </form>
 
       </div>

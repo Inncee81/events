@@ -162,3 +162,7 @@ h1.entry-title {
   min-width: 100%;
   max-width: inherit;
 }
+
+[aria-hidden=true]{
+  display: none;
+}

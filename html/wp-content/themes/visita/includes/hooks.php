@@ -250,8 +250,9 @@ add_filter( 'body_class', 'visita_body_class' );
 */
 function visita_add_scroll_up_button( ) {
   printf(
-    '<a href="#" class="window-scroll-up" title="%1$s" rel="nofollow">%1$s</a>',
-    esc_attr__( 'Move Up', 'visita' )
+    '<a href="#" class="window-scroll-up" title="%2$s" rel="nofollow">%1$s</a>',
+    esc_attr__( 'Move Up', 'visita' ),
+    esc_attr__( 'Scroll to the top', 'visita' )
   );
 }
 add_filter( 'visita_after_main', 'visita_add_scroll_up_button' );

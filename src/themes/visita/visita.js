@@ -7,6 +7,7 @@ const lazyLoad = new LazyLoad();
 
   $.get(visita.weather, (data) => {
     $('.site-logo .weather')
+    .attr('aria-hidden', 'false')
     .attr('title', visita.weather_text)
     .text(Math.round(data.current[`temp_${visita.weather_unit}`]) + `\u00b0${visita.weather_unit.toUpperCase()}`)
   })

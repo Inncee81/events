@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2018-07-19 00:51-0700\n"
-"PO-Revision-Date: 2018-07-19 00:51-0700\n"
+"POT-Creation-Date: 2018-08-16 11:49-0700\n"
+"PO-Revision-Date: 2018-08-16 11:49-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -46,29 +46,31 @@ msgctxt "placeholder"
 msgid "Search &hellip;"
 msgstr "Buscar  &hellip;"
 
+#: amp/content-hotel.php:25 content-hotel.php:65
+msgid "Haz tu reservación"
+msgstr "Haz tu reservación"
+
 #: amp/footer.php:4
 msgid "Back to top"
 msgstr "Subir"
 
-#: content-event.php:29 content-hotel.php:29 content-page.php:29
-#: content-post.php:31 content-show.php:29 content.php:29 parts/location.php:12
-msgid "Edit"
-msgstr "Editar"
-
-#: content-event.php:38 content-hotel.php:38 content-page.php:38
-#: content-post.php:40 content-show.php:38 content.php:38 parts/location.php:21
+#: content-event.php:25 content-event.php:43 content-hotel.php:25
+#: content-hotel.php:43 content-page.php:38 content-post.php:25
+#: content-post.php:45 content-show.php:25 content-show.php:43 content.php:38
+#: parts/location.php:8 parts/location.php:26
 #, php-format
 msgid "Link to %s"
 msgstr "Enlace a %s"
 
-#: content-event.php:60 content-hotel.php:70 content-page.php:51
-#: content-post.php:58 content-show.php:60 content.php:51 parts/location.php:43
+#: content-event.php:34 content-hotel.php:34 content-page.php:29
+#: content-post.php:36 content-show.php:34 content.php:29 parts/location.php:17
+msgid "Edit"
+msgstr "Editar"
+
+#: content-event.php:65 content-hotel.php:75 content-page.php:51
+#: content-post.php:63 content-show.php:65 content.php:51 parts/location.php:48
 msgid "Continue <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Continuar <span class=\"meta-nav\">&rarr;</span>"
-
-#: content-hotel.php:60
-msgid "Haz tu reservación"
-msgstr "Haz tu reservación"
 
 #: footer.php:20
 msgid "Skip to navigation"
@@ -82,19 +84,31 @@ msgstr "Ir a la Navegacíon"
 msgid "http://xparkmedia.com"
 msgstr "http://es.xparkmedia.com"
 
-#: header.php:54
+#: header.php:52
 msgid "/en/las-vegas-weather/"
 msgstr "/clima-las-vegas/"
 
-#: header.php:67
+#: header.php:53
+msgid "Weather"
+msgstr ""
+
+#: header.php:58
+msgid "Search"
+msgstr "Buscar"
+
+#: header.php:60
+msgid "Submit"
+msgstr "Enviar"
+
+#: header.php:68
 msgid "Skip to content"
 msgstr "Ir al contenido"
 
-#: header.php:68
+#: header.php:69
 msgid "Menu"
 msgstr "Menú"
 
-#: includes/amp.php:112 includes/functions.php:208
+#: includes/amp.php:112 includes/functions.php:209
 msgid "Post navigation"
 msgstr "Navegación"
 
@@ -122,46 +136,59 @@ msgstr ""
 msgid "StumbleUpon"
 msgstr ""
 
-#: includes/functions.php:180
+#: includes/functions.php:124
+#, php-format
+msgid "Share on %s"
+msgstr ""
+
+#: includes/functions.php:181
 msgid "Navigation"
 msgstr "Navigación"
 
-#: includes/functions.php:211
+#: includes/functions.php:186
+msgid "Previous"
+msgstr "Anterior"
+
+#: includes/functions.php:187
+msgid "Next"
+msgstr "Siguiente"
+
+#: includes/functions.php:212
 msgctxt "Previous post link"
 msgid "%title"
 msgstr "%title"
 
-#: includes/functions.php:212
+#: includes/functions.php:213
 msgctxt "Next post link"
 msgid "%title"
 msgstr "%title"
 
-#: includes/functions.php:336
+#: includes/functions.php:337
 msgid "Prices in U.S. dollars"
 msgstr "Precios en dólares estadounidenses"
 
-#: includes/functions.php:337
+#: includes/functions.php:338
 msgid "prices may vary."
 msgstr "precios pueden variar."
 
-#: includes/functions.php:377
+#: includes/functions.php:378
 msgctxt "Google map language"
 msgid "en"
 msgstr "es-419"
 
-#: includes/functions.php:468
+#: includes/functions.php:469
 msgid "No dates currently available"
 msgstr "No fechas disponibles"
 
-#: includes/functions.php:526 includes/functions.php:556
+#: includes/functions.php:527 includes/functions.php:557
 msgid "Every Day"
 msgstr "Todos los días"
 
-#: includes/functions.php:527
+#: includes/functions.php:528
 msgid "24 Hours"
 msgstr "24 Horas"
 
-#: includes/functions.php:557
+#: includes/functions.php:558
 msgid " to "
 msgstr " a "
 
@@ -189,11 +216,15 @@ msgstr "Área de widgets"
 msgid "Main sidebar: displays on pages and posts."
 msgstr ""
 
-#: includes/hooks.php:250
+#: includes/hooks.php:254
 msgid "Move Up"
 msgstr "Subir"
 
-#: includes/hooks.php:358
+#: includes/hooks.php:255
+msgid "Scroll to the top"
+msgstr ""
+
+#: includes/hooks.php:363
 #, php-format
 msgid " Page %d"
 msgstr " Página %d"
@@ -269,12 +300,6 @@ msgstr ""
 #~ "<span class=“powered”> %1$s </span> <a href=“%2$s” title=“%3$s” "
 #~ "target=“_blank”> %3$s </a>"
 
-#~ msgid "Previous"
-#~ msgstr "Anterior"
-
-#~ msgid "Next"
-#~ msgstr "Siguiente"
-
 #~ msgid "Blog"
 #~ msgstr "Blog"
 
@@ -296,10 +321,6 @@ msgstr ""
 #~ msgctxt "label"
 #~ msgid "Event, Show, Attraction"
 #~ msgstr "Evento, Show, Atracción"
-
-#~ msgctxt "label"
-#~ msgid "Search"
-#~ msgstr "Buscar"
 
 #~ msgid " - page "
 #~ msgstr " - página "
@@ -422,9 +443,6 @@ msgstr ""
 
 #~ msgid "To:"
 #~ msgstr "Hasta:"
-
-#~ msgid "Submit"
-#~ msgstr "Enviar"
 
 #~ msgid "Search …"
 #~ msgstr "Buscar &hellip;"

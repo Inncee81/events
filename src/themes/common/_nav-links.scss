@@ -14,6 +14,7 @@
     display: inline-block;
     margin: 0 3px;
 		padding: 3px 10px;
+    vertical-align: middle;
 
     &:hover, &:focus {
       @extend .current;
@@ -33,6 +34,9 @@
 
 	.next, .prev {
     border-color: transparent;
+    overflow: hidden;
+    padding: 3px 0;
+    width: 19px;
 
     &:hover, &:focus {
       color: inherit;
@@ -41,11 +45,18 @@
     }
 	}
 
+  .next {
+    text-indent: -68px;
+    text-align: right;
+  }
+
 	.next:after {
+    margin: 0 6px;
     content: $fa-var-angle-right;
 	}
 
 	.prev:before {
+    margin: 0 6px;
     content: $fa-var-angle-left;
 	}
 }

@@ -17,9 +17,14 @@
 
   <?php if ( has_post_thumbnail() ) : ?>
     <figure class="hmedia">
-      <a href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title_attribute(); ?>" class="image url enclosure" rel="bookmark">
-        <?php the_post_thumbnail( 'post-thumbnail', array( 'class' => 'photo' ) ); ?>
-      </a>
+      <?php
+        printf(
+          '<a href="%1$s" title="%3$s" class="image url enclosure" rel="bookmark" tabindex="-1">%2$s</a>',
+          get_permalink(),
+          get_the_post_thumbnail( null, 'post-thumbnail', array( 'class' => 'photo' ) ),
+          esc_attr( sprintf( __( 'Link to %s', 'visita' ), the_title_attribute( 'echo=0' ) ) )
+        )
+      ?>
       <meta class="image" itemprop="image" content="<?php the_post_thumbnail_url()?>" />
       <figcaption class="fn"><?php the_title_attribute(); ?></figcaption>
     </figure>
