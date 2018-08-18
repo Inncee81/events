@@ -279,6 +279,7 @@ class VisitaEvents extends VisitaBase {
     ) );
 
     //crons
+    wp_schedule_single_event( time() + 60, 'expire_events' );
     add_action( 'visita_expire', array( $this, 'expire_events' ) );
     add_action( 'visita_ticketmater_import', array( $this, 'ticketmater_import' ) );
 
@@ -887,37 +888,39 @@ class VisitaEvents extends VisitaBase {
     );
 
     foreach ( $posts as $post ) {
-      $times = array();
+      $times = array(); $starts = false;
 
-      foreach( maybe_unserialize($post->times) as $time ) {
-        if ( $time['_date'] > $yesterday ) {
-          $times[] = $time;
+      foreach( maybe_unserialize($post->times) as $dates ) {
+        if ( $dates['_date'] > $yesterday ) {
+          $time = strtotime( "{$dates['_date']} {$dates['_time']}" );
+          $starts = ( $time < $starts || ! $starts ) ? $time : $starts;
+          $times[] = $dates;
         }
       }
 
       update_post_meta($post->ID, '_times',  $times);
+      update_post_meta($post->ID, '_starts',  $starts);
 
       if ( empty( $times ) ) {
         if ( get_post_meta( $post->ID, '_permanent', true ) ) {
           wp_set_object_terms( $post->ID,  array( 44 ), $this->taxonomy );
-          return wp_update_post(array(
+          wp_update_post(array(
             'ID'                 => $post->ID,
             'meta_input'         => array(
               '_location'        => '',
               '_street'          => '',
-              '_starts'          => '',
               '_ends'            => '',
               '_price_max'       => '',
               '_price'           => '',
               '_link'            => '',
+              '_starts'          => $starts,
               '_description'     => sprintf(
                 __("%s Las Vegas, guía turística con los mejores eventos, shows y conciertos con información en español."),
                 get_the_title( $post->ID )
               ),
             )
           ));
-        }
-        wp_trash_post( $post->ID );
+        } else wp_trash_post( $post->ID );
       }
     }
   }

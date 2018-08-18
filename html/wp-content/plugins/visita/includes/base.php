@@ -178,7 +178,7 @@ class VisitaBase {
   */
   function title_tax_parts( $title_parts ) {
     if ( is_tax( $this->taxonomy ) ) {
-      $title_parts['title'] = $this->taxonomy_label . " ". $title_parts['title'];
+      $title_parts['title'] = $this->taxonomy_label . ": " . $title_parts['title'];
     }
     return $title_parts;
   }

@@ -362,15 +362,15 @@ function visita_head_metatags( ) {
     if (is_paged()) {
       $description .= sprintf(__(' Page %d', 'visita'), get_query_var('paged'));
     }
-    echo '<meta name="description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
+    echo '<meta name="description" content="' . "\xE2\x96\xBA " . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
     echo '<meta name="twitter:description" content="' . esc_attr( trim( strip_tags( $description ) ) ) . '"  />' . "\n";
   }
 
   if ( is_singular() && $description = get_post_meta( get_the_ID(), '_description', true ) ){
     echo '<meta name="twitter:url" content="' . get_permalink() . '"/>' . "\n";
     echo '<meta name="twitter:title" content="'. esc_attr( get_the_title() ) .'">' . "\n";
-    echo '<meta name="description" content="' . esc_attr( strip_tags( $description ) ) . '"  />' . "\n";
     echo '<meta name="twitter:description" content="'.  esc_attr( strip_tags( $description ) ) .'">' . "\n";
+    echo '<meta name="description" content="' . "\xE2\x96\xBA " . esc_attr( strip_tags( $description ) ) . '"  />' . "\n";
     echo '<meta name="og:description" content="'.  esc_attr( strip_tags( $description ) ) .'">' . "\n";
   }
 
@@ -400,7 +400,7 @@ add_action( 'visita_site_metatags', 'visita_head_metatags', 20 );
 */
 function visita_document_title_parts( $title_parts ) {
   if ( !is_front_page() ) {
-    $title_parts['site'] =  "\xE2\xAD\x90 " . get_bloginfo('name');
+    $title_parts['site'] = get_bloginfo('name');
   }
   return $title_parts;
 }
@@ -410,6 +410,6 @@ add_action( 'document_title_parts', 'visita_document_title_parts', 500 );
 *
 */
 function visita_document_title_separator() {
-  return '|';
+  return '•';
 }
 add_action( 'document_title_separator', 'visita_document_title_separator', 500 );
