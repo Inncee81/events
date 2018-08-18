@@ -279,9 +279,9 @@ class VisitaEvents extends VisitaBase {
     ) );
 
     //crons
-    wp_schedule_single_event( time() + 60, 'expire_events' );
     add_action( 'visita_expire', array( $this, 'expire_events' ) );
     add_action( 'visita_ticketmater_import', array( $this, 'ticketmater_import' ) );
+    wp_schedule_single_event( time() + 60, 'visita_expire' );
 
     //basics
     add_action( 'init', array( $this, 'activate' ) );
