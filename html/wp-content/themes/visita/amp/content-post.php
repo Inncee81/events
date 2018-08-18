@@ -12,6 +12,6 @@
 	</div>
 
 	<footer class="amp-wp-article-footer">
-		<?php $this->load_parts( apply_filters( 'amp_post_article_footer_meta', array( 'meta-taxonomy', 'meta-comments-link' ) ) ); ?>
+		<?php $this->load_parts( apply_filters( 'amp_post_article_footer_meta', array( 'meta-taxonomy' ) ) ); ?>
 	</footer>
 </article>

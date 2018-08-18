@@ -19,7 +19,7 @@ main {
   }
 
   > .row {
-    padding-top: .85rem;
+    padding-top: .75em;
   }
 }
 
@@ -53,7 +53,7 @@ main {
 
   &-field[type='search'] {
     font-size: 1.1em;
-    height: 2.5em;
+    height: 2.15em;
     margin-bottom: .5em;
     padding-left: 2.5em;
     border: 1px solid $gray-light;
@@ -63,8 +63,8 @@ main {
     &::placeholder {
       color: $gray-medium;
     }
-    
-    &:focus, 
+
+    &:focus,
     &:active {
       border-color: #4d0ff1;
     }
