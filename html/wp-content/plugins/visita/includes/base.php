@@ -199,7 +199,8 @@ class VisitaBase {
           lcfirst( date_i18n( $format, strtotime( "$date $time" ) ) ),
           __( 'from', 'visita' ),
           __( 'to', 'visita' )
-      );
+      )
+      . " #VisitaVegas #Vegas";
   }
 
   /**

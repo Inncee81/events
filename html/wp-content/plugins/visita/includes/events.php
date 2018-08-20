@@ -344,7 +344,7 @@ class VisitaEvents extends VisitaBase {
    */
   function activate( ) {
     if ( ! wp_next_scheduled ( 'visita_expire' )) {
-      wp_schedule_event( strtotime( '2 AM' ), 'daily', 'visita_expire' );
+      wp_schedule_event( strtotime( '2 AM' ), 'twicedaily', 'visita_expire' );
       wp_schedule_event( strtotime( '3 AM' ), 'twicedaily', 'visita_ticketmater_import');
     }
   }
@@ -914,7 +914,7 @@ class VisitaEvents extends VisitaBase {
               '_link'            => '',
               '_starts'          => $starts,
               '_description'     => sprintf(
-                __("%s Las Vegas, guía turística con los mejores eventos, shows y conciertos con información en español."),
+                __("%s Las Vegas, guía turística con los mejores eventos, shows y conciertos con información en español. #VisitaVegas"),
                 get_the_title( $post->ID )
               ),
             )

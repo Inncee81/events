@@ -16,7 +16,7 @@
 <article itemscope itemtype="https://schema.org/Blog" <?php post_class(); ?>>
 
   <?php if ( has_post_thumbnail() ) : ?>
-    <figure class="hmedia">
+    <figure id="entry-media" class="hmedia">
       <a href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title_attribute(); ?>" class="image url enclosure">
        <?php the_post_thumbnail( 'post-thumbnail', array( 'class' => 'photo' ) ); ?>
       </a>
@@ -25,7 +25,7 @@
     </figure>
   <?php endif; // has_post_thumbnail() ?>
 
-  <header class="entry-header<?php if ( ! is_page() ) echo ' float' ?>">
+  <header id="entry-header" class="entry-header<?php if ( ! is_page() ) echo ' float' ?>">
     <?php edit_post_link( __( 'Edit', 'visita' ), '<span class="edit-link">', '</span>' ); ?>
     <?php
       printf(

@@ -119,7 +119,7 @@ function visita_share_botton( ) {
 
   foreach ( $sharelinks as $share => $data ) {
     $links .= sprintf(
-      '<a href="%1$s" title="%2$s" class="%3$s" target="_blank" rel="nofollow noopener">%4$s</a>',
+      '<a href="%1$s" data-vars-name="%4$s" title="%2$s" class="%3$s" target="_blank" rel="nofollow noopener">%4$s</a>',
       esc_attr( sprintf( 
         $data['url'], 
         rawurlencode( get_permalink() ), 
@@ -132,7 +132,7 @@ function visita_share_botton( ) {
     );
   }
 
-  echo '<span class="share_button" tabindex="0"><span class="sh-links">' . $links . '</span></span>';
+  echo '<span id="share-link" class="share_button" tabindex="0"><span class="sh-links">' . $links . '</span></span>';
 }
 
 /**

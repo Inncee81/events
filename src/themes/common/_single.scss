@@ -71,6 +71,10 @@ body.page .entry-title {
     overflow: hidden;
     border-bottom: 1px solid $gray-light;
   }
+  
+  .hmedia .url {
+    cursor: default;
+  }
 
   .entry-header {
     padding: 1.5em 1em;
