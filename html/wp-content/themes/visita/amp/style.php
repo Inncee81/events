@@ -176,7 +176,7 @@ blockquote p:last-child {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	margin: 1em 16px;
+	margin: 1em 16px 0;
 }
 
 .amp-wp-title {
@@ -375,7 +375,7 @@ amp-carousel > amp-img > img {
 
 .amp-dates {
   padding: .5em 0 1.5em;
-  margin: 1em 16px;
+  margin: 0 16px 1em;
   border-bottom: 1px solid #e6e6e6;
 }
 
@@ -593,4 +593,48 @@ ul.event-list {
 .nav-previous a:before {
 	content: '<';
 	left: -10px;
+}
+
+.sh-links {
+	padding-top: .5em;
+	display: block;
+	margin-left: -4px
+}
+
+.sh-links a {
+  display: inline-block;
+  height: 32px;
+  margin: 0 4px;
+  width: 32px;
+  text-align: center;
+  line-height: 2.25em;
+  color: #a0a5aa;
+  overflow: hidden;
+	text-indent: -9999em;
+	background: #eee url(//s.visita.vegas/wp-content/themes/visita/icons/social.png) no-repeat;
+	background-size: auto 85%;
+}
+
+.sh-links .sh-em {
+  background-position: 2px 2px;
+}
+
+.sh-links .sh-fb {
+  background-position: -24px 2px; 
+}
+
+.sh-links .sh-gp {
+  background-position: -60px 2px;
+}
+
+.sh-links .sh-tw {
+  background-position: -92px 2px;
+}
+
+.sh-links .sh-ri {
+  background-position: -127px 2px;
+}
+
+.sh-links .sh-tb {
+  background-position: -158px 2px;
 }

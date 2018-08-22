@@ -11,7 +11,9 @@
 			<div class="location" itemscope itemprop="location" itemtype="http://schema.org/Place">
 				<?php visita_entry_meta(); ?>
 			</div>
-			<?php if (is_single()) visita_entry_tax( $this->post ) ?>
+			<?php visita_entry_tax( $this->post ) ?>
+			<?php visita_share_botton(); ?>
+
 		</div><!-- .entry-meta -->
 	</header>
 

@@ -178,7 +178,7 @@ class VisitaBase {
   */
   function title_tax_parts( $title_parts ) {
     if ( is_tax( $this->taxonomy ) ) {
-      $title_parts['title'] = $this->taxonomy_label . " ". $title_parts['title'];
+      $title_parts['title'] = $this->taxonomy_label . ": " . $title_parts['title'];
     }
     return $title_parts;
   }
@@ -199,7 +199,8 @@ class VisitaBase {
           lcfirst( date_i18n( $format, strtotime( "$date $time" ) ) ),
           __( 'from', 'visita' ),
           __( 'to', 'visita' )
-      );
+      )
+      . " #VisitaVegas #Vegas";
   }
 
   /**

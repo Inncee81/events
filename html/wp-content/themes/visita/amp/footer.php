@@ -14,6 +14,16 @@
 	    "trackPageview": {
 	      "on": "visible",
 	      "request": "pageview"
+	    },
+			"trackEvent" : {
+	      "on": "click",
+	      "request": "event",
+				"selector": ".sh-links > a",
+	      "vars": {
+	        "eventCategory": "Social",
+	        "eventAction": "Shared",
+					"eventLabel": "${name}"
+	      }
 	    }
 	  }
 	}

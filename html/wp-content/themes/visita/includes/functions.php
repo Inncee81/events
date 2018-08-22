@@ -109,25 +109,30 @@ function visita_share_botton( ) {
 
   $links = '';
   $sharelinks = array(
-    'em' => array( 'name' => __( 'eMail', 'visita' ), 'url' => 'mailto:?body=%s&subject=%s' ),
-    'fb' => array( 'name' => __( 'Facebook', 'visita' ), 'url' => 'https://www.facebook.com/sharer/sharer.php?u=%s' ),
-    'gp' => array( 'name' => __( 'Google+', 'visita' ), 'url' => 'https://plus.google.com/share?url=%s' ),
-    'tw' => array( 'name' => __( 'Twitter', 'visita' ), 'url' => 'http://twitter.com/share?url=%s&text=%s' ),
-    'ri' => array( 'name' => __( 'Reddit', 'visita' ), 'url' => 'http://www.reddit.com/submit/?url=%s&title=%s' ),
-    'su' => array( 'name' => __( 'StumbleUpon', 'visita' ), 'url' => 'http://www.stumbleupon.com/submit?url=%s&title=%s' ),
+    'em' => array( 'name' => __( 'eMail', 'visita' ), 'url' => 'mailto:?body=%3$s%%20%1$s&subject=%2$s' ),
+    'fb' => array( 'name' => __( 'Facebook', 'visita' ), 'url' => 'https://www.facebook.com/sharer/sharer.php?u=%1$s' ),
+    'gp' => array( 'name' => __( 'Google+', 'visita' ), 'url' => 'https://plus.google.com/share?url=%1$s&text=%3$s' ),
+    'tw' => array( 'name' => __( 'Twitter', 'visita' ), 'url' => 'http://twitter.com/share?url=%1$s&text=%3$s' ),
+    'ri' => array( 'name' => __( 'Reddit', 'visita' ), 'url' => 'http://www.reddit.com/submit/?url=%1$s&title=%s' ),
+    'tb' => array( 'name' => __( 'Tumblr', 'visita' ), 'url' => 'https://www.tumblr.com/widgets/share/tool?canonicalUrl=%1$s&title=%s' ),
   );
 
   foreach ( $sharelinks as $share => $data ) {
     $links .= sprintf(
-      '<a href="%1$s" title="%2$s" class="%3$s" target="_blank" rel="nofollow noopener">%4$s</a>',
-      esc_attr( sprintf( $data['url'], urlencode( get_permalink() ), urlencode( get_the_title() ) ) ),
+      '<a href="%1$s" data-vars-name="%4$s" title="%2$s" class="%3$s" target="_blank" rel="nofollow noopener">%4$s</a>',
+      esc_attr( sprintf( 
+        $data['url'], 
+        rawurlencode( get_permalink() ), 
+        rawurlencode( get_the_title() ), 
+        rawurlencode( get_post_meta( get_the_ID(), '_description', true ) )
+      ) ),
       esc_attr( sprintf( __('Share on %s', 'visita' ), $data['name'] ) ),
       esc_attr( 'sh-' . $share ),
       esc_attr( $data['name'] )
     );
   }
 
-  echo '<span class="share_button" tabindex="0"><span class="sh-links">' . $links . '</span></span>';
+  echo '<span id="share-link" class="share_button" tabindex="0"><span class="sh-links">' . $links . '</span></span>';
 }
 
 /**

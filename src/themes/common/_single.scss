@@ -71,6 +71,10 @@ body.page .entry-title {
     overflow: hidden;
     border-bottom: 1px solid $gray-light;
   }
+  
+  .hmedia .url {
+    cursor: default;
+  }
 
   .entry-header {
     padding: 1.5em 1em;
@@ -172,9 +176,8 @@ body.page .entry-title {
 
   .share_button {
     @include breakpoint(medium up) {
-      position: absolute;
-      right: 1em;
-      top: 7em;
+      float: right;
+      margin-top: -3em;
     }
   }
 }
@@ -247,27 +250,27 @@ body.page .entry-title {
 }
 
 .sh-em:before {
-  content: '\f0e0'
+  content: $fa-var-envelope;
 }
 
 .sh-fb:before {
-  content: '\f09a'
+  content: $fa-var-facebook
 }
 
 .sh-gp:before {
-  content: '\f0d5'
+  content: $fa-var-google-plus
 }
 
 .sh-tw:before {
-  content: '\f099'
+  content: $fa-var-twitter
 }
 
 .sh-ri:before {
-  content: '\f281'
+  content: $fa-var-reddit
 }
 
-.sh-su:before {
-  content: '\f1a4'
+.sh-tb:before {
+  content: $fa-var-tumblr
 }
 
 .nav-previous {
