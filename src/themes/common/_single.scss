@@ -71,7 +71,7 @@ body.page .entry-title {
     overflow: hidden;
     border-bottom: 1px solid $gray-light;
   }
-  
+
   .hmedia .url {
     cursor: default;
   }
@@ -183,7 +183,8 @@ body.page .entry-title {
 }
 
 .single-post .share_button {
-  position: static;
+  float: none;
+  margin-top: 0;
 }
 
 .taxonomy-links {
