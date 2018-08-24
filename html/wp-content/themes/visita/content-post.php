@@ -55,7 +55,7 @@
       </span>
       <?php visita_get_post_date(); ?>
     </div><!-- .entry-meta -->
-    <?php if ( is_single() ) visita_share_botton(); ?>
+    <?php if ( is_single() ) visita_share_button(); ?>
   </header><!-- .entry-header -->
 
   <?php if ( is_single() ) : ?>

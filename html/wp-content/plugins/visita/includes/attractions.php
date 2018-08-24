@@ -24,6 +24,11 @@ class VisitaAttractions extends VisitaBase {
   protected $taxonomy = 'attractions';
 
   /**
+  *
+  */
+  protected $supports = array( 'reviews' );
+
+  /**
    * Constructor
    *
    * @return void

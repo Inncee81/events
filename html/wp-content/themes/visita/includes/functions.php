@@ -105,7 +105,7 @@ if ( ! function_exists( 'visita_get_lang' ) ) {
 *
 * @return void
 */
-function visita_share_botton( ) {
+function visita_share_button( ) {
 
   $links = '';
   $sharelinks = array(
@@ -120,10 +120,10 @@ function visita_share_botton( ) {
   foreach ( $sharelinks as $share => $data ) {
     $links .= sprintf(
       '<a href="%1$s" data-vars-name="%4$s" title="%2$s" class="%3$s" target="_blank" rel="nofollow noopener">%4$s</a>',
-      esc_attr( sprintf( 
-        $data['url'], 
-        rawurlencode( get_permalink() ), 
-        rawurlencode( get_the_title() ), 
+      esc_attr( sprintf(
+        $data['url'],
+        rawurlencode( get_permalink() ),
+        rawurlencode( get_the_title() ),
         rawurlencode( get_post_meta( get_the_ID(), '_description', true ) )
       ) ),
       esc_attr( sprintf( __('Share on %s', 'visita' ), $data['name'] ) ),

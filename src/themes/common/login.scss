@@ -36,12 +36,16 @@ html {
 	display: none;
 }
 
+#login {
+  width: 300px;
+}
+
 #login h1 a {
 	background: url(icon.png) no-repeat 50% 50%;
 	height: 130px;
-	width: 340px;
+	width: 300px;
   background-size: contain;
-  margin-bottom: 0;
+  margin: 0 auto;
 }
 
 body.login #nav {

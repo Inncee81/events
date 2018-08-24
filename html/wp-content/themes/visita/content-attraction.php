@@ -13,8 +13,8 @@
  */
  ?>
 
- <article <?php visita_post_schema( '_business_type' ); ?> <?php post_class(); ?>>
+<article <?php visita_post_schema( '_business_type' ); ?> <?php post_class(); ?>>
 
-   <?php get_template_part( 'parts/location' ); ?>
+  <?php get_template_part( 'parts/location' ); ?>
 
- </article><!-- .post-<?php the_ID(); ?> -->
+</article><!-- .post-<?php the_ID(); ?> -->

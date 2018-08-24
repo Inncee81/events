@@ -1,12 +1,7 @@
 
-.botton {
-  @extend .button;
-}
-
 body.page .entry-title {
   padding: 1em 0;
 }
-
 
 .single {
 
@@ -71,7 +66,7 @@ body.page .entry-title {
     overflow: hidden;
     border-bottom: 1px solid $gray-light;
   }
-  
+
   .hmedia .url {
     cursor: default;
   }
@@ -173,17 +168,11 @@ body.page .entry-title {
       text-decoration: none;
     }
   }
-
-  .share_button {
-    @include breakpoint(medium up) {
-      float: right;
-      margin-top: -3em;
-    }
-  }
 }
 
 .single-post .share_button {
-  position: static;
+  float: none;
+  margin-top: 0;
 }
 
 .taxonomy-links {
@@ -222,10 +211,25 @@ body.page .entry-title {
   }
 }
 
+.entry-tools {
+  margin-top: .65em;
+  @include breakpoint(medium up) {
+    float: right;
+    margin-top: -5em;
+    .share_button {
+      margin-top: .5em;
+    }
+  }
+}
+
 .share_button {
   display: block;
   margin-left: -5px;
-  padding-top: .75em;
+  padding-top: .65em;
+  @include breakpoint(medium up) {
+    float: right;
+    margin-top: -3em;
+  }
 }
 
 .share_button a {

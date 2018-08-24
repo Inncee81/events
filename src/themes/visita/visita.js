@@ -1,9 +1,18 @@
+import 'foundation/js/foundation.core';
+import 'foundation/js/foundation.reveal';
+import 'foundation/js/foundation.util.box';
+import 'foundation/js/foundation.util.motion';
+import 'foundation/js/foundation.util.keyboard';
+import 'foundation/js/foundation.util.triggers';
+import 'foundation/js/foundation.util.mediaQuery';
 import LazyLoad from 'vanilla-lazyload';
 
 const mobileWidth =  640;
 const lazyLoad = new LazyLoad();
 
+
 ( ( $, doc ) => {
+  
 
   $.get(visita.weather, (data) => {
     $('.site-logo .weather')
@@ -60,6 +69,25 @@ const lazyLoad = new LazyLoad();
   if (window.top !== window.self) {
     delete window.top.onbeforeunload;
   }
+
+  $('[data-reviews-add]').click((e) => {
+    e.preventDefault();
+    var $modal = $('#reveal');
+    
+    $.ajax(e.target.href)
+      .done(function(resp) {
+        $modal
+        .find('.reveal-content')
+        .html(resp)
+        $modal.foundation('open');
+    });
+  
+  })
+
+  //
+  $(() => $(document).foundation());
+
+
 } )( jQuery, document );
 
 

@@ -76,6 +76,11 @@ class VisitaBase {
   /**
   *
   */
+  protected $supports = array();
+
+  /**
+  *
+  */
   protected $fields = array(
     'key' => '',
     'title' => '',
@@ -245,13 +250,13 @@ class VisitaBase {
         'has_archive'     => $this->taxonomy_slug,
         'taxonomies'      => array( $this->taxonomy ),
         'rewrite'         => array( 'slug' => $this->slug, 'with_front' => false ),
-        'supports'        => array(
+        'supports'        => array_merge(array(
           'title',
           'editor',
           'comments',
           'revisions',
           'thumbnail',
-        )
+        ), $this->supports )
     ) );
   }
 
