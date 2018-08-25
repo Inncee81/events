@@ -24,6 +24,13 @@ function get_user_post_comment() {
 /**
 *
 */
+function get_user_post_comment_ID() {
+  return Visita_Reviews::get_user_post_comment_ID();
+}
+
+/**
+*
+*/
 class Visita_Reviews {
 
   /**
@@ -34,10 +41,12 @@ class Visita_Reviews {
    */
   function __construct( ) {
 
+    // add_action( 'init',  array( $this, 'allow_empty_comments' ), 500 );
     add_action( 'comment_form_top',  array( $this, 'comment_form_top' ), 500 );
-    add_action( 'wp_insert_comment', array( $this, 'save_review_rating' ), 20, 2 );
+    add_action( 'pre_comment_on_post',  array( $this, 'pre_comment_on_post' ), 500 );
 
     add_filter( 'single_template_hierarchy', array( $this, 'post_templates' ) );
+    add_filter( 'duplicate_comment_id', array( $this, 'duplicate_comment_id' ), 200, 2 );
     add_filter( 'registered_post_type', array( $this, 'registered_post_type' ), 300, 2 );
 
     if ( ! is_admin() ) {
@@ -49,8 +58,90 @@ class Visita_Reviews {
   /**
   *
   */
-  function save_review_rating( $comment_ID ) {
-    update_comment_meta( $comment_ID, '_rating', (int) $_POST['rating'] );
+  function allow_empty_comments() {
+    if ( isset( $_POST['comment'] ) && ! empty( $_POST['rating'] ) ) {
+      if ( '' == trim( $_POST['comment'] ) ) {
+        $_POST['comment'] = "&nbsp;";
+      }
+    }
+  }
+
+  /**
+  *
+  */
+  function duplicate_comment_id( $dupe_id , $commentdata) {
+    if ( get_user_post_comment_ID() == $dupe_id ) {
+      return false;
+    }
+    return $dupe_id;
+  }
+
+  /**
+  *
+  */
+  function pre_comment_on_post( $comment_post_ID ) {
+
+    $user = wp_get_current_user();
+
+    if ( $user->exists() ) {
+      if ( empty( $user->display_name ) ) {
+        $user->display_name=$user->user_login;
+      }
+      $comment_author       = $user->display_name;
+      $comment_author_email = $user->user_email;
+      $comment_author_url   = $user->user_url;
+      $user_ID              = $user->ID;
+    } else {
+      if ( get_option( 'comment_registration' ) ) {
+        wp_die(
+          '<p>' . __( 'Sorry, you must be logged in to post a review.', 'visita' ) . '</p>',
+          __( 'Review Submission Failure' ), array( 'response' => 403, 'back_link' => true )
+        );
+      }
+    }
+
+    $comment_date = current_time( 'mysql' );
+    $comment_ID = get_user_post_comment_ID();
+
+    if ( isset( $_POST['comment'] ) && is_string( $_POST['comment'] ) ) {
+      $comment_content = trim( $_POST['comment'] );
+    }
+
+    $commentdata = wp_slash( compact(
+      'comment_ID',
+      'comment_post_ID',
+      'comment_author',
+      'comment_author_email',
+      'comment_author_url',
+      'comment_content',
+      'comment_date',
+      'comment_parent',
+      'user_ID'
+    ) );
+
+    $check_max_lengths = wp_check_comment_data_max_lengths( $commentdata );
+    if ( is_wp_error( $check_max_lengths ) ) {
+      wp_die(
+        '<p>' . $check_max_lengths->get_error_message() . '</p>',
+        __( 'Review Submission Failure', 'visita' ), array( 'response' => 403, 'back_link' => true )
+      );
+    }
+
+    ( $comment_ID ) ? wp_update_comment( $commentdata ) : $comment_ID = wp_insert_comment( $commentdata );
+
+    if ( is_wp_error( $comment_ID ) ) {
+      wp_die(
+        '<p>' . $comment_ID->get_error_message() . '</p>',
+        __( 'Review Submission Failure', 'visita' ), array( 'response' => 500, 'back_link' => true )
+      );
+    }
+
+    update_comment_meta( $comment_ID, '_rating', (int) $_POST['rating']);
+
+    $cookies_consent = ( isset( $_POST['wp-comment-cookies-consent'] ) );
+    wp_safe_redirect( get_comment_link( $comment_ID ) );
+
+    exit();
   }
 
   /**
@@ -58,20 +149,26 @@ class Visita_Reviews {
   */
   function comment_form_top() {
     global $user_identity, $current_user;
-    echo '
-    <p class="logged-in-as">' .
-      sprintf( __( '<a href="%1$s">%2$s</a>' ),
-        admin_url( 'profile.php' ),
-        get_avatar( $current_user->user_email, 38 ) . $user_identity
-      ) .
-    '</p>
-    <div class="starts">
-      <input type="radio" name="rating" id="rating-5" value="5" /><label for="rating-5">'. __('rating 5') . '</label>
-      <input type="radio" name="rating" id="rating-4" value="4" /><label for="rating-4">'. __('rating 4') . '</label>
-      <input type="radio" name="rating" id="rating-3" value="3" /><label for="rating-3">'. __('rating 3') . '</label>
-      <input type="radio" name="rating" id="rating-2" value="2" /><label for="rating-2">'. __('rating 2') . '</label>
-      <input type="radio" name="rating" id="rating-1" value="1" /><label for="rating-1">'. __('rating 1') . '</label>
-    </div>';
+    $rating = get_comment_meta( get_user_post_comment_ID(), '_rating', true );
+
+
+    $stars = ''; for ( $i = 5; $i >= 0; $i-- ) {
+      $stars .= sprintf( '
+        <input type="radio" name="rating" id="rating-%3$d" value="%3$d" %2$s />
+        <label for="rating-%3$d">%1$s</label>',
+        sprintf( esc_html__( 'Rating %d' ), $i ),
+        checked( $i, $rating, false ),
+        $i
+      );
+    }
+
+    printf( '
+      <p class="logged-in-as"><a href="%2$s">%1$s</a></p>
+      <div class="stars">%3$s</div>',
+      get_avatar( $current_user->user_email, 38 ) . $user_identity,
+      admin_url( 'profile.php' ),
+      $stars
+    );
   }
 
   /**
@@ -158,10 +255,21 @@ class Visita_Reviews {
   *
   */
   static function get_user_post_comment() {
-    global $user_ID;
-    if ( $posts = get_comments( array( 'post_id' => get_the_ID(), 'author__in' => $user_ID ) ) ) {
-      return empty( $posts[0] ) ? '' : $posts[0]->comment_content;
-    }
-    return;
+    if ( $posts = get_comments(
+        array( 'post_id' => get_the_ID(),
+        'author__in' => get_current_user_id()
+      ) )
+    ) return $posts[0];
+    return (object) array(
+      'comment_ID' => null,
+      'comment_content' => null,
+    );
+  }
+
+  /**
+  *
+  */
+  static function get_user_post_comment_ID() {
+    return get_user_post_comment()->comment_ID;
   }
 }

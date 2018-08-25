@@ -6,7 +6,7 @@
   </a>
   <?php if ( comments_open() || get_comments_number() ) : ?>
     <a href="<?php review_add_link()?>" aria-label="<?php _e('Open add review modal')?>" data-reviews-add>
-      <?php get_user_post_comment( ) ? esc_html_e( 'Edit Review' ) : esc_html_e( 'Add Review' ) ?>
+      <?php get_user_post_comment_ID( ) ? esc_html_e( 'Edit Review' ) : esc_html_e( 'Add Review' ) ?>
     </a>
   <?php endif; ?>
 </div>

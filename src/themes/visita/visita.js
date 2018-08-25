@@ -10,9 +10,7 @@ import LazyLoad from 'vanilla-lazyload';
 const mobileWidth =  640;
 const lazyLoad = new LazyLoad();
 
-
 ( ( $, doc ) => {
-  
 
   $.get(visita.weather, (data) => {
     $('.site-logo .weather')
@@ -73,7 +71,7 @@ const lazyLoad = new LazyLoad();
   $('[data-reviews-add]').click((e) => {
     e.preventDefault();
     var $modal = $('#reveal');
-    
+
     $.ajax(e.target.href)
       .done(function(resp) {
         $modal
@@ -81,7 +79,10 @@ const lazyLoad = new LazyLoad();
         .html(resp)
         $modal.foundation('open');
     });
-  
+  })
+
+  $('[data-reviews]').click((e) => {
+    e.preventDefault();
   })
 
   //
@@ -140,8 +141,6 @@ const lazyLoad = new LazyLoad();
     }
   } );
 
-
-  //
   $.ajaxSetup({
     headers: {
       'Authorization': 'Basic c2VhcmNoOk9NcGowUXVlRippUSpwQnI5WGIwQndURw=='

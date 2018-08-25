@@ -46,9 +46,14 @@
   .comment-form-comment label {
     display: none;
   }
+  textarea {
+    height: auto;
+    overflow: auto;
+    resize: horizontal;
+  }
 }
 
-.starts {
+.stars {
   float: left;
   padding-bottom: .25em;
   input {
@@ -69,6 +74,9 @@
     content: '\f006';
     color: $gray-medium;
     margin: 0 1em 0  4px;
+  }
+  label[for="rating-0"] {
+    display: none;
   }
   input:checked ~ label:before {
     content: '\f005';
