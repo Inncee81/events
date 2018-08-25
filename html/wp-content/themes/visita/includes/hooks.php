@@ -413,3 +413,11 @@ function visita_document_title_separator() {
   return '•';
 }
 add_action( 'document_title_separator', 'visita_document_title_separator', 500 );
+
+/**
+*
+*/
+function visita_remove_type_attr( $tag ) {
+  return preg_replace( "/type=['\"]text\/javascript['\"]/i", '', $tag );
+}
+add_filter( 'script_loader_tag', 'visita_remove_type_attr', 10, 2 );

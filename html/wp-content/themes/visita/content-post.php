@@ -16,7 +16,7 @@
 <article itemscope itemtype="https://schema.org/Article" <?php post_class(); ?>>
 
   <?php if ( has_post_thumbnail() ) : ?>
-    <figure id="entry-media" class="hmedia">
+    <figure id="entry-media-<?php the_ID()?>" class="hmedia">
       <?php
         printf(
           '<a href="%1$s" title="%3$s" class="image url enclosure" rel="bookmark" tabindex="-1">%2$s</a>',
@@ -32,7 +32,7 @@
     <meta class="image" itemprop="image" content="<?php stylesheet_directory_uri('/icons/icon-192.png')?>" />
   <?php endif; // has_post_thumbnail() ?>
 
-  <header id="entry-header" class="entry-header<?php if ( ! is_single() ) echo ' float' ?>">
+  <header id="entry-header-<?php the_ID()?>" class="entry-header<?php if ( ! is_single() ) echo ' float' ?>">
     <?php edit_post_link( __( 'Edit', 'visita' ), '<span class="edit-link">', '</span>' ); ?>
     <?php
       printf(

@@ -120,10 +120,10 @@ function visita_share_botton( ) {
   foreach ( $sharelinks as $share => $data ) {
     $links .= sprintf(
       '<a href="%1$s" data-vars-name="%4$s" title="%2$s" class="%3$s" target="_blank" rel="nofollow noopener">%4$s</a>',
-      esc_attr( sprintf( 
-        $data['url'], 
-        rawurlencode( get_permalink() ), 
-        rawurlencode( get_the_title() ), 
+      esc_attr( sprintf(
+        $data['url'],
+        rawurlencode( get_permalink() ),
+        rawurlencode( get_the_title() ),
         rawurlencode( get_post_meta( get_the_ID(), '_description', true ) )
       ) ),
       esc_attr( sprintf( __('Share on %s', 'visita' ), $data['name'] ) ),
@@ -391,11 +391,19 @@ function visita_entry_meta( ) {
 */
 function visita_get_start_time( ) {
 
-  global $visita_options;
-
   if ( ! $starts = get_post_meta( get_the_ID(), '_starts', true ) ) {
+    printf('
+      <time class="updated hidden" datetime="%4$s" aria-label="hidden">%3$s</time>
+      <time class="dtstart hidden" itemprop="startDate" aria-label="hidden" datetime="%1$s">%2$s</time>',
+      date_i18n( 'c',  strtotime( 'last week' ) ),
+      date_i18n( 'Ymd', strtotime( 'last week' ) ),
+      esc_attr( get_the_modified_date( ) ),
+      esc_attr( get_the_modified_date( 'c' ) )
+    );
     return false;
   }
+
+  global $visita_options;
 
   if ( ! $ends = get_post_meta( get_the_ID(), '_ends', true ) ) {
     $ends = $starts + 120; // 2 more hours
@@ -408,8 +416,8 @@ function visita_get_start_time( ) {
 
   printf(
     '<div class="date">
-      <time class="updated hidden" datetime="%7$s">%6$s</time>
-      <time class="entry-date published hidden" datetime="%3$s">%3$s</time>
+      <time class="updated hidden" aria-label="hidden" datetime="%7$s">%6$s</time>
+      <time class="entry-date published hidden" aria-label="hidden" datetime="%3$s">%3$s</time>
       <time itemprop="startDate" class="dtstart" datetime="%4$s">%1$s</time>
       <time itemprop="endDate" class="dtend hidden" datetime="%5$s">%2$s</time>
     </div>',

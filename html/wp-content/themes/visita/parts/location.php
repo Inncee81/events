@@ -13,7 +13,7 @@
   </figure>
 <?php endif; // has_post_thumbnail() ?>
 
-<header id="entry-header" class="entry-header<?php if ( ! is_single() ) echo ' float' ?>">
+<header id="entry-header-<?php the_ID()?>" class="entry-header<?php if ( ! is_single() ) echo ' float' ?>">
   <?php edit_post_link( __( 'Edit', 'visita' ), '<span class="edit-link">', '</span>' ); ?>
   <?php
     printf(
