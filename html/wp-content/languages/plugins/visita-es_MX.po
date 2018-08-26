@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
-"POT-Creation-Date: 2018-08-04 23:25-0700\n"
-"PO-Revision-Date: 2018-08-04 23:25-0700\n"
+"POT-Creation-Date: 2018-08-26 01:54-0700\n"
+"PO-Revision-Date: 2018-08-26 01:59-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -21,243 +21,243 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: ../../themes/visita/node_modules\n"
 
-#: includes/attractions.php:35
+#: includes/attractions.php:40
 msgid "attraction"
 msgstr "atraccion"
 
-#: includes/attractions.php:36 includes/attractions.php:39
+#: includes/attractions.php:41 includes/attractions.php:44
 msgid "Attractions"
 msgstr "Atracciones"
 
-#: includes/attractions.php:37
+#: includes/attractions.php:42
 msgid "Attraction"
 msgstr "Atraccion"
 
-#: includes/attractions.php:38
+#: includes/attractions.php:43
 msgid "attractions"
 msgstr "atracciones"
 
-#: includes/attractions.php:40
+#: includes/attractions.php:45
 msgid ""
 "Información en español, que hacer en Las Vegas atracciones, shows, hoteles y "
 "lugares de interés"
 msgstr ""
 
-#: includes/attractions.php:52
+#: includes/attractions.php:57
 msgid "attraction, activity"
 msgstr "atracción, actividad"
 
-#: includes/attractions.php:57 includes/attractions.php:145
+#: includes/attractions.php:62 includes/attractions.php:150
 #: includes/clubs.php:56 includes/clubs.php:122 includes/events.php:59
 #: includes/events.php:154 includes/hotels.php:50 includes/hotels.php:123
 #: includes/shows.php:57 includes/shows.php:146
 msgid "Name"
 msgstr "Nombre"
 
-#: includes/attractions.php:58 includes/attractions.php:94
+#: includes/attractions.php:63 includes/attractions.php:99
 #: includes/clubs.php:57 includes/clubs.php:87 includes/events.php:60
 #: includes/events.php:102 includes/hotels.php:51 includes/hotels.php:87
 #: includes/shows.php:58 includes/shows.php:94
 msgid "Price"
 msgstr "Precio"
 
-#: includes/attractions.php:63 includes/clubs.php:62 includes/shows.php:63
+#: includes/attractions.php:68 includes/clubs.php:62 includes/shows.php:63
 msgid "Show Details"
 msgstr "Mostrar detalles"
 
-#: includes/attractions.php:74 includes/clubs.php:73 includes/events.php:76
+#: includes/attractions.php:79 includes/clubs.php:73 includes/events.php:76
 #: includes/hotels.php:67 includes/shows.php:74
 msgid "General"
 msgstr "General"
 
-#: includes/attractions.php:81 includes/events.php:89 includes/hotels.php:74
+#: includes/attractions.php:86 includes/events.php:89 includes/hotels.php:74
 #: includes/shows.php:81
 msgid "Disable UTM"
 msgstr "Desactivar UTM"
 
-#: includes/attractions.php:86 includes/clubs.php:79 includes/events.php:94
+#: includes/attractions.php:91 includes/clubs.php:79 includes/events.php:94
 #: includes/events.php:241 includes/hotels.php:79 includes/shows.php:86
 #: includes/shows.php:242
 msgid "Link"
 msgstr "Enlace"
 
-#: includes/attractions.php:100 includes/clubs.php:93 includes/events.php:108
+#: includes/attractions.php:105 includes/clubs.php:93 includes/events.php:108
 #: includes/hotels.php:93 includes/shows.php:100
 msgid "Max Price"
 msgstr "Precio Máximo"
 
-#: includes/attractions.php:106 includes/clubs.php:99 includes/events.php:114
+#: includes/attractions.php:111 includes/clubs.php:99 includes/events.php:114
 #: includes/hotels.php:99 includes/shows.php:106
 msgid "Currency"
 msgstr "Moneda"
 
-#: includes/attractions.php:115 includes/clubs.php:108 includes/hotels.php:108
+#: includes/attractions.php:120 includes/clubs.php:108 includes/hotels.php:108
 msgid "Business Type"
 msgstr "Tipo de Negocio"
 
-#: includes/attractions.php:117
+#: includes/attractions.php:122
 msgid "Store"
 msgstr ""
 
-#: includes/attractions.php:118
+#: includes/attractions.php:123
 msgid "Park"
 msgstr "Parque"
 
-#: includes/attractions.php:119 includes/hotels.php:37 includes/hotels.php:110
+#: includes/attractions.php:124 includes/hotels.php:37 includes/hotels.php:110
 msgid "Hotel"
 msgstr "Hotel"
 
-#: includes/attractions.php:120
+#: includes/attractions.php:125
 msgid "Museum"
 msgstr "Museo"
 
-#: includes/attractions.php:121
+#: includes/attractions.php:126
 msgid "Aquarium"
 msgstr ""
 
-#: includes/attractions.php:122 includes/clubs.php:111
+#: includes/attractions.php:127 includes/clubs.php:111
 msgid "Comedy Club"
 msgstr ""
 
-#: includes/attractions.php:123
+#: includes/attractions.php:128
 msgid "Art Gallery"
 msgstr "Galería de Arte"
 
-#: includes/attractions.php:124
+#: includes/attractions.php:129
 msgid "Movie Theater"
 msgstr ""
 
-#: includes/attractions.php:125
+#: includes/attractions.php:130
 msgid "Amusement Park"
 msgstr "Parque de Atracciones"
 
-#: includes/attractions.php:126
+#: includes/attractions.php:131
 msgid "Shopping Center"
 msgstr ""
 
-#: includes/attractions.php:127
+#: includes/attractions.php:132
 msgid "Entertainment"
 msgstr "Entretenimiento"
 
-#: includes/attractions.php:134 includes/core.php:406
+#: includes/attractions.php:139 includes/core.php:408
 msgid "Keywords"
 msgstr "Palabras Clave"
 
-#: includes/attractions.php:139 includes/clubs.php:116 includes/events.php:148
+#: includes/attractions.php:144 includes/clubs.php:116 includes/events.php:148
 #: includes/hotels.php:117 includes/shows.php:140
 msgid "Location"
 msgstr "Locación"
 
-#: includes/attractions.php:151 includes/clubs.php:128 includes/events.php:160
+#: includes/attractions.php:156 includes/clubs.php:128 includes/events.php:160
 #: includes/hotels.php:129 includes/shows.php:152
 msgid "Addresss"
 msgstr "Dirección"
 
-#: includes/attractions.php:157 includes/clubs.php:134 includes/events.php:166
+#: includes/attractions.php:162 includes/clubs.php:134 includes/events.php:166
 #: includes/hotels.php:135 includes/shows.php:158
 msgid "City"
 msgstr "Ciudad"
 
-#: includes/attractions.php:165 includes/clubs.php:142 includes/events.php:174
+#: includes/attractions.php:170 includes/clubs.php:142 includes/events.php:174
 #: includes/hotels.php:143 includes/shows.php:166
 msgid "State"
 msgstr "Estado"
 
-#: includes/attractions.php:173 includes/clubs.php:150 includes/events.php:182
+#: includes/attractions.php:178 includes/clubs.php:150 includes/events.php:182
 #: includes/hotels.php:151 includes/shows.php:174
 msgid "Zip Code"
 msgstr "Código Postal"
 
-#: includes/attractions.php:181 includes/clubs.php:158 includes/events.php:190
+#: includes/attractions.php:186 includes/clubs.php:158 includes/events.php:190
 #: includes/hotels.php:159 includes/shows.php:182
 msgid "Phone"
 msgstr "Teléfono"
 
-#: includes/attractions.php:187 includes/clubs.php:164 includes/shows.php:188
+#: includes/attractions.php:192 includes/clubs.php:164 includes/shows.php:188
 msgid "Business Hours"
 msgstr "Horarios"
 
-#: includes/attractions.php:201 includes/clubs.php:178
+#: includes/attractions.php:206 includes/clubs.php:178
 msgid "Dia"
 msgstr "Día"
 
-#: includes/attractions.php:203 includes/clubs.php:180 includes/shows.php:204
+#: includes/attractions.php:208 includes/clubs.php:180 includes/shows.php:204
 #: includes/shows.php:220
 msgid "All"
 msgstr "Todo"
 
-#: includes/attractions.php:204 includes/clubs.php:181 includes/shows.php:205
+#: includes/attractions.php:209 includes/clubs.php:181 includes/shows.php:205
 #: includes/shows.php:221
 msgid "Monday"
 msgstr "Lunes"
 
-#: includes/attractions.php:205 includes/clubs.php:182 includes/shows.php:206
+#: includes/attractions.php:210 includes/clubs.php:182 includes/shows.php:206
 #: includes/shows.php:222
 msgid "Tuesday"
 msgstr "Martes"
 
-#: includes/attractions.php:206 includes/clubs.php:183 includes/shows.php:207
+#: includes/attractions.php:211 includes/clubs.php:183 includes/shows.php:207
 #: includes/shows.php:223
 msgid "Wednesday"
 msgstr "Miércoles"
 
-#: includes/attractions.php:207 includes/clubs.php:184 includes/shows.php:208
+#: includes/attractions.php:212 includes/clubs.php:184 includes/shows.php:208
 #: includes/shows.php:224
 msgid "Thursday"
 msgstr "Jueves"
 
-#: includes/attractions.php:208 includes/clubs.php:185 includes/shows.php:209
+#: includes/attractions.php:213 includes/clubs.php:185 includes/shows.php:209
 #: includes/shows.php:225
 msgid "Friday"
 msgstr "Viernes"
 
-#: includes/attractions.php:209 includes/clubs.php:186 includes/shows.php:210
+#: includes/attractions.php:214 includes/clubs.php:186 includes/shows.php:210
 #: includes/shows.php:226
 msgid "Saturday"
 msgstr "Sábado"
 
-#: includes/attractions.php:210 includes/clubs.php:187 includes/shows.php:211
+#: includes/attractions.php:215 includes/clubs.php:187 includes/shows.php:211
 #: includes/shows.php:227
 msgid "Sunday"
 msgstr "Domingo"
 
-#: includes/attractions.php:218 includes/clubs.php:195
+#: includes/attractions.php:223 includes/clubs.php:195
 msgid "Opens"
 msgstr "Haber"
 
-#: includes/attractions.php:226 includes/clubs.php:203
+#: includes/attractions.php:231 includes/clubs.php:203
 msgid "Closes"
 msgstr "Cierran"
 
-#: includes/attractions.php:233 includes/clubs.php:210
+#: includes/attractions.php:238 includes/clubs.php:210
 msgid "24 Hours"
 msgstr "24 horas"
 
-#: includes/base.php:168
+#: includes/base.php:173
 msgid "F j, Y"
 msgstr "j F Y"
 
-#: includes/base.php:200
+#: includes/base.php:205
 msgid "from"
 msgstr "de"
 
-#: includes/base.php:201
+#: includes/base.php:206
 msgid "to"
 msgstr "a las"
 
-#: includes/base.php:520
+#: includes/base.php:526
 msgid "Sort:"
 msgstr "Ordenar:"
 
-#: includes/base.php:525
+#: includes/base.php:531
 msgid "order"
 msgstr "orden"
 
-#: includes/base.php:526
+#: includes/base.php:532
 msgid "orderby"
 msgstr "por"
 
-#: includes/base.php:587
+#: includes/base.php:593 includes/core.php:725
 msgid "Home"
 msgstr ""
 
@@ -287,55 +287,59 @@ msgstr ""
 msgid "Night Club"
 msgstr "Night Club"
 
-#: includes/core.php:111
-msgid "Every 3 Hours"
-msgstr ""
+#: includes/core.php:112
+msgid "Every 2 Hours"
+msgstr "Cada 2 horas"
 
-#: includes/core.php:168
+#: includes/core.php:169
 msgid "page"
 msgstr "pagina"
 
-#: includes/core.php:363
+#: includes/core.php:365
 msgid "Wind:"
 msgstr "Viento:"
 
-#: includes/core.php:364
+#: includes/core.php:366
 msgid "Humidity:"
 msgstr "Humedad:"
 
-#: includes/core.php:365
+#: includes/core.php:367
 msgid "Feels like:"
 msgstr "Sensación Térmica:"
 
-#: includes/core.php:392
+#: includes/core.php:394
 msgid "SEO"
 msgstr "SEO"
 
-#: includes/core.php:398
+#: includes/core.php:400
 msgid "Description"
 msgstr "Descripción"
 
-#: includes/core.php:481 includes/core.php:482
+#: includes/core.php:483 includes/core.php:484
 msgid "Visita Import"
 msgstr "Importar"
 
-#: includes/core.php:569
+#: includes/core.php:571
 #, php-format
 msgid "More %s"
 msgstr "Más %s"
 
-#: includes/core.php:591
+#: includes/core.php:593
 msgid "All Events"
 msgstr "Todos los Eventos"
 
-#: includes/core.php:672
+#: includes/core.php:674
 msgid "at"
 msgstr "en"
 
-#: includes/core.php:695 includes/events.php:47 includes/events.php:50
+#: includes/core.php:697 includes/events.php:47 includes/events.php:50
 #: includes/events.php:843
 msgid "Events"
 msgstr "Eventos"
+
+#: includes/core.php:736
+msgid "Blog"
+msgstr "Blog"
 
 #: includes/events.php:46
 msgid "event"
@@ -495,6 +499,13 @@ msgstr ""
 msgid "json..."
 msgstr "json…"
 
+#: includes/events.php:917
+#, php-format
+msgid ""
+"%s Las Vegas, guía turística con los mejores eventos, shows y conciertos con "
+"información en español. #VisitaVegas"
+msgstr ""
+
 #: includes/hotels.php:35
 msgid "hotel"
 msgstr "hotel"
@@ -533,11 +544,39 @@ msgstr ""
 
 #: includes/import.php:14
 msgid "Submission timeout, please refreh page."
-msgstr ""
+msgstr "El tiempo de envío expiro, por favor refresca la página."
 
 #: includes/import.php:20
 msgid "Import"
 msgstr "Importar"
+
+#: includes/reviews.php:62
+#, php-format
+msgid "%d Review"
+msgid_plural "%d Reviews"
+msgstr[0] "%d Reseña"
+msgstr[1] "%d Reseñas"
+
+#: includes/reviews.php:122
+msgid "Security check failed"
+msgstr "Error de seguridad"
+
+#: includes/reviews.php:123
+msgid "Sorry, the security checke failed"
+msgstr "Lo sentimos, el revisión de seguridad a fallado."
+
+#: includes/reviews.php:140
+msgid "Sorry, you must be logged in to comment."
+msgstr "Lo sentimos, debes entrar a tu sesión para añadir una reseña."
+
+#: includes/reviews.php:191
+msgid "Review Submission Failure"
+msgstr "No se pudo salvar la reseña por un error"
+
+#: includes/reviews.php:218
+#, php-format
+msgid "Rating %d"
+msgstr "Reseña para %d"
 
 #: includes/shows.php:35
 msgid "show"
@@ -638,9 +677,6 @@ msgstr "Visita Widget"
 
 #~ msgid "freiheit"
 #~ msgstr "freiheit"
-
-#~ msgid "Blog"
-#~ msgstr "Blog"
 
 #~ msgid "This is somewhat embarrassing, isn&rsquo;t it?"
 #~ msgstr "No lo vas a creer, pero…"

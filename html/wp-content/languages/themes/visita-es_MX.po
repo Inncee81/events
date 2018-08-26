@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2018-08-16 11:49-0700\n"
-"PO-Revision-Date: 2018-08-19 13:19-0700\n"
+"POT-Creation-Date: 2018-08-25 20:04-0700\n"
+"PO-Revision-Date: 2018-08-25 20:07-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -46,7 +46,7 @@ msgctxt "placeholder"
 msgid "Search &hellip;"
 msgstr "Buscar  &hellip;"
 
-#: amp/content-hotel.php:25 content-hotel.php:65
+#: amp/content-hotel.php:25 content-hotel.php:69
 msgid "Haz tu reservación"
 msgstr "Haz tu reservación"
 
@@ -67,8 +67,8 @@ msgstr "Enlace a %s"
 msgid "Edit"
 msgstr "Editar"
 
-#: content-event.php:65 content-hotel.php:75 content-page.php:51
-#: content-post.php:63 content-show.php:65 content.php:51 parts/location.php:48
+#: content-event.php:65 content-hotel.php:79 content-page.php:51
+#: content-post.php:63 content-show.php:69 content.php:51 parts/location.php:53
 msgid "Continue <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Continuar <span class=\"meta-nav\">&rarr;</span>"
 
@@ -108,7 +108,7 @@ msgstr "Ir al contenido"
 msgid "Menu"
 msgstr "Menú"
 
-#: includes/amp.php:112 includes/functions.php:209
+#: includes/amp.php:112 includes/functions.php:214
 msgid "Post navigation"
 msgstr "Navegación"
 
@@ -118,77 +118,77 @@ msgstr "eMail"
 
 #: includes/functions.php:113
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: includes/functions.php:114
 msgid "Google+"
-msgstr ""
+msgstr "Google+"
 
 #: includes/functions.php:115
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: includes/functions.php:116
 msgid "Reddit"
-msgstr ""
+msgstr "Reddit"
 
 #: includes/functions.php:117
-msgid "StumbleUpon"
-msgstr ""
+msgid "Tumblr"
+msgstr "Tumblr"
 
-#: includes/functions.php:124
+#: includes/functions.php:129
 #, php-format
 msgid "Share on %s"
 msgstr "Compartir en %s"
 
-#: includes/functions.php:181
+#: includes/functions.php:186
 msgid "Navigation"
 msgstr "Navigación"
 
-#: includes/functions.php:186
+#: includes/functions.php:191
 msgid "Previous"
 msgstr "Anterior"
 
-#: includes/functions.php:187
+#: includes/functions.php:192
 msgid "Next"
 msgstr "Siguiente"
 
-#: includes/functions.php:212
+#: includes/functions.php:217
 msgctxt "Previous post link"
 msgid "%title"
 msgstr "%title"
 
-#: includes/functions.php:213
+#: includes/functions.php:218
 msgctxt "Next post link"
 msgid "%title"
 msgstr "%title"
 
-#: includes/functions.php:337
+#: includes/functions.php:342
 msgid "Prices in U.S. dollars"
 msgstr "Precios en dólares estadounidenses"
 
-#: includes/functions.php:338
+#: includes/functions.php:343
 msgid "prices may vary."
 msgstr "precios pueden variar."
 
-#: includes/functions.php:378
+#: includes/functions.php:383
 msgctxt "Google map language"
 msgid "en"
 msgstr "es-419"
 
-#: includes/functions.php:469
+#: includes/functions.php:482
 msgid "No dates currently available"
 msgstr "No fechas disponibles"
 
-#: includes/functions.php:527 includes/functions.php:557
+#: includes/functions.php:540 includes/functions.php:570
 msgid "Every Day"
 msgstr "Todos los días"
 
-#: includes/functions.php:528
+#: includes/functions.php:541
 msgid "24 Hours"
 msgstr "24 Horas"
 
-#: includes/functions.php:558
+#: includes/functions.php:571
 msgid " to "
 msgstr " a "
 
@@ -232,6 +232,48 @@ msgstr " Página %d"
 #: includes/theme-options.php:19
 msgid "Maximum page width"
 msgstr ""
+
+#: review.php:13
+msgid "Open add review modal"
+msgstr "Abrir ventana para añadir reseñas"
+
+#: review.php:14
+msgid "Edit Review"
+msgstr "Editar Reseña"
+
+#: review.php:14
+msgid "Add Review"
+msgstr "Añadir Reseña"
+
+#: review.php:20
+msgid "Close review modal"
+msgstr "Cerrar ventana"
+
+#: reviews-form.php:15 reviews-form.php:17
+#, php-format
+msgid "%s review"
+msgstr "Reseña para %s"
+
+#: reviews-form.php:16
+msgid "Cancel Review"
+msgstr "Cancelar Reseña"
+
+#: reviews-form.php:20
+msgctxt "noun"
+msgid "Comment"
+msgstr "Reseña"
+
+#: reviews-form.php:26
+msgid "Update Review"
+msgstr "Actualizar Reseña"
+
+#: reviews-form.php:26
+msgid "Post Review"
+msgstr "Publicar Reseña"
+
+#: reviews-form.php:28
+msgid "Delete"
+msgstr "Borrar"
 
 #: search.php:23
 #, php-format
@@ -446,9 +488,6 @@ msgstr ""
 
 #~ msgid "Search …"
 #~ msgstr "Buscar &hellip;"
-
-#~ msgid "Comments"
-#~ msgstr "Commentarios"
 
 #~ msgid "the WordPress team"
 #~ msgstr "El equipo de WordPress"

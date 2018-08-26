@@ -81,7 +81,7 @@ const lazyLoad = new LazyLoad();
     });
   })
 
-  $('[data-reviews]').click((e) => {
+  $('a[itemprop="aggregateRating"]').click((e) => {
     e.preventDefault();
   })
 

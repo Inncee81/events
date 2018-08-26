@@ -12,9 +12,9 @@
     $user_comment_ID = get_user_post_comment_ID( );
     comment_form(array(
       'logged_in_as'      => '',
-      'title_reply_to'    => __( '%s Review' ),
-      'cancel_reply_link' => __( 'Cancel Review' ),
-      'title_reply'       => sprintf( __( '%s review', 'noun' ) , get_the_title() ),
+      'title_reply_to'    => __( '%s review', 'visita' ),
+      'cancel_reply_link' => __( 'Cancel Review', 'visita' ),
+      'title_reply'       => sprintf( __( '%s review', 'visita' ) , get_the_title() ),
       'comment_field'     => sprintf( '<p class="comment-form-comment"><label for="comment">%s</label>
         <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true">%s</textarea></p>',
         esc_html( _x( 'Comment', 'noun' ) ),
@@ -22,10 +22,10 @@
       ),
       'submit_button'     => sprintf('
         <input name="submit" type="submit" id="submit" class="submit button" value="%s" />
-        <input name="submit" type="submit" id="submit" class="button secondary %s" value="%s" />',
-        ( $user_comment_ID ) ?  esc_attr__( 'Update Review' ) : esc_attr__( 'Post Review' ),
+        <input name="delete" type="submit" id="submit" class="button secondary %s" value="%s" />',
+        ( $user_comment_ID ) ?  esc_attr__( 'Update Review', 'visita' ) : esc_attr__( 'Post Review', 'visita' ),
         ( $user_comment_ID ) ?  '' : 'hide',
-         esc_attr__( 'Delete' )
+         esc_attr__( 'Delete', 'visita' )
       ),
     ) );
   endif;
