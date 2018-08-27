@@ -1,12 +1,13 @@
 
 .reveal {
+  max-width: 480px;
   @include breakpoint(small down) {
-      margin: 4%;
-      width: 92%;
-      height: 94%;
-      height: 94vh;
-      min-height: 94vh;
-      top: 0 !important;
+    margin: 4%;
+    width: 92%;
+    height: 94%;
+    height: 94vh;
+    min-height: 94vh;
+    top: 0 !important;
   }
   .close-button {
     float: right;
@@ -19,14 +20,31 @@
   }
 }
 
+#comments,
+.comment-respond h3 {
+  font-weight: bold;
+  margin: 0;
+  font-size: 1.25em;
+  padding: 0 26px .65em 0;
+  border-bottom: solid 1px $gray-light;
+}
+
+.entry-reviews {
+  @include breakpoint(small down) {
+    padding: .35em 0;
+  }
+}
+
+.review-action {
+  font-weight: 800;
+}
+
+.comment-body {
+  font-size: .9em;
+  padding: .5em 0;
+}
 
 .comment-respond {
-  h3 {
-    font-weight: bold;
-    margin: 0 0 1em;
-    padding: 0 26px .65em 0;
-    border-bottom: solid 1px $gray-light;
-  }
   label {
     font-size: 1em;
   }
@@ -50,6 +68,10 @@
     height: auto;
     overflow: auto;
     resize: horizontal;
+  }
+  #commentform,
+  .must-log-in {
+    padding: 1em 0 0;
   }
 }
 
@@ -88,5 +110,44 @@
   }
   textarea {
     resize: horizontal;
+  }
+}
+
+
+.commentlist {
+  padding: 0;
+  margin: 0;
+  display: block;
+  overflow-y: auto;
+  max-height: 480px;
+
+  cite {
+    font-style: normal;
+    color: $gray-darker;
+    display: inline-block;
+  }
+
+  p {
+    margin-bottom: 0;
+    line-height: normal;
+    word-wrap: break-word;
+  }
+
+  li {
+    padding: .5em 0;
+    list-style: none;
+    line-height: .9em;
+    border-bottom: solid 1px $gray-light;
+  }
+
+  .comment-metadata {
+    font-size: .85em;
+    color: $gray-dark;
+    a, time {
+      color: $gray-dark;
+      font-size: .9em;
+      position: relative;
+      top: -3px;
+    }
   }
 }

@@ -280,6 +280,11 @@ class Visita_Reviews {
         $templates,
         'reviews-form.php'
       );
+    } else if ( get_query_var('reviews') ) {
+      array_unshift(
+        $templates,
+        'reviews.php'
+      );
     }
 
     return $templates;

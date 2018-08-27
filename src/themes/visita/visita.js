@@ -63,26 +63,23 @@ const lazyLoad = new LazyLoad();
     }
 	});
 
-  //don't allow iframes to redirect parent page
+  // Don't allow iframes to redirect parent page
   if (window.top !== window.self) {
     delete window.top.onbeforeunload;
   }
 
-  $('[data-reviews-add]').click((e) => {
+  // Add reviews
+  $('[data-reviews]').click(function(e) {
     e.preventDefault();
     var $modal = $('#reveal');
 
-    $.ajax(e.target.href)
+    $.ajax(this.href)
       .done(function(resp) {
         $modal
         .find('.reveal-content')
         .html(resp)
         $modal.foundation('open');
     });
-  })
-
-  $('a[itemprop="aggregateRating"]').click((e) => {
-    e.preventDefault();
   })
 
   //

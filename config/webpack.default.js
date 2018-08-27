@@ -67,6 +67,10 @@ export default {
           ]
         }),
       },
+      {
+        test: /\.css$/,
+        use: 'postcss-loader'
+      }
     ]
   },
   resolve: {

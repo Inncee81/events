@@ -578,3 +578,39 @@ function visita_get_time_range( ) {
     }
   }
 }
+
+/**
+*
+*
+* @return void
+*/
+function visita_comment( $comment, $args, $depth) {
+  ?>
+  <li <?php comment_class( $comment->has_children ? 'parent' : '', $comment ); ?> id="comment-<?php comment_ID(); ?>">
+
+    <div class="comment-author vcard">
+      <?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
+      <?php printf( '<cite class="fn">%s</cite>', get_comment_author_link( $comment ) );?>
+    </div>
+
+    <?php if ( '0' == $comment->comment_approved ) : ?>
+      <em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ) ?></em>
+    <?php endif; ?>
+
+    <div class="comment-metadata commentmetadata">
+      <time datetime="<?php comment_date( 'c', $comment )?>">
+        <?php
+          printf(
+            _x( '%s ago', 'Human-readable time', 'visita' ),
+            human_time_diff( get_comment_date( 'U', $comment ), current_time( 'timestamp' ) )
+          );
+        ?>
+      </time>
+      <?php edit_comment_link( __( 'Edit' ), '&nbsp;', '' ); ?>
+    </div>
+
+    <div class="comment-body">
+      <?php comment_text( $comment, array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+    </div>
+  <?php
+}
