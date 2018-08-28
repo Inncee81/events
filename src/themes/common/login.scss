@@ -12,7 +12,7 @@ html {
 }
 
 #login form {
-  padding: 16px 0 0;
+  padding: 0;
   position: relative;
   margin: 0 auto !important;
 }
@@ -20,10 +20,11 @@ html {
 .login label,
 #login form p {
   color: #b4b9be;
+  line-height: normal;
 }
 
 #login form p.submit .button {
-  margin: 22px auto;
+  margin: 0 auto 20px;
   width: 100%;
   float: none;
   display: inherit;
@@ -34,7 +35,7 @@ html {
   font-weight: bold;
   text-align: center;
   display: block;
-  padding: 10px;
+  padding: 0;
 }
 
 #backtoblog {
@@ -70,11 +71,20 @@ body.login #nav {
 
   p.forgetmenot {
     float: none;
+    padding-bottom: 10px;
   }
   .password-input-wrapper {
     width: 100%;
   }
   a {
     color: #fff;
+  }
+}
+
+div#nsl-custom-login-form-main {
+  .nsl-container-login-layout-below {
+    padding: 0;
+    max-width: inherit;
+    padding-top: 0;
   }
 }

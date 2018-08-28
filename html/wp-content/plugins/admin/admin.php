@@ -368,7 +368,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		function redirect_page_admin( ) {
 
 			add_rewrite_rule( 'access/?', 'wp-login.php', 'top' );
-			add_rewrite_rule( 'register/?', 'wp-signup.php', 'top' );
+			add_rewrite_rule( 'register/?', 'wp-login.php?action=register', 'top' );
 			add_rewrite_rule( 'loggedout/?', 'wp-login.php?loggedout=true', 'top' );
 
 			//login in page redirect
@@ -399,13 +399,13 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		function change_access_urls( $original_url, $path ) {
 
 			if ( preg_match( '/wp-signup.php/i', $original_url ) )
-				return site_url( 'signup/' );
+				return site_url( 'register/' );
 
 			if ( ! preg_match( '/wp-login.php/i', $original_url ) )
 				return $original_url;
 
 			if ( preg_match( '/action=register/i', $original_url ) )
-				return site_url( 'signup/' );
+				return site_url( 'register/' );
 
 			if ( preg_match( '/loggedout=true/i', $original_url ) )
 				return site_url( 'signedout/', 'login'  );

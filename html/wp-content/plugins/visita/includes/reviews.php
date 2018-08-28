@@ -102,7 +102,20 @@ class Visita_Reviews {
 
     if ( ! is_admin() ) {
       add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
+      add_action( 'init',  array( $this, 'remove_fastvelocity_login' ), 500 );
       return;
+    }
+  }
+
+  /**
+  *
+  */
+  function remove_fastvelocity_login() {
+    global $pagenow;
+    if ( in_array( $pagenow, array( 'wp-login.php', 'wp-register.php' ) ) ) {
+      remove_filter( 'script_loader_tag', 'fastvelocity_min_defer_js', 10, 3 );
+      remove_action( 'wp_print_scripts', 'fastvelocity_min_merge_header_scripts', PHP_INT_MAX );
+      remove_action( 'wp_print_footer_scripts', 'fastvelocity_min_merge_footer_scripts', 9.999999 );
     }
   }
 
