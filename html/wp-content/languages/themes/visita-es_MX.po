@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2018-08-26 19:41-0700\n"
-"PO-Revision-Date: 2018-08-26 19:41-0700\n"
+"POT-Creation-Date: 2018-08-27 23:36-0700\n"
+"PO-Revision-Date: 2018-08-27 23:36-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -54,18 +54,10 @@ msgstr "Haz tu reservación"
 msgid "Back to top"
 msgstr "Subir"
 
-#: comments.php:16
+#: comments.php:17
 #, php-format
 msgid "%s reviews"
 msgstr "Reseñas: %s"
-
-#: comments.php:35 includes/functions.php:191
-msgid "Previous"
-msgstr "Anterior"
-
-#: comments.php:36 includes/functions.php:192
-msgid "Next"
-msgstr "Siguiente"
 
 #: content-event.php:25 content-event.php:43 content-hotel.php:25
 #: content-hotel.php:43 content-page.php:38 content-post.php:25
@@ -158,6 +150,14 @@ msgstr "Compartir en %s"
 #: includes/functions.php:186
 msgid "Navigation"
 msgstr "Navigación"
+
+#: includes/functions.php:191
+msgid "Previous"
+msgstr "Anterior"
+
+#: includes/functions.php:192
+msgid "Next"
+msgstr "Siguiente"
 
 #: includes/functions.php:217
 msgctxt "Previous post link"
@@ -265,29 +265,29 @@ msgstr "+ Añadir Reseña"
 msgid "Close review modal"
 msgstr "Cerrar ventana"
 
-#: reviews-form.php:15 reviews-form.php:17
+#: reviews-form.php:13 reviews-form.php:15
 #, php-format
 msgid "%s review"
 msgstr "Reseña: %s"
 
-#: reviews-form.php:16
+#: reviews-form.php:14
 msgid "Cancel Review"
 msgstr "Cancelar Reseña"
 
-#: reviews-form.php:20
+#: reviews-form.php:18
 msgctxt "noun"
 msgid "Comment"
 msgstr "Reseña"
 
-#: reviews-form.php:26
+#: reviews-form.php:24
 msgid "Update Review"
 msgstr "Actualizar Reseña"
 
-#: reviews-form.php:26
+#: reviews-form.php:24
 msgid "Post Review"
 msgstr "Publicar Reseña"
 
-#: reviews-form.php:28
+#: reviews-form.php:26
 msgid "Delete"
 msgstr "Borrar"
 

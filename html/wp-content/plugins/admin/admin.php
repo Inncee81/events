@@ -42,7 +42,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 		*/
 		protected $styles 	= array();
 		protected $version 	= '3.0.1';
-		protected $domain 	= 'xparkmedia';
+		protected $domain 	= 'visita';
 
 
 		/**
@@ -377,7 +377,7 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 				die();
 			}
 		}
-		
+
 		/**
 		 * Remove admin menus
 		 *

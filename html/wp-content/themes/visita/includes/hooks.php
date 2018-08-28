@@ -421,3 +421,11 @@ function visita_remove_type_attr( $tag ) {
   return preg_replace( "/type=['\"]text\/javascript['\"]/i", '', $tag );
 }
 add_filter( 'script_loader_tag', 'visita_remove_type_attr', 10, 2 );
+
+/**
+*
+*/
+function visita_remove_frameborder_embed( $output ) {
+  return str_ireplace(' frameborder="0"', '', $output);
+}
+add_filter( 'embed_oembed_html', 'visita_remove_frameborder_embed', 100 );

@@ -2,16 +2,16 @@
 
 <div class="entry-reviews">
   <?php if ( get_post_rating() ) : ?>
-    <a href="<?php review_link()?>" title="<?php post_review_count() ?>" data-reviews
+    <a href="<?php review_link()?>" title="<?php post_review_count_label() ?>" data-reviews
       itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
       <span itemprop="ratingValue"><?php post_rating_formatted() ?></span>
-      <span itemprop="reviewCount" class="review-count"><?php post_review_count() ?></span>
+      <span itemprop="ratingCount" class="review-count"><?php post_review_count() ?></span>
       <?php post_rating_stars() ?>
     </a>
   <?php endif; ?>
 
   <?php if ( comments_open() || get_comments_number() ) : ?>
-    <a href="<?php review_add_link()?>" class="review-action" aria-label="<?php _e('Open add review modal', 'visita')?>" data-reviews>
+    <a href="<?php review_add_link()?>" class="review-action" aria-label="<?php esc_html_e('Open add review modal', 'visita')?>" data-reviews>
       <?php get_user_post_comment_ID( ) ? esc_html_e( 'Edit Review', 'visita' ) : esc_html_e( '+ Add Review', 'visita' ) ?>
     </a>
   <?php endif; ?>

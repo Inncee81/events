@@ -588,14 +588,15 @@ function visita_comment( $comment, $args, $depth) {
   ?>
   <li <?php comment_class( $comment->has_children ? 'parent' : '', $comment ); ?> id="comment-<?php comment_ID(); ?>">
 
+    <?php user_rating_stars( $comment->comment_ID ) ?>
+
     <div class="comment-author vcard">
       <?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
       <?php printf( '<cite class="fn">%s</cite>', get_comment_author_link( $comment ) );?>
+      <?php if ( '0' == $comment->comment_approved ) : ?>
+        <em class="comment-awaiting-moderation"><?php esc_html_e( ' : awaiting moderation', 'visita') ?></em>
+      <?php endif; ?>
     </div>
-
-    <?php if ( '0' == $comment->comment_approved ) : ?>
-      <em class="comment-awaiting-moderation"><?php _e( 'Your comment is awaiting moderation.' ) ?></em>
-    <?php endif; ?>
 
     <div class="comment-metadata commentmetadata">
       <time datetime="<?php comment_date( 'c', $comment )?>">
@@ -610,7 +611,7 @@ function visita_comment( $comment, $args, $depth) {
     </div>
 
     <div class="comment-body">
-      <?php comment_text( $comment, array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+      <?php comment_text( $comment, array_merge( $args, array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
     </div>
   <?php
 }

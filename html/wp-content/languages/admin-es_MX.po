@@ -2,14 +2,17 @@
 # This file is distributed under the same license as the WordPress - 4.8.x - Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2017-06-16 17:22:41+0000\n"
+"PO-Revision-Date: 2018-08-27 23:43-0700\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.4.0-alpha\n"
+"X-Generator: Poedit 2.0.6\n"
 "Language: es_MX\n"
 "Project-Id-Version: WordPress - 4.8.x - Administration\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 
 #. Author URI of the plugin/theme
 msgid "http://ma.tt/"
@@ -9627,12 +9630,12 @@ msgstr "<a href=\"%s\" >Enlaces</a> / Editar enlace"
 #. translators: %s: comment link
 #: wp-admin/edit-form-comment.php:137
 msgid "In reply to: %s"
-msgstr "En respuesta a: %s"
+msgstr "En respuesta a"
 
 #. translators: %s: post link
 #: wp-admin/edit-form-comment.php:122
 msgid "In response to: %s"
-msgstr "En respuesta a: %s"
+msgstr "En respuesta a"
 
 #: wp-admin/edit-form-comment.php:104 wp-admin/includes/meta-boxes.php:220
 msgid "Date and time"
@@ -10524,7 +10527,7 @@ msgstr "Enviado el"
 #: wp-admin/comment.php:187
 #: wp-admin/includes/class-wp-comments-list-table.php:653
 msgid "In reply to %s."
-msgstr "En respuesta a %s."
+msgstr "En respuesta a"
 
 #. translators: column name or table row header
 #: wp-admin/comment.php:169

@@ -21,7 +21,7 @@
 		<?php
 			wp_list_comments(
 				array(
-					'avatar_size' => 28,
+					'avatar_size' => 32,
 					'style'       => 'ol',
 					'short_ping'  => true,
 					'callback' 		=> 'visita_comment',
@@ -29,5 +29,5 @@
 			);
 		?>
 	</ol>
-	
+
 <?php endif; ?>

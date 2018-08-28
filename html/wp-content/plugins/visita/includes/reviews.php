@@ -56,9 +56,25 @@ function post_rating_stars() {
 /**
 *
 */
+function user_rating_stars( $comment_ID ) {
+  printf( '<span class="rating"><span class="rating-value" style="width:%s%%"></span></span>',
+    (get_comment_meta( $comment_ID, '_rating', true ) * 100) / 5
+  );
+}
+
+/**
+*
+*/
 function post_review_count() {
+  echo get_post_meta( get_the_ID(), '_review_count', true );
+}
+
+/**
+*
+*/
+function post_review_count_label() {
   $review_count = get_post_meta( get_the_ID(), '_review_count', true );
-  sprintf(
+  printf(
     _n( '%d Review', '%d Reviews', $review_count, 'visita' ), $review_count
   );
 }
@@ -76,8 +92,8 @@ class Visita_Reviews {
    */
   function __construct( ) {
 
-    // add_action( 'init',  array( $this, 'allow_empty_comments' ), 500 );
     add_action( 'comment_form_top',  array( $this, 'comment_form_top' ), 500 );
+    add_action( 'deleted_comment',  array( $this, 'deleted_comment' ), 100, 2 );
     add_action( 'pre_comment_on_post',  array( $this, 'pre_comment_on_post' ), 500 );
 
     add_filter( 'single_template_hierarchy', array( $this, 'post_templates' ) );
@@ -148,8 +164,6 @@ class Visita_Reviews {
     if ( isset( $_POST['delete'] ) && $comment_ID ) {
       if ( current_user_can( 'read' ) ) {
         wp_delete_comment( $comment_ID, true );
-        delete_post_meta( $comment_post_ID, '_rating' );
-        delete_post_meta( $comment_post_ID, '_review_count' );
         wp_safe_redirect( get_permalink( $comment_post_ID ) );
         exit();
       }
@@ -169,12 +183,12 @@ class Visita_Reviews {
     }
 
     $commentdata = wp_slash( compact(
+      'comment_ID',
       'comment_post_ID',
       'comment_author',
       'comment_author_email',
       'comment_author_url',
       'comment_content',
-      'comment_parent',
       'user_ID'
     ) );
 
@@ -205,6 +219,13 @@ class Visita_Reviews {
   /**
   *
   */
+  function deleted_comment( $comment_ID, $deleted ) {
+    $this->update_post_review_count( $deleted->comment_post_ID );
+  }
+
+  /**
+  *
+  */
   function comment_form_top() {
     global $user_identity, $current_user;
 
@@ -220,6 +241,7 @@ class Visita_Reviews {
         $i
       );
     }
+
     printf( '
       <p class="logged-in-as"><a href="%2$s">%1$s</a></p>
       <div class="stars">%3$s</div>',
@@ -351,11 +373,10 @@ class Visita_Reviews {
         ON c.comment_ID = cm.comment_id
         AND cm.meta_key = '_rating'
         AND cm.meta_value > 0
-      WHERE c.comment_post_ID = %d
-      AND c.comment_approved = '1' "
+      WHERE c.comment_post_ID = %d"
     , $comment_post_ID ) );
 
     update_post_meta( $comment_post_ID, '_review_count', $values->count );
-    update_post_meta( $comment_post_ID, '_rating', $values->sum / $values->count );
+    update_post_meta( $comment_post_ID, '_rating', (($values->count) ? $values->sum / $values->count : false) );
   }
 }

@@ -17,6 +17,11 @@ html {
   margin: 0 auto !important;
 }
 
+.login label,
+#login form p {
+  color: #b4b9be;
+}
+
 #login form p.submit .button {
   margin: 22px auto;
   width: 100%;
@@ -54,12 +59,22 @@ body.login #nav {
   text-indent: 0;
   padding: 0;
   text-align: center;
+  a {
+    color: #fff;
+  }
 }
 
 .login form {
+  background: none;
   box-shadow: none;
 
   p.forgetmenot {
     float: none;
+  }
+  .password-input-wrapper {
+    width: 100%;
+  }
+  a {
+    color: #fff;
   }
 }

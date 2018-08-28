@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 4.8.x package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2018-08-18 02:57-0700\n"
+"PO-Revision-Date: 2018-08-27 23:43-0700\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3755,7 +3755,7 @@ msgstr "Se necesita un nombre de autor y una dirección de correo electrónico v
 #: wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php:510
 #: wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php:716
 msgid "Invalid comment content."
-msgstr "Contenido del comentario no válido"
+msgstr "Contenido de la reseña no válida"
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php:495
 msgid "Cannot create a comment with that type."
@@ -7435,7 +7435,7 @@ msgstr "<a href=\"%1$s\" aria-label=\"%2$s\">Conectado como %3$s</a>. <a href=\"
 #. translators: %s: login URL
 #: wp-includes/comment-template.php:2222
 msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
-msgstr "Disculpa, debes <a href=\"%s\">iniciar sesión</a> para escribir un comentario."
+msgstr "Disculpa, debes <a href=\"%s\">iniciar tu sesión</a> para escribir una reseña."
 
 #: wp-includes/comment-template.php:2206
 msgid "Required fields are marked %s"
@@ -7704,7 +7704,7 @@ msgstr "El nombre y correo electrónico del autor del comentario son obligatorio
 
 #: wp-includes/class-wp-xmlrpc-server.php:3580
 msgid "Comment is required."
-msgstr "Es necesario un comentario."
+msgstr "Es necesario una reseña."
 
 #: wp-includes/class-wp-xmlrpc-server.php:3576 wp-includes/comment.php:2983
 #: wp-includes/rest-api/endpoints/class-wp-rest-comments-controller.php:473

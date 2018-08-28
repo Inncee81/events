@@ -65,6 +65,10 @@ a {
   color: $primary-color;
 }
 
+iframe {
+  border: none;
+}
+
 .small-text-center {
   @include breakpoint(medium down) {
     text-align: center;
