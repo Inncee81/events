@@ -224,6 +224,9 @@ body.page .entry-title {
       margin-top: .5em;
     }
   }
+  [itemprop="ratingValue"] {
+    margin-right: 4px;
+  }
 }
 
 .share_button {

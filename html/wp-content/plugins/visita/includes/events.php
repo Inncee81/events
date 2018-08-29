@@ -48,7 +48,7 @@ class VisitaEvents extends VisitaBase {
     $this->singular = __( 'Event', 'visita' );
     $this->taxonomy_slug = __( 'events', 'visita' );
     $this->taxonomy_label = __( 'Events', 'visita' );
-    $this->description = __( 'Visita Las Vegas Eventos, Shows, Atracciones, Conciertos, Nightclubs, Hoteles y más en español.' , 'visita');
+    $this->description = __( 'Visit Las Vegas: Events, Shows, Attractions, Concerts, Nightclubs, Hotels and more in Spanish.' , 'visita');
 
     $this->event_data = array_replace_recursive( $this->default_data, array(
       'post_type'   => $this->post_type,
@@ -914,7 +914,7 @@ class VisitaEvents extends VisitaBase {
               '_link'            => '',
               '_starts'          => $starts,
               '_description'     => sprintf(
-                __("%s Las Vegas, guía turística con los mejores eventos, shows y conciertos con información en español. #VisitaVegas"),
+                __("%s Las Vegas, tourist guide with the best events, shows and concerts with information in Spanish. #VisitaVegas"),
                 get_the_title( $post->ID )
               ),
             )

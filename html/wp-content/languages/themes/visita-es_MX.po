@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2018-08-27 23:36-0700\n"
-"PO-Revision-Date: 2018-08-27 23:36-0700\n"
+"POT-Creation-Date: 2018-08-29 00:37-0700\n"
+"PO-Revision-Date: 2018-08-29 00:37-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -47,7 +47,7 @@ msgid "Search &hellip;"
 msgstr "Buscar  &hellip;"
 
 #: amp/content-hotel.php:25 content-hotel.php:69
-msgid "Haz tu reservación"
+msgid "Book Now"
 msgstr "Haz tu reservación"
 
 #: amp/footer.php:4
@@ -69,7 +69,7 @@ msgstr "Enlace a %s"
 
 #: content-event.php:34 content-hotel.php:34 content-page.php:29
 #: content-post.php:36 content-show.php:34 content.php:29
-#: includes/functions.php:609 parts/location.php:17
+#: includes/functions.php:610 parts/location.php:17
 msgid "Edit"
 msgstr "Editar"
 
@@ -85,6 +85,10 @@ msgstr "Ir a la Navegacíon"
 #: footer.php:20
 msgid "Skip to top navigation"
 msgstr "Ir a la Navegacíon"
+
+#: footer.php:30
+msgid " powered by"
+msgstr " creado por"
 
 #: footer.php:31
 msgid "http://xparkmedia.com"
@@ -199,10 +203,10 @@ msgid " to "
 msgstr " a "
 
 #: includes/functions.php:597
-msgid "Your comment is awaiting moderation."
-msgstr ""
+msgid " : awaiting moderation"
+msgstr ": esperando moderación"
 
-#: includes/functions.php:604
+#: includes/functions.php:605
 #, php-format
 msgctxt "Human-readable time"
 msgid "%s ago"
@@ -302,6 +306,9 @@ msgid ""
 msgstr ""
 "Lo sentimos, pero no se encuentra nada con estos términos de búsqueda. Por "
 "favor, inténtalo de nuevo."
+
+#~ msgid "Haz tu reservación"
+#~ msgstr "Haz tu reservación"
 
 #~ msgid "(Edit)"
 #~ msgstr "(Editar)"
@@ -481,9 +488,6 @@ msgstr ""
 
 #~ msgid "Category: %s"
 #~ msgstr "Categoria: %s"
-
-#~ msgid "Powered by"
-#~ msgstr "Creado por"
 
 #~ msgid "Eventos"
 #~ msgstr "Eventos"

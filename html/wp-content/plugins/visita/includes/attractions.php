@@ -42,7 +42,7 @@ class VisitaAttractions extends VisitaBase {
     $this->singular = __( 'Attraction', 'visita' );
     $this->taxonomy_slug = __( 'attractions', 'visita' );
     $this->taxonomy_label = __( 'Attractions', 'visita' );
-    $this->description = __( 'Información en español, que hacer en Las Vegas atracciones, shows, hoteles y lugares de interés' , 'visita');
+    $this->description = __( 'What to do in Las Vegas attractions, shows, hotels and places of interest' , 'visita');
 
     $this->club_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,

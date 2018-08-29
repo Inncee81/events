@@ -138,6 +138,9 @@ h1.entry-title {
 
 .site-credits {
   font-size: .9em;
+  @include breakpoint(small down) {
+    padding: 1em 0;
+  }
 }
 
 .window-scroll-up {

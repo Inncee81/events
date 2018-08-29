@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
-"POT-Creation-Date: 2018-08-27 23:36-0700\n"
-"PO-Revision-Date: 2018-08-27 23:37-0700\n"
+"POT-Creation-Date: 2018-08-29 00:36-0700\n"
+"PO-Revision-Date: 2018-08-29 00:36-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -39,9 +39,10 @@ msgstr "atracciones"
 
 #: includes/attractions.php:45
 msgid ""
+"What to do in Las Vegas attractions, shows, hotels and places of interest"
+msgstr ""
 "Información en español, que hacer en Las Vegas atracciones, shows, hoteles y "
 "lugares de interés"
-msgstr ""
 
 #: includes/attractions.php:57
 msgid "attraction, activity"
@@ -279,9 +280,11 @@ msgstr "clubs"
 
 #: includes/clubs.php:45
 msgid ""
+"Latin Nights in Las Vegas: Nightclubs, Clubs, Clubs, Band, Salsa, Bachata "
+"and more."
+msgstr ""
 "Noches Latinas en Las Vegas: Nightclubs, Antros, Discotecas, Banda, Salsa, "
 "Bachata y más."
-msgstr ""
 
 #: includes/clubs.php:115
 msgid "Night Club"
@@ -355,9 +358,11 @@ msgstr "eventos"
 
 #: includes/events.php:51
 msgid ""
-"Visita Las Vegas Eventos, Shows, Atracciones, Conciertos, Nightclubs, "
-"Hoteles y más en español."
+"Visit Las Vegas: Events, Shows, Attractions, Concerts, Nightclubs, Hotels "
+"and more in Spanish."
 msgstr ""
+"Visita Las Vegas: Eventos, Shows, Atracciones, Conciertos, Night clubs, "
+"Hoteles y más en español."
 
 #: includes/events.php:58 includes/events.php:212 includes/shows.php:61
 msgid "Date"
@@ -502,9 +507,11 @@ msgstr "json…"
 #: includes/events.php:917
 #, php-format
 msgid ""
+"%s Las Vegas, tourist guide with the best events, shows and concerts with "
+"information in Spanish. #VisitaVegas"
+msgstr ""
 "%s Las Vegas, guía turística con los mejores eventos, shows y conciertos con "
 "información en español. #VisitaVegas"
-msgstr ""
 
 #: includes/hotels.php:40
 msgid "hotel"
@@ -540,7 +547,7 @@ msgstr "Casino"
 
 #: includes/import.php:10
 msgid "You do not have sufficient permissions to import content in this site."
-msgstr ""
+msgstr "No tiene permisos suficientes para importar contenido en este sitio."
 
 #: includes/import.php:14
 msgid "Submission timeout, please refreh page."
@@ -550,30 +557,30 @@ msgstr "El tiempo de envío expiro, por favor refresca la página."
 msgid "Import"
 msgstr "Importar"
 
-#: includes/reviews.php:69
+#: includes/reviews.php:78
 #, php-format
 msgid "%d Review"
 msgid_plural "%d Reviews"
 msgstr[0] "%d Reseña"
 msgstr[1] "%d Reseñas"
 
-#: includes/reviews.php:129
+#: includes/reviews.php:151
 msgid "Security check failed"
 msgstr "Error de seguridad"
 
-#: includes/reviews.php:130
+#: includes/reviews.php:152
 msgid "Sorry, the security checke failed"
 msgstr "Lo sentimos, el revisión de seguridad a fallado."
 
-#: includes/reviews.php:147
+#: includes/reviews.php:169
 msgid "Sorry, you must be logged in to comment."
 msgstr "Lo sentimos, debes entrar a tu sesión para añadir una reseña."
 
-#: includes/reviews.php:197
+#: includes/reviews.php:218
 msgid "Review Submission Failure"
 msgstr "No se pudo salvar la reseña por un error"
 
-#: includes/reviews.php:224
+#: includes/reviews.php:252
 #, php-format
 msgid "Rating %d"
 msgstr "Reseña para %d"
@@ -596,9 +603,11 @@ msgstr "shows"
 
 #: includes/shows.php:45
 msgid ""
+"Shows in Las Vegas, Cirque Du Soleil best shows, Broadway, musicals and many "
+"more."
+msgstr ""
 "Espectáculos en Las Vegas, los grandes shows de Cirque Du Soleil, Broadway, "
 "musicales y muchos más."
-msgstr ""
 
 #: includes/shows.php:207
 msgid "From"

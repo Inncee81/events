@@ -42,7 +42,7 @@ class VisitaClubs extends VisitaBase {
     $this->singular = __( 'Nightclub', 'visita' );
     $this->taxonomy_slug = __( 'clubs', 'visita' );
     $this->taxonomy_label = __( 'Nightclubs', 'visita' );
-    $this->description = __( 'Noches Latinas en Las Vegas: Nightclubs, Antros, Discotecas, Banda, Salsa, Bachata y más.' , 'visita');
+    $this->description = __( 'Latin Nights in Las Vegas: Nightclubs, Clubs, Clubs, Band, Salsa, Bachata and more.' , 'visita');
 
     $this->club_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,

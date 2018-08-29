@@ -69,10 +69,9 @@ const lazyLoad = new LazyLoad();
   }
 
   // Add reviews
+  var $modal = $('#reveal');
   $('[data-reviews]').click(function(e) {
     e.preventDefault();
-    var $modal = $('#reveal');
-
     $.ajax(this.href)
       .done(function(resp) {
         $modal
@@ -81,6 +80,20 @@ const lazyLoad = new LazyLoad();
         $modal.foundation('open');
     });
   })
+
+  // Show reviews
+  if (location.hash.search(/comment-/) == 1) {
+    const $link = $('[itemprop=aggregateRating]').attr('href')
+    if ($link) {
+      $.ajax($link)
+        .done(function(resp) {
+          $modal
+          .find('.reveal-content')
+          .html(resp)
+          $modal.foundation('open');
+      });
+    }
+  }
 
   //
   $(() => $(document).foundation());

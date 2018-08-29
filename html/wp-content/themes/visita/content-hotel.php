@@ -66,7 +66,7 @@
         printf(
           '<a class="price-action" href="%1$s" itemprop="url" rel="external noopener">%2$s</a>',
           esc_url( $link ),
-          esc_html__( 'Haz tu reservación', 'visita' )
+          esc_html__( 'Book Now', 'visita' )
         );
       }
       ?>
