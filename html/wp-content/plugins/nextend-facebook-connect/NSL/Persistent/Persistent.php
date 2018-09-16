@@ -22,7 +22,7 @@ class Persistent {
         add_action('init', array(
             $this,
             'init'
-        ));
+        ), 0);
 
         add_action('wp_login', array(
             $this,

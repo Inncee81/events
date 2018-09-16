@@ -13,14 +13,19 @@ $provider = $this->getProvider();
     <h2 class="title"><?php printf(_x('Create %s', 'App creation', 'nextend-facebook-connect'), 'Twitter App'); ?></h2>
 
     <ol>
-        <li><?php printf(__('Navigate to %s', 'nextend-facebook-connect'), '<a href="https://apps.twitter.com/" target="_blank">https://apps.twitter.com/</a>'); ?></li>
-        <li><?php printf(__('Log in with your %s credentials if you are not logged in', 'nextend-facebook-connect'), 'Twitter'); ?></li>
-        <li><?php _e('Click on the "Create New App" button', 'nextend-facebook-connect'); ?></li>
-        <li><?php printf(__('Fill the name and description fields. Then enter your site\'s URL to the Website field: <b>%s</b>', 'nextend-facebook-connect'), site_url()); ?></li>
-        <li><?php printf(__('Add the following URL to the "Callback URL" field: <b>%s</b>', 'nextend-facebook-connect'), $provider->getLoginUrl()); ?></li>
-        <li><?php _e('Accept the Twitter Developer Agreement', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Create your application by clicking on the Create your Twitter application button', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Go to the Keys and Access Tokens tab and find the Consumer Key and Secret', 'nextend-facebook-connect'); ?></li>
+        <li><?php printf(__('Navigate to %s', 'nextend-facebook-connect'), '<a href="https://developer.twitter.com/en/apps/create" target="_blank">https://developer.twitter.com/en/apps/create</a>'); ?></li>
+        <li><?php printf(__('Log in with your %s credentials if you are not logged in yet', 'nextend-facebook-connect'), 'Twitter'); ?></li>
+        <li><?php _e('If you don\'t have a developer account yet, please apply one by filling all the required details! This is required for the next steps!', 'nextend-facebook-connect'); ?></li>
+        <li><?php printf(__('Once your developer account is complete, navigate back to %s if you aren\'t already there!', 'nextend-facebook-connect'), '<a href="https://developer.twitter.com/en/apps/create" target="_blank">https://developer.twitter.com/en/apps/create</a>'); ?>
+        <li><?php printf(__('Fill the App name, Application description fields. Then enter your site\'s URL to the Website URL field: <b>%s</b>', 'nextend-facebook-connect'), site_url()); ?></li>
+        <li><?php _e('Tick the checkbox next to Enable Sign in with Twitter!', 'nextend-facebook-connect'); ?></li>
+        <li><?php printf(__('Add the following URL to the "Callback URLs" field: <b>%s</b>', 'nextend-facebook-connect'), $provider->getRedirectUriForApp()); ?></li>
+        <li><?php _e('Fill the “Terms of Service URL", "Privacy policy URL" and "Tell us how this app will be used” fields!', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Click the Create button.', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Read the Developer Terms and click the Create button again!', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Select the Permissions tab and click Edit.', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Tick the Request email address from users under the Additional permissions section and click Save.', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Go to the Keys and tokens tab and find the API key and API secret key', 'nextend-facebook-connect'); ?></li>
     </ol>
 
     <a href="<?php echo $this->getUrl('settings'); ?>"

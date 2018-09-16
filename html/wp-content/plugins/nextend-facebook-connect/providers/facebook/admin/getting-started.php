@@ -12,6 +12,7 @@ $provider = $this->getProvider();
             <p><a href="https://nextendweb.com/nextend-social-login-docs/facebook-api-changes/#enforce-https" target="_blank"><?php _e('How to get SSL for my WordPress site?', 'nextend-facebook-connect'); ?></a></p>
         </div>
     <?php else: ?>
+        <h2 class="title"><?php _e('Getting Started', 'nextend-facebook-connect'); ?></h2>
 
         <p style="max-width:55em;"><?php printf(__('To allow your visitors to log in with their %1$s account, first you must create a %1$s App. The following guide will help you through the %1$s App creation process. After you have created your %1$s App, head over to "Settings" and configure the given "%2$s" and "%3$s" according to your %1$s App.', 'nextend-facebook-connect'), "Facebook", "App ID", "App secret"); ?></p>
 

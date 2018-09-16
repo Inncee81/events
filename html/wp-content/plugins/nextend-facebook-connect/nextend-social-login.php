@@ -16,9 +16,9 @@ require_once(NSL_PATH . '/compat.php');
 
 class NextendSocialLogin {
 
-    public static $version = '3.0.12';
+    public static $version = '3.0.13';
 
-    public static $nslPROMinVersion = '3.0.12';
+    public static $nslPROMinVersion = '3.0.13';
 
     public static $proxyPage = false;
 
@@ -193,6 +193,7 @@ class NextendSocialLogin {
             'memberpress_account_details'          => 'after',
             'registration_notification_notify'     => '0',
             'debug'                                => '0',
+            'login_restriction'                    => '0',
             'review_state'                         => -1,
             'woocommerce_dismissed'                => 0,
 
@@ -586,8 +587,10 @@ class NextendSocialLogin {
                         break;
                 }
             } else {
-                wp_redirect(site_url());
-                exit;
+                if (!is_front_page() && !is_home()) {
+                    wp_redirect(home_url());
+                    exit;
+                }
             }
         }
     }

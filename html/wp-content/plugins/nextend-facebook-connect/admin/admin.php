@@ -343,6 +343,7 @@ class NextendSocialLoginAdmin {
         foreach ($postedData as $key => $value) {
             switch ($key) {
                 case 'debug':
+                case 'login_restriction':
                 case 'terms_show':
                 case 'store_name':
                 case 'store_email':
@@ -636,8 +637,8 @@ class NextendSocialLoginAdmin {
                                     }), 'https://secure.nextendweb.com');
                                     break;
                                 case 'license':
-                                    $('#license_key').val(envelope.license_key);
-                                    $('#license_form').submit();
+                                    $('#nsl_license_key').val(envelope.license_key);
+                                    $('#nsl_license_form').submit();
                                     break;
                             }
 
@@ -652,7 +653,7 @@ class NextendSocialLoginAdmin {
         })(jQuery);
     </script>
 
-        <form id="license_form" method="post" action="<?php echo admin_url('admin-post.php'); ?>"
+        <form id="nsl_license_form" method="post" action="<?php echo admin_url('admin-post.php'); ?>"
               novalidate="novalidate" style="display:none;">
 
 		<?php wp_nonce_field('nextend-social-login'); ?>
@@ -663,8 +664,8 @@ class NextendSocialLoginAdmin {
             <tbody>
             <tr>
                 <th scope="row"><label
-                            for="license_key"><?php _e('License key', 'nextend-facebook-connect'); ?></label></th>
-                <td><input name="license_key" type="text" id="license_key"
+                            for="nsl_license_key"><?php _e('License key', 'nextend-facebook-connect'); ?></label></th>
+                <td><input name="license_key" type="text" id="nsl_license_key"
                            value="<?php echo esc_attr(NextendSocialLogin::$settings->get('license_key')); ?>"
                            class="regular-text">
                 </td>

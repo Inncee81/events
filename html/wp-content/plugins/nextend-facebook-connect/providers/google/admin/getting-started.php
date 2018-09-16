@@ -15,12 +15,13 @@ $provider = $this->getProvider();
     <ol>
         <li><?php printf(__('Navigate to %s', 'nextend-facebook-connect'), '<a href="https://console.developers.google.com/apis/" target="_blank">https://console.developers.google.com/apis/</a>'); ?></li>
         <li><?php printf(__('Log in with your %s credentials if you are not logged in', 'nextend-facebook-connect'), 'Google'); ?></li>
-        <li><?php _e('If you don\'t have a project yet, you\'ll need to create one. You can do this by clicking on the blue "Create project" button on the right side', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Name your project and then click on the Create button', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('If you don\'t have a project yet, you\'ll need to create one. You can do this by clicking on the blue "Create project" button on the right side!  ( If you already have a project, click on the name of your project in the dashboard instead, which will bring up a modal and click New Project. )', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Click the Create button.', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Name your project and then click on the Create button again', 'nextend-facebook-connect'); ?></li>
         <li><?php _e('Once you have a project, you\'ll end up in the dashboard.', 'nextend-facebook-connect'); ?></li>
         <li><?php _e('Click on the "Credentials" in the left hand menu to create new API credentials', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Go to the OAuth consent screen tab and enter a product name and provide the Privacy Policy URL, then click on the save button.', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Go back to the Credentials tab and locate the small box at the middle. Click on the blue "Create credentials" button. Chose the "OAuth client ID" from the dropdown list.', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Select "OAuth client ID" from the dropdown.', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('If you\'re prompted to set a product name, do so. Provide the Privacy Policy URL as well then click on the save button', 'nextend-facebook-connect'); ?></li>
         <li><?php _e('Your application type should be "Web application"', 'nextend-facebook-connect'); ?></li>
         <li><?php _e('Name your application', 'nextend-facebook-connect'); ?></li>
         <li><?php printf(__('Add the following URL to the "Authorised redirect URIs" field: <b>%s</b>', 'nextend-facebook-connect'), $provider->getLoginUrl()); ?></li>

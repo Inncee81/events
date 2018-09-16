@@ -59,8 +59,17 @@ class Notices {
         self::set();
     }
 
+    /**
+     * @param $message string|\WP_Error
+     */
     public static function addError($message) {
-        self::add('error', $message);
+        if (is_wp_error($message)) {
+            foreach ($message->get_error_messages() as $m) {
+                self::add('error', $m);
+            }
+        } else {
+            self::add('error', $message);
+        }
     }
 
     public static function getErrors() {

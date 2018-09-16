@@ -76,7 +76,7 @@
                  'show_option_none' => __('None'),
                  'selected'         => $settings->get('proxy-page')
              )); ?>
-            <p class="description" id="tagline-proxy-page"><?php _e('Pick a custom page when wp-login.php not available to handle the OAuth flow.', 'nextend-facebook-connect'); ?></p>
+            <p class="description" id="tagline-proxy-page"><?php _e('If your wp-login.php is not available to handle the OAuth flow create a new page and select it here. Otherwise don\'t select any page.', 'nextend-facebook-connect'); ?></p>
         </td>
     </tr>
 
@@ -177,6 +177,21 @@
             ?>
              <textarea rows="4" cols="53" name="blacklisted_urls" id="blacklisted_urls"><?php echo esc_textarea($blacklistedUrls); ?></textarea>
              <p class="description"><?php _e('If you want to blacklist redirect url params. One pattern per line.', 'nextend-facebook-connect'); ?></p>
+        </td>
+    </tr>
+
+    <tr>
+        <th scope="row"><?php _e('Support login restrictions', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label><input type="radio" name="login_restriction"
+                              value="0" <?php if ($settings->get('login_restriction') == '0') : ?> checked="checked" <?php endif; ?>>
+                    <span><?php _e('Disabled', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="login_restriction"
+                              value="1" <?php if ($settings->get('login_restriction') == '1') : ?> checked="checked" <?php endif; ?>>
+                    <span><?php _e('Enabled', 'nextend-facebook-connect'); ?></span></label><br>
+            </fieldset>
+            <p class="description" id="tagline-login-restriction"><?php printf(__('Please visit to our %1$s to check what plugins are supported!', 'nextend-facebook-connect'), '<a href="https://nextendweb.com/nextend-social-login-docs/login-restriction/" target="_blank">Login Restriction page</a>'); ?></p>
         </td>
     </tr>
     </tbody>

@@ -114,6 +114,12 @@ class NextendSocialProviderTwitter extends NextendSocialProvider {
         return $newData;
     }
 
+    public function getRedirectUriForApp() {
+        $parts = explode('?', $this->getRedirectUri());
+
+        return $parts[0];
+    }
+
     /**
      * @return NextendSocialProviderTwitterClient
      */
@@ -187,7 +193,7 @@ class NextendSocialProviderTwitter extends NextendSocialProvider {
 
         if ($this->needUpdateAvatar($user_id)) {
             $profile_image_size = $this->settings->get('profile_image_size');
-            $profile_image       = $this->authUserData['profile_image_url_https'];
+            $profile_image      = $this->authUserData['profile_image_url_https'];
             if (!empty($profile_image)) {
                 switch ($profile_image_size) {
                     case 'mini':

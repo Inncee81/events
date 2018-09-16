@@ -102,6 +102,8 @@ class NextendSocialLoginAvatar {
                             }
                         }
                     }
+
+                    UM()->user()->remove_cache($user_id);
                 };
 
                 return;

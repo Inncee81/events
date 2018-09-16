@@ -69,6 +69,13 @@ $isPRO = apply_filters('nsl-pro', false);
 
         <table class="form-table">
             <tbody>
+            <?php
+            $buttonsPath = $provider->getPath() . '/admin/buttons.php';
+            if (file_exists($buttonsPath)) {
+                include($buttonsPath);
+            }
+            ?>
+
             <tr>
                 <th scope="row"><label
                             for="login_label"><?php _e('Login label', 'nextend-facebook-connect'); ?></label></th>

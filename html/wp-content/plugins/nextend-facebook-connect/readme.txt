@@ -4,7 +4,7 @@ Tags: social login, facebook, google, twitter, linkedin, register, login, social
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 3.0.12
+Stable tag: 3.0.13
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -65,26 +65,32 @@ After you activated the plugin configure and enable the provider you want to use
 = Can I make my site GDPR compliant with Nextend Social Login installed? =
 Sure, Nextend Social Login provides you the tools to make your site GDPR compliant. [Check out the Nextend Social Login GDPR documentation](https://nextendweb.com/nextend-social-login-docs/gdpr/) to learn more about the topic.
 
-= 1. How can I get the email address from the Twitter users? =
+= 1. Where does Nextend Social Login display the social login buttons? =
+The free version of Nextend Social Login displays the social login buttons automatically on the /wp-login.php's login form and all forms made using the wp_login_form action.
+You can use Nextend Social Login's widget and shortcodes if you need to display the buttons anywhere. If you need to publish the login buttons in your theme, you can use the [PHP code](https://nextendweb.com/nextend-social-login-docs/theme-developer/).
+
+= 2. How can I get the email address from the Twitter users? =
 After you set up your APP go to the Settings tab and enter the URL of your Terms of Service and Privacy Policy page. Then hit the Update your settings button. Then go to the Permissions tab and check the "Request email addresses from users" under "Additional Permissions". [There's a documentation](https://nextendweb.com/nextend-social-login-docs/provider-twitter/#get-email) that explains the process with screenshots.
 
-= 2. Why are random email addresses generated for users registering with their FaceBook account? =
+= 3. Why are random email addresses generated for users registering with their FaceBook account? =
 When the user tries to register with their Facebook account Facebook pops up a window where each user can view what kind of access they give for the app. In this modal they can chose not to share their email address. When they're doing so we generate a random email address for them. They can of course change this at their profile.
 If the permission is given to the app, there are still [other factors](https://nextendweb.com/nextend-social-login-docs/provider-facebook/#get-email) which can result Facebook not sending back any email address.
 
 In the Pro Addon it's possible to ask an email address if it's not returned by Facebook.
 
-= 3. What should I do when I experience any problems? =
+= 4. What should I do when I experience any problems? =
 [Contact us](https://nextendweb.com/contact-us/) via email and explain the issue you have.
 
-= 4. How can I translate the plugin? =
+= 5. How can I translate the plugin? =
 Find the `.pot` file at the /languages folder. From that you can start the translation process. [Drop us](https://nextendweb.com/contact-us/) the final `.po` and `.mo` files and we'll put them to the next releases.
 
-= 5. I have a feature request... =
+= 6. I have a feature request... =
 That's awesome! [Contact us](https://nextendweb.com/contact-us/) and let's discuss the details.
 
-= 6. Does Nextend Social Login work with BuddyPress? =
-Unfortunately, currently there are no BuddyPress specific settings. However your users will still be able login and register at the normal WordPress login page. Then when logged in they can use every BuddyPress feature their current user role have access to.
+= 7. Does Nextend Social Login work with BuddyPress? =
+Nextend Social Login Free version does not have BuddyPress specific settings and the login buttons will not appear there. However your users will still be able login and register at the normal WordPress login page. Then when logged in they can use every BuddyPress feature their current user role have access to.
+
+Using the Pro Addon you can set where the login buttons should appear on the Register form and how they should look like.
 
 == Installation ==
 
@@ -113,6 +119,18 @@ Unfortunately, currently there are no BuddyPress specific settings. However your
 2. Nextend Social Login and Register in the profile page for account linking
 
 == Changelog ==
+= 3.0.13 =
+* Fix: Twitter Getting Started and Settings page updated according to the new Twitter App creation.
+* Fix: Won't stuck on a blank page anymore when the login and registration is blocked by WP Cerber.
+* Fix: Infinite redirect loop when home page was selected as OAuth redirect uri proxy page.
+* Fix: Safari will no longer close the page automatically after logging in with NSL.
+* Feature: Login restriction - Some plugins are now able to prevent the login of NSL when admin approval or email verification is necessary!
+* Feature: Google button skins.
+* Feature: Portuguese (Brazilian) translation added.
+
+* PRO: Fix: USM Premium prevented the authorization of NSL Pro Addon.
+* PRO: Fix: WooCommerce default button layout fix for Billing.
+* PRO: Fix: Separator duplication by some themes.
 
 = 3.0.12 =
 * Fix: Further changes to prevent some issues with Theme My Login.

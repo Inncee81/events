@@ -82,11 +82,12 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     }
 
     public function getRawDefaultButton() {
-        return '<span class="nsl-button nsl-button-default nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';">' . $this->svg . '<span>{{label}}</span></span>';
+
+        return '<span class="nsl-button nsl-button-default nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';"><span class="nsl-button-svg-container">' . $this->svg . '</span><span class="nsl-button-label-container">{{label}}</span></span>';
     }
 
     public function getRawIconButton() {
-        return '<span class="nsl-button nsl-button-icon nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';">' . $this->svg . '</span>';
+        return '<span class="nsl-button nsl-button-icon nsl-button-' . $this->id . '" style="background-color:' . $this->color . ';"><span class="nsl-button-svg-container">' . $this->svg . '</span></span>';
     }
 
     public function getDefaultButton($label) {
@@ -121,6 +122,10 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
         $args = array('loginSocial' => $this->getId());
 
         return add_query_arg($args, NextendSocialLogin::getLoginUrl());
+    }
+
+    public function getRedirectUriForApp() {
+        return $this->getRedirectUri();
     }
 
     public function needPro() {
@@ -280,6 +285,16 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             ));
         }
 
+        // Redirect if the registration is blocked by another Plugin like Cerber.
+        if (function_exists('cerber_is_allowed')) {
+            $allowed = cerber_is_allowed();
+            if (!$allowed) {
+                global $wp_cerber;
+                $error = $wp_cerber->getErrorMsg();
+                \NSL\Notices::addError($error);
+                $this->redirectToLoginForm();
+            }
+        }
 
         do_action($this->id . '_login_action_before', $this);
 
@@ -332,7 +347,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                     <title><?php _e('Authentication successful', 'nextend-facebook-connect'); ?></title>
                     <script type="text/javascript">
 						try {
-                            if (window.opener !== null) {
+                            if (window.opener !== null && window.opener !== window) {
                                 window.opener.location = <?php echo wp_json_encode($this->getLoginUrl()); ?>;
                                 window.close();
                             } else {
@@ -837,7 +852,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                 <title><?php echo __('Authentication failed', 'nextend-facebook-connect'); ?></title>
                 <script type="text/javascript">
 					try {
-                        if (window.opener !== null) {
+                        if (window.opener !== null && window.opener !== window) {
                             window.close();
                         }
                     }
@@ -914,7 +929,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             <title><?php echo $title; ?></title>
             <script type="text/javascript">
 				try {
-                    if (window.opener !== null) {
+                    if (window.opener !== null && window.opener !== window) {
                         window.opener.location = <?php echo wp_json_encode($url); ?>;
                         window.close();
                     }
