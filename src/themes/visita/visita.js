@@ -53,7 +53,7 @@ const lazyLoad = new LazyLoad();
   });
 
   // open external link on new window
-  $( 'a[rel~="external"]' ).each( function( e ) {
+  $( 'a[rel~="external"], .gallery-icon > a' ).each( function( e ) {
     var $href =  $(this).attr( 'href' );
 
     if ( $href!== '#' &&  $href!== '') {

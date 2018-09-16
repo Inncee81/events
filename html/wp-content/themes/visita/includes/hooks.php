@@ -266,10 +266,10 @@ function visita_attachment_image_attributes( $attr, $attachment, $size ){
     return $attr;
   }
 
-  if ( $size == 'post-thumbnail' ) {
+  if ( in_array( $size, array('thumbnail', 'post-thumbnail') ) ) {
     $attr['src'] = get_stylesheet_directory_uri() . '/img/1x1.trans.gif';
 
-    if ( $image_src = wp_get_attachment_image_src( $attachment->ID, 'featured-mobile' ) ) {
+    if ( $image_src = wp_get_attachment_image_src( $attachment->ID, $size ) ) {
       $attr['data-srcset'] = $image_src[0] . ' ' . $image_src[1] . 'w';
     }
 

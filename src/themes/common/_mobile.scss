@@ -61,7 +61,7 @@ main {
     width: 100%;
 
     @include breakpoint(small down) {
-      padding: 0 .5em;
+      padding: 0 .5em 0 2em;
     }
 
     &::placeholder {
