@@ -561,24 +561,14 @@ class Visita_Core {
     add_filter( 'the_posts', 'relevanssi_query', 99, 2 );
     add_filter( 'relevanssi_search_ok', '__return_true' );
 
-    $language = false;
-    if ( function_exists( 'pll_current_language') ) {
-      $language = array(
-        'operator' => 'IN',
-        'field'    => 'slug',
-        'taxonomy' => 'language',
-        'terms'	=> $query->get_param( 'lang' ) == 'en-US' ? 'en' : 'es'
-      );
-    }
-
-    $results = new WP_Query( array(
+    global $wp_query;
+    $wp_query = new WP_Query( array(
       'posts_per_page'  => 12,
       'post_status'     => 'publish',
       's'               => $term,
-      'tax_query'       => array(	$language ),
     ) );
 
-    foreach ( $results->posts as $post ) {
+    foreach ( $wp_query->posts as $post ) {
       $data[] = array(
         'label' => $post->post_title,
         'link' => get_permalink( $post->ID ),
