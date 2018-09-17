@@ -31,6 +31,7 @@ class Visita_Core {
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
     add_action( 'after_setup_theme', array( $this, 'register_post_types'), 0 );
     add_filter( 'wpsc_protected_directories', array( $this, 'protect_json' ) );
+    add_filter( 'pre_get_posts', array( $this, 'fix_polylang_searches' ), 100 );
 
     //disable acf save hook
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
@@ -158,6 +159,34 @@ class Visita_Core {
     }
 
     return $query;
+  }
+
+  /**
+  *
+  */
+  function fix_polylang_searches( $query ) {
+    global $polylang;
+    if ( !$polylang || !$query->is_main_query() || !$query->is_search() || is_admin() ) {
+      return;
+    }
+
+    if ( ! empty( $query->query_vars['tax_query'] ) ) {
+      foreach( $query->query_vars['tax_query'] as $key => $tax_query ) {
+        if ($tax_query['taxonomy'] == 'language') {
+          unset( $query->query_vars['tax_query'][$key] );
+        }
+      }
+    }
+
+    $lang = $polylang->curlang->slug;
+    if ( $term = PLL()->model->get_language( $lang == 'es' ? 'en' : 'es' )->term_id ){
+      $query->query_vars['tax_query'][] = array(
+        'taxonomy'  => 'language',
+        'field'    	=> 'term_id',
+        'terms'    	=> array( $term ),
+        'operator' 	=> 'NOT IN',
+      );
+    };
   }
 
   /**
