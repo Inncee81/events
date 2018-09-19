@@ -473,7 +473,6 @@ function visita_get_location_date( ) {
 * @return void
 */
 function visita_event_dates( ) {
-
   if ( has_term( 44, 'events' ) ) {
     printf(
       '<div class="price">

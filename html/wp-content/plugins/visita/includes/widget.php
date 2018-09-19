@@ -73,7 +73,7 @@ class Visita_Widget extends WP_Widget {
 				'taxonomy' => 'events',
 				'field'    => 'term_id',
 				'operator' => 'NOT IN',
-				'terms'		 => array(44),
+				'terms'		 => array( 44 ),
 			), $language ),
 		) );
 

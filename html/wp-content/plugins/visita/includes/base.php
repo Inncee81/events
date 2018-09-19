@@ -81,6 +81,16 @@ class VisitaBase {
   /**
   *
   */
+  protected $archive_term_id;
+
+  /**
+  *
+  */
+  protected $mute_terms_ids = array();
+
+  /**
+  *
+  */
   protected $fields = array(
     'key' => '',
     'title' => '',
@@ -144,7 +154,7 @@ class VisitaBase {
       ) ),
     )
   );
-
+  
   /**
   *
   */
@@ -490,17 +500,32 @@ class VisitaBase {
     if ( is_home() && $this->is_home ) {
       $query->is_post_type_archive = true;
       $query->set( 'post_type', $this->post_type );
-      $query->query_vars['tax_query'][] = array(
-        'taxonomy' => 'events',
-        'field'    => 'term_id',
-        'operator' => 'NOT IN',
-        'terms'		 => array(44),
-      );
+      if ( $this->archive_term_id ) {
+        $query->query_vars['tax_query'][] = array(
+          'taxonomy' => 'events',
+          'field'    => 'term_id',
+          'operator' => 'NOT IN',
+          'terms'		 => array( $this->archive_term_id ),
+        );
+      }
     }
 
     if ( is_post_type_archive( $this->post_type )) {
       $query->set( 'posts_per_page', 14 );
     }
+  }
+
+  /**
+  *
+  * @return object $match
+  */
+  function relevanssi_adjust_weights( $match ) {
+    if ( get_post_type( $match->doc ) == $this->post_type ) {
+      if ( has_term( $this->archive_term_id , $this->taxonomy, $match->doc ) ) {
+        $match->weight = $match->tf * .15;
+      }
+    }
+    return $match;
   }
 
   /**

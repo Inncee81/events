@@ -34,6 +34,21 @@ class VisitaEvents extends VisitaBase {
   private $ticketmater_key = 'WkqW7ahymoVavSl9ljqacoiG2dg4gxzJ';
 
   /**
+  *
+  */
+  protected $archive_term_id = 44;
+
+  /**
+  *
+  */
+  protected $default_term_id = 20;
+
+  /**
+  *
+  */
+  protected $mute_terms_ids = array( 44, 18 );
+
+  /**
    * Constructor
    *
    * @return void
@@ -292,6 +307,7 @@ class VisitaEvents extends VisitaBase {
 
     //translation
     add_filter( 'rewrite_rules_array', array( $this, 'rewrite_rules_array' ) );
+    add_filter( 'relevanssi_match', array( $this, 'relevanssi_adjust_weights' ), 100 );
 
     //fields
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
@@ -333,6 +349,8 @@ class VisitaEvents extends VisitaBase {
   function deactivate( ) {
     wp_clear_scheduled_hook( 'visita_expire' );
     wp_clear_scheduled_hook( 'visita_ticketmater_import' );
+    wp_clear_scheduled_hook( 'visita_expire', array( 'lang' => 'en' ) );
+    wp_clear_scheduled_hook( 'visita_expire', array( 'lang' => 'es' ) );
   }
 
   /**
@@ -344,8 +362,9 @@ class VisitaEvents extends VisitaBase {
    */
   function activate( ) {
     if ( ! wp_next_scheduled ( 'visita_expire' )) {
-      wp_schedule_event( strtotime( '2 AM' ), 'twicedaily', 'visita_expire' );
       wp_schedule_event( strtotime( '3 AM' ), 'twicedaily', 'visita_ticketmater_import');
+      wp_schedule_event( strtotime( '2:00 AM' ), 'twicedaily', 'visita_expire',  array( 'lang' => 'en' ) );
+      wp_schedule_event( strtotime( '2:30 AM' ), 'twicedaily', 'visita_expire',  array( 'lang' => 'es' ) );
     }
   }
 
@@ -470,11 +489,11 @@ class VisitaEvents extends VisitaBase {
       $query->set( 'post_type', 'event' );
     }
 
-    if ( is_search() || is_home() || is_post_type_archive( $this->post_type ) ) {
+    if ( is_home() || is_post_type_archive( $this->post_type ) ) {
       $query->query_vars['tax_query'][] = array(
         'taxonomy'  => $this->taxonomy,
         'field'    	=> 'term_id',
-        'terms'    	=> array( 18, 44 ),
+        'terms'    	=> $this->mute_terms_ids,
         'operator' 	=> 'NOT IN',
       );
     }
@@ -535,7 +554,7 @@ class VisitaEvents extends VisitaBase {
   }
 
   /**
-  *
+  * Save default event
   *
   * @return void
   * @since 3.0.0
@@ -613,7 +632,7 @@ class VisitaEvents extends VisitaBase {
         'post_title'         => ucwords( strtolower( $event->name ) ),
         'image'              => $event->image,
         'tax_input'          => array(
-          $this->taxonomy    =>  array( 20 )
+          $this->taxonomy    =>  array( $this->default_term_id )
         ),
         'meta_input'         => array(
           '_event_type'      => 'MusicEvent',
@@ -724,7 +743,7 @@ class VisitaEvents extends VisitaBase {
           'image'               => $event->image,
           'post_status'         => 'publish',
           'tax_input'           => array(
-            $this->taxonomy    =>  array( 20 )
+            $this->taxonomy    =>  array( $this->default_term_id )
           ),
           'meta_input'          => array(
             '_event_type'       => 'MusicEvent',
@@ -872,19 +891,30 @@ class VisitaEvents extends VisitaBase {
   * @return void
   * @since 0.5.0
   */
-  function expire_events( ) {
+  function expire_events( $lang ) {
+
+    if ( $lang == 'es' ) {
+      switch_to_locale('es_MX');
+    }
 
     $yesterday = date_i18n( 'Ymd',
       strtotime( 'yesterday', current_time( 'timestamp' ) )
     );
 
-    global $wpdb;
-    $posts = $wpdb->get_results(
-      $wpdb->prepare(
-        "SELECT post_id ID, meta_value times FROM $wpdb->postmeta
-        WHERE meta_key = '_times' AND meta_value LIKE %s"
-      , "%{$yesterday}%" )
-    );
+    $posts = get_posts(array(
+      'post_type' => $this->post_type,
+      'tax_query' => array(array(
+        'taxonomy'  => 'language',
+        'field'    	=> 'slug',
+        'terms'    	=> array( 'en' ),
+        'operator' 	=> ($lang == 'es' ? 'NOT IN': 'IN'),
+      )),
+      'meta_query' => array(array(
+  		    'key' => '_times',
+  		    'value' => $yesterday,
+          'compare' => 'LIKE'
+      ))
+    ));
 
     foreach ( $posts as $post ) {
       $times = array(); $starts = false;
@@ -902,7 +932,7 @@ class VisitaEvents extends VisitaBase {
 
       if ( empty( $times ) ) {
         if ( get_post_meta( $post->ID, '_permanent', true ) ) {
-          wp_set_object_terms( $post->ID,  array( 44 ), $this->taxonomy );
+          wp_set_object_terms( $post->ID, array( $this->archive_term_id ), $this->taxonomy );
           wp_update_post(array(
             'ID'                 => $post->ID,
             'meta_input'         => array(
@@ -914,7 +944,7 @@ class VisitaEvents extends VisitaBase {
               '_link'            => '',
               '_starts'          => $starts,
               '_description'     => sprintf(
-                __("%s Las Vegas, tourist guide with the best events, shows and concerts with information in Spanish. #VisitaVegas"),
+                __("%s Las Vegas, tourist guide with the best events, shows and concerts with information in Spanish. #VisitaVegas", 'visita'),
                 get_the_title( $post->ID )
               ),
             )

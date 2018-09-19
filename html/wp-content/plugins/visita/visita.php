@@ -2,7 +2,7 @@
 /*
   Plugin Name: Visita
   Author: Hafid R. Trujillo Huizar
-  Version: 2.1.0
+  Version: 2.1.1
   Author URI:http://www.xparkmedia.com
   Requires at least: 3.1.0
 	Min WP Version: 2.7.0
@@ -30,7 +30,7 @@
 if ( ! defined( 'ABSPATH' ) )
 	die( );
 
-define( 'VISITA_VERSION', '3.0.0' );
+define( 'VISITA_VERSION', '2.1.1' );
 define( 'VISITA_FILE_NAME', plugin_basename( __FILE__ ) );
 define( 'VISITA_ABSPATH', str_replace( "\\", "/", dirname( __FILE__ ) ) );
 define( 'VISITA_INC', VISITA_ABSPATH . '/includes' );
