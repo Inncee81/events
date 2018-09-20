@@ -951,7 +951,7 @@ class VisitaEvents extends VisitaBase {
               '_link'            => '',
               '_starts'          => $starts,
               '_description'     => sprintf(
-                __("%s Las Vegas, tourist guide with the best events, shows and concerts with information in Spanish. #VisitaVegas", 'visita'),
+                __("%s Las Vegas, tourist guide with the best events, shows and concerts. #VisitaVegas", 'visita'),
                 get_the_title( $post->ID )
               ),
             )

@@ -3,7 +3,7 @@
   ModPagespeed on
   ModPagespeedEnableFilters extend_cache
   ModPagespeedCriticalImagesBeaconEnabled false
-  ModPagespeedEnableFilters responsive_images,resize_images,recompress_jpeg,recompress_png,strip_image_meta_data,strip_image_color_profile
+  ModPagespeedEnableFilters convert_jpeg_to_progressive,responsive_images,resize_images,recompress_jpeg,recompress_png,strip_image_meta_data,strip_image_color_profile
   ModPagespeedJpegRecompressionQuality -1
 </IfModule>
 
