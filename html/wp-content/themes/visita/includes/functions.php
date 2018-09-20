@@ -473,7 +473,8 @@ function visita_get_location_date( ) {
 * @return void
 */
 function visita_event_dates( ) {
-  if ( has_term( 44, 'events' ) ) {
+  global $visita_core;
+  if ( has_term( $visita_core->event->archive_term_id, 'events' ) ) {
     printf(
       '<div class="price">
         <span class="price-action no-events">%1$s</span>

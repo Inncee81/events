@@ -81,12 +81,17 @@ class VisitaBase {
   /**
   *
   */
-  protected $archive_term_id;
+  protected $archive_term_id = array();
 
   /**
   *
   */
   protected $mute_terms_ids = array();
+
+  /**
+  *
+  */
+  protected $lang = 'es';
 
   /**
   *
@@ -154,9 +159,22 @@ class VisitaBase {
       ) ),
     )
   );
-  
+
   /**
   *
+  * @return array | string
+  * @since 1.0.0
+  */
+  public function __get( $field ) {
+    if ( isset($this->$field[$this->lang]) )
+      return $this->$field[$this->lang];
+    else return $this->$field;
+  }
+
+  /**
+  *
+  * @return void
+  * @since 1.0.0
   */
   function redirect_404( ) {
     if ( is_404() && isset( $_SERVER['REQUEST_URI'] ) && ! empty( $this->slug ) ) {
@@ -168,6 +186,7 @@ class VisitaBase {
 
   /**
   *
+  * @param $title_parts array
   * @return array
   * @since 1.0.0
   */

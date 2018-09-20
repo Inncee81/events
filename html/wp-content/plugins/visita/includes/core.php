@@ -13,6 +13,7 @@
 
 class Visita_Core {
 
+  public $lang = 'es';
   public $weather_data = false;
 
   /**
@@ -42,6 +43,8 @@ class Visita_Core {
     //short code
     add_shortcode( 'clima', array( $this, 'shortcode_clima' ) );
     add_shortcode( 'lista-eventos', array( $this, 'shortcode_event_list' ) );
+
+    $this->lang = get_locale() == 'es_MX' ? 'es' : 'en';
 
     //speed up wordpress
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
@@ -178,8 +181,7 @@ class Visita_Core {
       }
     }
 
-    $lang = $polylang->curlang->slug;
-    if ( $term = PLL()->model->get_language( $lang == 'es' ? 'en' : 'es' )->term_id ){
+    if ( $term = PLL()->model->get_language( $this->lang )->term_id ){
       $query->query_vars['tax_query'][] = array(
         'taxonomy'  => 'language',
         'field'    	=> 'term_id',
@@ -287,18 +289,17 @@ class Visita_Core {
       return $this->weather_data;
     }
 
-    $lang = get_locale() == 'es_MX' ? 'es' : 'en';
-    $file = WP_CONTENT_DIR . "/cache/_json/{$lang}.json";
+    $file = WP_CONTENT_DIR . "/cache/_json/{$this->lang}.json";
 
     if (file_exists($file) && $weather_data = file_get_contents($file) ) {
 
       $weather_json = json_decode($weather_data);
       $weather_json->unit = 'F';
-      $weather_json->lang = $lang;
+      $weather_json->lang = $this->lang;
       $weather_json->now = round($weather_json->current->temp_f);
       $weather_json->now_feelslike = round($weather_json->current->feelslike_f);
 
-      if ($lang == 'es') {
+      if ($this->lang == 'es') {
         $weather_json->unit = "C";
         $weather_json->now = round($weather_json->current->temp_c);
         $weather_json->now_feelslike = round($weather_json->current->feelslike_c);
@@ -313,7 +314,7 @@ class Visita_Core {
         $weather_json->forecast->forecastday[$key]->unit = 'F';
         $weather_json->forecast->forecastday[$key]->avgtemp = $temp = round($forecast->day->avgtemp_f);
 
-        if ($lang == 'es') {
+        if ($this->lang == 'es') {
           $weather_json->forecast->forecastday[$key]->unit = "C";
           $weather_json->forecast->forecastday[$key]->avgtemp = $temp = round($forecast->day->avgtemp_c);
         }

@@ -36,7 +36,10 @@ class VisitaEvents extends VisitaBase {
   /**
   *
   */
-  protected $archive_term_id = 44;
+  protected $archive_term_id = array(
+    'es' => 44,
+    'en' => 72,
+  );
 
   /**
   *
@@ -46,7 +49,10 @@ class VisitaEvents extends VisitaBase {
   /**
   *
   */
-  protected $mute_terms_ids = array( 44, 18 );
+  protected $mute_terms_ids = array(
+    'es' => array( 44, 18 ),
+    'en' => array( 72 ),
+  );
 
   /**
    * Constructor
@@ -65,6 +71,7 @@ class VisitaEvents extends VisitaBase {
     $this->taxonomy_label = __( 'Events', 'visita' );
     $this->description = __( 'Visit Las Vegas: Events, Shows, Attractions, Concerts, Nightclubs, Hotels and more in Spanish.' , 'visita');
 
+    $this->lang = get_locale() == 'es_MX' ? 'es' : 'en';
     $this->event_data = array_replace_recursive( $this->default_data, array(
       'post_type'   => $this->post_type,
     ) );
@@ -491,9 +498,9 @@ class VisitaEvents extends VisitaBase {
 
     if ( is_home() || is_post_type_archive( $this->post_type ) ) {
       $query->query_vars['tax_query'][] = array(
+        'terms'    	=> $this->mute_terms_ids[$this->lang],
         'taxonomy'  => $this->taxonomy,
         'field'    	=> 'term_id',
-        'terms'    	=> $this->mute_terms_ids,
         'operator' 	=> 'NOT IN',
       );
     }
@@ -932,7 +939,7 @@ class VisitaEvents extends VisitaBase {
 
       if ( empty( $times ) ) {
         if ( get_post_meta( $post->ID, '_permanent', true ) ) {
-          wp_set_object_terms( $post->ID, array( $this->archive_term_id ), $this->taxonomy );
+          wp_set_object_terms( $post->ID, array( $this->archive_term_id[$this->lang] ), $this->taxonomy );
           wp_update_post(array(
             'ID'                 => $post->ID,
             'meta_input'         => array(
