@@ -169,7 +169,7 @@ class Visita_Core {
   */
   function fix_polylang_searches( $query ) {
     global $polylang;
-    if ( !$polylang || !$query->is_main_query() || !$query->is_search() || is_admin() ) {
+    if ( !$polylang || !$query->is_search() || is_admin() ) {
       return;
     }
 
@@ -181,7 +181,7 @@ class Visita_Core {
       }
     }
 
-    if ( $term = PLL()->model->get_language( $this->lang )->term_id ){
+    if ( $term = PLL()->model->get_language( $this->lang == 'es' ? 'en' : 'es' )->term_id ){
       $query->query_vars['tax_query'][] = array(
         'taxonomy'  => 'language',
         'field'    	=> 'term_id',
@@ -562,14 +562,13 @@ class Visita_Core {
     add_filter( 'the_posts', 'relevanssi_query', 99, 2 );
     add_filter( 'relevanssi_search_ok', '__return_true' );
 
-    global $wp_query;
-    $wp_query = new WP_Query( array(
+    $result = new WP_Query( array(
       'posts_per_page'  => 12,
       'post_status'     => 'publish',
       's'               => $term,
     ) );
 
-    foreach ( $wp_query->posts as $post ) {
+    foreach ( $result->posts as $post ) {
       $data[] = array(
         'label' => $post->post_title,
         'link' => get_permalink( $post->ID ),
