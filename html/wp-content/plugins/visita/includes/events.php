@@ -917,16 +917,16 @@ class VisitaEvents extends VisitaBase {
         'operator' 	=> ($lang == 'es' ? 'NOT IN': 'IN'),
       )),
       'meta_query' => array(array(
-  		    'key' => '_times',
-  		    'value' => $yesterday,
-          'compare' => 'LIKE'
+		    'key' => '_times',
+		    'value' => $yesterday,
+        'compare' => 'LIKE'
       ))
     ));
 
     foreach ( $posts as $post ) {
       $times = array(); $starts = false;
 
-      foreach( maybe_unserialize($post->times) as $dates ) {
+      foreach( (array) get_post_meta($post->ID, '_times', true) as $dates ) {
         if ( $dates['_date'] > $yesterday ) {
           $time = strtotime( "{$dates['_date']} {$dates['_time']}" );
           $starts = ( $time < $starts || ! $starts ) ? $time : $starts;
