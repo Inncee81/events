@@ -658,6 +658,7 @@ class VisitaBase {
         )
       );
     }
+
     if ( is_tax( $this->taxonomy ) ) {
       $breadcrumbs['itemListElement'][] = array(
         '@type' => 'ListItem',
@@ -673,6 +674,17 @@ class VisitaBase {
         'item' => array(
           '@id' => get_term_link(get_queried_object()->ID),
           'name' => get_queried_object()->name,
+        )
+      );
+    }
+
+    if ( is_post_type_archive( $this->post_type ) ) {
+      $breadcrumbs['itemListElement'][] = array(
+        '@type' => 'ListItem',
+        'position' =>	$count++,
+        'item' => array(
+          '@id' => home_url($this->taxonomy_slug),
+          'name' => $this->taxonomy_label,
         )
       );
     }
