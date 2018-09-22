@@ -54,7 +54,6 @@ class VisitaAttractions extends VisitaBase {
           '_24h'          => '',
         ) ),
         '_business_type'  => 'EntertainmentBusiness',
-        '_keywords'       => __( 'attraction, activity', 'visita' ),
       )
     ) );
 
@@ -131,13 +130,6 @@ class VisitaAttractions extends VisitaBase {
             'ShoppingCenter' => __( 'Shopping Center', 'visita' ),
             'EntertainmentBusiness' => __( 'Entertainment', 'visita' ),
           ),
-        ),
-        array(
-          'key' => '_keywords',
-          'name' => '_keywords',
-          'type' => 'text',
-          'label' => __( 'Keywords', 'visita' ),
-          'default_value' => $defaults['_keywords'],
         ),
         array(
           'key' => 'tap_location',
