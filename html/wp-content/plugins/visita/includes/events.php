@@ -50,7 +50,7 @@ class VisitaEvents extends VisitaBase {
   *
   */
   protected $mute_terms_ids = array(
-    'es' => array( 44, 18 ),
+    'es' => array( 44 ),
     'en' => array( 72 ),
   );
 
