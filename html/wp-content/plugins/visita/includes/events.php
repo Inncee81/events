@@ -898,7 +898,7 @@ class VisitaEvents extends VisitaBase {
   * @return void
   * @since 0.5.0
   */
-  function expire_events( $lang ) {
+  function expire_events( $lang = 'es' ) {
 
     if ( $lang == 'es' ) {
       switch_to_locale('es_MX');
