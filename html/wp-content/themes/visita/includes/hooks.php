@@ -18,7 +18,6 @@ function visita_add_head_metatags( ) {
   global $visita_options;
 
   echo '<link rel="dns-prefetch" href="//cdn.apixu.com" />' . "\n";
-  echo '<link rel="dns-prefetch" href="//cdn.onesignal.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//fonts.gstatic.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//fonts.googleapis.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//pagead2.googlesyndication.com" />' . "\n";
@@ -149,10 +148,12 @@ function visita_inline_styles( ) {
 
   if ( $content = file_get_contents( get_stylesheet_directory() . "/inline.css") ) {
     printf(
-      '<link rel="preload" href="%3$s" as="style">
-       <link rel="preload" href="%2$s?ver=%1$s" as="style">',
+      '<link rel="preload" href="%4$s" as="style">
+       <link rel="preload" href="%2$s?ver=%1$s" as="style">
+       <link rel="prefetch" href="%3$s?ver=%1$s" as="style">',
        wp_get_theme()->version,
        get_stylesheet_directory_uri() . "/style.css",
+       get_stylesheet_directory_uri() . "/tablet.css",
        'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
     );
     echo "<style>{$content}</style>";
