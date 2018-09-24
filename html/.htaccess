@@ -1,10 +1,6 @@
 
 <IfModule pagespeed_module>
   ModPagespeed on
-  ModPagespeedEnableFilters extend_cache
-  ModPagespeedCriticalImagesBeaconEnabled false
-  ModPagespeedEnableFilters convert_jpeg_to_progressive,responsive_images,resize_images,recompress_jpeg,recompress_png,strip_image_meta_data,strip_image_color_profile
-  ModPagespeedJpegRecompressionQuality -1
 </IfModule>
 
 <FilesMatch "(en|es)\.json$">

@@ -52,6 +52,7 @@ class Visita_Core {
     }
 
     if ( ! is_admin() ) {
+      add_action( 'wp', array( $this, 'remove_code' ), 100 );
       add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
       add_filter( 'locale', array( $this, 'change_language'), 500 );
       add_action( 'parse_request', array( $this, 'parse_request_vars' ) );
@@ -210,6 +211,14 @@ class Visita_Core {
   */
   function widgets_init( ) {
     register_widget( 'Visita_Widget' );
+  }
+
+  /**
+  *
+  */
+  function remove_code() {
+    remove_action('wp_head', 'NextendSocialLogin::styles', 100);
+    remove_action('wp_print_footer_scripts', 'NextendSocialLogin::scripts', 100);
   }
 
   /**
