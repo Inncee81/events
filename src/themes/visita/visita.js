@@ -31,13 +31,15 @@ const lazyLoad = new LazyLoad();
     $( '<link/>', Object.assign( stylesheet, { href: visita.fonts } ) ).appendTo( 'head' );
   } );
 
-  //check  window size for loading
-  $( window ).on( 'load resize orientationchange', () => {
+  //check window size for loading
+  const load_tablet_up  = (function() {
     if ( ! mobileLoaded && $( doc ).width() >= mobileWidth ) {
       $( '<link/>', Object.assign( stylesheet, { href: visita.tablet } ) ).appendTo( 'head' );
       mobileLoaded = true;
     }
-  } )
+  })();
+
+  $( window ).on( 'resize orientationchange', load_tablet_up)
 
   //make headers clickable
   $( '.entry-header.float, .visita-widget .entry-header' ).on( 'click', function( e ) {
