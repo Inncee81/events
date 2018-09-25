@@ -62,6 +62,13 @@
   }
 }
 
+.events-futuros,
+.events-upcoming {
+  .entry-meta {
+    display: none;
+  }
+}
+
 .visita-widget {
   padding: 1em;
   background-color: $gray-lightest;
