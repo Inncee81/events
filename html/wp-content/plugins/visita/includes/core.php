@@ -44,8 +44,6 @@ class Visita_Core {
     add_shortcode( 'clima', array( $this, 'shortcode_clima' ) );
     add_shortcode( 'lista-eventos', array( $this, 'shortcode_event_list' ) );
 
-    $this->lang = get_locale() == 'es_MX' ? 'es' : 'en';
-
     //speed up wordpress
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
       return;
@@ -198,6 +196,8 @@ class Visita_Core {
   function add_rewrite_rules( ) {
     global $wp_rewrite;
 
+    $this->lang = get_locale() == 'es_MX' ? 'es' : 'en';
+
     $wp_rewrite->pagination_base = __( 'page', 'visita' );
     add_rewrite_rule(
       "(en)/page/([0-9]{1,})/?$",
@@ -260,6 +260,7 @@ class Visita_Core {
   * @since 1.0.1
   */
   function visita_get_weather( $lang ) {
+
     $responds = wp_remote_get(
       "https://api.apixu.com/v1/forecast.json?key=d5c0c8ccdd194cf4b0003734172201&days=5&q=89109&lang=${lang}"
     );

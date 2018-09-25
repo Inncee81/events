@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
-"POT-Creation-Date: 2018-08-29 00:36-0700\n"
-"PO-Revision-Date: 2018-08-29 00:36-0700\n"
+"POT-Creation-Date: 2018-09-24 21:43-0700\n"
+"PO-Revision-Date: 2018-09-24 21:43-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -44,221 +44,213 @@ msgstr ""
 "Información en español, que hacer en Las Vegas atracciones, shows, hoteles y "
 "lugares de interés"
 
-#: includes/attractions.php:57
-msgid "attraction, activity"
-msgstr "atracción, actividad"
-
-#: includes/attractions.php:62 includes/attractions.php:150
-#: includes/clubs.php:61 includes/clubs.php:127 includes/events.php:59
-#: includes/events.php:154 includes/hotels.php:55 includes/hotels.php:128
+#: includes/attractions.php:61 includes/attractions.php:142
+#: includes/clubs.php:61 includes/clubs.php:127 includes/events.php:81
+#: includes/events.php:176 includes/hotels.php:55 includes/hotels.php:128
 #: includes/shows.php:62 includes/shows.php:151
 msgid "Name"
 msgstr "Nombre"
 
-#: includes/attractions.php:63 includes/attractions.php:99
-#: includes/clubs.php:62 includes/clubs.php:92 includes/events.php:60
-#: includes/events.php:102 includes/hotels.php:56 includes/hotels.php:92
+#: includes/attractions.php:62 includes/attractions.php:98
+#: includes/clubs.php:62 includes/clubs.php:92 includes/events.php:82
+#: includes/events.php:124 includes/hotels.php:56 includes/hotels.php:92
 #: includes/shows.php:63 includes/shows.php:99
 msgid "Price"
 msgstr "Precio"
 
-#: includes/attractions.php:68 includes/clubs.php:67 includes/shows.php:68
+#: includes/attractions.php:67 includes/clubs.php:67 includes/shows.php:68
 msgid "Show Details"
 msgstr "Mostrar detalles"
 
-#: includes/attractions.php:79 includes/clubs.php:78 includes/events.php:76
+#: includes/attractions.php:78 includes/clubs.php:78 includes/events.php:98
 #: includes/hotels.php:72 includes/shows.php:79
 msgid "General"
 msgstr "General"
 
-#: includes/attractions.php:86 includes/events.php:89 includes/hotels.php:79
+#: includes/attractions.php:85 includes/events.php:111 includes/hotels.php:79
 #: includes/shows.php:86
 msgid "Disable UTM"
 msgstr "Desactivar UTM"
 
-#: includes/attractions.php:91 includes/clubs.php:84 includes/events.php:94
-#: includes/events.php:241 includes/hotels.php:84 includes/shows.php:91
+#: includes/attractions.php:90 includes/clubs.php:84 includes/events.php:116
+#: includes/events.php:263 includes/hotels.php:84 includes/shows.php:91
 #: includes/shows.php:247
 msgid "Link"
 msgstr "Enlace"
 
-#: includes/attractions.php:105 includes/clubs.php:98 includes/events.php:108
+#: includes/attractions.php:104 includes/clubs.php:98 includes/events.php:130
 #: includes/hotels.php:98 includes/shows.php:105
 msgid "Max Price"
 msgstr "Precio Máximo"
 
-#: includes/attractions.php:111 includes/clubs.php:104 includes/events.php:114
+#: includes/attractions.php:110 includes/clubs.php:104 includes/events.php:136
 #: includes/hotels.php:104 includes/shows.php:111
 msgid "Currency"
 msgstr "Moneda"
 
-#: includes/attractions.php:120 includes/clubs.php:113 includes/hotels.php:113
+#: includes/attractions.php:119 includes/clubs.php:113 includes/hotels.php:113
 msgid "Business Type"
 msgstr "Tipo de Negocio"
 
-#: includes/attractions.php:122
+#: includes/attractions.php:121
 msgid "Store"
 msgstr ""
 
-#: includes/attractions.php:123
+#: includes/attractions.php:122
 msgid "Park"
 msgstr "Parque"
 
-#: includes/attractions.php:124 includes/hotels.php:42 includes/hotels.php:115
+#: includes/attractions.php:123 includes/hotels.php:42 includes/hotels.php:115
 msgid "Hotel"
 msgstr "Hotel"
 
-#: includes/attractions.php:125
+#: includes/attractions.php:124
 msgid "Museum"
 msgstr "Museo"
 
-#: includes/attractions.php:126
+#: includes/attractions.php:125
 msgid "Aquarium"
 msgstr ""
 
-#: includes/attractions.php:127 includes/clubs.php:116
+#: includes/attractions.php:126 includes/clubs.php:116
 msgid "Comedy Club"
 msgstr ""
 
-#: includes/attractions.php:128
+#: includes/attractions.php:127
 msgid "Art Gallery"
 msgstr "Galería de Arte"
 
-#: includes/attractions.php:129
+#: includes/attractions.php:128
 msgid "Movie Theater"
 msgstr ""
 
-#: includes/attractions.php:130
+#: includes/attractions.php:129
 msgid "Amusement Park"
 msgstr "Parque de Atracciones"
 
-#: includes/attractions.php:131
+#: includes/attractions.php:130
 msgid "Shopping Center"
 msgstr ""
 
-#: includes/attractions.php:132
+#: includes/attractions.php:131
 msgid "Entertainment"
 msgstr "Entretenimiento"
 
-#: includes/attractions.php:139 includes/core.php:408
-msgid "Keywords"
-msgstr "Palabras Clave"
-
-#: includes/attractions.php:144 includes/clubs.php:121 includes/events.php:148
+#: includes/attractions.php:136 includes/clubs.php:121 includes/events.php:170
 #: includes/hotels.php:122 includes/shows.php:145
 msgid "Location"
 msgstr "Locación"
 
-#: includes/attractions.php:156 includes/clubs.php:133 includes/events.php:160
+#: includes/attractions.php:148 includes/clubs.php:133 includes/events.php:182
 #: includes/hotels.php:134 includes/shows.php:157
 msgid "Addresss"
 msgstr "Dirección"
 
-#: includes/attractions.php:162 includes/clubs.php:139 includes/events.php:166
+#: includes/attractions.php:154 includes/clubs.php:139 includes/events.php:188
 #: includes/hotels.php:140 includes/shows.php:163
 msgid "City"
 msgstr "Ciudad"
 
-#: includes/attractions.php:170 includes/clubs.php:147 includes/events.php:174
+#: includes/attractions.php:162 includes/clubs.php:147 includes/events.php:196
 #: includes/hotels.php:148 includes/shows.php:171
 msgid "State"
 msgstr "Estado"
 
-#: includes/attractions.php:178 includes/clubs.php:155 includes/events.php:182
+#: includes/attractions.php:170 includes/clubs.php:155 includes/events.php:204
 #: includes/hotels.php:156 includes/shows.php:179
 msgid "Zip Code"
 msgstr "Código Postal"
 
-#: includes/attractions.php:186 includes/clubs.php:163 includes/events.php:190
+#: includes/attractions.php:178 includes/clubs.php:163 includes/events.php:212
 #: includes/hotels.php:164 includes/shows.php:187
 msgid "Phone"
 msgstr "Teléfono"
 
-#: includes/attractions.php:192 includes/clubs.php:169 includes/shows.php:193
+#: includes/attractions.php:184 includes/clubs.php:169 includes/shows.php:193
 msgid "Business Hours"
 msgstr "Horarios"
 
-#: includes/attractions.php:206 includes/clubs.php:183
+#: includes/attractions.php:198 includes/clubs.php:183
 msgid "Dia"
 msgstr "Día"
 
-#: includes/attractions.php:208 includes/clubs.php:185 includes/shows.php:209
+#: includes/attractions.php:200 includes/clubs.php:185 includes/shows.php:209
 #: includes/shows.php:225
 msgid "All"
 msgstr "Todo"
 
-#: includes/attractions.php:209 includes/clubs.php:186 includes/shows.php:210
+#: includes/attractions.php:201 includes/clubs.php:186 includes/shows.php:210
 #: includes/shows.php:226
 msgid "Monday"
 msgstr "Lunes"
 
-#: includes/attractions.php:210 includes/clubs.php:187 includes/shows.php:211
+#: includes/attractions.php:202 includes/clubs.php:187 includes/shows.php:211
 #: includes/shows.php:227
 msgid "Tuesday"
 msgstr "Martes"
 
-#: includes/attractions.php:211 includes/clubs.php:188 includes/shows.php:212
+#: includes/attractions.php:203 includes/clubs.php:188 includes/shows.php:212
 #: includes/shows.php:228
 msgid "Wednesday"
 msgstr "Miércoles"
 
-#: includes/attractions.php:212 includes/clubs.php:189 includes/shows.php:213
+#: includes/attractions.php:204 includes/clubs.php:189 includes/shows.php:213
 #: includes/shows.php:229
 msgid "Thursday"
 msgstr "Jueves"
 
-#: includes/attractions.php:213 includes/clubs.php:190 includes/shows.php:214
+#: includes/attractions.php:205 includes/clubs.php:190 includes/shows.php:214
 #: includes/shows.php:230
 msgid "Friday"
 msgstr "Viernes"
 
-#: includes/attractions.php:214 includes/clubs.php:191 includes/shows.php:215
+#: includes/attractions.php:206 includes/clubs.php:191 includes/shows.php:215
 #: includes/shows.php:231
 msgid "Saturday"
 msgstr "Sábado"
 
-#: includes/attractions.php:215 includes/clubs.php:192 includes/shows.php:216
+#: includes/attractions.php:207 includes/clubs.php:192 includes/shows.php:216
 #: includes/shows.php:232
 msgid "Sunday"
 msgstr "Domingo"
 
-#: includes/attractions.php:223 includes/clubs.php:200
+#: includes/attractions.php:215 includes/clubs.php:200
 msgid "Opens"
 msgstr "Haber"
 
-#: includes/attractions.php:231 includes/clubs.php:208
+#: includes/attractions.php:223 includes/clubs.php:208
 msgid "Closes"
 msgstr "Cierran"
 
-#: includes/attractions.php:238 includes/clubs.php:215
+#: includes/attractions.php:230 includes/clubs.php:215
 msgid "24 Hours"
 msgstr "24 horas"
 
-#: includes/base.php:173
+#: includes/base.php:202
 msgid "F j, Y"
 msgstr "j F Y"
 
-#: includes/base.php:205
+#: includes/base.php:234
 msgid "from"
 msgstr "de"
 
-#: includes/base.php:206
+#: includes/base.php:235
 msgid "to"
 msgstr "a las"
 
-#: includes/base.php:526
+#: includes/base.php:570
 msgid "Sort:"
 msgstr "Ordenar:"
 
-#: includes/base.php:531
+#: includes/base.php:575
 msgid "order"
 msgstr "orden"
 
-#: includes/base.php:532
+#: includes/base.php:576
 msgid "orderby"
 msgstr "por"
 
-#: includes/base.php:593 includes/core.php:725
+#: includes/base.php:637 includes/core.php:754
 msgid "Home"
 msgstr ""
 
@@ -290,73 +282,77 @@ msgstr ""
 msgid "Night Club"
 msgstr "Night Club"
 
-#: includes/core.php:112
+#: includes/core.php:115
 msgid "Every 2 Hours"
 msgstr "Cada 2 horas"
 
-#: includes/core.php:169
+#: includes/core.php:201
 msgid "page"
 msgstr "pagina"
 
-#: includes/core.php:365
+#: includes/core.php:405
 msgid "Wind:"
 msgstr "Viento:"
 
-#: includes/core.php:366
+#: includes/core.php:406
 msgid "Humidity:"
 msgstr "Humedad:"
 
-#: includes/core.php:367
+#: includes/core.php:407
 msgid "Feels like:"
 msgstr "Sensación Térmica:"
 
-#: includes/core.php:394
+#: includes/core.php:434
 msgid "SEO"
 msgstr "SEO"
 
-#: includes/core.php:400
+#: includes/core.php:440
 msgid "Description"
 msgstr "Descripción"
 
-#: includes/core.php:483 includes/core.php:484
+#: includes/core.php:448
+msgid "Keywords"
+msgstr "Palabras Clave"
+
+#: includes/core.php:523 includes/core.php:524
 msgid "Visita Import"
 msgstr "Importar"
 
-#: includes/core.php:571
+#: includes/core.php:600
 #, php-format
 msgid "More %s"
 msgstr "Más %s"
 
-#: includes/core.php:593
+#: includes/core.php:622
 msgid "All Events"
 msgstr "Todos los Eventos"
 
-#: includes/core.php:674
+#: includes/core.php:703
 msgid "at"
 msgstr "en"
 
-#: includes/core.php:697 includes/events.php:47 includes/events.php:50
-#: includes/events.php:843
+#: includes/core.php:726 includes/events.php:68 includes/events.php:71
+#: includes/events.php:868
 msgid "Events"
 msgstr "Eventos"
 
-#: includes/core.php:736
+#: includes/core.php:765
 msgid "Blog"
 msgstr "Blog"
 
-#: includes/events.php:46
+#: includes/events.php:67
 msgid "event"
 msgstr "evento"
 
-#: includes/events.php:48 includes/events.php:133 includes/shows.php:130
+#: includes/events.php:69 includes/events.php:155 includes/shows.php:130
 msgid "Event"
 msgstr "Evento"
 
-#: includes/events.php:49
+#: includes/events.php:70
 msgid "events"
 msgstr "eventos"
 
-#: includes/events.php:51
+#: includes/events.php:72
 msgid ""
 "Visit Las Vegas: Events, Shows, Attractions, Concerts, Nightclubs, Hotels "
 "and more in Spanish."
@@ -364,154 +360,154 @@ msgstr ""
 "Visita Las Vegas: Eventos, Shows, Atracciones, Conciertos, Night clubs, "
 "Hoteles y más en español."
 
-#: includes/events.php:58 includes/events.php:212 includes/shows.php:61
+#: includes/events.php:80 includes/events.php:234 includes/shows.php:61
 msgid "Date"
 msgstr "Fecha"
 
-#: includes/events.php:65
+#: includes/events.php:87
 msgid "Event Details"
 msgstr "Detalles del Evento"
 
-#: includes/events.php:83
+#: includes/events.php:105
 msgid "Permanent"
 msgstr "Permanente"
 
-#: includes/events.php:122 includes/shows.php:119
+#: includes/events.php:144 includes/shows.php:119
 msgid "Duration (Minutes)"
 msgstr "Duración (minutos)"
 
-#: includes/events.php:131 includes/shows.php:128
+#: includes/events.php:153 includes/shows.php:128
 msgid "Event Type"
 msgstr "Tipo de Evento"
 
-#: includes/events.php:134 includes/shows.php:131
+#: includes/events.php:156 includes/shows.php:131
 msgid "Comedy"
 msgstr "Comedia"
 
-#: includes/events.php:135 includes/shows.php:132
+#: includes/events.php:157 includes/shows.php:132
 msgid "Dance"
 msgstr "Baile"
 
-#: includes/events.php:136 includes/shows.php:133
+#: includes/events.php:158 includes/shows.php:133
 msgid "Food"
 msgstr "Comida"
 
-#: includes/events.php:137 includes/shows.php:134
+#: includes/events.php:159 includes/shows.php:134
 msgid "Festival"
 msgstr "Festival"
 
-#: includes/events.php:138 includes/shows.php:135
+#: includes/events.php:160 includes/shows.php:135
 msgid "Exhibition"
 msgstr "Exhibición"
 
-#: includes/events.php:139 includes/shows.php:136
+#: includes/events.php:161 includes/shows.php:136
 msgid "Music"
 msgstr "Música"
 
-#: includes/events.php:140 includes/shows.php:137
+#: includes/events.php:162 includes/shows.php:137
 msgid "Sports"
 msgstr "Deportes"
 
-#: includes/events.php:141 includes/shows.php:138
+#: includes/events.php:163 includes/shows.php:138
 msgid "Theater"
 msgstr "Teatro"
 
-#: includes/events.php:142 includes/shows.php:139
+#: includes/events.php:164 includes/shows.php:139
 msgid "Screening"
 msgstr ""
 
-#: includes/events.php:143 includes/shows.php:140
+#: includes/events.php:165 includes/shows.php:140
 msgid "Education"
 msgstr ""
 
-#: includes/events.php:196
+#: includes/events.php:218
 msgid "Show Times"
 msgstr "Horarios"
 
-#: includes/events.php:219 includes/shows.php:240
+#: includes/events.php:241 includes/shows.php:240
 msgid "Time"
 msgstr "Tiempo"
 
-#: includes/events.php:226
+#: includes/events.php:248
 msgid "Availability"
 msgstr ""
 
-#: includes/events.php:229
+#: includes/events.php:251
 msgid "Pre Sale"
 msgstr ""
 
-#: includes/events.php:230
+#: includes/events.php:252
 msgid "Sold Out"
 msgstr ""
 
-#: includes/events.php:231
+#: includes/events.php:253
 msgid "In Stock"
 msgstr ""
 
-#: includes/events.php:232
+#: includes/events.php:254
 msgid "Out Of Stock"
 msgstr ""
 
-#: includes/events.php:233
+#: includes/events.php:255
 msgid "Online Only"
 msgstr ""
 
-#: includes/events.php:234
+#: includes/events.php:256
 msgid "Limited Availability"
 msgstr ""
 
-#: includes/events.php:247 includes/shows.php:253
+#: includes/events.php:269 includes/shows.php:253
 msgid "Performers"
 msgstr "Artistas"
 
-#: includes/events.php:260 includes/shows.php:266
+#: includes/events.php:282 includes/shows.php:266
 msgid "Performer"
 msgstr ""
 
-#: includes/events.php:266 includes/shows.php:272
+#: includes/events.php:288 includes/shows.php:272
 msgid "Performe Type"
 msgstr ""
 
-#: includes/events.php:269 includes/shows.php:275
+#: includes/events.php:291 includes/shows.php:275
 msgid "Person"
 msgstr ""
 
-#: includes/events.php:270 includes/shows.php:276
+#: includes/events.php:292 includes/shows.php:276
 msgid "Sports Team"
 msgstr ""
 
-#: includes/events.php:271 includes/shows.php:277
+#: includes/events.php:293 includes/shows.php:277
 msgid "Music Group"
 msgstr ""
 
-#: includes/events.php:272 includes/shows.php:278
+#: includes/events.php:294 includes/shows.php:278
 msgid "Dance Group"
 msgstr ""
 
-#: includes/events.php:273 includes/shows.php:279
+#: includes/events.php:295 includes/shows.php:279
 msgid "Theater Group"
 msgstr ""
 
-#: includes/events.php:818
+#: includes/events.php:843
 msgid "keyword.."
 msgstr "palabras clave.."
 
-#: includes/events.php:841
+#: includes/events.php:866
 msgid "site url.."
 msgstr ""
 
-#: includes/events.php:842 includes/shows.php:398
+#: includes/events.php:867 includes/shows.php:398
 msgid "json..."
 msgstr "json…"
 
-#: includes/events.php:917
+#: includes/events.php:953
 #, php-format
 msgid ""
-"%s Las Vegas, tourist guide with the best events, shows and concerts with "
-"information in Spanish. #VisitaVegas"
+"%s Las Vegas. Tourist guide with the best events, shows and concerts. "
+"#VisitaVegas #Vegas"
 msgstr ""
-"%s Las Vegas, guía turística con los mejores eventos, shows y conciertos con "
-"información en español. #VisitaVegas"
+"%s Las Vegas. Que hacer  y visitar, los mejores eventos, shows y conciertos "
+"con información en español. #VisitaVegas #Vegas"
 
 #: includes/hotels.php:40
 msgid "hotel"
@@ -624,6 +620,9 @@ msgstr "Mostrar contenido al azar"
 #: includes/widget.php:27
 msgid "Visita Widget"
 msgstr "Visita Widget"
+
+#~ msgid "attraction, activity"
+#~ msgstr "atracción, actividad"
 
 #~ msgid "club, night club"
 #~ msgstr "antro, night club"

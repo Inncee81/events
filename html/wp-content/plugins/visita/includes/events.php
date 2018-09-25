@@ -354,7 +354,6 @@ class VisitaEvents extends VisitaBase {
    * @since 0.5.0
    */
   function deactivate( ) {
-    wp_clear_scheduled_hook( 'visita_expire' );
     wp_clear_scheduled_hook( 'visita_ticketmater_import' );
     wp_clear_scheduled_hook( 'visita_expire', array( 'lang' => 'en' ) );
     wp_clear_scheduled_hook( 'visita_expire', array( 'lang' => 'es' ) );
@@ -900,8 +899,12 @@ class VisitaEvents extends VisitaBase {
   */
   function expire_events( $lang = 'es' ) {
 
-    if ( $lang == 'es' ) {
-      switch_to_locale('es_MX');
+    switch ($lang) {
+      case 'en':
+        switch_to_locale('en_US');
+        break;
+      default:
+        switch_to_locale('es_MX');
     }
 
     $yesterday = date_i18n( 'Ymd',
@@ -951,7 +954,7 @@ class VisitaEvents extends VisitaBase {
               '_link'            => '',
               '_starts'          => $starts,
               '_description'     => sprintf(
-                __("%s Las Vegas, tourist guide with the best events, shows and concerts. #VisitaVegas", 'visita'),
+                __("%s Las Vegas. Tourist guide with the best events, shows and concerts. #VisitaVegas #Vegas", 'visita'),
                 get_the_title( $post->ID )
               ),
             )
