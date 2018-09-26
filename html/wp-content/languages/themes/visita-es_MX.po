@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2018-08-29 00:37-0700\n"
-"PO-Revision-Date: 2018-08-29 00:37-0700\n"
+"POT-Creation-Date: 2018-09-25 23:52-0700\n"
+"PO-Revision-Date: 2018-09-25 23:55-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -212,39 +212,39 @@ msgctxt "Human-readable time"
 msgid "%s ago"
 msgstr "hace %s"
 
-#: includes/hooks.php:101
+#: includes/hooks.php:100
 msgid "Top Menu"
 msgstr "Menú superior"
 
-#: includes/hooks.php:102
+#: includes/hooks.php:101
 msgid "Social Menu"
 msgstr "Menú de enlaces sociales"
 
-#: includes/hooks.php:103
+#: includes/hooks.php:102
 msgid "Header Menu"
 msgstr "Menú principal"
 
-#: includes/hooks.php:104
+#: includes/hooks.php:103
 msgid "Footer Menu"
 msgstr "Menú inferior"
 
-#: includes/hooks.php:118
+#: includes/hooks.php:117
 msgid "Main Widget Area"
 msgstr "Área de widgets"
 
-#: includes/hooks.php:120
+#: includes/hooks.php:119
 msgid "Main sidebar: displays on pages and posts."
 msgstr ""
 
-#: includes/hooks.php:254
+#: includes/hooks.php:255
 msgid "Move Up"
 msgstr "Subir"
 
-#: includes/hooks.php:255
+#: includes/hooks.php:256
 msgid "Scroll to the top"
 msgstr "Subir hasta arriba de la pantalla"
 
-#: includes/hooks.php:363
+#: includes/hooks.php:364
 #, php-format
 msgid " Page %d"
 msgstr " Página %d"

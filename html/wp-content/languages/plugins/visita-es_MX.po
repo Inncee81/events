@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Fifteen\n"
-"POT-Creation-Date: 2018-09-24 21:43-0700\n"
-"PO-Revision-Date: 2018-09-24 22:01-0700\n"
+"POT-Creation-Date: 2018-09-25 23:51-0700\n"
+"PO-Revision-Date: 2018-09-25 23:55-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -252,7 +252,7 @@ msgstr "por"
 
 #: includes/base.php:637 includes/core.php:754
 msgid "Home"
-msgstr ""
+msgstr "Inicio"
 
 #: includes/clubs.php:40
 msgid "club"
@@ -500,7 +500,7 @@ msgstr ""
 msgid "json..."
 msgstr "json…"
 
-#: includes/events.php:953
+#: includes/events.php:957
 #, php-format
 msgid ""
 "%s Las Vegas. Tourist guide with the best events, shows and concerts. "
