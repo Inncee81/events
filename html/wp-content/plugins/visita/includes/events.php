@@ -368,9 +368,9 @@ class VisitaEvents extends VisitaBase {
    */
   function activate( ) {
     if ( ! wp_next_scheduled ( 'visita_expire' )) {
-      wp_schedule_event( strtotime( '3 AM' ), 'twicedaily', 'visita_ticketmater_import');
-      wp_schedule_event( strtotime( '2:00 AM' ), 'twicedaily', 'visita_expire',  array( 'lang' => 'en' ) );
-      wp_schedule_event( strtotime( '2:30 AM' ), 'twicedaily', 'visita_expire',  array( 'lang' => 'es' ) );
+      wp_schedule_event( strtotime( '4:00 AM' ), 'daily', 'visita_expire',  array( 'lang' => 'en' ) );
+      wp_schedule_event( strtotime( '4:30 AM' ), 'daily', 'visita_expire',  array( 'lang' => 'es' ) );
+      wp_schedule_event( strtotime( '3:00 AM' ), 'twicedaily', 'visita_ticketmater_import');
     }
   }
 
@@ -961,6 +961,15 @@ class VisitaEvents extends VisitaBase {
           ));
         } else wp_trash_post( $post->ID );
       }
+    }
+
+    global $cache_path;
+    if ( ! emtpy($posts) && $cache_path ) {
+      wpsc_delete_url_cache('/');
+      wpsc_delete_url_cache('/eventos-las-vegas-fin-semana/');
+      wpsc_delete_url_cache('/calendario-eventos-vegas-octubre/');
+      prune_super_cache( $cache_path . 'supercache/wp.visita.com/pagina/', true );
+      prune_super_cache( $cache_path . 'supercache/wp.visita.com/eventos/', true );
     }
   }
 }
