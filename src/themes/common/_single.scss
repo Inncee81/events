@@ -80,6 +80,15 @@ body.page .entry-title {
     }
   }
 
+  .events-futuros {
+    .share_button {
+      @include breakpoint(medium down) {
+        float: none;
+        margin: auto;
+      }
+    }
+  }
+
   .day a,
   .price-action {
     background-color: $warning-color;
