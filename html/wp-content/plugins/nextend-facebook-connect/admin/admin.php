@@ -241,7 +241,7 @@ class NextendSocialLoginAdmin {
                 NextendSocialLogin::$settings->update($_POST);
 
                 if (NextendSocialLogin::$settings->get('license_key_ok') == '1') {
-                    \NSL\Notices::addSuccess(__('The authorization was successful', 'nextend-facebook-connect'));
+                    \NSL\Notices::addSuccess(__('The activation was successful', 'nextend-facebook-connect'));
                 }
 
                 wp_redirect(self::getAdminUrl($view));
@@ -252,7 +252,7 @@ class NextendSocialLoginAdmin {
                     'license_key' => ''
                 ));
 
-                \NSL\Notices::addSuccess(__('Deauthorize completed.', 'nextend-facebook-connect'));
+                \NSL\Notices::addSuccess(__('Deactivate completed.', 'nextend-facebook-connect'));
 
                 wp_redirect(self::getAdminUrl('pro-addon'));
                 exit;
@@ -566,6 +566,44 @@ class NextendSocialLoginAdmin {
         }
     }
 
+    /* Legacy compatibility cessation notice */
+    public static function show_facebook_compat_cessation_notice() {
+        global $pagenow;
+        if (!($pagenow == 'options-general.php' && $_GET['view'] == 'provider-facebook' && $_GET['subview'] == 'import' )) {
+            echo '<div class="error">
+                <p>' . sprintf(__('%2$s detected that you have saved configurations related to %1$s, which is discontinued and the backwards compatibility will be removed in the next release of %2$s. Please import the current settings of %1$s and replace your old social buttons with NSL!', 'nextend-facebook-connect'), 'Nextend Facebook Connect', '<b>Nextend Social Login</b>') . '</p>
+                <p class="submit"><a href="' . add_query_arg(array(
+                    'subview' => 'import'
+                ), NextendSocialLoginAdmin::getAdminUrl('provider-google')) . '" class="button button-primary">' . __('Import', 'nextend-facebook-connect') . ' - Facebook ' . __('Legacy Settings', 'nextend-facebook-connect') . '</a></p>
+            </div>';
+        }
+    }
+
+    public static function show_google_compat_cessation_notice() {
+        global $pagenow;
+        if (!($pagenow == 'options-general.php' && $_GET['view'] == 'provider-google' && $_GET['subview'] == 'import' )) {
+            echo '<div class="error">
+                <p>' . sprintf(__('%2$s detected that you have saved configurations related to %1$s, which is discontinued and the backwards compatibility will be removed in the next release of %2$s. Please import the current settings of %1$s and replace your old social buttons with NSL!', 'nextend-facebook-connect'), 'Nextend Google Connect', '<b>Nextend Social Login</b>') . '</p>
+                <p class="submit"><a href="' . add_query_arg(array(
+                    'subview' => 'import'
+                ), NextendSocialLoginAdmin::getAdminUrl('provider-google')) . '" class="button button-primary">' . __('Import', 'nextend-facebook-connect') . ' - Google ' . __('Legacy Settings', 'nextend-facebook-connect') . '</a></p>
+            </div>';
+        }
+    }
+
+    public static function show_twitter_compat_cessation_notice() {
+        global $pagenow;
+        if (!($pagenow == 'options-general.php' && $_GET['view'] == 'provider-twitter' && $_GET['subview'] == 'import' )) {
+            echo '<div class="error">
+                <p>' . sprintf(__('%2$s detected that you have saved configurations related to %1$s, which is discontinued and the backwards compatibility will be removed in the next release of %2$s. Please import the current settings of %1$s  and replace your old social buttons with NSL!', 'nextend-facebook-connect'), 'Nextend Twitter Connect', '<b>Nextend Social Login</b>') . '</p>
+                <p class="submit"><a href="' . add_query_arg(array(
+                    'subview' => 'import'
+                ), NextendSocialLoginAdmin::getAdminUrl('provider-twitter')) . '" class="button button-primary">' . __('Import', 'nextend-facebook-connect') . ' - Twitter ' . __('Legacy Settings', 'nextend-facebook-connect') . '</a></p>
+            </div>';
+        }
+    }
+    /* Legacy compatibility cessation notice end */
+
     public static function show_woocommerce_notice() {
         $dismissUrl = wp_nonce_url(add_query_arg(array('redirect_to' => NextendSocialLogin::getCurrentPageURL()), NextendSocialLoginAdmin::getAdminUrl('dismiss_woocommerce')), 'nsl_dismiss_woocommerce');
         echo '<div class="notice notice-info">
@@ -601,13 +639,13 @@ class NextendSocialLoginAdmin {
         $authorizeUrl = NextendSocialLoginAdmin::trackUrl('https://secure.nextendweb.com/authorize/', 'authorize');
         ?>
         <div class="nsl-box nsl-box-yellow nsl-box-padlock">
-        <h2 class="title"><?php _e('Authorize your Pro Addon', 'nextend-facebook-connect'); ?></h2>
-        <p><?php _e('To be able to use the Pro features, you need to authorize Nextend Social Connect Pro Addon. You can do this by clicking on the Authorize button below then select the related purchase.', 'nextend-facebook-connect'); ?></p>
+        <h2 class="title"><?php _e('Activate your Pro Addon', 'nextend-facebook-connect'); ?></h2>
+        <p><?php _e('To be able to use the Pro features, you need to activate Nextend Social Connect Pro Addon. You can do this by clicking on the Activate button below then select the related purchase.', 'nextend-facebook-connect'); ?></p>
 
         <p>
             <a href="#"
                onclick="window.authorizeWindow = NSLPopupCenter('<?php echo $authorizeUrl; ?>', 'authorize-window', 800, 800);return false;"
-               class="button button-primary"><?php _e('Authorize', 'nextend-facebook-connect'); ?></a>
+               class="button button-primary"><?php _e('Activate', 'nextend-facebook-connect'); ?></a>
         </p>
     </div>
 

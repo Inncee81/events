@@ -269,6 +269,7 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
         } else {
             if (basename($_SERVER['PHP_SELF']) !== 'plugins.php') {
                 require_once(dirname(__FILE__) . '/compat/nextend-facebook-connect.php');
+                add_action('admin_notices', 'NextendSocialLoginAdmin::show_facebook_compat_cessation_notice');
             } else {
 
                 add_action('admin_menu', array(

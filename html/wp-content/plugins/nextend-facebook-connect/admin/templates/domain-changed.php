@@ -25,7 +25,7 @@
             <li><?php printf(__('Navigate to %s', 'nextend-facebook-connect'), '<a href="https://secure.nextendweb.com/" target="_blank">https://secure.nextendweb.com/</a>'); ?></li>
             <li><?php _e('Log in with your credentials if you are not logged in', 'nextend-facebook-connect'); ?></li>
             <li><?php printf(__('Find your old domain name: <b>%s</b>', 'nextend-facebook-connect'), $authorizedDomain); ?></li>
-            <li><?php printf(__('Click on the %1$s next to your domain name.', 'nextend-facebook-connect'), '"Deauthorize"'); ?></li>
+            <li><?php printf(__('Click on the %1$s next to your domain name.', 'nextend-facebook-connect'), '"Deactivate"'); ?></li>
             <li><?php printf(__('Authorize your %1$s by clicking on the following button.', 'nextend-facebook-connect'), "Nextend Social Login Pro Addon"); ?></li>
         </ol>
         <?php

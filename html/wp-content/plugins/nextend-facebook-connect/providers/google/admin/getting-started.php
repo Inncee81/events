@@ -20,8 +20,11 @@ $provider = $this->getProvider();
         <li><?php _e('Name your project and then click on the Create button again', 'nextend-facebook-connect'); ?></li>
         <li><?php _e('Once you have a project, you\'ll end up in the dashboard.', 'nextend-facebook-connect'); ?></li>
         <li><?php _e('Click on the "Credentials" in the left hand menu to create new API credentials', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('Select "OAuth client ID" from the dropdown.', 'nextend-facebook-connect'); ?></li>
-        <li><?php _e('If you\'re prompted to set a product name, do so. Provide the Privacy Policy URL as well then click on the save button', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Select the OAuth consent screen!', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Enter a name for your App under the "Application name" field, which will appear as the name of the app asking for consent.', 'nextend-facebook-connect'); ?></li>
+        <li><?php printf(__('Fill the "Authorized domains" field with your domain name probably: <b>%s</b> without subdomains!', 'nextend-facebook-connect'), str_replace('www.', '', $_SERVER['HTTP_HOST'])); ?></li>
+        <li><?php _e('Press "Save" and you will be redirected back to Credentials screen.', 'nextend-facebook-connect'); ?></li>
+        <li><?php _e('Click the Create credentials button and select "OAuth client ID" from the dropdown.', 'nextend-facebook-connect'); ?></li>
         <li><?php _e('Your application type should be "Web application"', 'nextend-facebook-connect'); ?></li>
         <li><?php _e('Name your application', 'nextend-facebook-connect'); ?></li>
         <li><?php printf(__('Add the following URL to the "Authorised redirect URIs" field: <b>%s</b>', 'nextend-facebook-connect'), $provider->getLoginUrl()); ?></li>

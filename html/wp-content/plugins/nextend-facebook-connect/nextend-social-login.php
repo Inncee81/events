@@ -16,9 +16,9 @@ require_once(NSL_PATH . '/compat.php');
 
 class NextendSocialLogin {
 
-    public static $version = '3.0.13';
+    public static $version = '3.0.14';
 
-    public static $nslPROMinVersion = '3.0.13';
+    public static $nslPROMinVersion = '3.0.14';
 
     public static $proxyPage = false;
 
@@ -53,8 +53,11 @@ class NextendSocialLogin {
 
     public static function isProAddonAuthorizedDomainChanged() {
 
-        if (NextendSocialLogin::$settings->get('license_key_ok') == '1' && NextendSocialLogin::$settings->get('authorized_domain') != '') {
-            if (NextendSocialLogin::$settings->get('authorized_domain') != NextendSocialLogin::getDomain()) {
+        $authorizedDomain = preg_replace('/^www\./', '', NextendSocialLogin::$settings->get('authorized_domain'));
+        if (NextendSocialLogin::$settings->get('license_key_ok') == '1' && $authorizedDomain != '') {
+            $authorizedDomain = '.' . $authorizedDomain;
+            $currentDomain    = '.' . preg_replace('/^www\./', '', NextendSocialLogin::getDomain());
+            if ($authorizedDomain != $currentDomain && strrpos($currentDomain, $authorizedDomain) !== strlen($currentDomain) - strlen($authorizedDomain)) {
                 if (is_admin() && current_user_can('manage_options')) {
                     if (did_action('init')) {
                         NextendSocialLogin::noticeChangedDomain();

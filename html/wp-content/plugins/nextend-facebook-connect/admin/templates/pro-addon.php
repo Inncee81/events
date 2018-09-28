@@ -34,7 +34,7 @@ function nsl_license_installed($view) {
                 'action' => 'nextend-social-login',
                 'view'   => 'pro-addon-deauthorize'
             ), admin_url('admin-post.php')), 'nextend-social-login'); ?>" class="button button-secondary">
-				<?php _e('Deauthorize Pro Addon', 'nextend-facebook-connect'); ?>
+				<?php _e('Deactivate Pro Addon', 'nextend-facebook-connect'); ?>
             </a>
         </p>
     </div>
@@ -117,14 +117,14 @@ function nsl_license_activated($view) {
     <div class="nsl-box nsl-box-green">
         <h2 class="title"><?php _e('Pro Addon is installed and activated', 'nextend-facebook-connect'); ?></h2>
 
-        <p><?php _e('You installed and activated the Pro Addon. If you don’t want to use it anymore, you can deauthorize using the button below.', 'nextend-facebook-connect'); ?></p>
+        <p><?php _e('You installed and activated the Pro Addon. If you don’t want to use it anymore, you can deactivate using the button below.', 'nextend-facebook-connect'); ?></p>
 
         <p class="submit">
             <a href="<?php echo wp_nonce_url(add_query_arg(array(
                 'action' => 'nextend-social-login',
                 'view'   => 'pro-addon-deauthorize'
             ), admin_url('admin-post.php')), 'nextend-social-login'); ?>" class="button button-secondary">
-				<?php _e('Deauthorize Pro Addon', 'nextend-facebook-connect'); ?>
+				<?php _e('Deactivate Pro Addon', 'nextend-facebook-connect'); ?>
             </a>
         </p>
     </div>

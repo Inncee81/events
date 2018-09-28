@@ -16,26 +16,31 @@
         <tbody>
             <?php foreach ($provider->getSyncFields() AS $fieldName => $fieldData): ?>
                 <tr>
-                    <th><label><?php echo $fieldData['label'] ?></label></th>
-                    <td>
-                        <?php
-                        $meta_key = $settings->get('sync_fields/fields/' . $fieldName . '/meta_key');
-                        $value = get_user_meta($user->ID, $meta_key, true);
-                        if (!empty($value)) {
-                            $unSerialized = maybe_unserialize($value);
-                            if (is_array($unSerialized) || is_object($unSerialized)) {
-
-                                echo "<pre>";
-                                print_r(formatUserMeta((array)$unSerialized));
-
-                                echo "</pre>";
-                            } else {
-                                echo esc_html($value);
-                            }
-                            $hasData = true;
-                        }
+                    <?php
+                    $meta_key = $settings->get('sync_fields/fields/' . $fieldName . '/meta_key');
+                    $value    = get_user_meta($user->ID, $meta_key, true);
+                    if (isset($value) && $value !== '') {
                         ?>
-                    </td>
+                        <th><label><?php echo $fieldData['label'] ?></label></th>
+                        <td>
+                                <?php
+
+                                $unSerialized = maybe_unserialize($value);
+                                if (is_array($unSerialized) || is_object($unSerialized)) {
+
+                                    echo "<pre>";
+                                    print_r(formatUserMeta((array)$unSerialized));
+
+                                    echo "</pre>";
+                                } else {
+                                    echo esc_html($value);
+                                }
+                                $hasData = true;
+                                ?>
+                        </td>
+                        <?php
+                    }
+                    ?>
                 </tr>
             <?php endforeach; ?>
 

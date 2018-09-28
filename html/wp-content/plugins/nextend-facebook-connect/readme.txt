@@ -4,7 +4,7 @@ Tags: social login, facebook, google, twitter, linkedin, register, login, social
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 4.5
 Tested up to: 4.9
-Stable tag: 3.0.13
+Stable tag: 3.0.14
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -119,6 +119,20 @@ Using the Pro Addon you can set where the login buttons should appear on the Reg
 2. Nextend Social Login and Register in the profile page for account linking
 
 == Changelog ==
+= 3.0.14 =
+* Fix: Conflict with Login with Ajax reset password.
+* Fix: BuddyPress related themes, that render the avatar with the bp_displayed_user_avatar() will be able to get the avatar of the user.
+* Fix: New email and profile Google scopes, since old ones became deprecated.
+* Fix: WooCommerce User Email Verification plugin prevented users with NSL from logging in.
+* Fix: registerComplete function is hooked later to let other plugins send their email notifications.
+* Old Nextend Twitter/Google Connect - backwards compatibility notice added. In the next release the backward compatibility will be removed.
+
+
+* PRO: Fix: Ultimate Member - missing avatar when Support login restriction is disabled.
+* PRO: Fix: Authorized domain notification when the page was authorized on non www but was visited on www or vice versa.
+* PRO: New provider - [WordPress.com](https://nextendweb.com/nextend-social-login-docs/provider-wordpress-com/)
+* PRO: New provider - [Disqus](https://nextendweb.com/nextend-social-login-docs/provider-disqus/)
+
 = 3.0.13 =
 * Fix: Twitter Getting Started and Settings page updated according to the new Twitter App creation.
 * Fix: Won't stuck on a blank page anymore when the login and registration is blocked by WP Cerber.

@@ -13,8 +13,8 @@ class NextendSocialProviderGoogleClient extends NextendSocialOauth2 {
     private $approvalPrompt = 'force';
 
     protected $scopes = array(
-        'https://www.googleapis.com/auth/userinfo.email',
-        'https://www.googleapis.com/auth/userinfo.profile'
+        'email',
+        'profile'
     );
 
     protected $endpointAuthorization = 'https://accounts.google.com/o/oauth2/auth';

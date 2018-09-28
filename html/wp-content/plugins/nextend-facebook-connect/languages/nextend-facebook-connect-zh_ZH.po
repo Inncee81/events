@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ss3\n"
-"POT-Creation-Date: 2018-09-04 15:28+0200\n"
-"PO-Revision-Date: 2018-09-04 15:28+0200\n"
+"POT-Creation-Date: 2018-09-20 13:49+0200\n"
+"PO-Revision-Date: 2018-09-20 13:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -132,11 +132,15 @@ msgid "Settings saved."
 msgstr "设置已保存。"
 
 #: nextend-facebook-connect/admin/admin.php:244
-msgid "The authorization was successful"
+#, fuzzy
+#| msgid "The authorization was successful"
+msgid "The activation was successful"
 msgstr "授权成功"
 
 #: nextend-facebook-connect/admin/admin.php:255
-msgid "Deauthorize completed."
+#, fuzzy
+#| msgid "Deauthorize completed."
+msgid "Deactivate completed."
 msgstr "取消授权."
 
 #: nextend-facebook-connect/admin/admin.php:429
@@ -206,21 +210,29 @@ msgid "Fix now"
 msgstr "修复错误"
 
 #: nextend-facebook-connect/admin/admin.php:604
-msgid "Authorize your Pro Addon"
-msgstr "授权你的专业版插件"
+#, fuzzy
+#| msgid "Activate Pro Addon"
+msgid "Activate your Pro Addon"
+msgstr "启用专业版本插件"
 
 #: nextend-facebook-connect/admin/admin.php:605
+#, fuzzy
+#| msgid ""
+#| "To be able to use the Pro features, you need to authorize Nextend Social "
+#| "Connect Pro Addon. You can do this by clicking on the Authorize button "
+#| "below then select the related purchase."
 msgid ""
-"To be able to use the Pro features, you need to authorize Nextend Social "
-"Connect Pro Addon. You can do this by clicking on the Authorize button below "
+"To be able to use the Pro features, you need to activate Nextend Social "
+"Connect Pro Addon. You can do this by clicking on the Activate button below "
 "then select the related purchase."
 msgstr ""
 "要想使用专业版本功能，你需要 Nextend Social Connect 专业版本的授权。你可以点"
 "击下面的授权按钮，然后选择购买。"
 
 #: nextend-facebook-connect/admin/admin.php:610
-msgid "Authorize"
-msgstr "授权"
+#: nextend-social-login-pro/nextend-social-login-pro.php:57
+msgid "Activate"
+msgstr ""
 
 #: nextend-facebook-connect/admin/admin.php:667
 msgid "License key"
@@ -298,9 +310,11 @@ msgstr "图标按钮"
 #: nextend-facebook-connect/providers/google/admin/settings.php:49
 #: nextend-facebook-connect/providers/twitter/admin/settings.php:48
 #: nextend-social-login-pro/providers/amazon/admin/settings.php:47
+#: nextend-social-login-pro/providers/disqus/admin/settings.php:47
 #: nextend-social-login-pro/providers/linkedin/admin/settings.php:47
 #: nextend-social-login-pro/providers/paypal/admin/settings.php:47
 #: nextend-social-login-pro/providers/vk/admin/settings.php:47
+#: nextend-social-login-pro/providers/wordpress/admin/settings.php:47
 msgid "Save Changes"
 msgstr "保存设置"
 
@@ -310,9 +324,11 @@ msgstr "保存设置"
 #: nextend-facebook-connect/providers/google/admin/getting-started.php:9
 #: nextend-facebook-connect/providers/twitter/admin/getting-started.php:9
 #: nextend-social-login-pro/providers/amazon/admin/getting-started.php:15
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:8
 #: nextend-social-login-pro/providers/linkedin/admin/getting-started.php:8
 #: nextend-social-login-pro/providers/paypal/admin/getting-started.php:8
 #: nextend-social-login-pro/providers/vk/admin/getting-started.php:8
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:8
 msgid "Getting Started"
 msgstr "从这里开始"
 
@@ -526,12 +542,16 @@ msgstr ""
 #: nextend-facebook-connect/providers/twitter/admin/getting-started.php:16
 #: nextend-social-login-pro/providers/amazon/admin/fix-redirect-uri.php:8
 #: nextend-social-login-pro/providers/amazon/admin/getting-started.php:22
+#: nextend-social-login-pro/providers/disqus/admin/fix-redirect-uri.php:8
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:15
 #: nextend-social-login-pro/providers/linkedin/admin/fix-redirect-uri.php:8
 #: nextend-social-login-pro/providers/linkedin/admin/getting-started.php:15
 #: nextend-social-login-pro/providers/paypal/admin/fix-redirect-uri.php:8
 #: nextend-social-login-pro/providers/paypal/admin/getting-started.php:15
 #: nextend-social-login-pro/providers/vk/admin/fix-redirect-uri.php:8
 #: nextend-social-login-pro/providers/vk/admin/getting-started.php:15
+#: nextend-social-login-pro/providers/wordpress/admin/fix-redirect-uri.php:8
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:15
 #, php-format
 msgid "Navigate to %s"
 msgstr "导航 %s"
@@ -637,8 +657,10 @@ msgstr "专业版插件已经安装但没有启用。要使用专业版本功能
 
 #: nextend-facebook-connect/admin/templates/pro-addon.php:37
 #: nextend-facebook-connect/admin/templates/pro-addon.php:127
-msgid "Deauthorize Pro Addon"
-msgstr "专业版未授权"
+#, fuzzy
+#| msgid "Activate Pro Addon"
+msgid "Deactivate Pro Addon"
+msgstr "启用专业版本插件"
 
 #: nextend-facebook-connect/admin/templates/pro-addon.php:48
 #: nextend-facebook-connect/admin/templates/pro.php:43
@@ -669,9 +691,13 @@ msgid "Pro Addon is installed and activated"
 msgstr "专业版本已经安装并启用了"
 
 #: nextend-facebook-connect/admin/templates/pro-addon.php:120
+#, fuzzy
+#| msgid ""
+#| "You installed and activated the Pro Addon. If you don’t want to use it "
+#| "anymore, you can deauthorize using the button below."
 msgid ""
 "You installed and activated the Pro Addon. If you don’t want to use it "
-"anymore, you can deauthorize using the button below."
+"anymore, you can deactivate using the button below."
 msgstr ""
 "你已经安装并启用了专业版本，如果你不想使用它，你可以点击下面的按钮取消授权。"
 
@@ -1243,7 +1269,7 @@ msgid "Link buttons after account details"
 msgstr "链接按钮在账户详情后面"
 
 #: nextend-facebook-connect/admin/templates/settings/privacy.php:6
-#: nextend-facebook-connect/nextend-social-login.php:155
+#: nextend-facebook-connect/nextend-social-login.php:158
 msgid ""
 "By clicking Register, you accept our <a href=\"#privacy_policy_url\" target="
 "\"_blank\">Privacy Policy</a>"
@@ -1522,42 +1548,42 @@ msgid ""
 "version, the plugin is currently NOT ACTIVE."
 msgstr ""
 
-#: nextend-facebook-connect/nextend-social-login.php:77
-#: nextend-facebook-connect/nextend-social-login.php:84
+#: nextend-facebook-connect/nextend-social-login.php:80
+#: nextend-facebook-connect/nextend-social-login.php:87
 #, php-format
 msgid "Please update %1$s to version %2$s or newer."
 msgstr "请更新 %1$s 到 %2$s 版本."
 
-#: nextend-facebook-connect/nextend-social-login.php:77
-#: nextend-facebook-connect/nextend-social-login.php:84
+#: nextend-facebook-connect/nextend-social-login.php:80
+#: nextend-facebook-connect/nextend-social-login.php:87
 msgid "Update now!"
 msgstr "现在更新！"
 
-#: nextend-facebook-connect/nextend-social-login.php:91
+#: nextend-facebook-connect/nextend-social-login.php:94
 #, php-format
 msgid "Your domain name changed so you must authorize %1$s again."
 msgstr ""
 
-#: nextend-facebook-connect/nextend-social-login.php:485
+#: nextend-facebook-connect/nextend-social-login.php:488
 #, php-format
 msgid ""
 "%s took the place of Nextend Google Connect. You can delete Nextend Google "
 "Connect as it is not needed anymore."
 msgstr "%s 取代了Nextend Google Connect。 您可以删除Nextend Google Connect。"
 
-#: nextend-facebook-connect/nextend-social-login.php:496
+#: nextend-facebook-connect/nextend-social-login.php:499
 #, php-format
 msgid ""
 "%s took the place of Nextend Twitter Connect. You can delete Nextend Twitter "
 "Connect as it is not needed anymore."
 msgstr "%s取代了Nextend Twitter Connect.你可以删除 Nextend Twitter Connect 。"
 
-#: nextend-facebook-connect/nextend-social-login.php:760
-#: nextend-facebook-connect/nextend-social-login.php:1106
+#: nextend-facebook-connect/nextend-social-login.php:763
+#: nextend-facebook-connect/nextend-social-login.php:1109
 msgid "Social Login"
 msgstr "社交登录"
 
-#: nextend-facebook-connect/nextend-social-login.php:1087
+#: nextend-facebook-connect/nextend-social-login.php:1090
 msgid "Social Accounts"
 msgstr "社交账号"
 
@@ -1631,9 +1657,11 @@ msgstr ""
 #: nextend-facebook-connect/providers/google/admin/getting-started.php:13
 #: nextend-facebook-connect/providers/twitter/admin/getting-started.php:13
 #: nextend-social-login-pro/providers/amazon/admin/getting-started.php:19
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:12
 #: nextend-social-login-pro/providers/linkedin/admin/getting-started.php:12
 #: nextend-social-login-pro/providers/paypal/admin/getting-started.php:12
 #: nextend-social-login-pro/providers/vk/admin/getting-started.php:12
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:12
 #, php-format
 msgctxt "App creation"
 msgid "Create %s"
@@ -1719,12 +1747,14 @@ msgstr ""
 "程序审查”，并发布您的应用程序"
 
 #: nextend-facebook-connect/providers/facebook/admin/getting-started.php:43
-#: nextend-facebook-connect/providers/google/admin/getting-started.php:33
+#: nextend-facebook-connect/providers/google/admin/getting-started.php:36
 #: nextend-facebook-connect/providers/twitter/admin/getting-started.php:32
 #: nextend-social-login-pro/providers/amazon/admin/getting-started.php:38
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:30
 #: nextend-social-login-pro/providers/linkedin/admin/getting-started.php:29
 #: nextend-social-login-pro/providers/paypal/admin/getting-started.php:33
 #: nextend-social-login-pro/providers/vk/admin/getting-started.php:31
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:30
 #, php-format
 msgid "I am done setting up my %s"
 msgstr "我已经设置完毕我的 %s"
@@ -1865,12 +1895,16 @@ msgstr "应用程序 ID"
 #: nextend-facebook-connect/providers/twitter/admin/settings.php:28
 #: nextend-social-login-pro/providers/amazon/admin/settings.php:27
 #: nextend-social-login-pro/providers/amazon/admin/settings.php:39
+#: nextend-social-login-pro/providers/disqus/admin/settings.php:27
+#: nextend-social-login-pro/providers/disqus/admin/settings.php:39
 #: nextend-social-login-pro/providers/linkedin/admin/settings.php:27
 #: nextend-social-login-pro/providers/linkedin/admin/settings.php:39
 #: nextend-social-login-pro/providers/paypal/admin/settings.php:27
 #: nextend-social-login-pro/providers/paypal/admin/settings.php:39
 #: nextend-social-login-pro/providers/vk/admin/settings.php:27
 #: nextend-social-login-pro/providers/vk/admin/settings.php:39
+#: nextend-social-login-pro/providers/wordpress/admin/settings.php:27
+#: nextend-social-login-pro/providers/wordpress/admin/settings.php:39
 msgid "Required"
 msgstr "请求"
 
@@ -1878,9 +1912,11 @@ msgstr "请求"
 #: nextend-facebook-connect/providers/google/admin/settings.php:35
 #: nextend-facebook-connect/providers/twitter/admin/settings.php:33
 #: nextend-social-login-pro/providers/amazon/admin/settings.php:33
+#: nextend-social-login-pro/providers/disqus/admin/settings.php:33
 #: nextend-social-login-pro/providers/linkedin/admin/settings.php:33
 #: nextend-social-login-pro/providers/paypal/admin/settings.php:33
 #: nextend-social-login-pro/providers/vk/admin/settings.php:33
+#: nextend-social-login-pro/providers/wordpress/admin/settings.php:33
 #, php-format
 msgid ""
 "If you are not sure what is your %1$s, please head over to <a href=\"%2$s"
@@ -1907,9 +1943,11 @@ msgstr "解除关联 <b>Facebook</b> 账号"
 #: nextend-facebook-connect/providers/google/google.php:144
 #: nextend-facebook-connect/providers/twitter/twitter.php:105
 #: nextend-social-login-pro/providers/amazon/amazon.php:63
+#: nextend-social-login-pro/providers/disqus/disqus.php:110
 #: nextend-social-login-pro/providers/linkedin/linkedin.php:88
 #: nextend-social-login-pro/providers/paypal/paypal.php:125
 #: nextend-social-login-pro/providers/vk/vk.php:60
+#: nextend-social-login-pro/providers/wordpress/wordpress.php:97
 #, php-format
 msgid ""
 "The %1$s entered did not appear to be a valid. Please enter a valid %2$s."
@@ -1949,7 +1987,7 @@ msgid "Click on OAuth 2.0 client ID: %s"
 msgstr "点击 OAuth 2.0 client ID: %s"
 
 #: nextend-facebook-connect/providers/google/admin/fix-redirect-uri.php:12
-#: nextend-facebook-connect/providers/google/admin/getting-started.php:27
+#: nextend-facebook-connect/providers/google/admin/getting-started.php:30
 #, php-format
 msgid ""
 "Add the following URL to the \"Authorised redirect URIs\" field: <b>%s</b>"
@@ -1993,32 +2031,53 @@ msgid ""
 msgstr "点击左侧菜单中的“凭据”以创建新的API凭证"
 
 #: nextend-facebook-connect/providers/google/admin/getting-started.php:23
-msgid "Select \"OAuth client ID\" from the dropdown."
+msgid "Select the OAuth consent screen!"
 msgstr ""
 
 #: nextend-facebook-connect/providers/google/admin/getting-started.php:24
-#, fuzzy
-#| msgid ""
-#| "Go to the OAuth consent screen tab and enter a product name and provide "
-#| "the Privacy Policy URL, then click on the save button."
 msgid ""
-"If you're prompted to set a product name, do so. Provide the Privacy Policy "
-"URL as well then click on the save button"
-msgstr "转到OAuth 选项卡输入产品名称并提供隐私策略URL，然后单击保存按钮。"
+"Enter a name for your App under the \"Application name\" field, which will "
+"appear as the name of the app asking for consent."
+msgstr ""
 
 #: nextend-facebook-connect/providers/google/admin/getting-started.php:25
+#, fuzzy, php-format
+#| msgid "Fill \"Site URL\" with the url of your homepage, probably: <b>%s</b>"
+msgid ""
+"Fill the \"Authorized domains\" field with your domain name probably: <b>%s</"
+"b> without subdomains!"
+msgstr "将你网站的首页URL填写到 \"网站URL\"，应该是 <b>%s</b>"
+
+#: nextend-facebook-connect/providers/google/admin/getting-started.php:26
+msgid "Press \"Save\" and you will be redirected back to Credentials screen."
+msgstr ""
+
+#: nextend-facebook-connect/providers/google/admin/getting-started.php:27
+#, fuzzy
+#| msgid ""
+#| "Go back to the Credentials tab and locate the small box at the middle. "
+#| "Click on the blue \"Create credentials\" button. Chose the \"OAuth client "
+#| "ID\" from the dropdown list."
+msgid ""
+"Click the Create credentials button and select \"OAuth client ID\" from the "
+"dropdown."
+msgstr ""
+"回到凭据选项卡，找到中间的小方块。 点击蓝色的“创建凭证”按钮。 从下拉列表中选"
+"择“OAuth客户端ID”。"
+
+#: nextend-facebook-connect/providers/google/admin/getting-started.php:28
 msgid "Your application type should be \"Web application\""
 msgstr "您的应用程序类型应该是“网页应用程序”"
 
-#: nextend-facebook-connect/providers/google/admin/getting-started.php:26
+#: nextend-facebook-connect/providers/google/admin/getting-started.php:29
 msgid "Name your application"
 msgstr "命名你的应用程序"
 
-#: nextend-facebook-connect/providers/google/admin/getting-started.php:28
+#: nextend-facebook-connect/providers/google/admin/getting-started.php:31
 msgid "Click on the Create button"
 msgstr "点击创建按钮"
 
-#: nextend-facebook-connect/providers/google/admin/getting-started.php:29
+#: nextend-facebook-connect/providers/google/admin/getting-started.php:32
 msgid ""
 "A modal should pop up with your credentials. If that doesn't happen, go to "
 "the Credentials in the left hand menu and select your app by clicking on its "
@@ -2045,12 +2104,14 @@ msgstr "在左侧菜单中点击凭据，然后选择您的应用程序。"
 #: nextend-social-login-pro/providers/amazon/admin/settings.php:26
 #: nextend-social-login-pro/providers/linkedin/admin/settings.php:26
 #: nextend-social-login-pro/providers/paypal/admin/settings.php:26
+#: nextend-social-login-pro/providers/wordpress/admin/settings.php:26
 msgid "Client ID"
 msgstr "客户端ID"
 
 #: nextend-facebook-connect/providers/google/admin/settings.php:40
 #: nextend-social-login-pro/providers/amazon/admin/settings.php:38
 #: nextend-social-login-pro/providers/linkedin/admin/settings.php:38
+#: nextend-social-login-pro/providers/wordpress/admin/settings.php:38
 msgid "Client Secret"
 msgstr "客户端密码"
 
@@ -2162,6 +2223,7 @@ msgid "Go to the Settings tab."
 msgstr "去设置页."
 
 #: nextend-facebook-connect/providers/twitter/admin/settings.php:27
+#: nextend-social-login-pro/providers/disqus/admin/settings.php:26
 msgid "API Key"
 msgstr ""
 
@@ -2307,10 +2369,6 @@ msgstr "这个电子邮件已经注册过，请登录到您的帐户以链接到
 msgid "Please install and activate %1$s to use the %2$s"
 msgstr ""
 
-#: nextend-social-login-pro/nextend-social-login-pro.php:57
-msgid "Activate"
-msgstr ""
-
 #: nextend-social-login-pro/nextend-social-login-pro.php:65
 msgid "Network Activate"
 msgstr ""
@@ -2348,7 +2406,9 @@ msgid "Add the following URL to the \"Allowed Return URLs\" field <b>%s</b> "
 msgstr "将以下网址添加到“授权重定向网址”字段中：<b>%s</b>"
 
 #: nextend-social-login-pro/providers/amazon/admin/getting-started.php:17
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:10
 #: nextend-social-login-pro/providers/paypal/admin/getting-started.php:10
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:10
 #, fuzzy, php-format
 #| msgid ""
 #| "To allow your visitors to log in with their %1$s account, first you must "
@@ -2368,9 +2428,13 @@ msgstr ""
 "\"设置“，然后根据你的 %1$s 配置，给予 \"%2$s\" and \"%3$s\"。"
 
 #: nextend-social-login-pro/providers/amazon/admin/getting-started.php:23
+#: nextend-social-login-pro/providers/disqus/admin/fix-redirect-uri.php:9
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:16
 #: nextend-social-login-pro/providers/paypal/admin/fix-redirect-uri.php:9
 #: nextend-social-login-pro/providers/paypal/admin/getting-started.php:16
 #: nextend-social-login-pro/providers/vk/admin/getting-started.php:16
+#: nextend-social-login-pro/providers/wordpress/admin/fix-redirect-uri.php:9
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:16
 #, fuzzy, php-format
 #| msgid "Log in with your %s credentials if you are not logged in"
 msgid "Log in with your %s credentials if you are not logged in."
@@ -2433,6 +2497,111 @@ msgstr "关联 <b>Amazon</b> 账号"
 msgid "Unlink account from <b>Amazon</b>"
 msgstr "解除关联 <b>Amazon</b> 账号"
 
+#: nextend-social-login-pro/providers/disqus/admin/fix-redirect-uri.php:10
+#: nextend-social-login-pro/providers/paypal/admin/fix-redirect-uri.php:11
+#: nextend-social-login-pro/providers/wordpress/admin/fix-redirect-uri.php:10
+#, fuzzy, php-format
+#| msgid "Click on the Create button"
+msgid "Click on the name of your %s App."
+msgstr "点击创建按钮"
+
+#: nextend-social-login-pro/providers/disqus/admin/fix-redirect-uri.php:12
+msgid ""
+"Select the \"Settings\" tab and scroll down to the Authentication section!"
+msgstr ""
+
+#: nextend-social-login-pro/providers/disqus/admin/fix-redirect-uri.php:13
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:23
+#, fuzzy, php-format
+#| msgid "Add the following URL to the \"Callback URL\" field: <b>%s</b>"
+msgid "Add the following URL to the \"Callback URL\" field <b>%s</b> "
+msgstr "将以下网址添加到\"Callback URL\"中：<b>%s</b>"
+
+#: nextend-social-login-pro/providers/disqus/admin/fix-redirect-uri.php:14
+#, fuzzy
+#| msgid "Click on \"Save Changes\""
+msgid "Click on the \"Save Changes\" button."
+msgstr "点击\"保存设置\""
+
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:17
+#, fuzzy
+#| msgid "Click on the \"Create New App\" button"
+msgid ""
+"Click on the link \"registering an application\" under the Applications tab."
+msgstr "点击\"创建新应用\"按钮"
+
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:18
+msgid "Enter a \"Label\" and \"Description\" for your App."
+msgstr ""
+
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:19
+#, fuzzy, php-format
+#| msgid ""
+#| "Fill \"Website URL\" with the url of your homepage, probably: <b>%s</b>"
+msgid "Fill \"Website\" with the url of your homepage, probably: <b>%s</b>"
+msgstr "用你的主页的网址填写“网址”，可能是：<b>%s</b>"
+
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:20
+#, fuzzy
+#| msgid "Click on the \"Create New App\" button"
+msgid ""
+"Complete the Human test and click the \"Register my application\" button."
+msgstr "点击\"创建新应用\"按钮"
+
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:21
+#, fuzzy, php-format
+#| msgid "Fill \"Site URL\" with the url of your homepage, probably: <b>%s</b>"
+msgid "Fill the \"Domains\" field with your domain name like: <b>%s</b>"
+msgstr "将你网站的首页URL填写到 \"网站URL\"，应该是 <b>%s</b>"
+
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:22
+#, fuzzy
+#| msgid "Find the necessary Authentication Keys under the Authentication menu"
+msgid ""
+"Select \"Read only\" at Default Access under the Authentication section."
+msgstr "在认证菜单下找到认证密钥"
+
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:24
+#, fuzzy
+#| msgid "Click on the \"Create New App\" button"
+msgid "Click the \"Save Changes\" button!"
+msgstr "点击\"创建新应用\"按钮"
+
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:25
+msgid "Navigate to the \"Details\" tab of your Application!"
+msgstr ""
+
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:26
+#, fuzzy
+#| msgid ""
+#| "Here you can see your \"APP ID\" and you can see your \"App secret\" if "
+#| "you click on the \"Show\" button. These will be needed in plugin's "
+#| "settings."
+msgid ""
+"Here you can see your \"API Key\" and \"API Secret:\". These will be needed "
+"in the plugin's settings."
+msgstr ""
+"然后，你可以看见你的 \"APP ID\" 和 \"APP secret\"密匙，你可以看到\"显示\"按"
+"钮，这些都需要填写到插件的设置里。"
+
+#: nextend-social-login-pro/providers/disqus/admin/settings.php:38
+#, fuzzy
+#| msgid "App Secret"
+msgid "API Secret"
+msgstr "App 密匙"
+
+#: nextend-social-login-pro/providers/disqus/disqus.php:84
+msgid "Continue with <b>Disqus</b>"
+msgstr "通过 <b>Disqus</b>"
+
+#: nextend-social-login-pro/providers/disqus/disqus.php:85
+msgid "Link account with <b>Disqus</b>"
+msgstr "关联 <b>Disqus</b>"
+
+#: nextend-social-login-pro/providers/disqus/disqus.php:86
+msgid "Unlink account from <b>Disqus</b>"
+msgstr "取消关联 <b>Disqus</b>"
+
 #: nextend-social-login-pro/providers/linkedin/admin/fix-redirect-uri.php:10
 msgid "Click on the App"
 msgstr "点击应用"
@@ -2459,6 +2628,7 @@ msgid "Fill the fields marked with *"
 msgstr "填写标有*的字段"
 
 #: nextend-social-login-pro/providers/linkedin/admin/getting-started.php:19
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:19
 #, php-format
 msgid "Fill \"Website URL\" with the url of your homepage, probably: <b>%s</b>"
 msgstr "用你的主页的网址填写“网址”，可能是：<b>%s</b>"
@@ -2493,12 +2663,6 @@ msgstr "从<b> LinkedIn </ b>取消关联帐户"
 #: nextend-social-login-pro/providers/paypal/admin/getting-started.php:17
 msgid "Scroll down to  \"REST API apps\"."
 msgstr ""
-
-#: nextend-social-login-pro/providers/paypal/admin/fix-redirect-uri.php:11
-#, fuzzy, php-format
-#| msgid "Click on the Create button"
-msgid "Click on the name of your %s App."
-msgstr "点击创建按钮"
 
 #: nextend-social-login-pro/providers/paypal/admin/fix-redirect-uri.php:12
 #: nextend-social-login-pro/providers/paypal/admin/getting-started.php:20
@@ -2681,6 +2845,84 @@ msgstr "关联 <b>VK</b>"
 msgid "Unlink account from <b>VK</b>"
 msgstr "取消关联 <b>VK</b>"
 
+#: nextend-social-login-pro/providers/wordpress/admin/fix-redirect-uri.php:12
+msgid "Click \"Manage Settings\" under the Tools section!"
+msgstr ""
+
+#: nextend-social-login-pro/providers/wordpress/admin/fix-redirect-uri.php:13
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:20
+#, fuzzy, php-format
+#| msgid ""
+#| "Add the following URL to the \"Authorized Redirect URLs:\" field: <b>%s</"
+#| "b>"
+msgid "Add the following URL to the \"Redirect URLs\" field <b>%s</b> "
+msgstr "将以下网址添加到“授权重定向网址”字段中：<b>%s</b>"
+
+#: nextend-social-login-pro/providers/wordpress/admin/fix-redirect-uri.php:14
+#, fuzzy
+#| msgid "Click on \"Save\""
+msgid "Click on \"Update\""
+msgstr "点击\"保存“"
+
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:17
+#, fuzzy
+#| msgid "Click on the \"Create New App\" button"
+msgid "Click on the \"Create New Application\" button."
+msgstr "点击\"创建新应用\"按钮"
+
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:18
+msgid "Enter a \"Name\" and \"Description\" for your App."
+msgstr ""
+
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:21
+msgid "You can leave the \"Javascript Origins\" field blank!"
+msgstr ""
+
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:22
+msgid "Complete the human verification test."
+msgstr ""
+
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:23
+msgid "At the \"Type\" make sure \"Web\" is selected!"
+msgstr ""
+
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:24
+#, fuzzy
+#| msgid "Click on the \"Create New App\" button"
+msgid "Click the \"Create\" button!"
+msgstr "点击\"创建新应用\"按钮"
+
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:25
+msgid ""
+"Click the name of your App either in the Breadcrumb navigation or next to "
+"Editing!"
+msgstr ""
+
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:26
+#, fuzzy
+#| msgid ""
+#| "Here you can see your \"APP ID\" and you can see your \"App secret\" if "
+#| "you click on the \"Show\" button. These will be needed in plugin's "
+#| "settings."
+msgid ""
+"Here you can see your \"Client ID\" and \"Client Secret\". These will be "
+"needed in the plugin's settings."
+msgstr ""
+"然后，你可以看见你的 \"APP ID\" 和 \"APP secret\"密匙，你可以看到\"显示\"按"
+"钮，这些都需要填写到插件的设置里。"
+
+#: nextend-social-login-pro/providers/wordpress/wordpress.php:71
+msgid "Continue with <b>WordPress.com</b>"
+msgstr "通过 <b>WordPress.com</b>"
+
+#: nextend-social-login-pro/providers/wordpress/wordpress.php:72
+msgid "Link account with <b>WordPress.com</b>"
+msgstr "关联 <b>WordPress.com</b>"
+
+#: nextend-social-login-pro/providers/wordpress/wordpress.php:73
+msgid "Unlink account from <b>WordPress.com</b>"
+msgstr "取消关联 <b>WordPress.com</b>"
+
 #: nextend-social-login-pro/template-parts/embedded-login/above-separator.php:10
 #: nextend-social-login-pro/template-parts/embedded-login/below-separator.php:10
 #: nextend-social-login-pro/template-parts/login/above-separator.php:11
@@ -2713,62 +2955,29 @@ msgstr "或"
 msgid "Social accounts"
 msgstr "社交账号"
 
+#~ msgid "Authorize your Pro Addon"
+#~ msgstr "授权你的专业版插件"
+
+#~ msgid "Authorize"
+#~ msgstr "授权"
+
+#~ msgid "Deauthorize Pro Addon"
+#~ msgstr "专业版未授权"
+
+#, fuzzy
+#~| msgid ""
+#~| "Go to the OAuth consent screen tab and enter a product name and provide "
+#~| "the Privacy Policy URL, then click on the save button."
+#~ msgid ""
+#~ "If you're prompted to set a product name, do so. Provide the Privacy "
+#~ "Policy URL as well then click on the save button"
+#~ msgstr "转到OAuth 选项卡输入产品名称并提供隐私策略URL，然后单击保存按钮。"
+
 #~ msgid "Click on the \"Settings\" tab"
 #~ msgstr "点击\"设置\"选项"
 
 #~ msgid "Click on \"Update Settings\""
 #~ msgstr "点击\"更新设置\""
-
-#, fuzzy
-#~| msgid ""
-#~| "Add the following URL to the \"Authorized Redirect URLs:\" field: <b>%s</"
-#~| "b>"
-#~ msgid "Add the following URL to the \"Redirect URLs\" field <b>%s</b> "
-#~ msgstr "将以下网址添加到“授权重定向网址”字段中：<b>%s</b>"
-
-#, fuzzy
-#~| msgid "Click on \"Save\""
-#~ msgid "Click on \"Update\""
-#~ msgstr "点击\"保存“"
-
-#, fuzzy
-#~| msgid "Click on the \"Create New App\" button"
-#~ msgid "Click on the \"Create New Application\" button."
-#~ msgstr "点击\"创建新应用\"按钮"
-
-#, fuzzy
-#~| msgid "Click on the \"Create New App\" button"
-#~ msgid "Click the \"Create\" button!"
-#~ msgstr "点击\"创建新应用\"按钮"
-
-#, fuzzy
-#~| msgid ""
-#~| "Here you can see your \"APP ID\" and you can see your \"App secret\" if "
-#~| "you click on the \"Show\" button. These will be needed in plugin's "
-#~| "settings."
-#~ msgid ""
-#~ "Here you can see your \"Client ID\" and \"Client Secret\". These will be "
-#~ "needed in the plugin's settings."
-#~ msgstr ""
-#~ "然后，你可以看见你的 \"APP ID\" 和 \"APP secret\"密匙，你可以看到\"显示"
-#~ "\"按钮，这些都需要填写到插件的设置里。"
-
-#~ msgid "Continue with <b>WordPress.com</b>"
-#~ msgstr "通过 <b>WordPress.com</b>"
-
-#~ msgid "Link account with <b>WordPress.com</b>"
-#~ msgstr "关联 <b>WordPress.com</b>"
-
-#~ msgid "Unlink account from <b>WordPress.com</b>"
-#~ msgstr "取消关联 <b>WordPress.com</b>"
-
-#~ msgid ""
-#~ "Go back to the Credentials tab and locate the small box at the middle. "
-#~ "Click on the blue \"Create credentials\" button. Chose the \"OAuth client "
-#~ "ID\" from the dropdown list."
-#~ msgstr ""
-#~ "回到凭据选项卡，找到中间的小方块。 点击蓝色的“创建凭证”按钮。 从下拉列表中"
-#~ "选择“OAuth客户端ID”。"
 
 #~ msgid "Accept the Twitter Developer Agreement"
 #~ msgstr "接受Twitter开发者协议"

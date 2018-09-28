@@ -103,11 +103,48 @@ class NextendSocialLoginAvatar {
                         }
                     }
 
-                    UM()->user()->remove_cache($user_id);
+                    UM()
+                        ->user()
+                        ->remove_cache($user_id);
                 };
 
                 return;
             }
+
+            //upload user avatar for BuddyPress - bp_displayed_user_avatar() function
+            if (class_exists('BuddyPress', false)) {
+                if (!empty($avatarUrl)) {
+                    $extension = 'jpg';
+                    if (preg_match('/\.(jpg|jpeg|gif|png)/', $avatarUrl, $match)) {
+                        $extension = $match[1];
+                    }
+
+                    require_once(ABSPATH . '/wp-admin/includes/file.php');
+                    $avatarTempPath = download_url($avatarUrl);
+
+                    if (!is_wp_error($avatarTempPath)) {
+                        $pathInfo = xprofile_avatar_upload_dir('avatars', $user_id);
+
+                        if (wp_mkdir_p($pathInfo['path'])) {
+                            if ($av_dir = opendir($pathInfo['path'] . '/')) {
+                                $hasAvatar = false;
+                                while (false !== ($avatar_file = readdir($av_dir))) {
+                                    if ((preg_match("/-bpfull/", $avatar_file) || preg_match("/-bpthumb/", $avatar_file))) {
+                                        $hasAvatar = true;
+                                        break;
+                                    }
+                                }
+                                if (!$hasAvatar) {
+                                    copy($avatarTempPath, $pathInfo['path'] . '/' . 'avatar-bpfull.' . $extension);
+                                    rename($avatarTempPath, $pathInfo['path'] . '/' . 'avatar-bpthumb.' . $extension);
+                                }
+                            }
+                            closedir($av_dir);
+                        }
+                    }
+                }
+            }
+
 
             /**
              * $original_attachment_id is false, if the user has had avatar set but the path is not found.
