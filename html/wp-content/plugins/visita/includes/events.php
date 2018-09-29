@@ -964,7 +964,7 @@ class VisitaEvents extends VisitaBase {
     }
 
     global $cache_path;
-    if ( ! emtpy($posts) && $cache_path && defined('WPSC_CACHE_DOMAIN')) {
+    if ( ! empty($posts) && $cache_path && defined('WPSC_CACHE_DOMAIN')) {
       wpsc_delete_url_cache('/');
       wpsc_delete_url_cache('/eventos-las-vegas-fin-semana/');
       wpsc_delete_url_cache('/calendario-eventos-vegas-octubre/');
