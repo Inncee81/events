@@ -966,10 +966,14 @@ class VisitaEvents extends VisitaBase {
     global $cache_path;
     if ( ! empty($posts) && $cache_path && defined('WPSC_CACHE_DOMAIN')) {
       wpsc_delete_url_cache('/');
+      wpsc_delete_url_cache('/en/');
+      wpsc_delete_url_cache('/las-vegas-espanol/');
+      wpsc_delete_url_cache('/proximos-eventos-las-vegas/');
       wpsc_delete_url_cache('/eventos-las-vegas-fin-semana/');
       wpsc_delete_url_cache('/calendario-eventos-vegas-octubre/');
       prune_super_cache( $cache_path . 'supercache/' . WPSC_CACHE_DOMAIN . '/pagina/', true );
       prune_super_cache( $cache_path . 'supercache/' . WPSC_CACHE_DOMAIN . '/eventos/', true );
+      prune_super_cache( $cache_path . 'supercache/' . WPSC_CACHE_DOMAIN . '/en/page/', true );
     }
   }
 }
