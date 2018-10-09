@@ -235,9 +235,14 @@ class VisitaAttractions extends VisitaBase {
       )
     ) );
 
+    //crons
+    add_action( 'visita_update_attractions', array( $this, 'expire_attractions' ) );
+
     //basics
+    add_action( 'init', array( $this, 'activate' ) );
     add_action( 'init', array( $this, 'register_post_type' ) );
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 200 );
+    add_action( 'visita_deactivate', array( $this, 'deactivate' ) );
     add_action( 'document_title_parts', array( $this, 'title_tax_parts' ), 250 );
 
     //fields
@@ -268,6 +273,29 @@ class VisitaAttractions extends VisitaBase {
   }
 
   /**
+   * Deactivate
+   *
+   * @return void
+   * @since 2.1.2
+   */
+  function deactivate( ) {
+    wp_clear_scheduled_hook( 'visita_update_attractions' );
+  }
+
+  /**
+   * Activite and save default options
+   * Activite the expire cron
+   *
+   * @return void
+   * @since 2.1.2
+   */
+  function activate( ) {
+    if ( ! wp_next_scheduled ( 'visita_update_attractions' )) {
+      wp_schedule_event( strtotime( '3:15 AM' ), 'daily', 'visita_update_attractions');
+    }
+  }
+
+  /**
   *
   *
   * @return void
@@ -284,5 +312,18 @@ class VisitaAttractions extends VisitaBase {
 
     add_filter( 'get_previous_post_sort', array( $this, 'adjacent_post_previous_sort' ), 20 );
     add_filter( 'get_previous_post_where', array( $this, 'adjacent_post_previous_where' ), 20 );
+  }
+
+  /**
+  * Expired events and delete unprocessed events
+  *
+  * @return void
+  * @since 0.5.0
+  */
+  function expire_attractions() {
+    global $cache_path;
+    if ( $cache_path && defined('WPSC_CACHE_DOMAIN')) {
+      prune_super_cache( $cache_path . 'supercache/' . WPSC_CACHE_DOMAIN . '/atraccion/', true );
+    }
   }
 }
