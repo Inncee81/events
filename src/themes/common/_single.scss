@@ -1,10 +1,8 @@
-
 body.page .entry-title {
   padding: 1em 0;
 }
 
 .single {
-
   .date {
     display: none;
   }
@@ -27,7 +25,7 @@ body.page .entry-title {
   }
 
   address {
-    font-size: .9em;
+    font-size: 0.9em;
   }
 
   .price {
@@ -46,14 +44,14 @@ body.page .entry-title {
   }
 
   .location {
-    padding-top: .5em;
+    padding-top: 0.5em;
   }
 
   .location a {
     color: $gray-darker;
   }
 
-  .hmedia  {
+  .hmedia {
     max-height: 260px;
     overflow: hidden;
     border-bottom: 1px solid $gray-light;
@@ -61,6 +59,7 @@ body.page .entry-title {
 
   .columns > .hentry {
     border: 1px solid $gray-light;
+
     .hmedia {
       @include breakpoint(small down) {
         max-height: 150px;
@@ -74,18 +73,15 @@ body.page .entry-title {
   .entry-header {
     padding: 1.5em 1em;
     position: relative;
-
     @include breakpoint(small down) {
-      padding: .75em;
+      padding: 0.75em;
     }
   }
 
   .events-futuros {
     .share_button {
-      @include breakpoint(medium down) {
-        float: none;
-        margin: auto;
-      }
+      float: none;
+      margin: auto;
     }
   }
 
@@ -96,11 +92,10 @@ body.page .entry-title {
     color: $gray-darker;
     font-weight: 700;
     display: block;
-    padding: .65em .75em;
+    padding: 0.65em 0.75em;
     text-shadow: 1px 1px rgba(255, 255, 255, 0.4);
-
     @include breakpoint(small down) {
-      font-size: .9em;
+      font-size: 0.9em;
     }
 
     &:after {
@@ -108,7 +103,8 @@ body.page .entry-title {
       content: $fa-var-angle-right;
     }
 
-    &:hover, &:focus {
+    &:focus,
+    &:hover {
       color: $black;
       box-shadow: 0 8px 34px rgba(0,0,0,.3);
       -moz-transform: scale(1.03);
@@ -120,9 +116,8 @@ body.page .entry-title {
   .dates {
     padding: 0 1em 1em;
     border-bottom: 1px solid $gray-light;
-
     @include breakpoint(small down) {
-      padding: 0 .5em 1em;
+      padding: 0 0.5em 1em;
     }
   }
 
@@ -147,30 +142,28 @@ body.page .entry-title {
     a {
       text-decoration: underline;
     }
-
     @include breakpoint(small down) {
-      padding: 0 .75em;
+      padding: 0 0.75em;
     }
 
-    > .hidden ~ *,
-    > :first-child {
-      margin-top: .75em;
+    > :first-child,
+    > .hidden ~ * {
+      margin-top: 0.75em;
     }
 
     > :last-child {
       margin-bottom: 1.5em;
-
       @include breakpoint(small down) {
-        margin-bottom: .75em;
+        margin-bottom: 0.75em;
       }
     }
 
     .taxonomy-links {
-      margin-bottom: .85em;
+      margin-bottom: 0.85em;
     }
 
     ol > li {
-      margin-bottom: .65em;
+      margin-bottom: 0.65em;
     }
 
     .button {
@@ -185,7 +178,7 @@ body.page .entry-title {
 }
 
 .taxonomy-links {
-  font-size: .7em;
+  font-size: 0.7em;
   padding-top: 1em;
 
   a {
@@ -203,14 +196,13 @@ body.page .entry-title {
 }
 
 .error404 .entry-title {
-  margin: .25em 0 .5em;
+  margin: 0.25em 0 0.5em;
 }
 
 .error404 .no-results {
   margin-top: 14px;
-  padding: 1em .75em 0;
+  padding: 1em 0.75em 0;
   border: 1px solid $gray-light;
-
   @include breakpoint(medium up) {
     padding: 1em;
   }
@@ -221,14 +213,16 @@ body.page .entry-title {
 }
 
 .entry-tools {
-  margin-top: .65em;
+  margin-top: 0.65em;
   @include breakpoint(medium up) {
     float: right;
     margin-top: -5em;
+
     .share_button {
-      margin-top: .5em;
+      margin-top: 0.5em;
     }
   }
+
   [itemprop="ratingValue"] {
     margin-right: 4px;
   }
@@ -237,7 +231,7 @@ body.page .entry-title {
 .share_button {
   display: block;
   margin-left: -5px;
-  padding-top: .65em;
+  padding-top: 0.65em;
   @include breakpoint(medium up) {
     float: right;
     margin-top: -3em;
@@ -259,7 +253,8 @@ body.page .entry-title {
     margin: 0 22px 0 9px;
   }
 
-  &:hover, &:focus {
+  &:focus,
+  &:hover {
     color: #fff;
     background-color: $primary-color;
   }
@@ -270,23 +265,23 @@ body.page .entry-title {
 }
 
 .sh-fb:before {
-  content: $fa-var-facebook
+  content: $fa-var-facebook;
 }
 
 .sh-gp:before {
-  content: $fa-var-google-plus
+  content: $fa-var-google-plus;
 }
 
 .sh-tw:before {
-  content: $fa-var-twitter
+  content: $fa-var-twitter;
 }
 
 .sh-ri:before {
-  content: $fa-var-reddit
+  content: $fa-var-reddit;
 }
 
 .sh-tb:before {
-  content: $fa-var-tumblr
+  content: $fa-var-tumblr;
 }
 
 .nav-previous {
@@ -316,7 +311,6 @@ body.page .entry-title {
 .caldera-grid label {
   display: inline-block;
   min-width: 9.5em;
-
   @include breakpoint(small down) {
     min-width: 45%;
     padding: 0 2%;
@@ -334,7 +328,6 @@ body.page .entry-title {
 
   li em {
     font-style: normal;
-
     @include breakpoint(small down) {
       display: block;
     }
@@ -349,7 +342,6 @@ body.page .entry-title {
     text-decoration: none;
     border-bottom: 2px solid #ddd;
     padding: 8px;
-
     @include breakpoint(medium up) {
       padding: 8px 20px;
     }
@@ -358,7 +350,6 @@ body.page .entry-title {
   li a:before {
     content: $fa-var-angle-right;
     float: right;
-
     @include breakpoint(small down) {
       line-height: 3em;
     }
@@ -366,8 +357,8 @@ body.page .entry-title {
 }
 
 .caldera-grid {
-  [for=fld_5981410_1_44],
-  [for=fld_5981410_1_18] {
+  [for=fld_5981410_1_18],
+  [for=fld_5981410_1_44] {
     display: none;
   }
 }

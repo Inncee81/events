@@ -505,14 +505,14 @@ function visita_event_dates( ) {
 
       printf(
         '<div class="price" itemprop="price" content="%4$s">
-          <a class="price-action %8$s" href="%5$s" itemprop="url" rel="external noopener">%2$s - %1$s</a>
+          <a class="price-action %8$s" href="%5$s" itemprop="url" rel="external noopener">%2$s • %1$s</a>
           <link itemprop="availability" href="http://schema.org/%6$s" />
           <meta itemprop="priceCurrency" content="USD" />
           <meta itemprop="validFrom" content="%7$s" />
         </div>',
 
         esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $time['_time'] ) ) ),
-        esc_attr( date_i18n( 'l j \d\e F Y', $date ) ),
+        esc_attr( date_i18n( __('l, F j Y', 'visita'), $date ) ),
         esc_html( get_post_meta( get_the_ID(), '_currency', true ) ), //
         esc_attr( is_numeric( $price ) ? $price : 0 ),
         esc_url( visita_get_external_link( $time['_date_link'] ) ),
@@ -539,7 +539,7 @@ function visita_opening_hours( ) {
         esc_attr( $hour['_day'] == 'all' ? 'Mo,Tu,We,Th,Fr,Sa,Su' : date( 'D', strtotime( $hour['_day'] ) ) ),
         esc_attr( $hour['_day'] == 'all' ? __( 'Every Day', 'visita' ) : date_i18n( 'l', strtotime( $hour['_day'] ) ) ),
         esc_attr( $hour['_24h'] ? __( '24 Hours', 'visita' ) : '' ),
-        esc_attr( $hour['_close'] ? date_i18n( get_option( 'time_format' ), strtotime( $hour['_close'] ) ) : '' ),
+        esc_attr( $hour['_close'] ? "• " . date_i18n( get_option( 'time_format' ), strtotime( $hour['_close'] ) ) : '' ),
         esc_attr( $hour['_open'] ? date_i18n( get_option( 'time_format' ), strtotime( $hour['_open'] ) ) : '' ),
         esc_url( visita_get_external_link() ),
         esc_attr( $hour['_close'] ? $hour['_close'] : '' ),
