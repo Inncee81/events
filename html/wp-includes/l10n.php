@@ -122,10 +122,6 @@ function translate( $text, $domain = 'default' ) {
 	$translations = get_translations_for_domain( $domain );
 	$translation  = $translations->translate( $text );
 
-	if ( $domain == 'visita') {
-		print_r($translations); die();
-	}
-
 	/**
 	 * Filters text with its translation.
 	 *
