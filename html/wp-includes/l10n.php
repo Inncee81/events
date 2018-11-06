@@ -122,6 +122,10 @@ function translate( $text, $domain = 'default' ) {
 	$translations = get_translations_for_domain( $domain );
 	$translation  = $translations->translate( $text );
 
+	if ( $domain == 'visita') {
+		print_r($translations); die();
+	}
+
 	/**
 	 * Filters text with its translation.
 	 *
@@ -1210,7 +1214,7 @@ function wp_dropdown_languages( $args = array() ) {
 		selected( '', $parsed_args['selected'], false )
 	);
 
-	// List installed languages. 
+	// List installed languages.
 	foreach ( $languages as $language ) {
 		$structure[] = sprintf(
 			'<option value="%s" lang="%s"%s data-installed="1">%s</option>',

@@ -946,8 +946,6 @@ class VisitaEvents extends VisitaBase {
           wp_update_post(array(
             'ID'                 => $post->ID,
             'meta_input'         => array(
-              '_location'        => '',
-              '_street'          => '',
               '_ends'            => '',
               '_price_max'       => '',
               '_price'           => '',
