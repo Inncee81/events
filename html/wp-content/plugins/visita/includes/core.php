@@ -27,6 +27,7 @@ class Visita_Core {
     //
     add_action( 'wp', array( $this, 'display_widgets' ), 100 );
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 100 );
+    add_action( 'init', array( $this, 'load_plugin_textdomain' ), 0 );
     add_action( 'widgets_init', array( $this, 'widgets_init' ), 100 );
     add_action( 'rest_api_init', array( $this, 'rest_api_register_routes') );
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
@@ -115,6 +116,13 @@ class Visita_Core {
       'display'   => __( 'Every 2 Hours', 'textdomain' )
     );
     return $schedules;
+  }
+
+  /**
+  *
+  */
+  function load_plugin_textdomain() {
+    load_plugin_textdomain( 'visita', false, plugin_basename( AMP__DIR__ ) . '/languages' );
   }
 
   /**

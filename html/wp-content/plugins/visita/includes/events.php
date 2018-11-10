@@ -368,8 +368,8 @@ class VisitaEvents extends VisitaBase {
    */
   function activate( ) {
     if ( ! wp_next_scheduled ( 'visita_expire' )) {
-      wp_schedule_event( strtotime( '4:00 AM' ), 'daily', 'visita_expire',  array( 'lang' => 'en' ) );
-      wp_schedule_event( strtotime( '4:30 AM' ), 'daily', 'visita_expire',  array( 'lang' => 'es' ) );
+      wp_schedule_event( strtotime( '4:00 AM' ), 'daily', 'visita_expire',  array( 'lang' => 'es' ) );
+      wp_schedule_event( strtotime( '4:30 AM' ), 'daily', 'visita_expire',  array( 'lang' => 'en' ) );
       wp_schedule_event( strtotime( '3:00 AM' ), 'twicedaily', 'visita_ticketmater_import');
     }
   }
