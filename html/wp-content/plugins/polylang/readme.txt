@@ -2,9 +2,9 @@
 Contributors: Chouby
 Donate link: https://polylang.pro
 Tags: multilingual, bilingual, translate, translation, language, multilanguage, international, localization
-Requires at least: 4.4
+Requires at least: 4.7
 Tested up to: 4.9
-Stable tag: 2.3.10
+Stable tag: 2.4
 License: GPLv2 or later
 
 Making WordPress multilingual
@@ -41,7 +41,7 @@ Don't hesitate to [give your feedback](http://wordpress.org/support/view/plugin-
 
 == Installation ==
 
-1. Make sure you are using WordPress 4.4 or later and that your server is running PHP 5.2.4 or later (same requirement as WordPress itself)
+1. Make sure you are using WordPress 4.7 or later and that your server is running PHP 5.2.4 or later (same requirement as WordPress itself)
 1. If you tried other multilingual plugins, deactivate them before activating Polylang, otherwise, you may get unexpected results!
 1. Install and activate the plugin as usual from the 'Plugins' menu in WordPress.
 1. Go to the languages settings page and create the languages you need
@@ -75,6 +75,35 @@ Don't hesitate to [give your feedback](http://wordpress.org/support/view/plugin-
 4. The Edit Post screen with the Languages metabox
 
 == Changelog ==
+
+= 2.4 (2018-11-12) =
+
+* Minimum WordPress version is now 4.7
+* Pro: Add the possibility to bulk duplicate or bulk synchronize posts.
+* Pro: Add compatibility with Admin Columns
+* Pro: Add synchronized posts to the REST API
+* Pro: Fix variations messed when changing WooCommerce attributes slugs
+* Pro: Fix incorrect language for ajax requests made on front by The Events Calendar
+* Pro: Fix term not duplicated correctly when the language is set from the content
+* Refactor the core to activate on front and for the REST api actions that were previously available only in the backend (language checks, synchronizations...).
+* Add flags to widgets displayed in only one language (Props Jory Hogeveen) #257
+* Honor 'pll_the_language_args' for all options in menus #237
+* Add better filters for default flags and custom flags
+* Custom flags can now be stored in the polylang directory in the theme
+* Custom flags can now use SVG
+* Add compatibility with Jetpack featured content module
+* Fix Twenty Fourteen featured posts possibly not filtered per language
+* Fix home url not working with WordPress MU Domain mapping
+* Fix Assigning a parent category breaking the hierarchy of translated category
+* Fix: Accept 0,1 and 1.0 as q factors in browser preferred language detection (Props Dominic Rubas)
+* Fix performance issue when using hundreds of widgets
+* Fix translations possibly wrong if the post language is changed without saving the post after
+
+= 2.3.11 (2018-10-03) =
+
+* Pro: Add action 'pll_created_sync_post'
+* Pro: Fix language and translations not included for tags in the REST API
+* Fix Assigning a parent category breaking the hierarchy of translated category
 
 = 2.3.10 (2018-08-16) =
 

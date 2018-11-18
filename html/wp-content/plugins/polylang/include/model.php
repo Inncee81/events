@@ -438,6 +438,7 @@ class PLL_Model {
 			$where .= $wpdb->prepare( ' AND tt.parent = %d', $parent );
 		}
 
+		// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
 		return $wpdb->get_var( $select . $join . $where );
 	}
 
@@ -525,6 +526,7 @@ class PLL_Model {
 				}
 			}
 
+			// PHPCS:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$res = $wpdb->get_results( $select . $join . $where . $groupby, ARRAY_A );
 			foreach ( (array) $res as $row ) {
 				$counts[ $row['term_taxonomy_id'] ] = $row['num_posts'];
@@ -611,10 +613,16 @@ class PLL_Model {
 				$debug = debug_backtrace();
 				$i = 1 + empty( $debug[1]['line'] ); // the file and line are in $debug[2] if the function was called using call_user_func
 
-				trigger_error( sprintf(
-					'%1$s was called incorrectly in %4$s on line %5$s: the call to $polylang->model->%1$s() has been deprecated in Polylang 1.8, use PLL()->model->%2$s->%3$s() instead.' . "\nError handler",
-					$func, $o, $f, $debug[ $i ]['file'], $debug[ $i ]['line']
-				) );
+				trigger_error(
+					sprintf(
+						'%1$s was called incorrectly in %4$s on line %5$s: the call to $polylang->model->%1$s() has been deprecated in Polylang 1.8, use PLL()->model->%2$s->%3$s() instead.' . "\nError handler",
+						$func,
+						$o,
+						$f,
+						$debug[ $i ]['file'],
+						$debug[ $i ]['line']
+					)
+				);
 			}
 			return call_user_func_array( array( $this->$o, $f ), $args );
 		}
