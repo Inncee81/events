@@ -244,6 +244,7 @@ class VisitaBase {
    * @since 1.0.0
    */
   function admin_scripts( ) {
+    wp_dequeue_script( 'calderaforms/cform' );
     if ( get_current_screen()->id === $this->post_type ) {
       wp_enqueue_style( 'visita-fields', plugins_url( 'css/fields.css', VISITA_FILE_NAME ), NULL, VISITA_VERSION );
       wp_enqueue_script( 'visita-admin', plugins_url( 'js/admin.js', VISITA_FILE_NAME ), array( 'jquery' ), VISITA_VERSION, true );

@@ -9,6 +9,7 @@ ftpconfig
 .ftpconfig
 import/players.csv
 debug.log
+wordpress-beta-tester
 html/wp-content/index.html
 html/wp-content/cache/
 html/wp-config.php
