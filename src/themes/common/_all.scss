@@ -32,7 +32,7 @@ $breakpoint-classes: (small medium);
 
 @import 'font-awesome/scss/variables';
 @import 'font-awesome/scss/mixins';
-@import 'font-awesome/scss/path';
+@import 'path';
 @import 'font-awesome/scss/core';
 
 @include foundation-typography-base;
