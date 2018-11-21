@@ -27,6 +27,7 @@ function visita_add_head_metatags( ) {
   echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.woff2?v=4.7.0" />' . "\n";
   echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.woff?v=4.7.0" />' . "\n";
   echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.ttf?v=4.7.0" />' . "\n";
+  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/tablet.css?v=" ' . wp_get_theme()->version . ' />' . "\n";
 }
 add_action( 'wp_head', 'visita_add_head_metatags', 2 );
 

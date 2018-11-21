@@ -9,7 +9,7 @@ import LazyLoad from 'vanilla-lazyload';
 
 const mobileWidth =  640;
 const lazyLoad = new LazyLoad({
-  threshold: 150
+  threshold: 30
 });
 
 ( ( $, doc ) => {
