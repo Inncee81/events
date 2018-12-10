@@ -1,7 +1,16 @@
+import 'foundation/js/foundation.core';
+import 'foundation/js/foundation.reveal';
+import 'foundation/js/foundation.util.box';
+import 'foundation/js/foundation.util.motion';
+import 'foundation/js/foundation.util.keyboard';
+import 'foundation/js/foundation.util.triggers';
+import 'foundation/js/foundation.util.mediaQuery';
 import LazyLoad from 'vanilla-lazyload';
 
 const mobileWidth =  640;
-const lazyLoad = new LazyLoad();
+const lazyLoad = new LazyLoad({
+  threshold: 30
+});
 
 ( ( $, doc ) => {
 
@@ -24,13 +33,15 @@ const lazyLoad = new LazyLoad();
     $( '<link/>', Object.assign( stylesheet, { href: visita.fonts } ) ).appendTo( 'head' );
   } );
 
-  //check  window size for loading
-  $( window ).on( 'load resize orientationchange', () => {
+  //check window size for loading
+  const load_tablet_up  = (function() {
     if ( ! mobileLoaded && $( doc ).width() >= mobileWidth ) {
       $( '<link/>', Object.assign( stylesheet, { href: visita.tablet } ) ).appendTo( 'head' );
       mobileLoaded = true;
     }
-  } )
+  })();
+
+  $( window ).on( 'resize orientationchange', load_tablet_up)
 
   //make headers clickable
   $( '.entry-header.float, .visita-widget .entry-header' ).on( 'click', function( e ) {
@@ -46,7 +57,7 @@ const lazyLoad = new LazyLoad();
   });
 
   // open external link on new window
-  $( 'a[rel~="external"]' ).each( function( e ) {
+  $( 'a[rel~="external"], .gallery-icon > a' ).each( function( e ) {
     var $href =  $(this).attr( 'href' );
 
     if ( $href!== '#' &&  $href!== '') {
@@ -56,10 +67,42 @@ const lazyLoad = new LazyLoad();
     }
 	});
 
-  //don't allow iframes to redirect parent page
+  // Don't allow iframes to redirect parent page
   if (window.top !== window.self) {
     delete window.top.onbeforeunload;
   }
+
+  // Add reviews
+  var $modal = $('#reveal');
+  $('[data-reviews]').click(function(e) {
+    e.preventDefault();
+    $.ajax(this.href)
+      .done(function(resp) {
+        $modal
+        .find('.reveal-content')
+        .html(resp)
+        $modal.foundation('open');
+    });
+  })
+
+  // Show reviews
+  if (location.hash.search(/comment-/) == 1) {
+    const $link = $('[itemprop=aggregateRating]').attr('href')
+    if ($link) {
+      $.ajax($link)
+        .done(function(resp) {
+          $modal
+          .find('.reveal-content')
+          .html(resp)
+          $modal.foundation('open');
+      });
+    }
+  }
+
+  //
+  $(() => $(document).foundation());
+
+
 } )( jQuery, document );
 
 
@@ -112,8 +155,6 @@ const lazyLoad = new LazyLoad();
     }
   } );
 
-
-  //
   $.ajaxSetup({
     headers: {
       'Authorization': 'Basic c2VhcmNoOk9NcGowUXVlRippUSpwQnI5WGIwQndURw=='

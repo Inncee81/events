@@ -13,7 +13,7 @@
  */
  ?>
 
- <article <?php visita_post_schema( '_event_type' ); ?> <?php post_class(); ?>>
+<article <?php visita_post_schema( '_event_type' ); ?> <?php post_class(); ?>>
 
   <?php if ( has_post_thumbnail() ) : ?>
     <figure id="entry-media-<?php the_ID()?>" class="hmedia">
@@ -52,7 +52,11 @@
       </div>
       <?php if (is_single()) visita_entry_tax( $post ) ?>
     </div><!-- .entry-meta -->
-    <?php if ( is_single() ) visita_share_botton(); ?>
+
+    <div class="entry-tools">
+      <?php if ( is_single() ) get_template_part( 'review' ); ?>
+      <?php if ( is_single() ) visita_share_button(); ?>
+    </div> <!-- .entry-tools -->
   </header><!-- .entry-header -->
 
   <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="dates">
@@ -68,4 +72,4 @@
 
   <?php if (is_single()) visita_get_performers(); ?>
 
- </article><!-- .post-<?php the_ID(); ?> -->
+</article><!-- .post-<?php the_ID(); ?> -->

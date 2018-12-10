@@ -2,7 +2,7 @@
 /*
   Plugin Name: Visita
   Author: Hafid R. Trujillo Huizar
-  Version: 2.0.2
+  Version: 2.1.3
   Author URI:http://www.xparkmedia.com
   Requires at least: 3.1.0
 	Min WP Version: 2.7.0
@@ -30,7 +30,7 @@
 if ( ! defined( 'ABSPATH' ) )
 	die( );
 
-define( 'VISITA_VERSION', '3.0.0' );
+define( 'VISITA_VERSION', '2.1.3' );
 define( 'VISITA_FILE_NAME', plugin_basename( __FILE__ ) );
 define( 'VISITA_ABSPATH', str_replace( "\\", "/", dirname( __FILE__ ) ) );
 define( 'VISITA_INC', VISITA_ABSPATH . '/includes' );
@@ -40,11 +40,13 @@ if ( ! class_exists( 'Visita_Core' ) ){
 	include_once( VISITA_INC . "/core.php" );
 	include_once( VISITA_INC . "/base.php" );
 	include_once( VISITA_INC . "/shows.php" );
-	include_once( VISITA_INC . "/events.php" );
 	include_once( VISITA_INC . "/clubs.php" );
+	include_once( VISITA_INC . "/events.php" );
 	include_once( VISITA_INC . "/hotels.php" );
+	include_once( VISITA_INC . "/reviews.php" );
 	include_once( VISITA_INC . "/widget.php" );
 	include_once( VISITA_INC . "/attractions.php" );
 
-	$Visita_Core = new Visita_Core();
+	$visita_core = new Visita_Core();
+	$visita_reviews = new Visita_Reviews();
 }

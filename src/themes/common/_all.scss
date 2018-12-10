@@ -28,10 +28,11 @@ $breakpoint-classes: (small medium);
 @import 'components/pagination';
 @import 'components/table';
 @import 'components/flex';
+@import 'components/reveal';
 
 @import 'font-awesome/scss/variables';
 @import 'font-awesome/scss/mixins';
-@import 'font-awesome/scss/path';
+@import 'path';
 @import 'font-awesome/scss/core';
 
 @include foundation-typography-base;
@@ -46,9 +47,10 @@ $breakpoint-classes: (small medium);
 @include foundation-pagination;
 @include foundation-table;
 @include foundation-float-classes;
-
+@include foundation-reveal;
 
 @import 'single';
 @import 'archive';
+@import 'reviews';
 @import 'datepicker';
 @import 'autocomplete';

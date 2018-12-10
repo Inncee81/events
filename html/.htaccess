@@ -1,10 +1,6 @@
 
 <IfModule pagespeed_module>
   ModPagespeed on
-  ModPagespeedEnableFilters extend_cache
-  ModPagespeedCriticalImagesBeaconEnabled false
-  ModPagespeedEnableFilters responsive_images,resize_images,recompress_jpeg,recompress_png,strip_image_meta_data,strip_image_color_profile
-  ModPagespeedJpegRecompressionQuality -1
 </IfModule>
 
 <FilesMatch "(en|es)\.json$">
@@ -29,9 +25,11 @@
   Header set Service-Worker-Allowed: /
 </FilesMatch>
 
-SetEnvIf Origin "^(.*\.?(visita\.(vegas|com)))$" ORIGIN_SUB_DOMAIN=$1
-<FilesMatch "\.(woff2?|ttf|eot|svg)$">
+SetEnvIf Origin "^(.*\.?(visitar?\.(vegas|com)))$" ORIGIN_SUB_DOMAIN=$1
+<FilesMatch "\.(woff2?|ttf|eot|svg|json)$">
+  Header set Access-Control-Request-Method "GET,OPTIONS"
   Header set Access-Control-Allow-Origin "%{ORIGIN_SUB_DOMAIN}e" env=ORIGIN_SUB_DOMAIN
+  Header set Access-Control-Allow-Headers "X-Custom-Header,Upgrade-Insecure-Requests,Keep-Alive"
 </FilesMatch>
 
 # ----------------------------------------------------------------------
@@ -44,7 +42,7 @@ RewriteEngine On
 RewriteBase /
 RewriteRule ^index\.php$ - [L]
 RewriteRule ^access/? /wp-login.php [QSA,L]
-RewriteRule ^register/? /wp-signup.php [QSA,L]
+RewriteRule ^register/? /wp-login.php?action=register [QSA,L]
 RewriteRule ^loggedout/? /wp-login.php?loggedout=true [QSA,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

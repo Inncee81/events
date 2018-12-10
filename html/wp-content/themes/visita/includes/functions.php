@@ -105,7 +105,7 @@ if ( ! function_exists( 'visita_get_lang' ) ) {
 *
 * @return void
 */
-function visita_share_botton( ) {
+function visita_share_button( ) {
 
   $links = '';
   $sharelinks = array(
@@ -356,9 +356,9 @@ function visita_entry_meta( ) {
       <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="address">
         <a href="%8$s?hl=%9$s" target="_blank" rel="external noopener" tabindex="-1" >
           <span itemprop="streetAddress" class="street">%2$s</span>
-          <span itemprop="addressLocality" class="city">%3$s</span>
-          <span itemprop="addressRegion" class="state">%4$s</span>
-          <span itemprop="postalCode" class="zip hidden">%5$s</span>
+          <span itemprop="addressLocality" class="city"> %3$s</span>
+          <span itemprop="addressRegion" class="state"> %4$s</span>
+          <span itemprop="postalCode" class="zip hidden"> %5$s</span>
         </a>
       </address>' . '' .'
     <span itemprop="telephone" class="phone tel hidden">%6$s</span>',
@@ -473,8 +473,8 @@ function visita_get_location_date( ) {
 * @return void
 */
 function visita_event_dates( ) {
-
-  if ( has_term( 44, 'events' ) ) {
+  global $visita_core;
+  if ( has_term( $visita_core->event->archive_term_id, 'events' ) ) {
     printf(
       '<div class="price">
         <span class="price-action no-events">%1$s</span>
@@ -505,14 +505,14 @@ function visita_event_dates( ) {
 
       printf(
         '<div class="price" itemprop="price" content="%4$s">
-          <a class="price-action %8$s" href="%5$s" itemprop="url" rel="external noopener">%2$s - %1$s</a>
+          <a class="price-action %8$s" href="%5$s" itemprop="url" rel="external noopener">%2$s • %1$s</a>
           <link itemprop="availability" href="http://schema.org/%6$s" />
           <meta itemprop="priceCurrency" content="USD" />
           <meta itemprop="validFrom" content="%7$s" />
         </div>',
 
         esc_attr( date_i18n( get_option( 'time_format' ), strtotime( $time['_time'] ) ) ),
-        esc_attr( date_i18n( 'l j \d\e F Y', $date ) ),
+        esc_attr( date_i18n( __('l, F j Y', 'visita'), $date ) ),
         esc_html( get_post_meta( get_the_ID(), '_currency', true ) ), //
         esc_attr( is_numeric( $price ) ? $price : 0 ),
         esc_url( visita_get_external_link( $time['_date_link'] ) ),
@@ -539,7 +539,7 @@ function visita_opening_hours( ) {
         esc_attr( $hour['_day'] == 'all' ? 'Mo,Tu,We,Th,Fr,Sa,Su' : date( 'D', strtotime( $hour['_day'] ) ) ),
         esc_attr( $hour['_day'] == 'all' ? __( 'Every Day', 'visita' ) : date_i18n( 'l', strtotime( $hour['_day'] ) ) ),
         esc_attr( $hour['_24h'] ? __( '24 Hours', 'visita' ) : '' ),
-        esc_attr( $hour['_close'] ? date_i18n( get_option( 'time_format' ), strtotime( $hour['_close'] ) ) : '' ),
+        esc_attr( $hour['_close'] ? "• " . date_i18n( get_option( 'time_format' ), strtotime( $hour['_close'] ) ) : '' ),
         esc_attr( $hour['_open'] ? date_i18n( get_option( 'time_format' ), strtotime( $hour['_open'] ) ) : '' ),
         esc_url( visita_get_external_link() ),
         esc_attr( $hour['_close'] ? $hour['_close'] : '' ),
@@ -577,4 +577,41 @@ function visita_get_time_range( ) {
       );
     }
   }
+}
+
+/**
+*
+*
+* @return void
+*/
+function visita_comment( $comment, $args, $depth) {
+  ?>
+  <li <?php comment_class( $comment->has_children ? 'parent' : '', $comment ); ?> id="comment-<?php comment_ID(); ?>">
+
+    <?php user_rating_stars( $comment->comment_ID ) ?>
+
+    <div class="comment-author vcard">
+      <?php if ( 0 != $args['avatar_size'] ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
+      <?php printf( '<cite class="fn">%s</cite>', get_comment_author_link( $comment ) );?>
+      <?php if ( '0' == $comment->comment_approved ) : ?>
+        <em class="comment-awaiting-moderation"><?php esc_html_e( ' : awaiting moderation', 'visita') ?></em>
+      <?php endif; ?>
+    </div>
+
+    <div class="comment-metadata commentmetadata">
+      <time datetime="<?php comment_date( 'c', $comment )?>">
+        <?php
+          printf(
+            _x( '%s ago', 'Human-readable time', 'visita' ),
+            human_time_diff( get_comment_date( 'U', $comment ), current_time( 'timestamp' ) )
+          );
+        ?>
+      </time>
+      <?php edit_comment_link( __( 'Edit' ), '&nbsp;', '' ); ?>
+    </div>
+
+    <div class="comment-body">
+      <?php comment_text( $comment, array_merge( $args, array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+    </div>
+  <?php
 }

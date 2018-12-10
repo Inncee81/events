@@ -48,17 +48,21 @@ main {
     content: $fa-var-search;
     left: .75em;
     position: absolute;
-    top: 22%;
+    top: 15%;
   }
 
   &-field[type='search'] {
     font-size: 1.1em;
-    height: 2.15em;
+    height: 2em;
     margin-bottom: .5em;
     padding-left: 2.5em;
     border: 1px solid $gray-light;
     background-color: #fefefe;
     width: 100%;
+
+    @include breakpoint(small down) {
+      padding: 0 .5em 0 2em;
+    }
 
     &::placeholder {
       color: $gray-medium;

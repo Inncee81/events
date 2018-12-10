@@ -6,3 +6,29 @@
 .#{$fa-css-prefix}-envelope:before { content: $fa-var-envelope; }
 .#{$fa-css-prefix}-email:before { content: $fa-var-envelope; }
 .#{$fa-css-prefix}-blog:before { content: $fa-var-file-text; }
+
+.review-count {
+  display: none;
+}
+
+.rating {
+  position: relative;
+  width: 74px;
+  margin-right: 1em;
+  display: inline-block;
+  &:before {
+    content: '\f006\f006\f006\f006\f006';
+  }
+  &-value {
+    top: 0;
+    left: 0;
+    z-index: 50;
+    position: absolute;
+    overflow: hidden;
+    &:before {
+      width: 72px;
+      display: block;
+      content: '\f005\f005\f005\f005\f005';
+    }
+  }
+}

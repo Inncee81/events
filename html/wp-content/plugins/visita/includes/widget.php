@@ -64,6 +64,8 @@ class Visita_Widget extends WP_Widget {
 			}
 		}
 
+		global $wp_query, $visita_core;
+
 		$events = new WP_Query( array(
 			'post_type' => $type,
 			'orderby' => 'rand',
@@ -73,11 +75,9 @@ class Visita_Widget extends WP_Widget {
 				'taxonomy' => 'events',
 				'field'    => 'term_id',
 				'operator' => 'NOT IN',
-				'terms'		 => array(44),
+				'terms'		 => array( $visita_core->event->archive_term_id ),
 			), $language ),
 		) );
-
-		global $wp_query;
 
 		$wp_query->is_single = false;
 		$wp_query->is_singular = false;

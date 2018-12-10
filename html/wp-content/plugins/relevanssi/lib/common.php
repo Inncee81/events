@@ -103,7 +103,6 @@ function relevanssi_show_matches( $data, $hit ) {
 	} else {
 		$term_hits_array = array();
 	}
-
 	$term_hits  = '';
 	$total_hits = 0;
 	foreach ( $term_hits_array as $term => $hits ) {
@@ -197,7 +196,13 @@ function relevanssi_default_post_ok( $post_ok, $post_id ) {
 		// WP JV Post Reading Groups.
 		$post_ok = wp_jv_prg_user_can_see_a_post( get_current_user_id(), $post_id );
 	}
-
+	if ( class_exists( 'AAM', false ) ) {
+		$object = AAM::api()->getUser()->getObject( 'post', $post_id );
+		if ( $object->has( 'frontend.read' ) ) {
+			// Current user is not allowed to see this post.
+			$post_ok = false;
+		}
+	}
 	/**
 	 * Filters statuses allowed in admin searches.
 	 *
@@ -337,6 +342,7 @@ function relevanssi_recognize_phrases( $search_query ) {
 	if ( count( $phrases ) > 0 ) {
 		foreach ( $phrases as $phrase ) {
 			$queries = array();
+			$phrase  = $wpdb->esc_like( $phrase );
 			$phrase  = str_replace( '‘', '_', $phrase );
 			$phrase  = str_replace( '’', '_', $phrase );
 			$phrase  = str_replace( "'", '_', $phrase );
@@ -345,7 +351,6 @@ function relevanssi_recognize_phrases( $search_query ) {
 			$phrase  = str_replace( '“', '_', $phrase );
 			$phrase  = str_replace( '„', '_', $phrase );
 			$phrase  = str_replace( '´', '_', $phrase );
-			$phrase  = $wpdb->esc_like( $phrase );
 			$phrase  = esc_sql( $phrase );
 			$excerpt = '';
 			if ( 'on' === get_option( 'relevanssi_index_excerpt' ) ) {
@@ -642,6 +647,7 @@ function relevanssi_prevent_default_request( $request, $query ) {
 		}
 
 		$admin_search_ok = true;
+
 		/**
 		 * Filters the admin search.
 		 *
@@ -804,7 +810,7 @@ function relevanssi_tokenize( $string, $remove_stops = true, $min_word_length = 
 function relevanssi_get_post_status( $post_id ) {
 	global $relevanssi_post_array;
 	$type = substr( $post_id, 0, 2 );
-	if ( '**' === $type || 'u_' === $type ) {
+	if ( '**' === $type || 'u_' === $type || 'p_' === $type ) {
 		// Taxonomy term or user (a Premium feature).
 		return 'publish';
 	}
@@ -1379,7 +1385,21 @@ function relevanssi_simple_didyoumean( $query, $pre, $post, $n = 5 ) {
 function relevanssi_simple_generate_suggestion( $query ) {
 	global $wpdb, $relevanssi_variables;
 
-	$q = 'SELECT query, count(query) as c, AVG(hits) as a FROM ' . $relevanssi_variables['log_table'] . ' WHERE hits > 1 GROUP BY query ORDER BY count(query) DESC';
+	/**
+	 * The minimum limit of occurrances to include a word.
+	 *
+	 * To save resources, only words with more than this many occurrances are fed for
+	 * the spelling corrector. If there are problems with the spelling corrector,
+	 * increasing this value may fix those problems.
+	 *
+	 * @param int $number The number of occurrances must be more than this value,
+	 * default 2.
+	 */
+	$count = apply_filters( 'relevanssi_get_words_having', 2 );
+	if ( ! is_numeric( $count ) ) {
+		$count = 2;
+	}
+	$q = 'SELECT query, count(query) as c, AVG(hits) as a FROM ' . $relevanssi_variables['log_table'] . ' WHERE hits > ' . $count . ' GROUP BY query ORDER BY count(query) DESC';
 	$q = apply_filters( 'relevanssi_didyoumean_query', $q );
 
 	$data = wp_cache_get( 'relevanssi_didyoumean_query' );
@@ -1406,8 +1426,7 @@ function relevanssi_simple_generate_suggestion( $query ) {
 				break;
 			} else {
 				$lev = levenshtein( $token, $row->query );
-
-				if ( $lev < $distance || $distance < 0 ) {
+				if ( $lev < 3 && ( $lev < $distance || $distance < 0 ) ) {
 					if ( $row->a > 0 ) {
 						$distance = $lev;
 						$closest  = $row->query;

@@ -13,8 +13,8 @@
  */
  ?>
 
- <article itemscope itemtype="https://schema.org/NightClub" <?php post_class(); ?>>
+<article itemscope itemtype="https://schema.org/NightClub" <?php post_class(); ?>>
 
    <?php get_template_part( 'parts/location' ); ?>
 
- </article><!-- .post-<?php the_ID(); ?> -->
+</article><!-- .post-<?php the_ID(); ?> -->

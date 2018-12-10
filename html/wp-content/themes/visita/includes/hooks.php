@@ -18,11 +18,16 @@ function visita_add_head_metatags( ) {
   global $visita_options;
 
   echo '<link rel="dns-prefetch" href="//cdn.apixu.com" />' . "\n";
-  echo '<link rel="dns-prefetch" href="//cdn.onesignal.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//fonts.gstatic.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//fonts.googleapis.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//pagead2.googlesyndication.com" />' . "\n";
-  echo '<link rel="dns-prefetch" href="//s.' . esc_attr($visita_options['domain']) . '" />' . "\n";
+  echo '<link rel="dns-prefetch" href="https://s.' . esc_attr($visita_options['domain']) . '" />' . "\n";
+
+  echo '<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />' . "\n";
+  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.woff2?v=4.7.0" />' . "\n";
+  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.woff?v=4.7.0" />' . "\n";
+  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.ttf?v=4.7.0" />' . "\n";
+  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/tablet.css?v=" ' . wp_get_theme()->version . ' />' . "\n";
 }
 add_action( 'wp_head', 'visita_add_head_metatags', 2 );
 
@@ -149,10 +154,12 @@ function visita_inline_styles( ) {
 
   if ( $content = file_get_contents( get_stylesheet_directory() . "/inline.css") ) {
     printf(
-      '<link rel="preload" href="%3$s" as="style">
-       <link rel="preload" href="%2$s?ver=%1$s" as="style">',
+      '<link rel="preload" href="%4$s" as="style">
+       <link rel="preload" href="%2$s?ver=%1$s" as="style">
+       <link rel="prefetch" href="%3$s?ver=%1$s" as="style">',
        wp_get_theme()->version,
        get_stylesheet_directory_uri() . "/style.css",
+       get_stylesheet_directory_uri() . "/tablet.css",
        'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
     );
     echo "<style>{$content}</style>";
@@ -266,10 +273,10 @@ function visita_attachment_image_attributes( $attr, $attachment, $size ){
     return $attr;
   }
 
-  if ( $size == 'post-thumbnail' ) {
+  if ( in_array( $size, array('thumbnail', 'post-thumbnail') ) ) {
     $attr['src'] = get_stylesheet_directory_uri() . '/img/1x1.trans.gif';
 
-    if ( $image_src = wp_get_attachment_image_src( $attachment->ID, 'featured-mobile' ) ) {
+    if ( $image_src = wp_get_attachment_image_src( $attachment->ID, $size ) ) {
       $attr['data-srcset'] = $image_src[0] . ' ' . $image_src[1] . 'w';
     }
 
@@ -421,3 +428,11 @@ function visita_remove_type_attr( $tag ) {
   return preg_replace( "/type=['\"]text\/javascript['\"]/i", '', $tag );
 }
 add_filter( 'script_loader_tag', 'visita_remove_type_attr', 10, 2 );
+
+/**
+*
+*/
+function visita_remove_frameborder_embed( $output ) {
+  return str_ireplace(' frameborder="0"', '', $output);
+}
+add_filter( 'embed_oembed_html', 'visita_remove_frameborder_embed', 100 );

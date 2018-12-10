@@ -83,3 +83,13 @@
 	vertical-align: top;
 	width: 50%;
 }
+
+.gallery-icon {
+  background-color: $gray-light;
+}
+
+.gallery-columns {
+	&-3 .gallery-item {
+		max-width: 33.33%;
+	}
+}

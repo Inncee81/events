@@ -24,6 +24,11 @@ class VisitaShows extends VisitaBase {
   protected $taxonomy = 'shows';
 
   /**
+  *
+  */
+  protected $supports = array( 'reviews' );
+
+  /**
    * Constructor
    *
    * @return void
@@ -37,7 +42,7 @@ class VisitaShows extends VisitaBase {
     $this->singular = __( 'Show', 'visita' );
     $this->taxonomy_slug = __( 'shows', 'visita' );
     $this->taxonomy_label = __( 'Shows', 'visita' );
-    $this->description = __( 'Espectáculos en Las Vegas, los grandes shows de Cirque Du Soleil, Broadway, musicales y muchos más.' , 'visita');
+    $this->description = __( 'Shows in Las Vegas, Cirque Du Soleil best shows, Broadway, musicals and many more.' , 'visita');
 
     $this->show_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,

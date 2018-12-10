@@ -13,6 +13,7 @@
 
 class Visita_Core {
 
+  public $lang = 'es';
   public $weather_data = false;
 
   /**
@@ -26,11 +27,13 @@ class Visita_Core {
     //
     add_action( 'wp', array( $this, 'display_widgets' ), 100 );
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 100 );
+    add_action( 'init', array( $this, 'load_plugin_textdomain' ), 0 );
     add_action( 'widgets_init', array( $this, 'widgets_init' ), 100 );
     add_action( 'rest_api_init', array( $this, 'rest_api_register_routes') );
     add_action( 'visita_get_weather', array( $this, 'visita_get_weather' ) );
     add_action( 'after_setup_theme', array( $this, 'register_post_types'), 0 );
     add_filter( 'wpsc_protected_directories', array( $this, 'protect_json' ) );
+    add_filter( 'pre_get_posts', array( $this, 'fix_polylang_searches' ), 100 );
 
     //disable acf save hook
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
@@ -48,6 +51,7 @@ class Visita_Core {
     }
 
     if ( ! is_admin() ) {
+      add_action( 'wp', array( $this, 'remove_code' ), 100 );
       add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
       add_filter( 'locale', array( $this, 'change_language'), 500 );
       add_action( 'parse_request', array( $this, 'parse_request_vars' ) );
@@ -117,6 +121,13 @@ class Visita_Core {
   /**
   *
   */
+  function load_plugin_textdomain() {
+    load_plugin_textdomain( 'visita', false, plugin_basename( AMP__DIR__ ) . '/languages' );
+  }
+
+  /**
+  *
+  */
   function change_language( $locale ) {
     if ( isset( $_SERVER['REQUEST_URI'] ) && stripos( $_SERVER['REQUEST_URI'], 'en' ) == 1 ) {
       return "en_US";
@@ -163,8 +174,37 @@ class Visita_Core {
   /**
   *
   */
+  function fix_polylang_searches( $query ) {
+    global $polylang;
+    if ( !$polylang || !$query->is_search() || is_admin() ) {
+      return;
+    }
+
+    if ( ! empty( $query->query_vars['tax_query'] ) ) {
+      foreach( $query->query_vars['tax_query'] as $key => $tax_query ) {
+        if ($tax_query['taxonomy'] == 'language') {
+          unset( $query->query_vars['tax_query'][$key] );
+        }
+      }
+    }
+
+    if ( $term = PLL()->model->get_language( $this->lang == 'es' ? 'en' : 'es' )->term_id ){
+      $query->query_vars['tax_query'][] = array(
+        'taxonomy'  => 'language',
+        'field'    	=> 'term_id',
+        'terms'    	=> array( $term ),
+        'operator' 	=> 'NOT IN',
+      );
+    };
+  }
+
+  /**
+  *
+  */
   function add_rewrite_rules( ) {
     global $wp_rewrite;
+
+    $this->lang = get_locale() == 'es_MX' ? 'es' : 'en';
 
     $wp_rewrite->pagination_base = __( 'page', 'visita' );
     add_rewrite_rule(
@@ -179,6 +219,14 @@ class Visita_Core {
   */
   function widgets_init( ) {
     register_widget( 'Visita_Widget' );
+  }
+
+  /**
+  *
+  */
+  function remove_code() {
+    remove_action('wp_head', 'NextendSocialLogin::styles', 100);
+    remove_action('wp_print_footer_scripts', 'NextendSocialLogin::scripts', 100);
   }
 
   /**
@@ -220,6 +268,7 @@ class Visita_Core {
   * @since 1.0.1
   */
   function visita_get_weather( $lang ) {
+
     $responds = wp_remote_get(
       "https://api.apixu.com/v1/forecast.json?key=d5c0c8ccdd194cf4b0003734172201&days=5&q=89109&lang=${lang}"
     );
@@ -258,18 +307,17 @@ class Visita_Core {
       return $this->weather_data;
     }
 
-    $lang = get_locale() == 'es_MX' ? 'es' : 'en';
-    $file = WP_CONTENT_DIR . "/cache/_json/{$lang}.json";
+    $file = WP_CONTENT_DIR . "/cache/_json/{$this->lang}.json";
 
     if (file_exists($file) && $weather_data = file_get_contents($file) ) {
 
       $weather_json = json_decode($weather_data);
       $weather_json->unit = 'F';
-      $weather_json->lang = $lang;
+      $weather_json->lang = $this->lang;
       $weather_json->now = round($weather_json->current->temp_f);
       $weather_json->now_feelslike = round($weather_json->current->feelslike_f);
 
-      if ($lang == 'es') {
+      if ($this->lang == 'es') {
         $weather_json->unit = "C";
         $weather_json->now = round($weather_json->current->temp_c);
         $weather_json->now_feelslike = round($weather_json->current->feelslike_c);
@@ -284,7 +332,7 @@ class Visita_Core {
         $weather_json->forecast->forecastday[$key]->unit = 'F';
         $weather_json->forecast->forecastday[$key]->avgtemp = $temp = round($forecast->day->avgtemp_f);
 
-        if ($lang == 'es') {
+        if ($this->lang == 'es') {
           $weather_json->forecast->forecastday[$key]->unit = "C";
           $weather_json->forecast->forecastday[$key]->avgtemp = $temp = round($forecast->day->avgtemp_c);
         }
@@ -532,24 +580,13 @@ class Visita_Core {
     add_filter( 'the_posts', 'relevanssi_query', 99, 2 );
     add_filter( 'relevanssi_search_ok', '__return_true' );
 
-    $language = false;
-    if ( function_exists( 'pll_current_language') ) {
-      $language = array(
-        'operator' => 'IN',
-        'field'    => 'slug',
-        'taxonomy' => 'language',
-        'terms'	=> $query->get_param( 'lang' ) == 'en-US' ? 'en' : 'es'
-      );
-    }
-
-    $results = new WP_Query( array(
+    $result = new WP_Query( array(
       'posts_per_page'  => 12,
       'post_status'     => 'publish',
       's'               => $term,
-      'tax_query'       => array(	$language ),
     ) );
 
-    foreach ( $results->posts as $post ) {
+    foreach ( $result->posts as $post ) {
       $data[] = array(
         'label' => $post->post_title,
         'link' => get_permalink( $post->ID ),
@@ -673,7 +710,9 @@ class Visita_Core {
           <time itemprop="startDate" datetime="%4$s">%5$s</time> <strong itemprop="name">%3$s</strong>
           <span class="%9$s" itemprop="location" itemscope itemtype="http://schema.org/Place">' . __( 'at', 'visita' ) . '
             <span itemprop="name">%6$s</span>
-            <span class="hidden" itemprop="address" itemscope>%7$s</span>
+            <span class="hidden" itemprop="address" itemscope>
+              <span itemprop="streetAddress">%7$s</span>
+            </span>
           </span>
         </a>
       </li>',

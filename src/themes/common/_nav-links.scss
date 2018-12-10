@@ -75,7 +75,6 @@
   }
 }
 
-
 .nav-below {
   padding-top: 1em;
 }
@@ -83,8 +82,16 @@
 .footer-nav li {
   display: inline;
   list-style: none;
-
-  &:first-child:after {
-  	content: ' \2022';
+  &:after {
+  	content: ' \2022 ';
+  }
+  &:last-child:after {
+    content: ''
+  }
+  @include breakpoint(small down) {
+    display: block;
+    &:after {
+      content: '';
+    }
   }
 }

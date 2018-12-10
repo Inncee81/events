@@ -13,7 +13,7 @@
  */
  ?>
 
- <article itemscope itemtype="https://schema.org/Hotel" <?php post_class(); ?>>
+<article itemscope itemtype="https://schema.org/Hotel" <?php post_class(); ?>>
 
   <?php if ( has_post_thumbnail() ) : ?>
    <figure id="entry-media-<?php the_ID()?>" class="hmedia">
@@ -42,17 +42,21 @@
        esc_attr( is_single( ) ? 'h1' : 'h3' ),
        esc_attr( sprintf( __( 'Link to %s', 'visita' ), the_title_attribute( 'echo=0' ) ) )
      )
-   ?>
-   <span class="author vcard hidden"><em class="fn"><?php bloginfo('name') ?></em></span>
-   <div class="entry-meta">
-     <?php visita_price_range( true ); ?>
-     <?php visita_get_location_date(); ?>
-     <div class="location">
-       <?php visita_entry_meta(); ?>
-     </div>
-     <?php if ( is_single() ) visita_entry_tax( $post ) ?>
-   </div><!-- .entry-meta -->
-   <?php if ( is_single() ) visita_share_botton(); ?>
+    ?>
+    <span class="author vcard hidden"><em class="fn"><?php bloginfo('name') ?></em></span>
+    <div class="entry-meta">
+      <?php visita_price_range( true ); ?>
+      <?php visita_get_location_date(); ?>
+      <div class="location">
+        <?php visita_entry_meta(); ?>
+      </div>
+      <?php if ( is_single() ) visita_entry_tax( $post ) ?>
+    </div><!-- .entry-meta -->
+
+    <div class="entry-tools">
+      <?php if ( is_single() ) get_template_part( 'review' ); ?>
+      <?php if ( is_single() ) visita_share_button(); ?>
+    </div> <!-- .entry-tools -->
   </header><!-- .entry-header -->
 
   <div class="dates">
@@ -62,7 +66,7 @@
         printf(
           '<a class="price-action" href="%1$s" itemprop="url" rel="external noopener">%2$s</a>',
           esc_url( $link ),
-          esc_html__( 'Haz tu reservación', 'visita' )
+          esc_html__( 'Book Now', 'visita' )
         );
       }
       ?>
@@ -70,13 +74,12 @@
   </div>
 
   <?php if ( is_single() ) : ?>
-   <div itemprop="description" class="entry-content">
-     <?php visita_get_description(); ?>
-     <?php the_content( __( 'Continue <span class="meta-nav">&rarr;</span>', 'visita' ) ); ?>
-   </div><!-- .entry-content -->
+  <div itemprop="description" class="entry-content">
+    <?php visita_get_description(); ?>
+    <?php the_content( __( 'Continue <span class="meta-nav">&rarr;</span>', 'visita' ) ); ?>
+  </div><!-- .entry-content -->
   <?php endif; // is_single() ?>
 
   <?php if (is_single()) visita_get_performers(); ?>
 
-
- </article><!-- .post-<?php the_ID(); ?> -->
+</article><!-- .post-<?php the_ID(); ?> -->

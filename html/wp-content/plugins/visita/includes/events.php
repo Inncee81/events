@@ -34,6 +34,27 @@ class VisitaEvents extends VisitaBase {
   private $ticketmater_key = 'WkqW7ahymoVavSl9ljqacoiG2dg4gxzJ';
 
   /**
+  *
+  */
+  protected $archive_term_id = array(
+    'es' => 44,
+    'en' => 72,
+  );
+
+  /**
+  *
+  */
+  protected $default_term_id = 20;
+
+  /**
+  *
+  */
+  protected $mute_terms_ids = array(
+    'es' => array( 44 ),
+    'en' => array( 72 ),
+  );
+
+  /**
    * Constructor
    *
    * @return void
@@ -48,8 +69,9 @@ class VisitaEvents extends VisitaBase {
     $this->singular = __( 'Event', 'visita' );
     $this->taxonomy_slug = __( 'events', 'visita' );
     $this->taxonomy_label = __( 'Events', 'visita' );
-    $this->description = __( 'Visita Las Vegas Eventos, Shows, Atracciones, Conciertos, Nightclubs, Hoteles y más en español.' , 'visita');
+    $this->description = __( 'Visit Las Vegas: Events, Shows, Attractions, Concerts, Nightclubs, Hotels and more in Spanish.' , 'visita');
 
+    $this->lang = get_locale() == 'es_MX' ? 'es' : 'en';
     $this->event_data = array_replace_recursive( $this->default_data, array(
       'post_type'   => $this->post_type,
     ) );
@@ -292,6 +314,7 @@ class VisitaEvents extends VisitaBase {
 
     //translation
     add_filter( 'rewrite_rules_array', array( $this, 'rewrite_rules_array' ) );
+    add_filter( 'relevanssi_match', array( $this, 'relevanssi_adjust_weights' ), 100 );
 
     //fields
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
@@ -331,8 +354,9 @@ class VisitaEvents extends VisitaBase {
    * @since 0.5.0
    */
   function deactivate( ) {
-    wp_clear_scheduled_hook( 'visita_expire' );
     wp_clear_scheduled_hook( 'visita_ticketmater_import' );
+    wp_clear_scheduled_hook( 'visita_expire', array( 'lang' => 'en' ) );
+    wp_clear_scheduled_hook( 'visita_expire', array( 'lang' => 'es' ) );
   }
 
   /**
@@ -344,8 +368,9 @@ class VisitaEvents extends VisitaBase {
    */
   function activate( ) {
     if ( ! wp_next_scheduled ( 'visita_expire' )) {
-      wp_schedule_event( strtotime( '2 AM' ), 'twicedaily', 'visita_expire' );
-      wp_schedule_event( strtotime( '3 AM' ), 'twicedaily', 'visita_ticketmater_import');
+      wp_schedule_event( strtotime( '4:00 AM' ), 'daily', 'visita_expire',  array( 'lang' => 'es' ) );
+      wp_schedule_event( strtotime( '4:30 AM' ), 'daily', 'visita_expire',  array( 'lang' => 'en' ) );
+      wp_schedule_event( strtotime( '3:00 AM' ), 'twicedaily', 'visita_ticketmater_import');
     }
   }
 
@@ -470,11 +495,11 @@ class VisitaEvents extends VisitaBase {
       $query->set( 'post_type', 'event' );
     }
 
-    if ( is_search() || is_home() || is_post_type_archive( $this->post_type ) ) {
+    if ( is_home() || is_post_type_archive( $this->post_type ) ) {
       $query->query_vars['tax_query'][] = array(
+        'terms'    	=> $this->mute_terms_ids[$this->lang],
         'taxonomy'  => $this->taxonomy,
         'field'    	=> 'term_id',
-        'terms'    	=> array( 18, 44 ),
         'operator' 	=> 'NOT IN',
       );
     }
@@ -535,7 +560,7 @@ class VisitaEvents extends VisitaBase {
   }
 
   /**
-  *
+  * Save default event
   *
   * @return void
   * @since 3.0.0
@@ -613,7 +638,7 @@ class VisitaEvents extends VisitaBase {
         'post_title'         => ucwords( strtolower( $event->name ) ),
         'image'              => $event->image,
         'tax_input'          => array(
-          $this->taxonomy    =>  array( 20 )
+          $this->taxonomy    =>  array( $this->default_term_id )
         ),
         'meta_input'         => array(
           '_event_type'      => 'MusicEvent',
@@ -724,7 +749,7 @@ class VisitaEvents extends VisitaBase {
           'image'               => $event->image,
           'post_status'         => 'publish',
           'tax_input'           => array(
-            $this->taxonomy    =>  array( 20 )
+            $this->taxonomy    =>  array( $this->default_term_id )
           ),
           'meta_input'          => array(
             '_event_type'       => 'MusicEvent',
@@ -872,24 +897,39 @@ class VisitaEvents extends VisitaBase {
   * @return void
   * @since 0.5.0
   */
-  function expire_events( ) {
+  function expire_events( $lang = 'es' ) {
+
+    switch ($lang) {
+      case 'en':
+        switch_to_locale('en_US');
+        break;
+      default:
+        switch_to_locale('es_MX');
+    }
 
     $yesterday = date_i18n( 'Ymd',
       strtotime( 'yesterday', current_time( 'timestamp' ) )
     );
 
-    global $wpdb;
-    $posts = $wpdb->get_results(
-      $wpdb->prepare(
-        "SELECT post_id ID, meta_value times FROM $wpdb->postmeta
-        WHERE meta_key = '_times' AND meta_value LIKE %s"
-      , "%{$yesterday}%" )
-    );
+    $posts = get_posts(array(
+      'post_type' => $this->post_type,
+      'tax_query' => array(array(
+        'taxonomy'  => 'language',
+        'field'    	=> 'slug',
+        'terms'    	=> array( 'en' ),
+        'operator' 	=> ($lang == 'es' ? 'NOT IN': 'IN'),
+      )),
+      'meta_query' => array(array(
+		    'key' => '_times',
+		    'value' => $yesterday,
+        'compare' => 'LIKE'
+      ))
+    ));
 
     foreach ( $posts as $post ) {
       $times = array(); $starts = false;
 
-      foreach( maybe_unserialize($post->times) as $dates ) {
+      foreach( (array) get_post_meta($post->ID, '_times', true) as $dates ) {
         if ( $dates['_date'] > $yesterday ) {
           $time = strtotime( "{$dates['_date']} {$dates['_time']}" );
           $starts = ( $time < $starts || ! $starts ) ? $time : $starts;
@@ -902,25 +942,36 @@ class VisitaEvents extends VisitaBase {
 
       if ( empty( $times ) ) {
         if ( get_post_meta( $post->ID, '_permanent', true ) ) {
-          wp_set_object_terms( $post->ID,  array( 44 ), $this->taxonomy );
+          wp_set_object_terms( $post->ID, array( $this->archive_term_id[$this->lang] ), $this->taxonomy );
           wp_update_post(array(
             'ID'                 => $post->ID,
             'meta_input'         => array(
-              '_location'        => '',
-              '_street'          => '',
               '_ends'            => '',
               '_price_max'       => '',
               '_price'           => '',
               '_link'            => '',
               '_starts'          => $starts,
               '_description'     => sprintf(
-                __("%s Las Vegas, guía turística con los mejores eventos, shows y conciertos con información en español. #VisitaVegas"),
+                __("%s Las Vegas. Tourist guide with the best events, shows and concerts. #VisitaVegas #Vegas", 'visita'),
                 get_the_title( $post->ID )
               ),
             )
           ));
         } else wp_trash_post( $post->ID );
       }
+    }
+
+    global $cache_path;
+    if ( ! empty($posts) && $cache_path && defined('WPSC_CACHE_DOMAIN')) {
+      wpsc_delete_url_cache('/');
+      wpsc_delete_url_cache('/en/');
+      wpsc_delete_url_cache('/las-vegas-espanol/');
+      wpsc_delete_url_cache('/proximos-eventos-las-vegas/');
+      wpsc_delete_url_cache('/eventos-las-vegas-fin-semana/');
+      wpsc_delete_url_cache('/calendario-eventos-vegas-octubre/');
+      prune_super_cache( $cache_path . 'supercache/' . WPSC_CACHE_DOMAIN . '/pagina/', true );
+      prune_super_cache( $cache_path . 'supercache/' . WPSC_CACHE_DOMAIN . '/eventos/', true );
+      prune_super_cache( $cache_path . 'supercache/' . WPSC_CACHE_DOMAIN . '/en/page/', true );
     }
   }
 }

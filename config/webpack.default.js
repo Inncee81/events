@@ -36,7 +36,7 @@ export default {
       {
         test: /\.js$/,
         use: 'babel-loader',
-        exclude: [/html/, /node_modules/]
+        exclude: [/html/, /node_modules\/!(foundation)/]
       },
       {
         test: /\.(ico|jpe?g|png|gif)$/i,
@@ -67,6 +67,10 @@ export default {
           ]
         }),
       },
+      {
+        test: /\.css$/,
+        use: 'postcss-loader'
+      }
     ]
   },
   resolve: {

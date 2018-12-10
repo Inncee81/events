@@ -76,6 +76,26 @@ class VisitaBase {
   /**
   *
   */
+  protected $supports = array();
+
+  /**
+  *
+  */
+  protected $archive_term_id = array();
+
+  /**
+  *
+  */
+  protected $mute_terms_ids = array();
+
+  /**
+  *
+  */
+  protected $lang = 'es';
+
+  /**
+  *
+  */
   protected $fields = array(
     'key' => '',
     'title' => '',
@@ -142,6 +162,19 @@ class VisitaBase {
 
   /**
   *
+  * @return array | string
+  * @since 1.0.0
+  */
+  public function __get( $field ) {
+    if ( isset($this->$field[$this->lang]) )
+      return $this->$field[$this->lang];
+    else return $this->$field;
+  }
+
+  /**
+  *
+  * @return void
+  * @since 1.0.0
   */
   function redirect_404( ) {
     if ( is_404() && isset( $_SERVER['REQUEST_URI'] ) && ! empty( $this->slug ) ) {
@@ -153,6 +186,7 @@ class VisitaBase {
 
   /**
   *
+  * @param $title_parts array
   * @return array
   * @since 1.0.0
   */
@@ -210,6 +244,7 @@ class VisitaBase {
    * @since 1.0.0
    */
   function admin_scripts( ) {
+    wp_dequeue_script( 'calderaforms/cform' );
     if ( get_current_screen()->id === $this->post_type ) {
       wp_enqueue_style( 'visita-fields', plugins_url( 'css/fields.css', VISITA_FILE_NAME ), NULL, VISITA_VERSION );
       wp_enqueue_script( 'visita-admin', plugins_url( 'js/admin.js', VISITA_FILE_NAME ), array( 'jquery' ), VISITA_VERSION, true );
@@ -245,13 +280,13 @@ class VisitaBase {
         'has_archive'     => $this->taxonomy_slug,
         'taxonomies'      => array( $this->taxonomy ),
         'rewrite'         => array( 'slug' => $this->slug, 'with_front' => false ),
-        'supports'        => array(
+        'supports'        => array_merge(array(
           'title',
           'editor',
           'comments',
           'revisions',
           'thumbnail',
-        )
+        ), $this->supports )
     ) );
   }
 
@@ -485,17 +520,32 @@ class VisitaBase {
     if ( is_home() && $this->is_home ) {
       $query->is_post_type_archive = true;
       $query->set( 'post_type', $this->post_type );
-      $query->query_vars['tax_query'][] = array(
-        'taxonomy' => 'events',
-        'field'    => 'term_id',
-        'operator' => 'NOT IN',
-        'terms'		 => array(44),
-      );
+      if ( $this->archive_term_id ) {
+        $query->query_vars['tax_query'][] = array(
+          'taxonomy' => 'events',
+          'field'    => 'term_id',
+          'operator' => 'NOT IN',
+          'terms'		 => array( $this->archive_term_id ),
+        );
+      }
     }
 
     if ( is_post_type_archive( $this->post_type )) {
       $query->set( 'posts_per_page', 14 );
     }
+  }
+
+  /**
+  *
+  * @return object $match
+  */
+  function relevanssi_adjust_weights( $match ) {
+    if ( get_post_type( $match->doc ) == $this->post_type ) {
+      if ( has_term( $this->archive_term_id , $this->taxonomy, $match->doc ) ) {
+        $match->weight = $match->tf * .15;
+      }
+    }
+    return $match;
   }
 
   /**
@@ -609,6 +659,7 @@ class VisitaBase {
         )
       );
     }
+
     if ( is_tax( $this->taxonomy ) ) {
       $breadcrumbs['itemListElement'][] = array(
         '@type' => 'ListItem',
@@ -624,6 +675,17 @@ class VisitaBase {
         'item' => array(
           '@id' => get_term_link(get_queried_object()->ID),
           'name' => get_queried_object()->name,
+        )
+      );
+    }
+
+    if ( is_post_type_archive( $this->post_type ) ) {
+      $breadcrumbs['itemListElement'][] = array(
+        '@type' => 'ListItem',
+        'position' =>	$count++,
+        'item' => array(
+          '@id' => home_url($this->taxonomy_slug),
+          'name' => $this->taxonomy_label,
         )
       );
     }

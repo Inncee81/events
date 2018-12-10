@@ -10,6 +10,7 @@ Disallow: /_f/
 Disallow: /_rsc/
 Disallow: /ea.php
 Disallow: /signup
+Disallow: /register
 Disallow: /warm.php
 Disallow: /cronlog.txt
 Disallow: /wp-login.php

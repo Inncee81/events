@@ -5,6 +5,8 @@ WP-Cache Config Sample File
 See wp-cache.php for author details.
 */
 
+$wp_cache_debug_username = '2148756cbc988faf5716fe09b2dfdc7b';
+$wp_super_cache_comments = 0;
 $cache_schedule_interval = 'daily';
 $cache_schedule_type = 'time';
 $wp_cache_preload_on = 1;
@@ -44,7 +46,7 @@ $ossdlcdn = 1;
 // Array of files that have 'wp-' but should still be cached
 $cache_acceptable_files = array( 'wp-comments-popup.php', 'wp-links-opml.php', 'wp-locations.php' );
 
-$cache_rejected_uri = array ( 0 => 'wp-.*\\.php', 1 => 'index\\.php', 2 => '/clima-las-vegas', 3 => '/las-vegas-weather', );
+$cache_rejected_uri = array ( 0 => 'wp-.*\\.php', 1 => 'index\\.php', 2 => '/clima-las-vegas', 3 => '/las-vegas-weather', 4 => '/register', );
 $cache_rejected_user_agent = array ( 0 => 'bot', 1 => 'ia_archive', 2 => 'slurp' );
 
 $cache_rebuild_files = 1;
@@ -76,7 +78,7 @@ $wp_super_cache_advanced_debug = 0;
 $wp_super_cache_front_page_text = '';
 $wp_super_cache_front_page_clear = 0;
 $wp_super_cache_front_page_check = 0;
-$wp_super_cache_front_page_notification = '0';
+$wp_super_cache_front_page_notification = 0;
 
 $wp_cache_object_cache = 0;
 $wp_cache_anon_only = 0;
@@ -85,7 +87,7 @@ $wp_cache_debug_to_file = 0;
 $wp_super_cache_debug = 0;
 $wp_cache_debug_level = 5;
 $wp_cache_debug_ip = '';
-$wp_cache_debug_log = '';
+$wp_cache_debug_log = 'c19045608cd6d8d4fc831328b810e1e3.php';
 $wp_cache_debug_email = '';
 $wp_cache_pages[ "search" ] = 0;
 $wp_cache_pages[ "feed" ] = 0;

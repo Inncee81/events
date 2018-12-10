@@ -27,6 +27,7 @@
     )
   ?>
   <span class="author vcard hidden"><em class="fn"><?php bloginfo('name') ?></em></span>
+
   <div class="entry-meta">
     <?php visita_price_range( true ); ?>
     <?php visita_get_location_date(); ?>
@@ -35,7 +36,11 @@
     </div>
     <?php if ( is_single() ) visita_entry_tax( $post ) ?>
   </div><!-- .entry-meta -->
-  <?php if ( is_single() ) visita_share_botton(); ?>
+
+  <div class="entry-tools">
+    <?php if ( is_single() ) get_template_part( 'review' ); ?>
+    <?php if ( is_single() ) visita_share_button(); ?>
+  </div> <!-- .entry-tools -->
 </header><!-- .entry-header -->
 
 <div class="dates">

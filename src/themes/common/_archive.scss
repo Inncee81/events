@@ -62,6 +62,13 @@
   }
 }
 
+.events-futuros,
+.events-upcoming {
+  .entry-meta {
+    display: none;
+  }
+}
+
 .visita-widget {
   padding: 1em;
   background-color: $gray-lightest;
@@ -103,7 +110,7 @@
       margin: 0 0 10px;
     }
 
-    @include breakpoint(320 down) {
+    @include breakpoint(340 down) {
       height: 100px;
     }
 

@@ -24,6 +24,11 @@ class VisitaAttractions extends VisitaBase {
   protected $taxonomy = 'attractions';
 
   /**
+  *
+  */
+  protected $supports = array( 'reviews' );
+
+  /**
    * Constructor
    *
    * @return void
@@ -37,7 +42,7 @@ class VisitaAttractions extends VisitaBase {
     $this->singular = __( 'Attraction', 'visita' );
     $this->taxonomy_slug = __( 'attractions', 'visita' );
     $this->taxonomy_label = __( 'Attractions', 'visita' );
-    $this->description = __( 'Información en español, que hacer en Las Vegas atracciones, shows, hoteles y lugares de interés' , 'visita');
+    $this->description = __( 'What to do in Las Vegas attractions, shows, hotels and places of interest' , 'visita');
 
     $this->club_data = array_replace_recursive( $this->default_data, array(
       'post_type'         => $this->post_type,
@@ -49,7 +54,6 @@ class VisitaAttractions extends VisitaBase {
           '_24h'          => '',
         ) ),
         '_business_type'  => 'EntertainmentBusiness',
-        '_keywords'       => __( 'attraction, activity', 'visita' ),
       )
     ) );
 
@@ -126,13 +130,6 @@ class VisitaAttractions extends VisitaBase {
             'ShoppingCenter' => __( 'Shopping Center', 'visita' ),
             'EntertainmentBusiness' => __( 'Entertainment', 'visita' ),
           ),
-        ),
-        array(
-          'key' => '_keywords',
-          'name' => '_keywords',
-          'type' => 'text',
-          'label' => __( 'Keywords', 'visita' ),
-          'default_value' => $defaults['_keywords'],
         ),
         array(
           'key' => 'tap_location',
@@ -238,9 +235,14 @@ class VisitaAttractions extends VisitaBase {
       )
     ) );
 
+    //crons
+    add_action( 'visita_update_attractions', array( $this, 'expire_attractions' ) );
+
     //basics
+    add_action( 'init', array( $this, 'activate' ) );
     add_action( 'init', array( $this, 'register_post_type' ) );
     add_action( 'init', array( $this, 'add_rewrite_rules' ), 200 );
+    add_action( 'visita_deactivate', array( $this, 'deactivate' ) );
     add_action( 'document_title_parts', array( $this, 'title_tax_parts' ), 250 );
 
     //fields
@@ -271,6 +273,29 @@ class VisitaAttractions extends VisitaBase {
   }
 
   /**
+   * Deactivate
+   *
+   * @return void
+   * @since 2.1.2
+   */
+  function deactivate( ) {
+    wp_clear_scheduled_hook( 'visita_update_attractions' );
+  }
+
+  /**
+   * Activite and save default options
+   * Activite the expire cron
+   *
+   * @return void
+   * @since 2.1.2
+   */
+  function activate( ) {
+    if ( ! wp_next_scheduled ( 'visita_update_attractions' )) {
+      wp_schedule_event( strtotime( '3:15 AM' ), 'daily', 'visita_update_attractions');
+    }
+  }
+
+  /**
   *
   *
   * @return void
@@ -287,5 +312,18 @@ class VisitaAttractions extends VisitaBase {
 
     add_filter( 'get_previous_post_sort', array( $this, 'adjacent_post_previous_sort' ), 20 );
     add_filter( 'get_previous_post_where', array( $this, 'adjacent_post_previous_where' ), 20 );
+  }
+
+  /**
+  * Expired events and delete unprocessed events
+  *
+  * @return void
+  * @since 0.5.0
+  */
+  function expire_attractions() {
+    global $cache_path;
+    if ( $cache_path && defined('WPSC_CACHE_DOMAIN')) {
+      prune_super_cache( $cache_path . 'supercache/' . WPSC_CACHE_DOMAIN . '/atraccion/', true );
+    }
   }
 }

@@ -12,7 +12,7 @@
 				<?php visita_entry_meta(); ?>
 			</div>
 			<?php visita_entry_tax( $this->post ) ?>
-			<?php visita_share_botton(); ?>
+			<?php visita_share_button(); ?>
 
 		</div><!-- .entry-meta -->
 	</header>
