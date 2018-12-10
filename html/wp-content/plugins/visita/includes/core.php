@@ -710,9 +710,7 @@ class Visita_Core {
           <time itemprop="startDate" datetime="%4$s">%5$s</time> <strong itemprop="name">%3$s</strong>
           <span class="%9$s" itemprop="location" itemscope itemtype="http://schema.org/Place">' . __( 'at', 'visita' ) . '
             <span itemprop="name">%6$s</span>
-            <span class="hidden" itemprop="address" itemscope>
-              <span itemprop="streetAddress">%7$s</span>
-            </span>
+            <span class="hidden" itemprop="address" itemscope>%7$s</span>
           </span>
         </a>
       </li>',
