@@ -1,12 +1,12 @@
-<?php
+<?php 
 
 if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if( ! class_exists('acf_location_taxonomy') ) :
 
 class acf_location_taxonomy extends acf_location {
-
-
+	
+	
 	/*
 	*  __construct
 	*
@@ -19,16 +19,16 @@ class acf_location_taxonomy extends acf_location {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function initialize() {
-
+		
 		// vars
 		$this->name = 'taxonomy';
-		$this->label = __("Taxonomy Term",'acf');
+		$this->label = __("Taxonomy",'acf');
 		$this->category = 'forms';
-
+    	
 	}
-
+	
 
 	/*
 	*  rule_match
@@ -39,27 +39,27 @@ class acf_location_taxonomy extends acf_location {
 	*  @date	3/01/13
 	*  @since	3.5.7
 	*
-	*  @param	$match (boolean)
+	*  @param	$match (boolean) 
 	*  @param	$rule (array)
 	*  @return	$options (array)
 	*/
-
+	
 	function rule_match( $result, $rule, $screen ) {
-
+		
 		// vars
 		$taxonomy = acf_maybe_get( $screen, 'taxonomy' );
-
-
+		
+		
 		// bail early if not taxonomy
 		if( !$taxonomy ) return false;
-
-
+				
+		
         // return
         return $this->compare( $taxonomy, $rule );
-
+		
 	}
-
-
+	
+	
 	/*
 	*  rule_operators
 	*
@@ -72,22 +72,24 @@ class acf_location_taxonomy extends acf_location {
 	*  @param	n/a
 	*  @return	(array)
 	*/
-
+	
 	function rule_values( $choices, $rule ) {
-
+		
 		// vars
 		$choices = array( 'all' => __('All', 'acf') );
-		$choices = array_merge( $choices, acf_get_taxonomies() );
-
-
+		$choices = array_merge( $choices, acf_get_taxonomy_labels() );
+		
+		
 		// return
 		return $choices;
-
+		
 	}
-
+	
 }
 
 // initialize
 acf_register_location_rule( 'acf_location_taxonomy' );
 
 endif; // class_exists check
+
+?>

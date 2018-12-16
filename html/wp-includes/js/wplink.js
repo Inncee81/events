@@ -1,8 +1,4 @@
-/**
- * @output wp-includes/js/wplink.js
- */
-
- /* global wpLink */
+var wpLink;
 
 ( function( $, wpLinkL10n, wp ) {
 	var editor, searchTimer, River, Query, correctedURL, linkNode,
@@ -16,7 +12,7 @@
 		return linkNode || editor.dom.getParent( editor.selection.getNode(), 'a[href]' );
 	}
 
-	window.wpLink = {
+	wpLink = {
 		timeToTriggerRiver: 150,
 		minRiverAJAXDuration: 200,
 		riverBottomThreshold: 5,
@@ -563,7 +559,7 @@
 			}
 
 			// Up Arrow and Down Arrow keys.
-			if ( event.shiftKey || ( 38 !== event.keyCode && 40 !== event.keyCode ) ) {
+			if ( 38 !== event.keyCode && 40 !== event.keyCode ) {
 				return;
 			}
 

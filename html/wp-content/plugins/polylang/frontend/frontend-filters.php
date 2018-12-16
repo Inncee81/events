@@ -82,7 +82,8 @@ class PLL_Frontend_Filters extends PLL_Filters {
 	public function option_sticky_posts( $posts ) {
 		global $wpdb;
 
-		if ( $this->curlang && ! empty( $posts ) ) {
+		// Do not filter sticky posts on REST requests as $this->curlang is *not* the 'lang' parameter set in the request
+		if ( ! defined( 'REST_REQUEST' ) && $this->curlang && ! empty( $posts ) ) {
 			$_posts = wp_cache_get( 'sticky_posts', 'options' ); // This option is usually cached in 'all_options' by WP
 
 			if ( empty( $_posts ) || ! is_array( $_posts[ $this->curlang->term_taxonomy_id ] ) ) {
@@ -145,6 +146,7 @@ class PLL_Frontend_Filters extends PLL_Filters {
 	 * @return bool|array false if we hide the widget, unmodified $instance otherwise
 	 */
 	public function widget_display_callback( $instance, $widget ) {
+		// FIXME it looks like this filter is useless, now the we use the filter sidebars_widgets
 		return ! empty( $instance['pll_lang'] ) && $instance['pll_lang'] != $this->curlang->slug ? false : $instance;
 	}
 
@@ -161,7 +163,12 @@ class PLL_Frontend_Filters extends PLL_Filters {
 	public function sidebars_widgets( $sidebars_widgets ) {
 		global $wp_registered_widgets;
 
-		$_sidebars_widgets = $this->cache->get( 'sidebars_widgets' );
+		if ( empty( $wp_registered_widgets ) ) {
+			return $sidebars_widgets;
+		}
+
+		$cache_key         = md5( serialize( $sidebars_widgets ) );
+		$_sidebars_widgets = $this->cache->get( "sidebars_widgets_{$cache_key}" );
 
 		if ( false !== $_sidebars_widgets ) {
 			return $_sidebars_widgets;
@@ -189,7 +196,7 @@ class PLL_Frontend_Filters extends PLL_Filters {
 			}
 		}
 
-		$this->cache->set( 'sidebars_widgets', $sidebars_widgets );
+		$this->cache->set( "sidebars_widgets_{$cache_key}", $sidebars_widgets );
 
 		return $sidebars_widgets;
 	}

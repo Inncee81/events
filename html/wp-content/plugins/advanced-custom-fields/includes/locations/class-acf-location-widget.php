@@ -1,12 +1,12 @@
-<?php
+<?php 
 
 if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if( ! class_exists('acf_location_widget') ) :
 
 class acf_location_widget extends acf_location {
-
-
+	
+	
 	/*
 	*  __construct
 	*
@@ -19,16 +19,16 @@ class acf_location_widget extends acf_location {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function initialize() {
-
+		
 		// vars
 		$this->name = 'widget';
 		$this->label = __("Widget",'acf');
 		$this->category = 'forms';
-
+    	
 	}
-
+	
 
 	/*
 	*  rule_match
@@ -39,27 +39,27 @@ class acf_location_widget extends acf_location {
 	*  @date	3/01/13
 	*  @since	3.5.7
 	*
-	*  @param	$match (boolean)
+	*  @param	$match (boolean) 
 	*  @param	$rule (array)
 	*  @return	$options (array)
 	*/
-
+	
 	function rule_match( $result, $rule, $screen ) {
-
+		
 		// vars
 		$widget = acf_maybe_get( $screen, 'widget' );
-
-
+		
+		
 		// bail early if not widget
 		if( !$widget ) return false;
-
-
+				
+		
         // return
         return $this->compare( $widget, $rule );
-
+		
 	}
-
-
+	
+	
 	/*
 	*  rule_operators
 	*
@@ -72,37 +72,39 @@ class acf_location_widget extends acf_location {
 	*  @param	n/a
 	*  @return	(array)
 	*/
-
+	
 	function rule_values( $choices, $rule ) {
-
+		
 		// global
 		global $wp_widget_factory;
-
-
+		
+		
 		// vars
 		$choices = array( 'all' => __('All', 'acf') );
-
-
+		
+		
 		// loop
 		if( !empty( $wp_widget_factory->widgets ) ) {
-
+					
 			foreach( $wp_widget_factory->widgets as $widget ) {
-
+			
 				$choices[ $widget->id_base ] = $widget->name;
-
+				
 			}
-
+			
 		}
-
-
+				
+		
 		// return
 		return $choices;
-
+		
 	}
-
+	
 }
 
 // initialize
 acf_register_location_rule( 'acf_location_widget' );
 
 endif; // class_exists check
+
+?>

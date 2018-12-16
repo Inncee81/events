@@ -1,16 +1,16 @@
-<?php
+<?php 
 
 if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if( ! class_exists('acf_cache') ) :
 
 class acf_cache {
-
+	
 	// vars
 	var $reference = array(),
 		$active = true;
-
-
+		
+		
 	/*
 	*  __construct
 	*
@@ -23,15 +23,15 @@ class acf_cache {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function __construct() {
-
+		
 		// prevent ACF from persistent cache
 		wp_cache_add_non_persistent_groups('acf');
-
+		
 	}
-
-
+	
+	
 	/*
 	*  is_active
 	*
@@ -44,14 +44,14 @@ class acf_cache {
 	*  @param	n/a
 	*  @return	(bool)
 	*/
-
+	
 	function is_active() {
-
+		
 		return $this->active;
-
+		
 	}
-
-
+	
+	
 	/*
 	*  enable
 	*
@@ -64,14 +64,14 @@ class acf_cache {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function enable() {
-
+		
 		$this->active = true;
-
+		
 	}
-
-
+	
+	
 	/*
 	*  disable
 	*
@@ -84,14 +84,14 @@ class acf_cache {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function disable() {
-
+		
 		$this->active = false;
-
+		
 	}
-
-
+	
+	
 	/*
 	*  get_key
 	*
@@ -104,24 +104,24 @@ class acf_cache {
 	*  @param	$key (string)
 	*  @return	$key
 	*/
-
+	
 	function get_key( $key = '' ) {
-
+		
 		// check for reference
 		if( isset($this->reference[ $key ]) ) {
-
+			
 			$key = $this->reference[ $key ];
-
+				
 		}
-
-
+		
+		
 		// return
 		return $key;
-
+		
 	}
-
-
-
+	
+	
+	
 	/*
 	*  isset_cache
 	*
@@ -134,28 +134,28 @@ class acf_cache {
 	*  @param	$key (string)
 	*  @return	(boolean)
 	*/
-
+	
 	function isset_cache( $key = '' ) {
-
+		
 		// bail early if not active
 		if( !$this->is_active() ) return false;
-
-
+		
+		
 		// vars
 		$key = $this->get_key($key);
 		$found = false;
-
-
+		
+		
 		// get cache
 		$cache = wp_cache_get($key, 'acf', false, $found);
-
-
+		
+		
 		// return
 		return $found;
-
+		
 	}
-
-
+	
+	
 	/*
 	*  get_cache
 	*
@@ -168,28 +168,28 @@ class acf_cache {
 	*  @param	$key (string)
 	*  @return	(mixed)
 	*/
-
+	
 	function get_cache( $key = '' ) {
-
+		
 		// bail early if not active
 		if( !$this->is_active() ) return false;
-
-
+		
+		
 		// vars
 		$key = $this->get_key($key);
 		$found = false;
-
-
+		
+		
 		// get cache
 		$cache = wp_cache_get($key, 'acf', false, $found);
-
-
+		
+		
 		// return
 		return $cache;
-
+		
 	}
-
-
+	
+	
 	/*
 	*  set_cache
 	*
@@ -203,23 +203,23 @@ class acf_cache {
 	*  @param	$data (mixed)
 	*  @return	n/a
 	*/
-
+	
 	function set_cache( $key = '', $data = '' ) {
-
+		
 		// bail early if not active
 		if( !$this->is_active() ) return false;
-
-
+		
+		
 		// set
 		wp_cache_set($key, $data, 'acf');
-
-
+		
+		
 		// return
 		return $key;
-
+		
 	}
-
-
+	
+	
 	/*
 	*  set_cache_reference
 	*
@@ -233,23 +233,23 @@ class acf_cache {
 	*  @param	$reference (string)
 	*  @return	n/a
 	*/
-
+	
 	function set_cache_reference( $key = '', $reference = '' ) {
-
+		
 		// bail early if not active
 		if( !$this->is_active() ) return false;
-
-
+		
+		
 		// add
-		$this->reference[ $key ] = $reference;
-
-
+		$this->reference[ $key ] = $reference;	
+		
+		
 		// resturn
 		return $key;
-
+		
 	}
-
-
+	
+	
 	/*
 	*  delete_cache
 	*
@@ -262,18 +262,18 @@ class acf_cache {
 	*  @param	$key (string)
 	*  @return	n/a
 	*/
-
+	
 	function delete_cache( $key = '' ) {
-
+		
 		// bail early if not active
 		if( !$this->is_active() ) return false;
-
-
+		
+		
 		// delete
 		return wp_cache_delete( $key, 'acf' );
-
+		
 	}
-
+	
 }
 
 
@@ -297,9 +297,9 @@ endif; // class_exists check
 */
 
 function acf_is_cache_active() {
-
+	
 	return acf()->cache->is_active();
-
+	
 }
 
 
@@ -317,9 +317,9 @@ function acf_is_cache_active() {
 */
 
 function acf_disable_cache() {
-
+	
 	return acf()->cache->disable();
-
+	
 }
 
 
@@ -337,9 +337,9 @@ function acf_disable_cache() {
 */
 
 function acf_enable_cache() {
-
+	
 	return acf()->cache->enable();
-
+	
 }
 
 
@@ -357,9 +357,9 @@ function acf_enable_cache() {
 */
 
 function acf_isset_cache( $key = '' ) {
-
+	
 	return acf()->cache->isset_cache( $key );
-
+	
 }
 
 
@@ -377,9 +377,9 @@ function acf_isset_cache( $key = '' ) {
 */
 
 function acf_get_cache( $key = '' ) {
-
+	
 	return acf()->cache->get_cache( $key );
-
+	
 }
 
 
@@ -397,9 +397,9 @@ function acf_get_cache( $key = '' ) {
 */
 
 function acf_set_cache( $key = '', $data ) {
-
+	
 	return acf()->cache->set_cache( $key, $data );
-
+	
 }
 
 
@@ -417,9 +417,9 @@ function acf_set_cache( $key = '', $data ) {
 */
 
 function acf_set_cache_reference( $key = '', $reference = '' ) {
-
+	
 	return acf()->cache->set_cache_reference( $key, $reference );
-
+	
 }
 
 
@@ -437,7 +437,9 @@ function acf_set_cache_reference( $key = '', $reference = '' ) {
 */
 
 function acf_delete_cache( $key = '' ) {
-
+	
 	return acf()->cache->delete_cache( $key );
-
+	
 }
+
+?>

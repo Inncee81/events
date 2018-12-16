@@ -1,12 +1,12 @@
-<?php
+<?php 
 
 if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if( ! class_exists('acf_location_nav_menu') ) :
 
 class acf_location_nav_menu extends acf_location {
-
-
+	
+	
 	/*
 	*  __construct
 	*
@@ -19,16 +19,16 @@ class acf_location_nav_menu extends acf_location {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function initialize() {
-
+		
 		// vars
 		$this->name = 'nav_menu';
 		$this->label = __("Menu",'acf');
 		$this->category = 'forms';
-
+    	
 	}
-
+	
 
 	/*
 	*  rule_match
@@ -39,49 +39,49 @@ class acf_location_nav_menu extends acf_location {
 	*  @date	3/01/13
 	*  @since	3.5.7
 	*
-	*  @param	$match (boolean)
+	*  @param	$match (boolean) 
 	*  @param	$rule (array)
 	*  @return	$options (array)
 	*/
-
+	
 	function rule_match( $result, $rule, $screen ) {
-
+		
 		// vars
 		$nav_menu = acf_maybe_get( $screen, 'nav_menu' );
-
-
+		
+		
 		// bail early if not nav_menu
 		if( !$nav_menu ) return false;
-
-
+		
+		
 		// location
 		if( substr($rule['value'], 0, 9) === 'location/' ) {
-
+			
 			// vars
 			$location = substr($rule['value'], 9);
 			$menu_locations = get_nav_menu_locations();
-
-
+			
+			
 			// bail ealry if no location
 			if( !isset($menu_locations[$location]) ) return false;
-
-
+			
+			
 			// if location matches, update value
-			if( $menu_locations[$location] === $nav_menu ) {
-
+			if( $menu_locations[$location] == $nav_menu ) {
+				
 				$nav_menu = $rule['value'];
-
+				
 			}
-
+			
 		}
-
-
+		
+		
         // return
         return $this->compare( $nav_menu, $rule );
-
+		
 	}
-
-
+	
+	
 	/*
 	*  rule_operators
 	*
@@ -94,15 +94,15 @@ class acf_location_nav_menu extends acf_location {
 	*  @param	n/a
 	*  @return	(array)
 	*/
-
+	
 	function rule_values( $choices, $rule ) {
-
+		
 		// all
 		$choices = array(
 			'all' => __('All', 'acf'),
 		);
-
-
+		
+		
 		// locations
 		$nav_locations = get_registered_nav_menus();
 		if( !empty($nav_locations) ) {
@@ -111,8 +111,8 @@ class acf_location_nav_menu extends acf_location {
 				$choices[ $cat ][ 'location/'.$slug ] = $title;
 			}
 		}
-
-
+		
+		
 		// specific menus
 		$nav_menus = wp_get_nav_menus();
 		if( !empty($nav_menus) ) {
@@ -121,16 +121,18 @@ class acf_location_nav_menu extends acf_location {
 				$choices[ $cat ][ $nav_menu->term_id ] = $nav_menu->name;
 			}
 		}
-
-
+				
+		
 		// return
 		return $choices;
-
+		
 	}
-
+	
 }
 
 // initialize
 acf_register_location_rule( 'acf_location_nav_menu' );
 
 endif; // class_exists check
+
+?>

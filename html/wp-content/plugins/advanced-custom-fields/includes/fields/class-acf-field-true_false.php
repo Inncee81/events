@@ -3,8 +3,8 @@
 if( ! class_exists('acf_field_true_false') ) :
 
 class acf_field_true_false extends acf_field {
-
-
+	
+	
 	/*
 	*  __construct
 	*
@@ -17,9 +17,9 @@ class acf_field_true_false extends acf_field {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function initialize() {
-
+		
 		// vars
 		$this->name = 'true_false';
 		$this->label = __('True / False','acf');
@@ -31,10 +31,10 @@ class acf_field_true_false extends acf_field {
 			'ui_on_text'	=> '',
 			'ui_off_text'	=> '',
 		);
-
+  
 	}
-
-
+		
+	
 	/*
 	*  render_field()
 	*
@@ -46,9 +46,9 @@ class acf_field_true_false extends acf_field {
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-
+	
 	function render_field( $field ) {
-
+		
 		// vars
 		$input = array(
 			'type'		=> 'checkbox',
@@ -58,54 +58,54 @@ class acf_field_true_false extends acf_field {
 			'class'		=> $field['class'],
 			'autocomplete'	=> 'off'
 		);
-
+		
 		$hidden = array(
 			'name' 		=> $field['name'],
 			'value'		=> 0
 		);
-
+		
 		$active = $field['value'] ? true : false;
 		$switch = '';
-
-
+		
+		
 		// checked
 		if( $active ) $input['checked'] = 'checked';
-
-
+		
+		
 		// ui
 		if( $field['ui'] ) {
-
+			
 			// vars
 			if( $field['ui_on_text'] === '' ) $field['ui_on_text'] = __('Yes', 'acf');
 			if( $field['ui_off_text'] === '' ) $field['ui_off_text'] = __('No', 'acf');
-
-
+			
+			
 			// update input
 			$input['class'] .= ' acf-switch-input';
 			//$input['style'] = 'display:none;';
-
+			
 			$switch .= '<div class="acf-switch' . ($active ? ' -on' : '') . '">';
-				$switch .= '<span class="acf-switch-on">' . esc_html($field['ui_on_text']) . '</span>';
-				$switch .= '<span class="acf-switch-off">' . esc_html($field['ui_off_text']) . '</span>';
+				$switch .= '<span class="acf-switch-on">'.$field['ui_on_text'].'</span>';
+				$switch .= '<span class="acf-switch-off">'.$field['ui_off_text'].'</span>';
 				$switch .= '<div class="acf-switch-slider"></div>';
 			$switch .= '</div>';
-
+			
 		}
-
+		
 ?>
 <div class="acf-true-false">
 	<?php acf_hidden_input($hidden); ?>
 	<label>
 		<input <?php echo acf_esc_attr($input); ?>/>
-		<?php if( $switch ) echo $switch; ?>
-		<?php if( $field['message'] ): ?><span><?php echo esc_html($field['message']); ?></span><?php endif; ?>
+		<?php if( $switch ) echo acf_esc_html($switch); ?>
+		<?php if( $field['message'] ): ?><span class="message"><?php echo acf_esc_html($field['message']); ?></span><?php endif; ?>
 	</label>
 </div>
 <?php
-
+		
 	}
-
-
+	
+	
 	/*
 	*  render_field_settings()
 	*
@@ -118,9 +118,9 @@ class acf_field_true_false extends acf_field {
 	*
 	*  @param	$field	- an array holding all the field's data
 	*/
-
+	
 	function render_field_settings( $field ) {
-
+		
 		// message
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Message','acf'),
@@ -128,8 +128,8 @@ class acf_field_true_false extends acf_field {
 			'type'			=> 'text',
 			'name'			=> 'message',
 		));
-
-
+		
+		
 		// default_value
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Default Value','acf'),
@@ -137,8 +137,8 @@ class acf_field_true_false extends acf_field {
 			'type'			=> 'true_false',
 			'name'			=> 'default_value',
 		));
-
-
+		
+		
 		// ui
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Stylised UI','acf'),
@@ -148,30 +148,40 @@ class acf_field_true_false extends acf_field {
 			'ui'			=> 1,
 			'class'			=> 'acf-field-object-true-false-ui'
 		));
-
-
+		
+		
 		// on_text
 		acf_render_field_setting( $field, array(
 			'label'			=> __('On Text','acf'),
 			'instructions'	=> __('Text shown when active','acf'),
 			'type'			=> 'text',
 			'name'			=> 'ui_on_text',
-			'placeholder'	=> __('Yes', 'acf')
+			'placeholder'	=> __('Yes', 'acf'),
+			'conditions'	=> array(
+				'field'		=> 'ui',
+				'operator'	=> '==',
+				'value'		=> 1
+			)
 		));
-
-
+		
+		
 		// on_text
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Off Text','acf'),
 			'instructions'	=> __('Text shown when inactive','acf'),
 			'type'			=> 'text',
 			'name'			=> 'ui_off_text',
-			'placeholder'	=> __('No', 'acf')
+			'placeholder'	=> __('No', 'acf'),
+			'conditions'	=> array(
+				'field'		=> 'ui',
+				'operator'	=> '==',
+				'value'		=> 1
+			)
 		));
-
+		
 	}
-
-
+	
+	
 	/*
 	*  format_value()
 	*
@@ -187,14 +197,14 @@ class acf_field_true_false extends acf_field {
 	*
 	*  @return	$value (mixed) the modified value
 	*/
-
+	
 	function format_value( $value, $post_id, $field ) {
-
+		
 		return empty($value) ? false : true;
-
+		
 	}
-
-
+	
+	
 	/*
 	*  validate_value
 	*
@@ -207,31 +217,31 @@ class acf_field_true_false extends acf_field {
 	*  @param	$post_id (int)
 	*  @return	$post_id (int)
 	*/
-
+	
 	function validate_value( $valid, $value, $field, $input ){
-
+		
 		// bail early if not required
 		if( ! $field['required'] ) {
-
+			
 			return $valid;
-
+			
 		}
-
-
+		
+		
 		// value may be '0'
 		if( !$value ) {
-
+			
 			return false;
-
+			
 		}
-
-
+		
+		
 		// return
 		return $valid;
-
+				
 	}
-
-
+	
+	
 	/*
 	*  translate_field
 	*
@@ -244,20 +254,20 @@ class acf_field_true_false extends acf_field {
 	*  @param	$field (array)
 	*  @return	$field
 	*/
-
+	
 	function translate_field( $field ) {
-
+		
 		// translate
 		$field['message'] = acf_translate( $field['message'] );
 		$field['ui_on_text'] = acf_translate( $field['ui_on_text'] );
 		$field['ui_off_text'] = acf_translate( $field['ui_off_text'] );
-
-
+		
+		
 		// return
 		return $field;
-
+		
 	}
-
+	
 }
 
 
@@ -265,3 +275,5 @@ class acf_field_true_false extends acf_field {
 acf_register_field_type( 'acf_field_true_false' );
 
 endif; // class_exists check
+
+?>

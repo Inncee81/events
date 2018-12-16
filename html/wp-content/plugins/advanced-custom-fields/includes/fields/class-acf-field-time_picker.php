@@ -3,8 +3,8 @@
 if( ! class_exists('acf_field_time_picker') ) :
 
 class acf_field_time_picker extends acf_field {
-
-
+	
+	
 	/*
 	*  __construct
 	*
@@ -17,9 +17,9 @@ class acf_field_time_picker extends acf_field {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function initialize() {
-
+		
 		// vars
 		$this->name = 'time_picker';
 		$this->label = __("Time Picker",'acf');
@@ -28,10 +28,10 @@ class acf_field_time_picker extends acf_field {
 			'display_format'		=> 'g:i a',
 			'return_format'			=> 'g:i a'
 		);
-
+		
 	}
-
-
+	
+	
 	/*
 	*  render_field()
 	*
@@ -43,17 +43,17 @@ class acf_field_time_picker extends acf_field {
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-
+	
 	function render_field( $field ) {
-
+		
 		// format value
 		$display_value = '';
-
+		
 		if( $field['value'] ) {
 			$display_value = acf_format_date( $field['value'], $field['display_format'] );
 		}
-
-
+		
+		
 		// vars
 		$div = array(
 			'class'					=> 'acf-time-picker acf-input-wrap',
@@ -71,8 +71,8 @@ class acf_field_time_picker extends acf_field {
 			'type'					=> 'text',
 			'value'					=> $display_value,
 		);
-
-
+		
+		
 		// html
 		?>
 		<div <?php acf_esc_attr_e( $div ); ?>>
@@ -80,10 +80,10 @@ class acf_field_time_picker extends acf_field {
 			<?php acf_text_input( $text_input ); ?>
 		</div>
 		<?php
-
+		
 	}
-
-
+	
+	
 	/*
 	*  render_field_settings()
 	*
@@ -96,14 +96,14 @@ class acf_field_time_picker extends acf_field {
 	*
 	*  @param	$field	- an array holding all the field's data
 	*/
-
+	
 	function render_field_settings( $field ) {
-
+		
 		// vars
 		$g_i_a = date('g:i a');
 		$H_i_s = date('H:i:s');
-
-
+		
+		
 		// display_format
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Display Format','acf'),
@@ -114,11 +114,11 @@ class acf_field_time_picker extends acf_field {
 			'choices'		=> array(
 				'g:i a'	=> '<span>' . $g_i_a . '</span><code>g:i a</code>',
 				'H:i:s'	=> '<span>' . $H_i_s . '</span><code>H:i:s</code>',
-				'other'	=> '<span>' . esc_html__('Custom:','acf') . '</span>'
+				'other'	=> '<span>' . __('Custom:','acf') . '</span>'
 			)
 		));
-
-
+				
+		
 		// return_format
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Return Format','acf'),
@@ -129,13 +129,13 @@ class acf_field_time_picker extends acf_field {
 			'choices'		=> array(
 				'g:i a'	=> '<span>' . $g_i_a . '</span><code>g:i a</code>',
 				'H:i:s'	=> '<span>' . $H_i_s . '</span><code>H:i:s</code>',
-				'other'	=> '<span>' . esc_html__('Custom:','acf') . '</span>'
+				'other'	=> '<span>' . __('Custom:','acf') . '</span>'
 			)
 		));
-
+		
 	}
-
-
+	
+	
 	/*
 	*  format_value()
 	*
@@ -151,13 +151,13 @@ class acf_field_time_picker extends acf_field {
 	*
 	*  @return	$value (mixed) the modified value
 	*/
-
+	
 	function format_value( $value, $post_id, $field ) {
-
+		
 		return acf_format_date( $value, $field['return_format'] );
-
+		
 	}
-
+	
 }
 
 
@@ -165,3 +165,5 @@ class acf_field_time_picker extends acf_field {
 acf_register_field_type( 'acf_field_time_picker' );
 
 endif; // class_exists check
+
+?>

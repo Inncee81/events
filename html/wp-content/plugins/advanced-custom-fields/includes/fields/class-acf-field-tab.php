@@ -3,8 +3,8 @@
 if( ! class_exists('acf_field_tab') ) :
 
 class acf_field_tab extends acf_field {
-
-
+	
+	
 	/*
 	*  __construct
 	*
@@ -17,9 +17,9 @@ class acf_field_tab extends acf_field {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function initialize() {
-
+		
 		// vars
 		$this->name = 'tab';
 		$this->label = __("Tab",'acf');
@@ -28,10 +28,10 @@ class acf_field_tab extends acf_field {
 			'placement'	=> 'top',
 			'endpoint'	=> 0 // added in 5.2.8
 		);
-
+		
 	}
-
-
+	
+	
 	/*
 	*  render_field()
 	*
@@ -43,25 +43,27 @@ class acf_field_tab extends acf_field {
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-
+	
 	function render_field( $field ) {
-
+		
 		// vars
 		$atts = array(
-			'class'				=> 'acf-tab',
+			'href'				=> '',
+			'class'				=> 'acf-tab-button',
 			'data-placement'	=> $field['placement'],
-			'data-endpoint'		=> $field['endpoint']
+			'data-endpoint'		=> $field['endpoint'],
+			'data-key'			=> $field['key']
 		);
-
+		
 		?>
-		<div <?php acf_esc_attr_e( $atts ); ?>><?php echo acf_esc_html($field['label']); ?></div>
+		<a <?php acf_esc_attr_e( $atts ); ?>><?php echo acf_esc_html($field['label']); ?></a>
 		<?php
-
-
+		
+		
 	}
-
-
-
+	
+	
+	
 	/*
 	*  render_field_settings()
 	*
@@ -74,49 +76,51 @@ class acf_field_tab extends acf_field {
 	*  @since	3.6
 	*  @date	23/01/13
 	*/
-
+	
 	function render_field_settings( $field ) {
-
+		
+/*
 		// message
 		$message = '';
-		$message .= '<span class="acf-error-message"><p>' . __("The tab field will display incorrectly when added to a Table style repeater field or flexible content field layout", 'acf') . '</p></span>';
 		$message .= '<p>' . __( 'Use "Tab Fields" to better organize your edit screen by grouping fields together.', 'acf') . '</p>';
 		$message .= '<p>' . __( 'All fields following this "tab field" (or until another "tab field" is defined) will be grouped together using this field\'s label as the tab heading.','acf') . '</p>';
-
+		
+		
 		// default_value
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Instructions','acf'),
 			'instructions'	=> '',
+			'name'			=> 'notes',
 			'type'			=> 'message',
 			'message'		=> $message,
-			'new_lines'		=> ''
 		));
-
-
+*/
+		
+		
 		// preview_size
 		acf_render_field_setting( $field, array(
 			'label'			=> __('Placement','acf'),
 			'type'			=> 'select',
 			'name'			=> 'placement',
 			'choices' 		=> array(
-				'top'			=>	__("Top aligned",'acf'),
-				'left'			=>	__("Left Aligned",'acf'),
+				'top'			=>	__("Top aligned", 'acf'),
+				'left'			=>	__("Left aligned", 'acf'),
 			)
 		));
-
-
+		
+		
 		// endpoint
 		acf_render_field_setting( $field, array(
-			'label'			=> __('End-point','acf'),
-			'instructions'	=> __('Use this field as an end-point and start a new group of tabs','acf'),
+			'label'			=> __('Endpoint','acf'),
+			'instructions'	=> __('Define an endpoint for the previous tabs to stop. This will start a new group of tabs.', 'acf'),
 			'name'			=> 'endpoint',
 			'type'			=> 'true_false',
 			'ui'			=> 1,
 		));
-
+				
 	}
-
-
+	
+	
 	/*
 	*  load_field()
 	*
@@ -130,26 +134,23 @@ class acf_field_tab extends acf_field {
 	*
 	*  @return	$field - the field array holding all the field options
 	*/
-
+	
 	function load_field( $field ) {
-
+		
 		// remove name to avoid caching issue
 		$field['name'] = '';
-
-
+		
 		// remove required to avoid JS issues
 		$field['required'] = 0;
-
-
+		
 		// set value other than 'null' to avoid ACF loading / caching issue
 		$field['value'] = false;
-
-
+		
 		// return
 		return $field;
-
+		
 	}
-
+	
 }
 
 
@@ -157,3 +158,5 @@ class acf_field_tab extends acf_field {
 acf_register_field_type( 'acf_field_tab' );
 
 endif; // class_exists check
+
+?>

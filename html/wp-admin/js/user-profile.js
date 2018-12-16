@@ -1,7 +1,3 @@
-/**
- * @output wp-admin/js/user-profile.js
- */
-
 /* global ajaxurl, pwsL10n, userProfileL10n */
 (function($) {
 	var updateLock = false,

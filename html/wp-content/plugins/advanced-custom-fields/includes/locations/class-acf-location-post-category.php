@@ -1,12 +1,12 @@
-<?php
+<?php 
 
 if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if( ! class_exists('acf_location_post_category') ) :
 
 class acf_location_post_category extends acf_location {
-
-
+	
+	
 	/*
 	*  __construct
 	*
@@ -19,17 +19,17 @@ class acf_location_post_category extends acf_location {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function initialize() {
-
+		
 		// vars
 		$this->name = 'post_category';
 		$this->label = __("Post Category",'acf');
 		$this->category = 'post';
-
+    	
 	}
-
-
+	
+	
 	/*
 	*  rule_match
 	*
@@ -39,18 +39,18 @@ class acf_location_post_category extends acf_location {
 	*  @date	3/01/13
 	*  @since	3.5.7
 	*
-	*  @param	$match (boolean)
+	*  @param	$match (boolean) 
 	*  @param	$rule (array)
 	*  @return	$options (array)
 	*/
-
+	
 	function rule_match( $result, $rule, $screen ) {
-
+		
 		return acf_get_location_rule('post_taxonomy')->rule_match( $result, $rule, $screen );
-
+		
 	}
-
-
+	
+	
 	/*
 	*  rule_operators
 	*
@@ -63,24 +63,26 @@ class acf_location_post_category extends acf_location {
 	*  @param	n/a
 	*  @return	(array)
 	*/
-
+	
 	function rule_values( $choices, $rule ) {
-
+		
 		$terms = acf_get_taxonomy_terms( 'category' );
-
+				
 		if( !empty($terms) ) {
-
+			
 			$choices = array_pop($terms);
-
+			
 		}
-
+		
 		return $choices;
-
+		
 	}
-
+	
 }
 
 // initialize
 acf_register_location_rule( 'acf_location_post_category' );
 
 endif; // class_exists check
+
+?>

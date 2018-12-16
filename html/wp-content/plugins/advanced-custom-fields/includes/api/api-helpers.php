@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 /*
 *  acf_is_array
@@ -14,9 +14,9 @@
 */
 
 function acf_is_array( $array ) {
-
+	
 	return ( is_array($array) && !empty($array) );
-
+	
 }
 
 
@@ -34,29 +34,74 @@ function acf_is_array( $array ) {
 */
 
 function acf_is_empty( $value ) {
-
+	
 	return ( empty($value) && !is_numeric($value) );
-
+	
 }
 
+/**
+*  acf_idify
+*
+*  Returns an id friendly string
+*
+*  @date	24/12/17
+*  @since	5.6.5
+*
+*  @param	type $var Description. Default.
+*  @return	type Description.
+*/
 
-/*
-*  acf_get_setting
+function acf_idify( $str = '' ) {
+	return str_replace(array('][', '[', ']'), array('-', '-', ''), strtolower($str));
+}
+
+/**
+*  acf_slugify
 *
-*  alias of acf()->get_setting()
+*  Returns a slug friendly string
 *
-*  @type	function
-*  @date	28/09/13
-*  @since	5.0.0
+*  @date	24/12/17
+*  @since	5.6.5
+*
+*  @param	type $var Description. Default.
+*  @return	type Description.
+*/
+
+function acf_slugify( $str = '' ) {
+	return str_replace('_', '-', strtolower($str));
+}
+
+/**
+*  acf_has_setting
+*
+*  alias of acf()->has_setting()
+*
+*  @date	2/2/18
+*  @since	5.6.5
 *
 *  @param	n/a
 *  @return	n/a
 */
 
-function acf_get_setting( $name, $value = null ) {
+function acf_has_setting( $name = '' ) {
+	return acf()->has_setting( $name );
+}
 
-	return acf()->get_setting( $name, $value );
 
+/**
+*  acf_raw_setting
+*
+*  alias of acf()->get_setting()
+*
+*  @date	2/2/18
+*  @since	5.6.5
+*
+*  @param	n/a
+*  @return	n/a
+*/
+
+function acf_raw_setting( $name = '' ) {
+	return acf()->get_setting( $name );
 }
 
 
@@ -75,16 +120,36 @@ function acf_get_setting( $name, $value = null ) {
 */
 
 function acf_update_setting( $name, $value ) {
-
+	
+	// validate name
+	$name = acf_validate_setting( $name );
+	
+	// update
 	return acf()->update_setting( $name, $value );
+}
 
+
+/**
+*  acf_validate_setting
+*
+*  Returns the changed setting name if available.
+*
+*  @date	2/2/18
+*  @since	5.6.5
+*
+*  @param	n/a
+*  @return	n/a
+*/
+
+function acf_validate_setting( $name = '' ) {
+	return apply_filters( "acf/validate_setting", $name );
 }
 
 
 /*
-*  acf_init
+*  acf_get_setting
 *
-*  alias of acf()->init()
+*  alias of acf()->get_setting()
 *
 *  @type	function
 *  @date	28/09/13
@@ -94,10 +159,21 @@ function acf_update_setting( $name, $value ) {
 *  @return	n/a
 */
 
-function acf_init() {
-
-	acf()->init();
-
+function acf_get_setting( $name, $value = null ) {
+	
+	// validate name
+	$name = acf_validate_setting( $name );
+	
+	// check settings
+	if( acf_has_setting($name) ) {
+		$value = acf_raw_setting( $name );
+	}
+	
+	// filter
+	$value = apply_filters( "acf/settings/{$name}", $value );
+	
+	// return
+	return $value;
 }
 
 
@@ -116,26 +192,109 @@ function acf_init() {
 */
 
 function acf_append_setting( $name, $value ) {
-
+	
 	// vars
-	$setting = acf_get_setting( $name, array() );
-
-
+	$setting = acf_raw_setting( $name );
+	
 	// bail ealry if not array
-	if( !is_array($setting) ) return false;
-
-
+	if( !is_array($setting) ) {
+		$setting = array();
+	}
+	
 	// append
 	$setting[] = $value;
-
-
+	
 	// update
-	acf_update_setting( $name, $setting );
+	return acf_update_setting( $name, $setting );
+}
 
 
-	// return
-	return true;
+/**
+*  acf_get_data
+*
+*  Returns data.
+*
+*  @date	28/09/13
+*  @since	5.0.0
+*
+*  @param	string $name
+*  @return	mixed
+*/
 
+function acf_get_data( $name ) {
+	return acf()->get_data( $name );
+}
+
+
+/**
+*  acf_set_data
+*
+*  Sets data.
+*
+*  @date	28/09/13
+*  @since	5.0.0
+*
+*  @param	string $name
+*  @param	mixed $value
+*  @return	n/a
+*/
+
+function acf_set_data( $name, $value ) {
+	return acf()->set_data( $name, $value );
+}
+
+
+/**
+*  acf_new_instance
+*
+*  description
+*
+*  @date	13/2/18
+*  @since	5.6.5
+*
+*  @param	type $var Description. Default.
+*  @return	type Description.
+*/
+
+function acf_new_instance( $class ) {
+	return acf()->new_instance( $class );
+}
+
+
+/**
+*  acf_get_instance
+*
+*  description
+*
+*  @date	13/2/18
+*  @since	5.6.5
+*
+*  @param	type $var Description. Default.
+*  @return	type Description.
+*/
+
+function acf_get_instance( $class ) {
+	return acf()->get_instance( $class );
+}
+
+
+/*
+*  acf_init
+*
+*  alias of acf()->init()
+*
+*  @type	function
+*  @date	28/09/13
+*  @since	5.0.0
+*
+*  @param	n/a
+*  @return	n/a
+*/
+
+function acf_init() {
+	
+	acf()->init();
+	
 }
 
 
@@ -153,9 +312,9 @@ function acf_append_setting( $name, $value ) {
 */
 
 function acf_get_compatibility( $name ) {
-
+	
 	return apply_filters( "acf/compatibility/{$name}", false );
-
+	
 }
 
 
@@ -173,22 +332,15 @@ function acf_get_compatibility( $name ) {
 */
 
 function acf_has_done( $name ) {
-
-	// vars
-	$setting = "_has_done_{$name}";
-
-
+	
 	// return true if already done
-	if( acf_get_setting($setting) ) return true;
-
-
-	// update setting
-	acf_update_setting($setting, true);
-
-
-	// return
+	if( acf_raw_setting("has_done_{$name}") ) {
+		return true;
+	}
+	
+	// update setting and return
+	acf_update_setting("has_done_{$name}", true);
 	return false;
-
 }
 
 
@@ -205,30 +357,52 @@ function acf_has_done( $name ) {
 *  @return	(string)
 */
 
-function acf_get_path( $path ) {
-
+function acf_get_path( $path = '' ) {
+	
 	return ACF_PATH . $path;
+	
+}
 
+
+/**
+*  acf_get_url
+*
+*  This function will return the url to a file within the ACF plugin folder
+*
+*  @date	12/12/17
+*  @since	5.6.8
+*
+*  @param	string $path The relative path from the root of the ACF plugin folder
+*  @return	string
+*/
+
+function acf_get_url( $path = '' ) {
+	
+	// define ACF_URL to optimise performance
+	if( !defined('ACF_URL') ) {
+		define( 'ACF_URL', acf_get_setting('url') );
+	}
+	
+	// return
+	return ACF_URL . $path;
+	
 }
 
 
 /*
 *  acf_get_dir
 *
-*  This function will return the url to a file within the ACF plugin folder
+*  Deprecated in 5.6.8. Use acf_get_url() instead.
 *
-*  @type	function
 *  @date	28/09/13
 *  @since	5.0.0
 *
-*  @param	$path (string) the relative path from the root of the ACF plugin folder
-*  @return	(string)
+*  @param	string
+*  @return	string
 */
 
-function acf_get_dir( $path ) {
-
-	return acf_get_setting('dir') . $path;
-
+function acf_get_dir( $path = '' ) {
+	return acf_get_url( $path );
 }
 
 
@@ -246,17 +420,35 @@ function acf_get_dir( $path ) {
 */
 
 function acf_include( $file ) {
-
+	
 	$path = acf_get_path( $file );
-
+	
 	if( file_exists($path) ) {
-
+		
 		include_once( $path );
-
+		
 	}
-
+	
 }
 
+/**
+*  acf_include_once
+*
+*  Includes a file one time only.
+*
+*  @date	24/8/18
+*  @since	5.7.4
+*
+*  @param	string $file The relative file path.
+*  @return	void
+*/
+
+function acf_include_once( $file = '' ) {
+	$path = acf_get_path( $file );
+	if( file_exists($path) ) {
+		include_once( $path );
+	}
+}
 
 /*
 *  acf_get_external_path
@@ -273,9 +465,9 @@ function acf_include( $file ) {
 */
 
 function acf_get_external_path( $file, $path = '' ) {
-
-    return trailingslashit( dirname( $file ) ) . $path;
-
+    
+    return plugin_dir_path( $file ) . $path;
+    
 }
 
 
@@ -294,34 +486,54 @@ function acf_get_external_path( $file, $path = '' ) {
 */
 
 function acf_get_external_dir( $file, $path = '' ) {
-
-    // vars
-    $external_url = '';
-    $external_path = acf_get_external_path( $file, $path );
-    $wp_plugin_path = wp_normalize_path(WP_PLUGIN_DIR);
-    $wp_content_path = wp_normalize_path(WP_CONTENT_DIR);
-    $wp_path = wp_normalize_path(ABSPATH);
+    
+    return acf_plugin_dir_url( $file ) . $path;
+	
+}
 
 
-    // wp-content/plugins
-    if( strpos($external_path, $wp_plugin_path) === 0 ) {
+/**
+*  acf_plugin_dir_url
+*
+*  This function will calculate the url to a plugin folder.
+*  Different to the WP plugin_dir_url(), this function can calculate for urls outside of the plugins folder (theme include).
+*
+*  @date	13/12/17
+*  @since	5.6.8
+*
+*  @param	type $var Description. Default.
+*  @return	type Description.
+*/
 
-	    return str_replace($wp_plugin_path, plugins_url(), $external_path);
-
-    }
-
-
-    // wp-content
-    if( strpos($external_path, $wp_content_path) === 0 ) {
-
-	    return str_replace($wp_content_path, content_url(), $external_path);
-
+function acf_plugin_dir_url( $file ) {
+	
+	// vars
+	$path = plugin_dir_path( $file );
+	$path = wp_normalize_path( $path );
+	
+	
+	// check plugins
+	$check_path = wp_normalize_path( realpath(WP_PLUGIN_DIR) );
+	if( strpos($path, $check_path) === 0 ) {
+		return str_replace( $check_path, plugins_url(), $path );
 	}
-
-
-	// return
-	return str_replace($wp_path, home_url(), $external_path);
-
+	
+	// check wp-content
+	$check_path = wp_normalize_path( realpath(WP_CONTENT_DIR) );
+	if( strpos($path, $check_path) === 0 ) {
+		return str_replace( $check_path, content_url(), $path );
+	}
+	
+	// check root
+	$check_path = wp_normalize_path( realpath(ABSPATH) );
+	if( strpos($path, $check_path) === 0 ) {
+		return str_replace( $check_path, site_url('/'), $path );
+	}
+	                
+    
+    // return
+    return plugin_dir_url( $file );
+    
 }
 
 
@@ -340,18 +552,18 @@ function acf_get_external_dir( $file, $path = '' ) {
 */
 
 function acf_parse_args( $args, $defaults = array() ) {
-
+	
 	// parse args
 	$args = wp_parse_args( $args, $defaults );
-
-
+	
+	
 	// parse types
 	$args = acf_parse_types( $args );
-
-
+	
+	
 	// return
 	return $args;
-
+	
 }
 
 
@@ -369,10 +581,10 @@ function acf_parse_args( $args, $defaults = array() ) {
 */
 
 function acf_parse_types( $array ) {
-
+	
 	// return
 	return array_map( 'acf_parse_type', $array );
-
+	
 }
 
 
@@ -390,26 +602,26 @@ function acf_parse_types( $array ) {
 */
 
 function acf_parse_type( $v ) {
-
+		
 	// bail early if not string
 	if( !is_string($v) ) return $v;
-
-
+	
+	
 	// trim
 	$v = trim($v);
-
-
+	
+	
 	// convert int (string) to int
 	if( is_numeric($v) && strval((int)$v) === $v ) {
-
+		
 		$v = intval( $v );
-
+		
 	}
-
-
+	
+	
 	// return
 	return $v;
-
+	
 }
 
 
@@ -428,23 +640,23 @@ function acf_parse_type( $v ) {
 */
 
 function acf_get_view( $path = '', $args = array() ) {
-
+	
 	// allow view file name shortcut
 	if( substr($path, -4) !== '.php' ) {
-
+		
 		$path = acf_get_path("includes/admin/views/{$path}.php");
-
+		
 	}
-
-
+	
+	
 	// include
 	if( file_exists($path) ) {
-
+		
 		extract( $args );
 		include( $path );
-
+		
 	}
-
+	
 }
 
 
@@ -462,43 +674,38 @@ function acf_get_view( $path = '', $args = array() ) {
 */
 
 function acf_merge_atts( $atts, $extra = array() ) {
-
+	
 	// bail ealry if no $extra
 	if( empty($extra) ) return $atts;
-
-
+	
+	
 	// trim
 	$extra = array_map('trim', $extra);
 	$extra = array_filter($extra);
-
-
+	
+	
 	// merge in new atts
 	foreach( $extra as $k => $v ) {
-
+		
 		// append
 		if( $k == 'class' || $k == 'style' ) {
-
+			
 			$atts[ $k ] .= ' ' . $v;
-
-		// merge
+		
+		// merge	
 		} else {
-
+			
 			$atts[ $k ] = $v;
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// return
 	return $atts;
-
+	
 }
-
-
-
-
-
 
 
 /*
@@ -515,9 +722,9 @@ function acf_merge_atts( $atts, $extra = array() ) {
 */
 
 function acf_nonce_input( $nonce = '' ) {
-
+	
 	echo '<input type="hidden" name="_acf_nonce" value="' . wp_create_nonce( $nonce ) . '" />';
-
+	
 }
 
 
@@ -536,24 +743,25 @@ function acf_nonce_input( $nonce = '' ) {
 */
 
 function acf_extract_var( &$array, $key, $default = null ) {
-
+	
 	// check if exists
+	// - uses array_key_exists to extract NULL values (isset will fail)
 	if( is_array($array) && array_key_exists($key, $array) ) {
-
+		
 		// store value
 		$v = $array[ $key ];
-
-
+		
+		
 		// unset
 		unset( $array[ $key ] );
-
-
+		
+		
 		// return
 		return $v;
-
+		
 	}
-
-
+	
+	
 	// return
 	return $default;
 }
@@ -573,15 +781,15 @@ function acf_extract_var( &$array, $key, $default = null ) {
 */
 
 function acf_extract_vars( &$array, $keys ) {
-
+	
 	$r = array();
-
+	
 	foreach( $keys as $key ) {
-
+		
 		$r[ $key ] = acf_extract_var( $array, $key );
-
+		
 	}
-
+	
 	return $r;
 }
 
@@ -600,128 +808,120 @@ function acf_extract_vars( &$array, $keys ) {
 */
 
 function acf_get_sub_array( $array, $keys ) {
-
+	
 	$r = array();
-
+	
 	foreach( $keys as $key ) {
-
+		
 		$r[ $key ] = $array[ $key ];
-
+		
 	}
-
+	
 	return $r;
-
+	
 }
 
 
-/*
+/**
 *  acf_get_post_types
 *
-*  This function will return an array of available post types
+*  Returns an array of post type names.
 *
-*  @type	function
 *  @date	7/10/13
 *  @since	5.0.0
 *
-*  @param	$exclude (array)
-*  @param	$include (array)
-*  @return	(array)
+*  @param	array $args Optional. An array of key => value arguments to match against the post type objects. Default empty array.
+*  @return	array A list of post type names.
 */
 
 function acf_get_post_types( $args = array() ) {
-
+	
 	// vars
+	$post_types = array();
+	
+	// extract special arg
 	$exclude = acf_extract_var( $args, 'exclude', array() );
-	$return = array();
-
-
-	// get post types
-	$post_types = get_post_types( $args, 'objects' );
-
-
-	// remove ACF post types
 	$exclude[] = 'acf-field';
 	$exclude[] = 'acf-field-group';
-
-
+	
+	// get post type objects
+	$objects = get_post_types( $args, 'objects' );
+	
 	// loop
-	foreach( $post_types as $i => $post_type ) {
-
+	foreach( $objects as $i => $object ) {
+		
 		// bail early if is exclude
 		if( in_array($i, $exclude) ) continue;
-
-
+		
 		// bail early if is builtin (WP) private post type
 		// - nav_menu_item, revision, customize_changeset, etc
-		if( $post_type->_builtin && !$post_type->public ) continue;
-
-
+		if( $object->_builtin && !$object->public ) continue;
+		
 		// append
-		$return[] = $i;
-
+		$post_types[] = $i;
 	}
-
-
+	
+	// filter
+	$post_types = apply_filters('acf/get_post_types', $post_types, $args);
+	
 	// return
-	return $return;
-
+	return $post_types;
 }
 
-
 function acf_get_pretty_post_types( $post_types = array() ) {
-
+	
 	// get post types
 	if( empty($post_types) ) {
-
+		
 		// get all custom post types
 		$post_types = acf_get_post_types();
-
+		
 	}
-
-
+	
+	
 	// get labels
 	$ref = array();
 	$r = array();
-
+	
 	foreach( $post_types as $post_type ) {
-
+		
 		// vars
 		$label = acf_get_post_type_label($post_type);
-
-
+		
+		
 		// append to r
 		$r[ $post_type ] = $label;
-
-
+		
+		
 		// increase counter
 		if( !isset($ref[ $label ]) ) {
-
+			
 			$ref[ $label ] = 0;
-
+			
 		}
-
+		
 		$ref[ $label ]++;
 	}
-
-
+	
+	
 	// get slugs
 	foreach( array_keys($r) as $i ) {
-
+		
 		// vars
 		$post_type = $r[ $i ];
-
+		
 		if( $ref[ $post_type ] > 1 ) {
-
+			
 			$r[ $i ] .= ' (' . $i . ')';
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// return
 	return $r;
-
+	
 }
 
 
@@ -740,24 +940,24 @@ function acf_get_pretty_post_types( $post_types = array() ) {
 */
 
 function acf_get_post_type_label( $post_type ) {
-
+	
 	// vars
 	$label = $post_type;
-
-
+	
+		
 	// check that object exists
 	// - case exists when importing field group from another install and post type does not exist
 	if( post_type_exists($post_type) ) {
-
+		
 		$obj = get_post_type_object($post_type);
 		$label = $obj->labels->singular_name;
-
+		
 	}
-
-
+	
+	
 	// return
 	return $label;
-
+	
 }
 
 
@@ -775,22 +975,22 @@ function acf_get_post_type_label( $post_type ) {
 */
 
 function acf_verify_nonce( $value) {
-
+	
 	// vars
 	$nonce = acf_maybe_get_POST('_acf_nonce');
-
-
+	
+	
 	// bail early nonce does not match (post|user|comment|term)
 	if( !$nonce || !wp_verify_nonce($nonce, $value) ) return false;
-
-
+	
+	
 	// reset nonce (only allow 1 save)
 	$_POST['_acf_nonce'] = false;
-
-
+	
+	
 	// return
 	return true;
-
+		
 }
 
 
@@ -809,30 +1009,20 @@ function acf_verify_nonce( $value) {
 */
 
 function acf_verify_ajax() {
-
-	// bail early if not acf action
-	if( empty($_POST['action']) || substr($_POST['action'], 0, 3) !== 'acf' ) {
-
-		return false;
-
-	}
-
-
+	
+	// vars
+	$nonce = isset($_REQUEST['nonce']) ? $_REQUEST['nonce'] : '';
+	
 	// bail early if not acf nonce
-	if( empty($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'acf_nonce') ) {
-
+	if( !$nonce || !wp_verify_nonce($nonce, 'acf_nonce') ) {
 		return false;
-
 	}
-
-
+	
 	// action for 3rd party customization
 	do_action('acf/verify_ajax');
-
-
+	
 	// return
 	return true;
-
 }
 
 
@@ -850,92 +1040,92 @@ function acf_verify_ajax() {
 */
 
 function acf_get_image_sizes() {
-
+	
 	// vars
 	$sizes = array(
 		'thumbnail'	=>	__("Thumbnail",'acf'),
 		'medium'	=>	__("Medium",'acf'),
 		'large'		=>	__("Large",'acf')
 	);
-
-
+	
+	
 	// find all sizes
 	$all_sizes = get_intermediate_image_sizes();
-
-
+	
+	
 	// add extra registered sizes
 	if( !empty($all_sizes) ) {
-
+		
 		foreach( $all_sizes as $size ) {
-
+			
 			// bail early if already in array
 			if( isset($sizes[ $size ]) ) {
-
+			
 				continue;
-
+				
 			}
-
-
+			
+			
 			// append to array
 			$label = str_replace('-', ' ', $size);
 			$label = ucwords( $label );
 			$sizes[ $size ] = $label;
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// add sizes
 	foreach( array_keys($sizes) as $s ) {
-
+		
 		// vars
 		$data = acf_get_image_size($s);
-
-
+		
+		
 		// append
 		if( $data['width'] && $data['height'] ) {
-
+			
 			$sizes[ $s ] .= ' (' . $data['width'] . ' x ' . $data['height'] . ')';
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// add full end
 	$sizes['full'] = __("Full Size",'acf');
-
-
+	
+	
 	// filter for 3rd party customization
 	$sizes = apply_filters( 'acf/get_image_sizes', $sizes );
-
-
+	
+	
 	// return
 	return $sizes;
-
+	
 }
 
 function acf_get_image_size( $s = '' ) {
-
+	
 	// global
 	global $_wp_additional_image_sizes;
-
-
+	
+	
 	// rename for nicer code
 	$_sizes = $_wp_additional_image_sizes;
-
-
+	
+	
 	// vars
 	$data = array(
 		'width' 	=> isset($_sizes[$s]['width']) ? $_sizes[$s]['width'] : get_option("{$s}_size_w"),
 		'height'	=> isset($_sizes[$s]['height']) ? $_sizes[$s]['height'] : get_option("{$s}_size_h")
 	);
-
-
+	
+	
 	// return
 	return $data;
-
+		
 }
 
 
@@ -954,23 +1144,23 @@ function acf_get_image_size( $s = '' ) {
 */
 
 function acf_version_compare( $left = 'wp', $compare = '>', $right = '1' ) {
-
+	
 	// global
 	global $wp_version;
-
-
+	
+	
 	// wp
 	if( $left === 'wp' ) $left = $wp_version;
-
-
+	
+	
 	// remove '-beta1' or '-RC1'
 	$left = acf_get_full_version($left);
 	$right = acf_get_full_version($right);
-
-
+	
+	
 	// return
 	return version_compare( $left, $right, $compare );
-
+	
 }
 
 
@@ -988,18 +1178,18 @@ function acf_version_compare( $left = 'wp', $compare = '>', $right = '1' ) {
 */
 
 function acf_get_full_version( $version = '1' ) {
-
+	
 	// remove '-beta1' or '-RC1'
 	if( $pos = strpos($version, '-') ) {
-
+		
 		$version = substr($version, 0, $pos);
-
+		
 	}
-
-
+	
+	
 	// return
 	return $version;
-
+	
 }
 
 
@@ -1017,9 +1207,9 @@ function acf_get_full_version( $version = '1' ) {
 */
 
 function acf_get_locale() {
-
+	
 	return is_admin() && function_exists('get_user_locale') ? get_user_locale() : get_locale();
-
+	
 }
 
 
@@ -1037,130 +1227,21 @@ function acf_get_locale() {
 */
 
 function acf_get_terms( $args ) {
-
-	// global
-	global $wp_version;
-
-
-	// vars
-	$terms = array();
-
-
-	// WP 4.5+
-	if( version_compare($wp_version, '4.5', '>=' ) ) {
-
-		$terms = get_terms( $args );
-
-	// WP < 4.5
-	} else {
-
-		$terms = get_terms( $args['taxonomy'], $args );
-
+	
+	// defaults
+	$args = wp_parse_args($args, array(
+		'taxonomy'					=> null,
+		'hide_empty'				=> false,
+		'update_term_meta_cache'	=> false,
+	));
+	
+	// parameters changed in version 4.5
+	if( acf_version_compare('wp', '<', '4.5') ) {
+		return get_terms( $args['taxonomy'], $args );
 	}
-
-
+	
 	// return
-	return $terms;
-
-}
-
-
-/*
-*  acf_get_taxonomies
-*
-*  This function will return an array of available taxonomies
-*
-*  @type	function
-*  @date	7/10/13
-*  @since	5.0.0
-*
-*  @param	n/a
-*  @return	(array)
-*/
-
-function acf_get_taxonomies() {
-
-	// get all taxonomies
-	$taxonomies = get_taxonomies( false, 'objects' );
-	$ignore = array( 'nav_menu', 'link_category' );
-	$r = array();
-
-
-	// populate $r
-	foreach( $taxonomies as $taxonomy )
-	{
-		if( in_array($taxonomy->name, $ignore) )
-		{
-			continue;
-
-		}
-
-		$r[ $taxonomy->name ] = $taxonomy->name; //"{$taxonomy->labels->singular_name}"; // ({$taxonomy->name})
-	}
-
-
-	// return
-	return $r;
-
-}
-
-
-function acf_get_pretty_taxonomies( $taxonomies = array() ) {
-
-	// get post types
-	if( empty($taxonomies) ) {
-
-		// get all custom post types
-		$taxonomies = acf_get_taxonomies();
-
-	}
-
-
-	// get labels
-	$ref = array();
-	$r = array();
-
-	foreach( array_keys($taxonomies) as $i ) {
-
-		// vars
-		$taxonomy = acf_extract_var( $taxonomies, $i);
-		$obj = get_taxonomy( $taxonomy );
-		$name = $obj->labels->singular_name;
-
-
-		// append to r
-		$r[ $taxonomy ] = $name;
-
-
-		// increase counter
-		if( !isset($ref[ $name ]) ) {
-
-			$ref[ $name ] = 0;
-
-		}
-
-		$ref[ $name ]++;
-	}
-
-
-	// get slugs
-	foreach( array_keys($r) as $i ) {
-
-		// vars
-		$taxonomy = $r[ $i ];
-
-		if( $ref[ $taxonomy ] > 1 ) {
-
-			$r[ $i ] .= ' (' . $i . ')';
-
-		}
-
-	}
-
-
-	// return
-	return $r;
-
+	return get_terms( $args );
 }
 
 
@@ -1178,22 +1259,22 @@ function acf_get_pretty_taxonomies( $taxonomies = array() ) {
 */
 
 function acf_get_taxonomy_terms( $taxonomies = array() ) {
-
+	
 	// force array
 	$taxonomies = acf_get_array( $taxonomies );
-
-
+	
+	
 	// get pretty taxonomy names
 	$taxonomies = acf_get_pretty_taxonomies( $taxonomies );
-
-
+	
+	
 	// vars
 	$r = array();
-
-
+	
+	
 	// populate $r
 	foreach( array_keys($taxonomies) as $taxonomy ) {
-
+		
 		// vars
 		$label = $taxonomies[ $taxonomy ];
 		$is_hierarchical = is_taxonomy_hierarchical( $taxonomy );
@@ -1201,68 +1282,38 @@ function acf_get_taxonomy_terms( $taxonomies = array() ) {
 			'taxonomy'		=> $taxonomy,
 			'hide_empty' 	=> false
 		));
-
-
+		
+		
 		// bail early i no terms
 		if( empty($terms) ) continue;
-
-
+		
+		
 		// sort into hierachial order!
 		if( $is_hierarchical ) {
-
+			
 			$terms = _get_term_children( 0, $terms, $taxonomy );
-
+			
 		}
-
-
-		// add placeholder
+		
+		
+		// add placeholder		
 		$r[ $label ] = array();
-
-
+		
+		
 		// add choices
 		foreach( $terms as $term ) {
-
-			$k = "{$taxonomy}:{$term->slug}";
+		
+			$k = "{$taxonomy}:{$term->slug}"; 
 			$r[ $label ][ $k ] = acf_get_term_title( $term );
-
+			
 		}
-
+		
 	}
-
-
+		
+	
 	// return
 	return $r;
-
-}
-
-
-function acf_get_term_title( $term ) {
-
-	// title
-	$title = $term->name;
-
-
-	// empty
-	if( $title === '' ) {
-
-		$title = __('(no title)', 'acf');
-
-	}
-
-
-	// ancestors
-	if( is_taxonomy_hierarchical($term->taxonomy) ) {
-
-		$ancestors = get_ancestors( $term->term_id, $term->taxonomy );
-
-		$title = str_repeat('- ', count($ancestors)) . $title;
-
-	}
-
-
-	// return
-	return $title;
-
+	
 }
 
 
@@ -1280,41 +1331,41 @@ function acf_get_term_title( $term ) {
 */
 
 function acf_decode_taxonomy_terms( $strings = false ) {
-
+	
 	// bail early if no terms
 	if( empty($strings) ) return false;
-
-
+	
+	
 	// vars
 	$terms = array();
-
-
+	
+	
 	// loop
 	foreach( $strings as $string ) {
-
+		
 		// vars
 		$data = acf_decode_taxonomy_term( $string );
 		$taxonomy = $data['taxonomy'];
 		$term = $data['term'];
-
-
+		
+		
 		// create empty array
 		if( !isset($terms[ $taxonomy ]) ) {
-
+			
 			$terms[ $taxonomy ] = array();
-
+			
 		}
-
-
+				
+		
 		// append
 		$terms[ $taxonomy ][] = $term;
-
+		
 	}
-
-
+	
+	
 	// return
 	return $terms;
-
+	
 }
 
 
@@ -1332,71 +1383,71 @@ function acf_decode_taxonomy_terms( $strings = false ) {
 */
 
 function acf_decode_taxonomy_term( $value ) {
-
+	
 	// vars
 	$data = array(
 		'taxonomy'	=> '',
 		'term'		=> ''
 	);
-
-
+	
+	
 	// int
 	if( is_numeric($value) ) {
-
+		
 		$data['term'] = $value;
-
+			
 	// string
 	} elseif( is_string($value) ) {
-
+		
 		$value = explode(':', $value);
 		$data['taxonomy'] = isset($value[0]) ? $value[0] : '';
 		$data['term'] = isset($value[1]) ? $value[1] : '';
-
-	// error
+		
+	// error	
 	} else {
-
+		
 		return false;
-
+		
 	}
-
-
+	
+	
 	// allow for term_id (Used by ACF v4)
 	if( is_numeric($data['term']) ) {
-
+		
 		// global
 		global $wpdb;
-
-
+		
+		
 		// find taxonomy
 		if( !$data['taxonomy'] ) {
-
+			
 			$data['taxonomy'] = $wpdb->get_var( $wpdb->prepare("SELECT taxonomy FROM $wpdb->term_taxonomy WHERE term_id = %d LIMIT 1", $data['term']) );
-
+			
 		}
-
-
+		
+		
 		// find term (may have numeric slug '123')
 		$term = get_term_by( 'slug', $data['term'], $data['taxonomy'] );
-
-
+		
+		
 		// attempt get term via ID (ACF4 uses ID)
 		if( !$term ) $term = get_term( $data['term'], $data['taxonomy'] );
-
-
+		
+		
 		// bail early if no term
 		if( !$term ) return false;
-
-
+		
+		
 		// update
 		$data['taxonomy'] = $term->taxonomy;
 		$data['term'] = $term->slug;
-
+		
 	}
-
-
+	
+	
 	// return
 	return $data;
-
+	
 }
 
 
@@ -1414,28 +1465,28 @@ function acf_decode_taxonomy_term( $value ) {
 */
 
 function acf_get_array( $var = false, $delimiter = '' ) {
-
+	
 	// array
 	if( is_array($var) ) {
 		return $var;
 	}
-
-
+	
+	
 	// bail early if empty
 	if( acf_is_empty($var) ) {
 		return array();
 	}
-
-
-	// string
+	
+	
+	// string 
 	if( is_string($var) && $delimiter ) {
 		return explode($delimiter, $var);
 	}
-
-
+	
+	
 	// place in array
 	return (array) $var;
-
+	
 }
 
 
@@ -1453,31 +1504,31 @@ function acf_get_array( $var = false, $delimiter = '' ) {
 */
 
 function acf_get_numeric( $value = '' ) {
-
+	
 	// vars
 	$numbers = array();
 	$is_array = is_array($value);
-
-
+	
+	
 	// loop
 	foreach( (array) $value as $v ) {
-
+		
 		if( is_numeric($v) ) $numbers[] = (int) $v;
-
+		
 	}
-
-
+	
+	
 	// bail early if is empty
 	if( empty($numbers) ) return false;
-
-
+	
+	
 	// convert array
 	if( !$is_array ) $numbers = $numbers[0];
-
-
+	
+	
 	// return
 	return $numbers;
-
+	
 }
 
 
@@ -1495,13 +1546,13 @@ function acf_get_numeric( $value = '' ) {
 */
 
 function acf_get_posts( $args = array() ) {
-
+	
 	// vars
 	$posts = array();
-
-
+	
+	
 	// defaults
-	// leave suppress_filters as true becuase we don't want any plugins to modify the query as we know exactly what
+	// leave suppress_filters as true becuase we don't want any plugins to modify the query as we know exactly what 
 	$args = wp_parse_args( $args, array(
 		'posts_per_page'			=> -1,
 		'post_type'					=> '',
@@ -1509,70 +1560,70 @@ function acf_get_posts( $args = array() ) {
 		'update_post_meta_cache'	=> false,
 		'update_post_term_cache' 	=> false
 	));
-
+	
 
 	// post type
 	if( empty($args['post_type']) ) {
-
+		
 		$args['post_type'] = acf_get_post_types();
-
+		
 	}
-
-
+	
+	
 	// validate post__in
 	if( $args['post__in'] ) {
-
+		
 		// force value to array
 		$args['post__in'] = acf_get_array( $args['post__in'] );
-
-
+		
+		
 		// convert to int
 		$args['post__in'] = array_map('intval', $args['post__in']);
-
-
+		
+		
 		// add filter to remove post_type
 		// use 'query' filter so that 'suppress_filters' can remain true
 		//add_filter('query', '_acf_query_remove_post_type');
-
-
+		
+		
 		// order by post__in
 		$args['orderby'] = 'post__in';
-
+		
 	}
-
-
+	
+	
 	// load posts in 1 query to save multiple DB calls from following code
 	$posts = get_posts($args);
-
-
+	
+	
 	// remove this filter (only once)
 	//remove_filter('query', '_acf_query_remove_post_type');
-
-
+	
+	
 	// validate order
 	if( $posts && $args['post__in'] ) {
-
+		
 		// vars
 		$order = array();
-
-
+		
+		
 		// generate sort order
 		foreach( $posts as $i => $post ) {
-
+			
 			$order[ $i ] = array_search($post->ID, $args['post__in']);
-
+			
 		}
-
-
+		
+		
 		// sort
 		array_multisort($order, $posts);
-
+			
 	}
-
-
+	
+	
 	// return
 	return $posts;
-
+	
 }
 
 
@@ -1591,43 +1642,43 @@ function acf_get_posts( $args = array() ) {
 */
 
 function _acf_query_remove_post_type( $sql ) {
-
+	
 	// global
 	global $wpdb;
-
-
+	
+	
 	// bail ealry if no 'wp_posts.ID IN'
 	if( strpos($sql, "$wpdb->posts.ID IN") === false ) {
-
+		
 		return $sql;
-
+		
 	}
-
-
+	
+    
     // get bits
 	$glue = 'AND';
 	$bits = explode($glue, $sql);
-
-
+	
+    
 	// loop through $where and remove any post_type queries
 	foreach( $bits as $i => $bit ) {
-
+		
 		if( strpos($bit, "$wpdb->posts.post_type") !== false ) {
-
+			
 			unset( $bits[ $i ] );
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// join $where back together
 	$sql = implode($glue, $bits);
-
-
+    
+    
     // return
     return $sql;
-
+    
 }
 
 
@@ -1646,11 +1697,11 @@ function _acf_query_remove_post_type( $sql ) {
 */
 
 function acf_get_grouped_posts( $args ) {
-
+	
 	// vars
-	$r = array();
-
-
+	$data = array();
+	
+	
 	// defaults
 	$args = wp_parse_args( $args, array(
 		'posts_per_page'			=> -1,
@@ -1663,284 +1714,277 @@ function acf_get_grouped_posts( $args ) {
 		'update_post_meta_cache'	=> false,
 	));
 
-
+	
 	// find array of post_type
 	$post_types = acf_get_array( $args['post_type'] );
 	$post_types_labels = acf_get_pretty_post_types($post_types);
-
-
+	$is_single_post_type = ( count($post_types) == 1 );
+	
+	
 	// attachment doesn't work if it is the only item in an array
-	if( count($post_types) == 1 ) {
-
-		$args['post_type'] = current($post_types);
-
+	if( $is_single_post_type ) {
+		$args['post_type'] = reset($post_types);
 	}
-
-
+	
+	
 	// add filter to orderby post type
-	add_filter('posts_orderby', '_acf_orderby_post_type', 10, 2);
-
-
+	if( !$is_single_post_type ) {
+		add_filter('posts_orderby', '_acf_orderby_post_type', 10, 2);
+	}
+	
+	
 	// get posts
 	$posts = get_posts( $args );
-
-
+	
+	
 	// remove this filter (only once)
-	remove_filter('posts_orderby', '_acf_orderby_post_type');
-
-
+	if( !$is_single_post_type ) {
+		remove_filter('posts_orderby', '_acf_orderby_post_type', 10, 2);
+	}
+	
+	
 	// loop
 	foreach( $post_types as $post_type ) {
-
+		
 		// vars
 		$this_posts = array();
 		$this_group = array();
-
-
+		
+		
 		// populate $this_posts
-		foreach( array_keys($posts) as $key ) {
-
-			if( $posts[ $key ]->post_type == $post_type ) {
-
-				$this_posts[] = acf_extract_var( $posts, $key );
-
+		foreach( $posts as $post ) {
+			if( $post->post_type == $post_type ) {
+				$this_posts[] = $post;
 			}
-
 		}
-
-
+		
+		
 		// bail early if no posts for this post type
 		if( empty($this_posts) ) continue;
-
-
+		
+		
 		// sort into hierachial order!
 		// this will fail if a search has taken place because parents wont exist
 		if( is_post_type_hierarchical($post_type) && empty($args['s'])) {
-
+			
 			// vars
-			$match_id = $this_posts[ 0 ]->ID;
+			$post_id = $this_posts[0]->ID;
+			$parent_id = acf_maybe_get($args, 'post_parent', 0);
 			$offset = 0;
 			$length = count($this_posts);
-			$parent = acf_maybe_get( $args, 'post_parent', 0 );
-
-
-			// get all posts
-			$all_args = array_merge($args, array(
+			
+			
+			// get all posts from this post type
+			$all_posts = get_posts(array_merge($args, array(
 				'posts_per_page'	=> -1,
 				'paged'				=> 0,
 				'post_type'			=> $post_type
-			));
-
-			$all_posts = get_posts( $all_args );
-
-
-			// loop over posts and update $offset
-			foreach( $all_posts as $offset => $p ) {
-
-				if( $p->ID == $match_id ) break;
-
+			)));
+			
+			
+			// find starting point (offset)
+			foreach( $all_posts as $i => $post ) {
+				if( $post->ID == $post_id ) {
+					$offset = $i;
+					break;
+				}
 			}
-
-
+			
+			
 			// order posts
-			$ordered_posts = get_page_children( $parent, $all_posts );
-
-
-			// check for empty array (possible if parent did not exist within original data)
-			if( !empty($ordered_posts) ) {
-
+			$ordered_posts = get_page_children($parent_id, $all_posts);
+			
+			
+			// compare aray lengths
+			// if $ordered_posts is smaller than $all_posts, WP has lost posts during the get_page_children() function
+			// this is possible when get_post( $args ) filter out parents (via taxonomy, meta and other search parameters) 
+			if( count($ordered_posts) == count($all_posts) ) {
 				$this_posts = array_slice($ordered_posts, $offset, $length);
-
 			}
-
+			
 		}
-
-
+		
+		
 		// populate $this_posts
-		foreach( array_keys($this_posts) as $key ) {
-
-			// extract post
-			$post = acf_extract_var( $this_posts, $key );
-
-
-
-			// add to group
+		foreach( $this_posts as $post ) {
 			$this_group[ $post->ID ] = $post;
-
 		}
-
-
+		
+		
 		// group by post type
-		$post_type_name = $post_types_labels[ $post_type ];
-
-		$r[ $post_type_name ] = $this_group;
-
+		$label = $post_types_labels[ $post_type ];
+		$data[ $label ] = $this_group;
+					
 	}
-
-
+	
+	
 	// return
-	return $r;
-
+	return $data;
+	
 }
 
-function _acf_orderby_post_type( $ordeby, $wp_query ) {
 
+function _acf_orderby_post_type( $ordeby, $wp_query ) {
+	
 	// global
 	global $wpdb;
-
-
+	
+	
 	// get post types
 	$post_types = $wp_query->get('post_type');
-
+	
 
 	// prepend SQL
 	if( is_array($post_types) ) {
-
+		
 		$post_types = implode("','", $post_types);
 		$ordeby = "FIELD({$wpdb->posts}.post_type,'$post_types')," . $ordeby;
-
+		
 	}
-
-
+	
+	
 	// return
 	return $ordeby;
-
+	
 }
 
 
 function acf_get_post_title( $post = 0, $is_search = false ) {
-
+	
 	// vars
 	$post = get_post($post);
 	$title = '';
 	$prepend = '';
 	$append = '';
-
-
+	
+    
 	// bail early if no post
 	if( !$post ) return '';
-
-
+	
+	
 	// title
 	$title = get_the_title( $post->ID );
-
-
+	
+	
 	// empty
 	if( $title === '' ) {
-
+		
 		$title = __('(no title)', 'acf');
-
+		
 	}
-
-
+	
+	
 	// status
 	if( get_post_status( $post->ID ) != "publish" ) {
-
+		
 		$append .= ' (' . get_post_status( $post->ID ) . ')';
-
+		
 	}
-
-
+	
+	
 	// ancestors
 	if( $post->post_type !== 'attachment' ) {
-
+		
 		// get ancestors
 		$ancestors = get_ancestors( $post->ID, $post->post_type );
 		$prepend .= str_repeat('- ', count($ancestors));
-
-
+		
+		
 		// add parent
+/*
+		removed in 5.6.5 as not used by the UI
 		if( $is_search && !empty($ancestors) ) {
-
+			
 			// reverse
 			$ancestors = array_reverse($ancestors);
-
-
+			
+			
 			// convert id's into titles
 			foreach( $ancestors as $i => $id ) {
-
+				
 				$ancestors[ $i ] = get_the_title( $id );
-
+				
 			}
-
-
+			
+			
 			// append
 			$append .= ' | ' . __('Parent', 'acf') . ': ' . implode(' / ', $ancestors);
-
+			
 		}
-
+*/
+		
 	}
-
-
+	
+	
 	// merge
 	$title = $prepend . $title . $append;
-
-
+	
+	
 	// return
 	return $title;
-
+	
 }
 
 
 function acf_order_by_search( $array, $search ) {
-
+	
 	// vars
 	$weights = array();
 	$needle = strtolower( $search );
-
-
+	
+	
 	// add key prefix
 	foreach( array_keys($array) as $k ) {
-
+		
 		$array[ '_' . $k ] = acf_extract_var( $array, $k );
-
+		
 	}
 
 
 	// add search weight
 	foreach( $array as $k => $v ) {
-
+	
 		// vars
 		$weight = 0;
 		$haystack = strtolower( $v );
 		$strpos = strpos( $haystack, $needle );
-
-
+		
+		
 		// detect search match
 		if( $strpos !== false ) {
-
+			
 			// set eright to length of match
 			$weight = strlen( $search );
-
-
+			
+			
 			// increase weight if match starts at begining of string
 			if( $strpos == 0 ) {
-
+				
 				$weight++;
-
+				
 			}
-
+			
 		}
-
-
+		
+		
 		// append to wights
 		$weights[ $k ] = $weight;
-
+		
 	}
-
-
+	
+	
 	// sort the array with menu_order ascending
 	array_multisort( $weights, SORT_DESC, $array );
-
-
+	
+	
 	// remove key prefix
 	foreach( array_keys($array) as $k ) {
-
+		
 		$array[ substr($k,1) ] = acf_extract_var( $array, $k );
-
+		
 	}
-
-
+		
+	
 	// return
 	return $array;
 }
@@ -1960,29 +2004,29 @@ function acf_order_by_search( $array, $search ) {
 */
 
 function acf_get_pretty_user_roles( $allowed = false ) {
-
+	
 	// vars
 	$editable_roles = get_editable_roles();
 	$allowed = acf_get_array($allowed);
 	$roles = array();
-
-
+	
+	
 	// loop
-	foreach( $editable_roles as $role_name => $role_details ) {
-
+	foreach( $editable_roles as $role_name => $role_details ) {	
+		
 		// bail early if not allowed
 		if( !empty($allowed) && !in_array($role_name, $allowed) ) continue;
-
-
+		
+		
 		// append
 		$roles[ $role_name ] = translate_user_role( $role_details['name'] );
-
+		
 	}
-
-
+	
+	
 	// return
 	return $roles;
-
+		
 }
 
 
@@ -2001,11 +2045,11 @@ function acf_get_pretty_user_roles( $allowed = false ) {
 */
 
 function acf_get_grouped_users( $args = array() ) {
-
+	
 	// vars
 	$r = array();
-
-
+	
+	
 	// defaults
 	$args = wp_parse_args( $args, array(
 		'users_per_page'			=> -1,
@@ -2014,131 +2058,131 @@ function acf_get_grouped_users( $args = array() ) {
 		'orderby'					=> 'login',
 		'order'						=> 'ASC',
 	));
-
-
+	
+	
 	// offset
 	$i = 0;
 	$min = 0;
 	$max = 0;
 	$users_per_page = acf_extract_var($args, 'users_per_page');
 	$paged = acf_extract_var($args, 'paged');
-
+	
 	if( $users_per_page > 0 ) {
-
+		
 		// prevent paged from being -1
 		$paged = max(0, $paged);
-
-
+		
+		
 		// set min / max
 		$min = (($paged-1) * $users_per_page) + 1; // 	1, 	11
 		$max = ($paged * $users_per_page); // 			10,	20
-
+		
 	}
-
-
+	
+	
 	// find array of post_type
 	$user_roles = acf_get_pretty_user_roles($args['role']);
-
-
+	
+	
 	// fix role
 	if( is_array($args['role']) ) {
-
+		
 		// global
    		global $wp_version, $wpdb;
-
-
+   		
+   		
 		// vars
 		$roles = acf_extract_var($args, 'role');
-
-
+		
+		
 		// new WP has role__in
 		if( version_compare($wp_version, '4.4', '>=' ) ) {
-
+			
 			$args['role__in'] = $roles;
-
+				
 		// old WP doesn't have role__in
 		} else {
-
+			
 			// vars
 			$blog_id = get_current_blog_id();
 			$meta_query = array( 'relation' => 'OR' );
-
-
+			
+			
 			// loop
 			foreach( $roles as $role ) {
-
+				
 				$meta_query[] = array(
 					'key'     => $wpdb->get_blog_prefix( $blog_id ) . 'capabilities',
 					'value'   => '"' . $role . '"',
 					'compare' => 'LIKE',
 				);
-
+				
 			}
-
-
+			
+			
 			// append
 			$args['meta_query'] = $meta_query;
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// get posts
 	$users = get_users( $args );
-
-
+	
+	
 	// loop
 	foreach( $user_roles as $user_role_name => $user_role_label ) {
-
+		
 		// vars
 		$this_users = array();
 		$this_group = array();
-
-
+		
+		
 		// populate $this_posts
 		foreach( array_keys($users) as $key ) {
-
+			
 			// bail ealry if not correct role
 			if( !in_array($user_role_name, $users[ $key ]->roles) ) continue;
-
-
+		
+			
 			// extract user
 			$user = acf_extract_var( $users, $key );
-
-
+			
+			
 			// increase
 			$i++;
-
-
+			
+			
 			// bail ealry if too low
 			if( $min && $i < $min ) continue;
-
-
+			
+			
 			// bail early if too high (don't bother looking at any more users)
 			if( $max && $i > $max ) break;
-
-
+			
+			
 			// group by post type
 			$this_users[ $user->ID ] = $user;
-
-
+			
+			
 		}
-
-
+		
+		
 		// bail early if no posts for this post type
 		if( empty($this_users) ) continue;
-
-
+		
+		
 		// append
 		$r[ $user_role_label ] = $this_users;
-
+					
 	}
-
-
+	
+	
 	// return
 	return $r;
-
+	
 }
 
 
@@ -2156,20 +2200,20 @@ function acf_get_grouped_users( $args = array() ) {
 */
 
 function acf_json_encode( $json ) {
-
+	
 	// PHP at least 5.4
 	if( version_compare(PHP_VERSION, '5.4.0', '>=') ) {
-
+		
 		return json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
+		
 	}
 
-
-
+	
+	
 	// PHP less than 5.4
 	$json = json_encode($json);
-
-
+	
+	
 	// http://snipplr.com/view.php?codeview&id=60559
     $result      = '';
     $pos         = 0;
@@ -2187,8 +2231,8 @@ function acf_json_encode( $json ) {
         // Are we inside a quoted string?
         if ($char == '"' && $prevChar != '\\') {
             $outOfQuotes = !$outOfQuotes;
-
-        // If this character is the end of an element,
+        
+        // If this character is the end of an element, 
         // output a new line and indent the next line.
         } else if(($char == '}' || $char == ']') && $outOfQuotes) {
             $result .= $newLine;
@@ -2197,35 +2241,35 @@ function acf_json_encode( $json ) {
                 $result .= $indentStr;
             }
         }
-
+        
         // Add the character to the result string.
         $result .= $char;
-
+		
 		// If this character is ':' adda space after it
         if($char == ':' && $outOfQuotes) {
             $result .= ' ';
         }
-
-        // If the last character was the beginning of an element,
+        
+        // If the last character was the beginning of an element, 
         // output a new line and indent the next line.
         if (($char == ',' || $char == '{' || $char == '[') && $outOfQuotes) {
             $result .= $newLine;
             if ($char == '{' || $char == '[') {
                 $pos ++;
             }
-
+            
             for ($j = 0; $j < $pos; $j++) {
                 $result .= $indentStr;
             }
         }
-
+        
         $prevChar = $char;
     }
-
-
+	
+	
 	// return
     return $result;
-
+	
 }
 
 
@@ -2244,15 +2288,15 @@ function acf_json_encode( $json ) {
 */
 
 function acf_str_exists( $needle, $haystack ) {
-
+	
 	// return true if $haystack contains the $needle
 	if( is_string($haystack) && strpos($haystack, $needle) !== false ) {
-
+		
 		return true;
-
+		
 	}
-
-
+	
+	
 	// return
 	return false;
 }
@@ -2272,66 +2316,66 @@ function acf_str_exists( $needle, $haystack ) {
 */
 
 function acf_debug() {
-
+	
 	// vars
 	$args = func_get_args();
 	$s = array_shift($args);
 	$o = '';
 	$nl = "\r\n";
-
-
+	
+	
 	// start script
 	$o .= '<script type="text/javascript">' . $nl;
-
+	
 	$o .= 'console.log("' . $s . '"';
-
+	
 	if( !empty($args) ) {
-
+		
 		foreach( $args as $arg ) {
-
+			
 			if( is_object($arg) || is_array($arg) ) {
-
+				
 				$arg = json_encode($arg);
-
+				
 			} elseif( is_bool($arg) ) {
-
+				
 				$arg = $arg ? 'true' : 'false';
-
+				
 			}elseif( is_string($arg) ) {
-
+				
 				$arg = '"' . $arg . '"';
-
+				
 			}
-
+			
 			$o .= ', ' . $arg;
-
+			
 		}
 	}
-
+	
 	$o .= ');' . $nl;
-
-
+	
+	
 	// end script
 	$o .= '</script>' . $nl;
-
-
+	
+	
 	// echo
 	echo $o;
 }
 
 function acf_debug_start() {
-
+	
 	acf_update_setting( 'debug_start', memory_get_usage());
-
+	
 }
 
 function acf_debug_end() {
-
+	
 	$start = acf_get_setting( 'debug_start' );
 	$end = memory_get_usage();
-
+	
 	return $end - $start;
-
+	
 }
 
 
@@ -2349,115 +2393,115 @@ function acf_debug_end() {
 */
 
 function acf_encode_choices( $array = array(), $show_keys = true ) {
-
+	
 	// bail early if not array (maybe a single string)
 	if( !is_array($array) ) return $array;
-
-
+	
+	
 	// bail early if empty array
 	if( empty($array) ) return '';
-
-
+	
+	
 	// vars
 	$string = '';
-
-
+	
+	
 	// if allowed to show keys (good for choices, not for default values)
 	if( $show_keys ) {
-
+		
 		// loop
-		foreach( $array as $k => $v ) {
-
+		foreach( $array as $k => $v ) { 
+			
 			// ignore if key and value are the same
 			if( strval($k) == strval($v) )  continue;
-
-
+			
+			
 			// show key in the value
 			$array[ $k ] = $k . ' : ' . $v;
-
+			
 		}
-
+	
 	}
-
-
+	
+	
 	// implode
 	$string = implode("\n", $array);
 
-
+	
 	// return
 	return $string;
-
+	
 }
 
 function acf_decode_choices( $string = '', $array_keys = false ) {
-
+	
 	// bail early if already array
 	if( is_array($string) ) {
-
+		
 		return $string;
-
+	
 	// allow numeric values (same as string)
 	} elseif( is_numeric($string) ) {
-
+		
 		// do nothing
-
+	
 	// bail early if not a string
 	} elseif( !is_string($string) ) {
-
+		
 		return array();
-
-	// bail early if is empty string
+	
+	// bail early if is empty string 
 	} elseif( $string === '' ) {
-
+		
 		return array();
-
+		
 	}
-
-
+	
+	
 	// vars
 	$array = array();
-
-
+	
+	
 	// explode
 	$lines = explode("\n", $string);
-
-
+	
+	
 	// key => value
 	foreach( $lines as $line ) {
-
+		
 		// vars
 		$k = trim($line);
 		$v = trim($line);
-
-
+		
+		
 		// look for ' : '
 		if( acf_str_exists(' : ', $line) ) {
-
+		
 			$line = explode(' : ', $line);
-
+			
 			$k = trim($line[0]);
 			$v = trim($line[1]);
-
+			
 		}
-
-
+		
+		
 		// append
 		$array[ $k ] = $v;
-
+		
 	}
-
-
+	
+	
 	// return only array keys? (good for checkbox default_value)
 	if( $array_keys ) {
-
+		
 		return array_keys($array);
-
+		
 	}
-
-
+	
+	
 	// return
 	return $array;
-
+	
 }
 
 
@@ -2476,40 +2520,40 @@ function acf_decode_choices( $string = '', $array_keys = false ) {
 *  @return	$post_id (int)
 */
 
-function acf_str_replace( $string, $search_replace ) {
-
+function acf_str_replace( $string = '', $search_replace = array() ) {
+	
 	// vars
 	$ignore = array();
-
-
+	
+	
 	// remove potential empty search to avoid PHP error
 	unset($search_replace['']);
-
-
+	
+		
 	// loop over conversions
 	foreach( $search_replace as $search => $replace ) {
-
+		
 		// ignore this search, it was a previous replace
 		if( in_array($search, $ignore) ) continue;
-
-
+		
+		
 		// bail early if subsctring not found
 		if( strpos($string, $search) === false ) continue;
-
-
+		
+		
 		// replace
 		$string = str_replace($search, $replace, $string);
-
-
+		
+		
 		// append to ignore
 		$ignore[] = $replace;
-
+		
 	}
-
-
+	
+	
 	// return
 	return $string;
-
+	
 }
 
 
@@ -2531,29 +2575,29 @@ acf_update_setting('php_to_js_date_formats', array(
 	// Year
 	'Y'	=> 'yy',	// Numeric, 4 digits 								1999, 2003
 	'y'	=> 'y',		// Numeric, 2 digits 								99, 03
-
-
+	
+	
 	// Month
 	'm'	=> 'mm',	// Numeric, with leading zeros  					01–12
 	'n'	=> 'm',		// Numeric, without leading zeros  					1–12
 	'F'	=> 'MM',	// Textual full   									January – December
-	'M'	=> 'M',		// Textual three letters    						Jan - Dec
-
-
+	'M'	=> 'M',		// Textual three letters    						Jan - Dec 
+	
+	
 	// Weekday
 	'l'	=> 'DD',	// Full name  (lowercase 'L') 						Sunday – Saturday
-	'D'	=> 'D',		// Three letter name 	 							Mon – Sun
-
-
+	'D'	=> 'D',		// Three letter name 	 							Mon – Sun 
+	
+	
 	// Day of Month
 	'd'	=> 'dd',	// Numeric, with leading zeros						01–31
 	'j'	=> 'd',		// Numeric, without leading zeros 					1–31
-	'S'	=> '',		// The English suffix for the day of the month  	st, nd or th in the 1st, 2nd or 15th.
-
+	'S'	=> '',		// The English suffix for the day of the month  	st, nd or th in the 1st, 2nd or 15th. 
+	
 ));
 
 acf_update_setting('php_to_js_time_formats', array(
-
+	
 	'a' => 'tt',	// Lowercase Ante meridiem and Post meridiem 		am or pm
 	'A' => 'TT',	// Uppercase Ante meridiem and Post meridiem 		AM or PM
 	'h' => 'hh',	// 12-hour format of an hour with leading zeros 	01 through 12
@@ -2562,7 +2606,7 @@ acf_update_setting('php_to_js_time_formats', array(
 	'G' => 'H',		// 24-hour format of an hour without leading zeros 	0 through 23
 	'i' => 'mm',	// Minutes with leading zeros 						00 to 59
 	's' => 'ss',	// Seconds, with leading zeros 						00 through 59
-
+	
 ));
 
 
@@ -2580,51 +2624,51 @@ acf_update_setting('php_to_js_time_formats', array(
 */
 
 function acf_split_date_time( $date_time = '' ) {
-
+	
 	// vars
 	$php_date = acf_get_setting('php_to_js_date_formats');
 	$php_time = acf_get_setting('php_to_js_time_formats');
 	$chars = str_split($date_time);
 	$type = 'date';
-
-
+	
+	
 	// default
 	$data = array(
 		'date' => '',
 		'time' => ''
 	);
-
-
+	
+	
 	// loop
 	foreach( $chars as $i => $c ) {
-
+		
 		// find type
 		// - allow misc characters to append to previous type
 		if( isset($php_date[ $c ]) ) {
-
+			
 			$type = 'date';
-
+			
 		} elseif( isset($php_time[ $c ]) ) {
-
+			
 			$type = 'time';
-
+			
 		}
-
-
+		
+		
 		// append char
 		$data[ $type ] .= $c;
-
+		
 	}
-
-
+	
+	
 	// trim
 	$data['date'] = trim($data['date']);
 	$data['time'] = trim($data['time']);
-
-
+	
+	
 	// return
-	return $data;
-
+	return $data;	
+	
 }
 
 
@@ -2642,15 +2686,15 @@ function acf_split_date_time( $date_time = '' ) {
 */
 
 function acf_convert_date_to_php( $date = '' ) {
-
+	
 	// vars
 	$php_to_js = acf_get_setting('php_to_js_date_formats');
 	$js_to_php = array_flip($php_to_js);
-
-
+		
+	
 	// return
 	return acf_str_replace( $date, $js_to_php );
-
+	
 }
 
 /*
@@ -2667,14 +2711,14 @@ function acf_convert_date_to_php( $date = '' ) {
 */
 
 function acf_convert_date_to_js( $date = '' ) {
-
+	
 	// vars
 	$php_to_js = acf_get_setting('php_to_js_date_formats');
-
-
+		
+	
 	// return
 	return acf_str_replace( $date, $php_to_js );
-
+	
 }
 
 
@@ -2692,15 +2736,15 @@ function acf_convert_date_to_js( $date = '' ) {
 */
 
 function acf_convert_time_to_php( $time = '' ) {
-
+	
 	// vars
 	$php_to_js = acf_get_setting('php_to_js_time_formats');
 	$js_to_php = array_flip($php_to_js);
-
-
+		
+	
 	// return
 	return acf_str_replace( $time, $js_to_php );
-
+	
 }
 
 
@@ -2718,14 +2762,14 @@ function acf_convert_time_to_php( $time = '' ) {
 */
 
 function acf_convert_time_to_js( $time = '' ) {
-
+	
 	// vars
 	$php_to_js = acf_get_setting('php_to_js_time_formats');
-
-
+		
+	
 	// return
 	return acf_str_replace( $time, $php_to_js );
-
+	
 }
 
 
@@ -2743,35 +2787,35 @@ function acf_convert_time_to_js( $time = '' ) {
 */
 
 function acf_update_user_setting( $name, $value ) {
-
+	
 	// get current user id
 	$user_id = get_current_user_id();
-
-
+	
+	
 	// get user settings
 	$settings = get_user_meta( $user_id, 'acf_user_settings', true );
-
-
+	
+	
 	// ensure array
 	$settings = acf_get_array($settings);
-
-
+	
+	
 	// delete setting (allow 0 to save)
 	if( acf_is_empty($value) ) {
-
+		
 		unset($settings[ $name ]);
-
-	// append setting
+	
+	// append setting	
 	} else {
-
+		
 		$settings[ $name ] = $value;
-
+		
 	}
-
-
+	
+	
 	// update user data
 	return update_metadata('user', $user_id, 'acf_user_settings', $settings);
-
+	
 }
 
 
@@ -2789,26 +2833,26 @@ function acf_update_user_setting( $name, $value ) {
 */
 
 function acf_get_user_setting( $name = '', $default = false ) {
-
+	
 	// get current user id
 	$user_id = get_current_user_id();
-
-
+	
+	
 	// get user settings
 	$settings = get_user_meta( $user_id, 'acf_user_settings', true );
-
-
+	
+	
 	// ensure array
 	$settings = acf_get_array($settings);
-
-
+	
+	
 	// bail arly if no settings
 	if( !isset($settings[$name]) ) return $default;
-
-
+	
+	
 	// return
 	return $settings[$name];
-
+	
 }
 
 
@@ -2826,14 +2870,14 @@ function acf_get_user_setting( $name = '', $default = false ) {
 */
 
 function acf_in_array( $value = '', $array = false ) {
-
+	
 	// bail early if not array
 	if( !is_array($array) ) return false;
-
-
+	
+	
 	// find value in array
 	return in_array($value, $array);
-
+	
 }
 
 
@@ -2851,92 +2895,92 @@ function acf_in_array( $value = '', $array = false ) {
 */
 
 function acf_get_valid_post_id( $post_id = 0 ) {
-
+	
 	// vars
 	$_post_id = $post_id;
-
-
+	
+	
 	// if not $post_id, load queried object
 	if( !$post_id ) {
-
+		
 		// try for global post (needed for setup_postdata)
 		$post_id = (int) get_the_ID();
-
-
+		
+		
 		// try for current screen
 		if( !$post_id ) {
-
+			
 			$post_id = get_queried_object();
-
+				
 		}
-
+		
 	}
-
-
+	
+	
 	// $post_id may be an object
 	if( is_object($post_id) ) {
-
+		
 		// post
 		if( isset($post_id->post_type, $post_id->ID) ) {
-
+		
 			$post_id = $post_id->ID;
-
+			
 		// user
 		} elseif( isset($post_id->roles, $post_id->ID) ) {
-
+		
 			$post_id = 'user_' . $post_id->ID;
-
+		
 		// term
 		} elseif( isset($post_id->taxonomy, $post_id->term_id) ) {
-
+			
 			$post_id = acf_get_term_post_id( $post_id->taxonomy, $post_id->term_id );
-
+		
 		// comment
 		} elseif( isset($post_id->comment_ID) ) {
-
+		
 			$post_id = 'comment_' . $post_id->comment_ID;
-
+		
 		// default
 		} else {
-
+			
 			$post_id = 0;
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// allow for option == options
 	if( $post_id === 'option' ) {
-
+	
 		$post_id = 'options';
-
+		
 	}
-
-
+	
+	
 	// append language code
 	if( $post_id == 'options' ) {
-
+		
 		$dl = acf_get_setting('default_language');
 		$cl = acf_get_setting('current_language');
-
+		
 		if( $cl && $cl !== $dl ) {
-
+			
 			$post_id .= '_' . $cl;
-
+			
 		}
-
+			
 	}
-
-
-
+	
+	
+	
 	// filter for 3rd party
 	$post_id = apply_filters('acf/validate_post_id', $post_id, $_post_id);
-
-
+	
+	
 	// return
 	return $post_id;
-
+	
 }
 
 
@@ -2955,69 +2999,72 @@ function acf_get_valid_post_id( $post_id = 0 ) {
 */
 
 function acf_get_post_id_info( $post_id = 0 ) {
-
+	
 	// vars
 	$info = array(
 		'type'	=> 'post',
 		'id'	=> 0
 	);
-
+	
 	// bail early if no $post_id
 	if( !$post_id ) return $info;
-
-
+	
+	
 	// check cache
 	// - this function will most likely be called multiple times (saving loading fields from post)
 	//$cache_key = "get_post_id_info/post_id={$post_id}";
-
+	
 	//if( acf_isset_cache($cache_key) ) return acf_get_cache($cache_key);
-
-
+	
+	
 	// numeric
 	if( is_numeric($post_id) ) {
-
+		
 		$info['id'] = (int) $post_id;
-
+	
 	// string
 	} elseif( is_string($post_id) ) {
-
+		
 		// vars
 		$glue = '_';
 		$type = explode($glue, $post_id);
 		$id = array_pop($type);
 		$type = implode($glue, $type);
 		$meta = array('post', 'user', 'comment', 'term');
-
-
+		
+		
 		// check if is taxonomy (ACF < 5.5)
 		// - avoid scenario where taxonomy exists with name of meta type
 		if( !in_array($type, $meta) && acf_isset_termmeta($type) ) $type = 'term';
-
-
+		
+		
 		// meta
 		if( is_numeric($id) && in_array($type, $meta) ) {
-
+			
 			$info['type'] = $type;
 			$info['id'] = (int) $id;
-
-		// option
+		
+		// option	
 		} else {
-
+			
 			$info['type'] = 'option';
 			$info['id'] = $post_id;
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// update cache
 	//acf_set_cache($cache_key, $info);
-
-
+	
+	
+	// filter
+	$info = apply_filters("acf/get_post_id_info", $info, $post_id);
+	
 	// return
 	return $info;
-
+	
 }
 
 
@@ -3059,18 +3106,18 @@ acf_log( acf_get_post_id_info('options') );
 */
 
 function acf_isset_termmeta( $taxonomy = '' ) {
-
+	
 	// bail ealry if no table
 	if( get_option('db_version') < 34370 ) return false;
-
-
+	
+	
 	// check taxonomy
 	if( $taxonomy && !taxonomy_exists($taxonomy) ) return false;
-
-
+	
+	
 	// return
 	return true;
-
+		
 }
 
 
@@ -3089,18 +3136,18 @@ function acf_isset_termmeta( $taxonomy = '' ) {
 */
 
 function acf_get_term_post_id( $taxonomy, $term_id ) {
-
+	
 	// WP < 4.4
 	if( !acf_isset_termmeta() ) {
-
+		
 		return $taxonomy . '_' . $term_id;
-
+		
 	}
-
-
+	
+	
 	// return
 	return 'term_' . $term_id;
-
+	
 }
 
 
@@ -3116,9 +3163,9 @@ function acf_get_term_post_id( $taxonomy, $term_id ) {
 *  @param	$ancestors (array) an internal parameter, not required
 *  @return	n/a
 */
-
+	
 function acf_upload_files( $ancestors = array() ) {
-
+	
 	// vars
 	$file = array(
 		'name'		=> '',
@@ -3127,68 +3174,68 @@ function acf_upload_files( $ancestors = array() ) {
 		'error'		=> '',
 		'size' 		=> ''
 	);
-
-
+	
+	
 	// populate with $_FILES data
 	foreach( array_keys($file) as $k ) {
-
+		
 		$file[ $k ] = $_FILES['acf'][ $k ];
-
+		
 	}
-
-
+	
+	
 	// walk through ancestors
 	if( !empty($ancestors) ) {
-
+		
 		foreach( $ancestors as $a ) {
-
+			
 			foreach( array_keys($file) as $k ) {
-
+				
 				$file[ $k ] = $file[ $k ][ $a ];
-
+				
 			}
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// is array?
 	if( is_array($file['name']) ) {
-
+		
 		foreach( array_keys($file['name']) as $k ) {
-
+				
 			$_ancestors = array_merge($ancestors, array($k));
-
+			
 			acf_upload_files( $_ancestors );
-
+			
 		}
-
+		
 		return;
-
+		
 	}
-
-
+	
+	
 	// bail ealry if file has error (no file uploaded)
 	if( $file['error'] ) {
-
+		
 		return;
-
+		
 	}
-
-
+	
+	
 	// assign global _acfuploader for media validation
 	$_POST['_acfuploader'] = end($ancestors);
-
-
+	
+	
 	// file found!
 	$attachment_id = acf_upload_file( $file );
-
-
+	
+	
 	// update $_POST
 	array_unshift($ancestors, 'acf');
 	acf_update_nested_array( $_POST, $ancestors, $attachment_id );
-
+	
 }
 
 
@@ -3206,43 +3253,42 @@ function acf_upload_files( $ancestors = array() ) {
 */
 
 function acf_upload_file( $uploaded_file ) {
-
+	
 	// required
 	//require_once( ABSPATH . "/wp-load.php" ); // WP should already be loaded
 	require_once( ABSPATH . "/wp-admin/includes/media.php" ); // video functions
 	require_once( ABSPATH . "/wp-admin/includes/file.php" );
 	require_once( ABSPATH . "/wp-admin/includes/image.php" );
-
-
+	 
+	 
 	// required for wp_handle_upload() to upload the file
 	$upload_overrides = array( 'test_form' => false );
-
-
+	
+	
 	// upload
 	$file = wp_handle_upload( $uploaded_file, $upload_overrides );
-
-
+	
+	
 	// bail ealry if upload failed
 	if( isset($file['error']) ) {
-
+		
 		return $file['error'];
-
+		
 	}
-
-
+	
+	
 	// vars
 	$url = $file['url'];
 	$type = $file['type'];
 	$file = $file['file'];
 	$filename = basename($file);
-
+	
 
 	// Construct the object array
 	$object = array(
 		'post_title' => $filename,
 		'post_mime_type' => $type,
-		'guid' => $url,
-		'context' => 'acf-upload'
+		'guid' => $url
 	);
 
 	// Save the data
@@ -3250,13 +3296,13 @@ function acf_upload_file( $uploaded_file ) {
 
 	// Add the meta-data
 	wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );
-
+	
 	/** This action is documented in wp-admin/custom-header.php */
 	do_action( 'wp_create_file_in_uploads', $file, $id ); // For replication
-
+	
 	// return new ID
 	return $id;
-
+	
 }
 
 
@@ -3276,31 +3322,31 @@ function acf_upload_file( $uploaded_file ) {
 */
 
 function acf_update_nested_array( &$array, $ancestors, $value ) {
-
+	
 	// if no more ancestors, update the current var
 	if( empty($ancestors) ) {
-
+		
 		$array = $value;
-
+		
 		// return
 		return true;
-
+		
 	}
-
-
+	
+	
 	// shift the next ancestor from the array
 	$k = array_shift( $ancestors );
-
-
+	
+	
 	// if exists
 	if( isset($array[ $k ]) ) {
-
+		
 		return acf_update_nested_array( $array[ $k ], $ancestors, $value );
-
+		
 	}
-
-
-	// return
+		
+	
+	// return 
 	return false;
 }
 
@@ -3319,22 +3365,27 @@ function acf_update_nested_array( &$array, $ancestors, $value ) {
 */
 
 function acf_is_screen( $id = '' ) {
-
+	
 	// bail early if not defined
-	if( !function_exists('get_current_screen') ) return false;
-
-
+	if( !function_exists('get_current_screen') ) {
+		return false;
+	}
+	
 	// vars
 	$current_screen = get_current_screen();
-
-
-	// bail early if no screen
-	if( !$current_screen ) return false;
-
-
-	// return
-	return ($id === $current_screen->id);
-
+	
+	// no screen
+	if( !$current_screen ) {
+		return false;
+	
+	// array
+	} elseif( is_array($id) ) {
+		return in_array($current_screen->id, $id);
+	
+	// string
+	} else {
+		return ($id === $current_screen->id);
+	}
 }
 
 
@@ -3354,21 +3405,21 @@ function acf_is_screen( $id = '' ) {
 */
 
 function acf_maybe_get( $array = array(), $key = 0, $default = null ) {
-
+	
 	return isset( $array[$key] ) ? $array[$key] : $default;
-
+		
 }
 
 function acf_maybe_get_POST( $key = '', $default = null ) {
-
+	
 	return isset( $_POST[$key] ) ? $_POST[$key] : $default;
-
+	
 }
 
 function acf_maybe_get_GET( $key = '', $default = null ) {
-
+	
 	return isset( $_GET[$key] ) ? $_GET[$key] : $default;
-
+	
 }
 
 
@@ -3385,99 +3436,117 @@ function acf_maybe_get_GET( $key = '', $default = null ) {
 *  @return	(array)
 */
 
-function acf_get_attachment( $post ) {
-
-	// post
-	$post = get_post($post);
-
-
-	// bail early if no post
-	if( !$post ) return false;
-
-
+function acf_get_attachment( $attachment ) {
+	
+	// get post
+	if( !$attachment = get_post($attachment) ) {
+		return false;
+	}
+	
+	// validate post_type
+	if( $attachment->post_type !== 'attachment' ) {
+		return false;
+	}
+	
 	// vars
-	$thumb_id = 0;
-	$id = $post->ID;
-	$a = array(
-		'ID'			=> $id,
-		'id'			=> $id,
-		'title'       	=> $post->post_title,
-		'filename'    	=> wp_basename( $post->guid ),
-		'url'			=> wp_get_attachment_url( $id ),
-		'alt'			=> get_post_meta($id, '_wp_attachment_image_alt', true),
-		'author'		=> $post->post_author,
-		'description'	=> $post->post_content,
-		'caption'		=> $post->post_excerpt,
-		'name'			=> $post->post_name,
-		'date'			=> $post->post_date_gmt,
-		'modified'		=> $post->post_modified_gmt,
-		'mime_type'		=> $post->post_mime_type,
-		'type'			=> acf_maybe_get( explode('/', $post->post_mime_type), 0, '' ),
-		'icon'			=> wp_mime_type_icon( $id )
+	$sizes_id = 0;
+	$meta = wp_get_attachment_metadata( $attachment->ID );
+	$attached_file = get_attached_file( $attachment->ID );
+	$attachment_url = wp_get_attachment_url( $attachment->ID );
+	
+	// get mime types
+	if( strpos( $attachment->post_mime_type, '/' ) !== false ) {
+		list( $type, $subtype ) = explode( '/', $attachment->post_mime_type );
+	} else {
+		list( $type, $subtype ) = array( $attachment->post_mime_type, '' );
+	}
+	
+	// vars
+	$response = array(
+		'ID'			=> $attachment->ID,
+		'id'			=> $attachment->ID,
+		'title'       	=> $attachment->post_title,
+		'filename'		=> wp_basename( $attached_file ),
+		'filesize'		=> 0,
+		'url'			=> $attachment_url,
+		'link'			=> get_attachment_link( $attachment->ID ),
+		'alt'			=> get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true ),
+		'author'		=> $attachment->post_author,
+		'description'	=> $attachment->post_content,
+		'caption'		=> $attachment->post_excerpt,
+		'name'			=> $attachment->post_name,
+        'status'		=> $attachment->post_status,
+        'uploaded_to'	=> $attachment->post_parent,
+        'date'			=> $attachment->post_date_gmt,
+		'modified'		=> $attachment->post_modified_gmt,
+		'menu_order'	=> $attachment->menu_order,
+		'mime_type'		=> $attachment->post_mime_type,
+        'type'			=> $type,
+        'subtype'		=> $subtype,
+        'icon'			=> wp_mime_type_icon( $attachment->ID )
 	);
-
-
-	// video may use featured image
-	if( $a['type'] === 'image' ) {
-
-		$thumb_id = $id;
-		$src = wp_get_attachment_image_src( $id, 'full' );
-
-		$a['url'] = $src[0];
-		$a['width'] = $src[1];
-		$a['height'] = $src[2];
-
-
-	} elseif( $a['type'] === 'audio' || $a['type'] === 'video' ) {
-
-		// video dimentions
-		if( $a['type'] == 'video' ) {
-
-			$meta = wp_get_attachment_metadata( $id );
-			$a['width'] = acf_maybe_get($meta, 'width', 0);
-			$a['height'] = acf_maybe_get($meta, 'height', 0);
-
-		}
-
-
-		// feature image
-		if( $featured_id = get_post_thumbnail_id($id) ) {
-
-			$thumb_id = $featured_id;
-
-		}
-
+	
+	// filesize
+	if( isset($meta['filesize']) ) {
+		$response['filesize'] = $meta['filesize'];
+	} elseif( file_exists($attached_file) ) {
+		$response['filesize'] = filesize( $attached_file );
 	}
-
-
+	
+	// image
+	if( $type === 'image' ) {
+		
+		$sizes_id = $attachment->ID;
+		$src = wp_get_attachment_image_src( $attachment->ID, 'full' );
+		
+		$response['url'] = $src[0];
+		$response['width'] = $src[1];
+		$response['height'] = $src[2];
+	
+	// video
+	} elseif( $type === 'video' ) {
+		
+		// dimentions
+		$response['width'] = acf_maybe_get($meta, 'width', 0);
+		$response['height'] = acf_maybe_get($meta, 'height', 0);
+		
+		// featured image
+		if( $featured_id = get_post_thumbnail_id($attachment->ID) ) {
+			$sizes_id = $featured_id;
+		}
+		
+	// audio
+	} elseif( $type === 'audio' ) {
+		
+		// featured image
+		if( $featured_id = get_post_thumbnail_id($attachment->ID) ) {
+			$sizes_id = $featured_id;
+		}				
+	}
+	
+	
 	// sizes
-	if( $thumb_id ) {
-
-		// find all image sizes
-		if( $sizes = get_intermediate_image_sizes() ) {
-
-			$a['sizes'] = array();
-
-			foreach( $sizes as $size ) {
-
-				// url
-				$src = wp_get_attachment_image_src( $thumb_id, $size );
-
-				// add src
-				$a['sizes'][ $size ] = $src[0];
-				$a['sizes'][ $size . '-width' ] = $src[1];
-				$a['sizes'][ $size . '-height' ] = $src[2];
-
-			}
-
+	if( $sizes_id ) {
+		
+		// vars
+		$sizes = get_intermediate_image_sizes();
+		$data = array();
+		
+		// loop
+		foreach( $sizes as $size ) {
+			$src = wp_get_attachment_image_src( $sizes_id, $size );
+			$data[ $size ] = $src[0];
+			$data[ $size . '-width' ] = $src[1];
+			$data[ $size . '-height' ] = $src[2];
 		}
-
+		
+		// append
+		$response['sizes'] = $data;
 	}
-
-
+	
 	// return
-	return $a;
-
+	return $response;
+	
 }
 
 
@@ -3496,27 +3565,27 @@ function acf_get_attachment( $post ) {
 */
 
 function acf_get_truncated( $text, $length = 64 ) {
-
+	
 	// vars
 	$text = trim($text);
 	$the_length = strlen( $text );
-
-
+	
+	
 	// cut
 	$return = substr( $text, 0, ($length - 3) );
-
-
+	
+	
 	// ...
 	if( $the_length > ($length - 3) ) {
-
+	
 		$return .= '...';
-
+		
 	}
-
-
+	
+	
 	// return
 	return $return;
-
+	
 }
 
 
@@ -3534,50 +3603,50 @@ function acf_get_truncated( $text, $length = 64 ) {
 */
 
 function acf_get_current_url() {
-
+	
 	// vars
 	$home = home_url();
 	$url = home_url($_SERVER['REQUEST_URI']);
-
-
+	
+	
 	// test
 	//$home = 'http://acf5/dev/wp-admin';
 	//$url = $home . '/dev/wp-admin/api-template/acf_form';
-
-
+	
+	
 	// explode url (4th bit is the sub folder)
 	$bits = explode('/', $home, 4);
-
-
+	
+	
 	/*
 	Array (
 	    [0] => http:
-	    [1] =>
+	    [1] => 
 	    [2] => acf5
 	    [3] => dev
 	)
 	*/
-
-
+	
+	
 	// handle sub folder
 	if( !empty($bits[3]) ) {
-
+		
 		$find = '/' . $bits[3];
 		$pos = strpos($url, $find);
 		$length = strlen($find);
-
+		
 		if( $pos !== false ) {
-
+			
 		    $url = substr_replace($url, '', $pos, $length);
-
+		    
 		}
-
+				
 	}
-
-
+	
+	
 	// return
 	return $url;
-
+	
 }
 
 
@@ -3595,17 +3664,17 @@ function acf_get_current_url() {
 */
 
 function acf_current_user_can_admin() {
-
+	
 	if( acf_get_setting('show_admin') && current_user_can(acf_get_setting('capability')) ) {
-
+		
 		return true;
-
+		
 	}
-
-
+	
+	
 	// return
 	return false;
-
+	
 }
 
 
@@ -3623,7 +3692,7 @@ function acf_current_user_can_admin() {
 */
 
 function acf_get_filesize( $size = 1 ) {
-
+	
 	// vars
 	$unit = 'MB';
 	$units = array(
@@ -3632,35 +3701,35 @@ function acf_get_filesize( $size = 1 ) {
 		'MB' => 2,
 		'KB' => 1,
 	);
-
-
+	
+	
 	// look for $unit within the $size parameter (123 KB)
 	if( is_string($size) ) {
-
+		
 		// vars
 		$custom = strtoupper( substr($size, -2) );
-
+		
 		foreach( $units as $k => $v ) {
-
+			
 			if( $custom === $k ) {
-
+				
 				$unit = $k;
 				$size = substr($size, 0, -2);
-
+					
 			}
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// calc bytes
-	$bytes = floatval($size) * pow(1024, $units[$unit]);
-
-
+	$bytes = floatval($size) * pow(1024, $units[$unit]); 
+	
+	
 	// return
 	return $bytes;
-
+	
 }
 
 
@@ -3678,11 +3747,11 @@ function acf_get_filesize( $size = 1 ) {
 */
 
 function acf_format_filesize( $size = 1 ) {
-
+	
 	// convert
 	$bytes = acf_get_filesize( $size );
-
-
+	
+	
 	// vars
 	$units = array(
 		'TB' => 4,
@@ -3690,25 +3759,25 @@ function acf_format_filesize( $size = 1 ) {
 		'MB' => 2,
 		'KB' => 1,
 	);
-
-
+	
+	
 	// loop through units
 	foreach( $units as $k => $v ) {
-
+		
 		$result = $bytes / pow(1024, $v);
-
+		
 		if( $result >= 1 ) {
-
+			
 			return $result . ' ' . $k;
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// return
 	return $bytes . ' B';
-
+		
 }
 
 
@@ -3727,40 +3796,40 @@ function acf_format_filesize( $size = 1 ) {
 */
 
 function acf_get_valid_terms( $terms = false, $taxonomy = 'category' ) {
-
+	
 	// force into array
 	$terms = acf_get_array($terms);
-
-
+	
+	
 	// force ints
 	$terms = array_map('intval', $terms);
-
-
+	
+	
 	// bail early if function does not yet exist or
 	if( !function_exists('wp_get_split_term') || empty($terms) ) {
-
+		
 		return $terms;
-
+		
 	}
-
-
+	
+	
 	// attempt to find new terms
 	foreach( $terms as $i => $term_id ) {
-
+		
 		$new_term_id = wp_get_split_term($term_id, $taxonomy);
-
+		
 		if( $new_term_id ) {
-
+			
 			$terms[ $i ] = $new_term_id;
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// return
 	return $terms;
-
+	
 }
 
 
@@ -3779,31 +3848,31 @@ function acf_get_valid_terms( $terms = false, $taxonomy = 'category' ) {
 
 /*
 function acf_esc_html_deep( $value ) {
-
+	
 	// array
 	if( is_array($value) ) {
-
+		
 		$value = array_map('acf_esc_html_deep', $value);
-
+	
 	// object
 	} elseif( is_object($value) ) {
-
+		
 		$vars = get_object_vars( $value );
-
+		
 		foreach( $vars as $k => $v ) {
-
+			
 			$value->{$k} = acf_esc_html_deep( $v );
-
+		
 		}
-
+		
 	// string
 	} elseif( is_string($value) ) {
 
 		$value = esc_html($value);
 
 	}
-
-
+	
+	
 	// return
 	return $value;
 
@@ -3827,7 +3896,7 @@ function acf_esc_html_deep( $value ) {
 */
 
 function acf_validate_attachment( $attachment, $field, $context = 'prepare' ) {
-
+	
 	// vars
 	$errors = array();
 	$file = array(
@@ -3836,152 +3905,163 @@ function acf_validate_attachment( $attachment, $field, $context = 'prepare' ) {
 		'height'	=> 0,
 		'size'		=> 0
 	);
-
-
+	
+	
 	// upload
 	if( $context == 'upload' ) {
-
+		
 		// vars
 		$file['type'] = pathinfo($attachment['name'], PATHINFO_EXTENSION);
 		$file['size'] = filesize($attachment['tmp_name']);
-
+		
 		if( strpos($attachment['type'], 'image') !== false ) {
-
+			
 			$size = getimagesize($attachment['tmp_name']);
 			$file['width'] = acf_maybe_get($size, 0);
 			$file['height'] = acf_maybe_get($size, 1);
-
+				
 		}
-
+	
 	// prepare
 	} elseif( $context == 'prepare' ) {
-
+		
 		$file['type'] = pathinfo($attachment['url'], PATHINFO_EXTENSION);
 		$file['size'] = acf_maybe_get($attachment, 'filesizeInBytes', 0);
 		$file['width'] = acf_maybe_get($attachment, 'width', 0);
 		$file['height'] = acf_maybe_get($attachment, 'height', 0);
-
+	
 	// custom
 	} else {
-
+		
 		$file = array_merge($file, $attachment);
 		$file['type'] = pathinfo($attachment['url'], PATHINFO_EXTENSION);
-
+		
 	}
-
-
+	
+	
 	// image
 	if( $file['width'] || $file['height'] ) {
-
+		
 		// width
 		$min_width = (int) acf_maybe_get($field, 'min_width', 0);
 		$max_width = (int) acf_maybe_get($field, 'max_width', 0);
-
+		
 		if( $file['width'] ) {
-
+			
 			if( $min_width && $file['width'] < $min_width ) {
-
+				
 				// min width
 				$errors['min_width'] = sprintf(__('Image width must be at least %dpx.', 'acf'), $min_width );
-
+				
 			} elseif( $max_width && $file['width'] > $max_width ) {
-
+				
 				// min width
 				$errors['max_width'] = sprintf(__('Image width must not exceed %dpx.', 'acf'), $max_width );
-
+				
 			}
-
+			
 		}
-
-
+		
+		
 		// height
 		$min_height = (int) acf_maybe_get($field, 'min_height', 0);
 		$max_height = (int) acf_maybe_get($field, 'max_height', 0);
-
+		
 		if( $file['height'] ) {
-
+			
 			if( $min_height && $file['height'] < $min_height ) {
-
+				
 				// min height
 				$errors['min_height'] = sprintf(__('Image height must be at least %dpx.', 'acf'), $min_height );
-
+				
 			}  elseif( $max_height && $file['height'] > $max_height ) {
-
+				
 				// min height
 				$errors['max_height'] = sprintf(__('Image height must not exceed %dpx.', 'acf'), $max_height );
-
+				
 			}
-
+			
 		}
-
+			
 	}
-
-
+	
+	
 	// file size
 	if( $file['size'] ) {
-
+		
 		$min_size = acf_maybe_get($field, 'min_size', 0);
 		$max_size = acf_maybe_get($field, 'max_size', 0);
-
+		
 		if( $min_size && $file['size'] < acf_get_filesize($min_size) ) {
-
+				
 			// min width
 			$errors['min_size'] = sprintf(__('File size must be at least %s.', 'acf'), acf_format_filesize($min_size) );
-
+			
 		} elseif( $max_size && $file['size'] > acf_get_filesize($max_size) ) {
-
+				
 			// min width
 			$errors['max_size'] = sprintf(__('File size must must not exceed %s.', 'acf'), acf_format_filesize($max_size) );
-
+			
 		}
-
+	
 	}
-
-
+	
+	
 	// file type
 	if( $file['type'] ) {
-
+		
 		$mime_types = acf_maybe_get($field, 'mime_types', '');
-
+		
 		// lower case
 		$file['type'] = strtolower($file['type']);
 		$mime_types = strtolower($mime_types);
-
-
+		
+		
 		// explode
 		$mime_types = str_replace(array(' ', '.'), '', $mime_types);
 		$mime_types = explode(',', $mime_types); // split pieces
 		$mime_types = array_filter($mime_types); // remove empty pieces
-
+		
 		if( !empty($mime_types) && !in_array($file['type'], $mime_types) ) {
-
+			
 			// glue together last 2 types
 			if( count($mime_types) > 1 ) {
-
+				
 				$last1 = array_pop($mime_types);
 				$last2 = array_pop($mime_types);
-
+				
 				$mime_types[] = $last2 . ' ' . __('or', 'acf') . ' ' . $last1;
-
+				
 			}
-
+			
 			$errors['mime_types'] = sprintf(__('File type must be %s.', 'acf'), implode(', ', $mime_types) );
-
+			
 		}
-
+				
 	}
-
-
-	// filter for 3rd party customization
-	$errors = apply_filters("acf/validate_attachment", $errors, $file, $attachment, $field);
-	$errors = apply_filters("acf/validate_attachment/type={$field['type']}", $errors, $file, $attachment, $field );
-	$errors = apply_filters("acf/validate_attachment/name={$field['name']}", $errors, $file, $attachment, $field );
-	$errors = apply_filters("acf/validate_attachment/key={$field['key']}", $errors, $file, $attachment, $field );
-
-
+	
+	
+	/**
+	*  Filters the errors for a file before it is uploaded or displayed in the media modal.
+	*
+	*  @date	3/07/2015
+	*  @since	5.2.3
+	*
+	*  @param	array $errors An array of errors.
+	*  @param	array $file An array of data for a single file.
+	*  @param	array $attachment An array of attachment data which differs based on the context.
+	*  @param	array $field The field array.
+	*  @param	string $context The curent context (uploading, preparing)
+	*/
+	$errors = apply_filters( "acf/validate_attachment/type={$field['type']}",	$errors, $file, $attachment, $field, $context );
+	$errors = apply_filters( "acf/validate_attachment/name={$field['_name']}", 	$errors, $file, $attachment, $field, $context );
+	$errors = apply_filters( "acf/validate_attachment/key={$field['key']}", 	$errors, $file, $attachment, $field, $context );
+	$errors = apply_filters( "acf/validate_attachment", 						$errors, $file, $attachment, $field, $context );
+	
+	
 	// return
 	return $errors;
-
+	
 }
 
 
@@ -4001,15 +4081,15 @@ function acf_validate_attachment( $attachment, $field, $context = 'prepare' ) {
 add_filter('acf/settings/uploader', '_acf_settings_uploader');
 
 function _acf_settings_uploader( $uploader ) {
-
+	
 	// if can't upload files
 	if( !current_user_can('upload_files') ) {
-
+		
 		$uploader = 'basic';
-
+		
 	}
-
-
+	
+	
 	// return
 	return $uploader;
 }
@@ -4030,27 +4110,27 @@ function _acf_settings_uploader( $uploader ) {
 
 /*
 function acf_translate_keys( $array, $keys ) {
-
+	
 	// bail early if no keys
 	if( empty($keys) ) return $array;
-
-
+	
+	
 	// translate
 	foreach( $keys as $k ) {
-
+		
 		// bail ealry if not exists
 		if( !isset($array[ $k ]) ) continue;
-
-
+		
+		
 		// translate
 		$array[ $k ] = acf_translate( $array[ $k ] );
-
+		
 	}
-
-
+	
+	
 	// return
 	return $array;
-
+	
 }
 */
 
@@ -4070,52 +4150,52 @@ function acf_translate_keys( $array, $keys ) {
 */
 
 function acf_translate( $string ) {
-
+	
 	// vars
 	$l10n = acf_get_setting('l10n');
 	$textdomain = acf_get_setting('l10n_textdomain');
-
-
+	
+	
 	// bail early if not enabled
 	if( !$l10n ) return $string;
-
-
+	
+	
 	// bail early if no textdomain
 	if( !$textdomain ) return $string;
-
-
+	
+	
 	// is array
 	if( is_array($string) ) {
-
+		
 		return array_map('acf_translate', $string);
-
+		
 	}
-
-
+	
+	
 	// bail early if not string
 	if( !is_string($string) ) return $string;
-
-
+	
+	
 	// bail early if empty
 	if( $string === '' ) return $string;
-
-
+	
+	
 	// allow for var_export export
 	if( acf_get_setting('l10n_var_export') ){
-
+		
 		// bail early if already translated
 		if( substr($string, 0, 7) === '!!__(!!' ) return $string;
-
-
+		
+		
 		// return
 		return "!!__(!!'" .  $string . "!!', !!'" . $textdomain . "!!')!!";
-
+			
 	}
-
-
+	
+	
 	// vars
 	return __( $string, $textdomain );
-
+	
 }
 
 
@@ -4133,20 +4213,20 @@ function acf_translate( $string ) {
 */
 
 function acf_maybe_add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 ) {
-
+	
 	// if action has already run, execute it
 	// - if currently doing action, allow $tag to be added as per usual to allow $priority ordering needed for 3rd party asset compatibility
 	if( did_action($tag) && !doing_action($tag) ) {
-
+			
 		call_user_func( $function_to_add );
-
+	
 	// if action has not yet run, add it
 	} else {
-
+		
 		add_action( $tag, $function_to_add, $priority, $accepted_args );
-
+		
 	}
-
+	
 }
 
 
@@ -4164,32 +4244,32 @@ function acf_maybe_add_action( $tag, $function_to_add, $priority = 10, $accepted
 */
 
 function acf_is_row_collapsed( $field_key = '', $row_index = 0 ) {
-
+	
 	// collapsed
 	$collapsed = acf_get_user_setting('collapsed_' . $field_key, '');
-
-
+	
+	
 	// cookie fallback ( version < 5.3.2 )
 	if( $collapsed === '' ) {
-
+		
 		$collapsed = acf_extract_var($_COOKIE, "acf_collapsed_{$field_key}", '');
 		$collapsed = str_replace('|', ',', $collapsed);
-
-
+		
+		
 		// update
 		acf_update_user_setting( 'collapsed_' . $field_key, $collapsed );
-
+			
 	}
-
-
+	
+	
 	// explode
 	$collapsed = explode(',', $collapsed);
 	$collapsed = array_filter($collapsed, 'is_numeric');
-
-
+	
+	
 	// collapsed class
 	return in_array($row_index, $collapsed);
-
+	
 }
 
 
@@ -4207,19 +4287,19 @@ function acf_is_row_collapsed( $field_key = '', $row_index = 0 ) {
 */
 
 function acf_get_attachment_image( $attachment_id = 0, $size = 'thumbnail' ) {
-
+	
 	// vars
 	$url = wp_get_attachment_image_src($attachment_id, 'thumbnail');
 	$alt = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
-
-
+	
+	
 	// bail early if no url
 	if( !$url ) return '';
-
-
+	
+	
 	// return
-	$value = '<img src="' . esc_url( $url) . '" alt="' . esc_attr($alt) . '" />';
-
+	$value = '<img src="' . $url . '" alt="' . $alt . '" />';
+	
 }
 
 
@@ -4238,67 +4318,67 @@ function acf_get_attachment_image( $attachment_id = 0, $size = 'thumbnail' ) {
 */
 
 function acf_get_post_thumbnail( $post = null, $size = 'thumbnail' ) {
-
+	
 	// vars
 	$data = array(
 		'url'	=> '',
 		'type'	=> '',
 		'html'	=> ''
 	);
-
-
+	
+	
 	// post
 	$post = get_post($post);
-
-
+	
+    
 	// bail early if no post
 	if( !$post ) return $data;
-
-
+	
+	
 	// vars
 	$thumb_id = $post->ID;
 	$mime_type = acf_maybe_get(explode('/', $post->post_mime_type), 0);
-
-
+	
+	
 	// attachment
 	if( $post->post_type === 'attachment' ) {
-
+		
 		// change $thumb_id
 		if( $mime_type === 'audio' || $mime_type === 'video' ) {
-
+			
 			$thumb_id = get_post_thumbnail_id($post->ID);
-
+			
 		}
-
+	
 	// post
 	} else {
-
+		
 		$thumb_id = get_post_thumbnail_id($post->ID);
-
+			
 	}
-
-
+	
+	
 	// try url
 	$data['url'] = wp_get_attachment_image_src($thumb_id, $size);
 	$data['url'] = acf_maybe_get($data['url'], 0);
-
-
+	
+	
 	// default icon
 	if( !$data['url'] && $post->post_type === 'attachment' ) {
-
+		
 		$data['url'] = wp_mime_type_icon($post->ID);
 		$data['type'] = 'icon';
-
+		
 	}
-
-
+	
+	
 	// html
-	$data['html'] = '<img src="' . esc_url($data['url']) . '" alt="" />';
-
-
+	$data['html'] = '<img src="' . $data['url'] . '" alt="" />';
+	
+	
 	// return
 	return $data;
-
+	
 }
 
 
@@ -4316,11 +4396,11 @@ function acf_get_post_thumbnail( $post = null, $size = 'thumbnail' ) {
 */
 
 function acf_get_browser() {
-
+	
 	// vars
 	$agent = $_SERVER['HTTP_USER_AGENT'];
-
-
+	
+	
 	// browsers
 	$browsers = array(
 		'Firefox'	=> 'firefox',
@@ -4330,19 +4410,19 @@ function acf_get_browser() {
 		'Chrome'	=> 'chrome',
 		'Safari'	=> 'safari',
 	);
-
-
+	
+	
 	// loop
 	foreach( $browsers as $k => $v ) {
-
+		
 		if( strpos($agent, $k) !== false ) return $v;
-
+		
 	}
-
-
+	
+	
 	// return
 	return '';
-
+	
 }
 
 
@@ -4360,30 +4440,30 @@ function acf_get_browser() {
 */
 
 function acf_is_ajax( $action = '' ) {
-
+	
 	// vars
 	$is_ajax = false;
-
-
+	
+	
 	// check if is doing ajax
 	if( defined('DOING_AJAX') && DOING_AJAX ) {
-
+		
 		$is_ajax = true;
-
+		
 	}
-
-
+	
+	
 	// check $action
 	if( $action && acf_maybe_get($_POST, 'action') !== $action ) {
-
+		
 		$is_ajax = false;
-
+		
 	}
-
-
+	
+	
 	// return
 	return $is_ajax;
-
+		
 }
 
 
@@ -4403,30 +4483,30 @@ function acf_is_ajax( $action = '' ) {
 */
 
 function acf_format_date( $value, $format ) {
-
+	
 	// bail early if no value
 	if( !$value ) return $value;
-
-
+	
+	
 	// vars
 	$unixtimestamp = 0;
-
-
+	
+	
 	// numeric (either unix or YYYYMMDD)
 	if( is_numeric($value) && strlen($value) !== 8 ) {
-
+		
 		$unixtimestamp = $value;
-
+		
 	} else {
-
+		
 		$unixtimestamp = strtotime($value);
-
+		
 	}
-
-
+	
+	
 	// return
 	return date_i18n($format, $unixtimestamp);
-
+	
 }
 
 
@@ -4444,35 +4524,45 @@ function acf_format_date( $value, $format ) {
 */
 
 function acf_log() {
-
+	
 	// vars
-	$log = '';
 	$args = func_get_args();
-
-
+	
 	// loop
 	foreach( $args as $i => $arg ) {
-
+		
+		// array | object
 		if( is_array($arg) || is_object($arg) ) {
-
 			$arg = print_r($arg, true);
-
+		
+		// bool	
 		} elseif( is_bool($arg) ) {
-
-			$arg = ( $arg ? 'true' : 'false' ) . ' (bool)';
-
+			$arg = 'bool(' . ( $arg ? 'true' : 'false' ) . ')';
 		}
-
-
+		
 		// update
 		$args[ $i ] = $arg;
-
 	}
-
-
+	
 	// log
 	error_log( implode(' ', $args) );
+}
 
+/**
+*  acf_dev_log
+*
+*  Used to log variables only if ACF_DEV is defined
+*
+*  @date	25/8/18
+*  @since	5.7.4
+*
+*  @param	mixed
+*  @return	void
+*/
+function acf_dev_log() {
+	if( defined('ACF_DEV') && ACF_DEV ) {
+		call_user_func_array('acf_log', func_get_args());
+	}
 }
 
 
@@ -4491,10 +4581,10 @@ function acf_log() {
 */
 
 function acf_doing( $event = '', $context = '' ) {
-
+	
 	acf_update_setting( 'doing', $event );
 	acf_update_setting( 'doing_context', $context );
-
+	
 }
 
 
@@ -4513,30 +4603,30 @@ function acf_doing( $event = '', $context = '' ) {
 */
 
 function acf_is_doing( $event = '', $context = '' ) {
-
+	
 	// vars
 	$doing = false;
-
-
+	
+	
 	// task
 	if( acf_get_setting('doing') === $event ) {
-
+		
 		$doing = true;
-
+		
 	}
-
-
+	
+	
 	// context
 	if( $context && acf_get_setting('doing_context') !== $context ) {
-
+		
 		$doing = false;
-
+		
 	}
-
-
+	
+	
 	// return
 	return $doing;
-
+		
 }
 
 
@@ -4556,22 +4646,64 @@ function acf_is_doing( $event = '', $context = '' ) {
 
 
 function acf_is_plugin_active() {
-
+	
 	// vars
 	$basename = acf_get_setting('basename');
-
-
+	
+	
 	// ensure is_plugin_active() exists (not on frontend)
 	if( !function_exists('is_plugin_active') ) {
-
+		
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-
+		
 	}
-
-
+	
+	
 	// return
 	return is_plugin_active($basename);
+	
+}
 
+
+/**
+*  acf_get_filters
+*
+*  Returns the registered filters
+*
+*  @date	2/2/18
+*  @since	5.6.5
+*
+*  @param	type $var Description. Default.
+*  @return	type Description.
+*/
+
+function acf_get_filters() {
+	
+	// get
+	$filters = acf_raw_setting('filters');
+	
+	// array
+	$filters = is_array($filters) ? $filters : array();
+	
+	// return
+	return $filters;
+}
+
+
+/**
+*  acf_update_filters
+*
+*  Updates the registered filters
+*
+*  @date	2/2/18
+*  @since	5.6.5
+*
+*  @param	type $var Description. Default.
+*  @return	type Description.
+*/
+
+function acf_update_filters( $filters ) {
+	return acf_update_setting('filters', $filters);
 }
 
 
@@ -4589,18 +4721,15 @@ function acf_is_plugin_active() {
 */
 
 function acf_enable_filter( $filter = '' ) {
-
-	// get filters
-	$filters = acf_get_setting('_filters', array());
-
-
+	
+	// get 
+	$filters = acf_get_filters();
+	
 	// append
 	$filters[ $filter ] = true;
-
-
+	
 	// update
-	acf_update_setting('_filters', $filters);
-
+	acf_update_filters( $filters );
 }
 
 
@@ -4618,18 +4747,15 @@ function acf_enable_filter( $filter = '' ) {
 */
 
 function acf_disable_filter( $filter = '' ) {
-
-	// get filters
-	$filters = acf_get_setting('_filters', array());
-
-
+	
+	// get 
+	$filters = acf_get_filters();
+	
 	// append
 	$filters[ $filter ] = false;
-
-
+	
 	// update
-	acf_update_setting('_filters', $filters);
-
+	acf_update_filters( $filters );
 }
 
 
@@ -4648,22 +4774,17 @@ function acf_disable_filter( $filter = '' ) {
 */
 
 function acf_enable_filters() {
-
-	// get filters
-	$filters = acf_get_setting('_filters', array());
-
-
+	
+	// get 
+	$filters = acf_get_filters();
+	
 	// loop
 	foreach( array_keys($filters) as $k ) {
-
 		$filters[ $k ] = true;
-
 	}
-
-
+	
 	// update
-	acf_update_setting('_filters', $filters);
-
+	acf_update_filters( $filters );	
 }
 
 
@@ -4682,22 +4803,17 @@ function acf_enable_filters() {
 */
 
 function acf_disable_filters() {
-
-	// get filters
-	$filters = acf_get_setting('_filters', array());
-
-
+	
+	// get 
+	$filters = acf_get_filters();
+	
 	// loop
 	foreach( array_keys($filters) as $k ) {
-
 		$filters[ $k ] = false;
-
 	}
-
-
+	
 	// update
-	acf_update_setting('_filters', $filters);
-
+	acf_update_filters( $filters );	
 }
 
 
@@ -4716,14 +4832,12 @@ function acf_disable_filters() {
 */
 
 function acf_is_filter_enabled( $filter = '' ) {
-
-	// get filters
-	$filters = acf_get_setting('_filters', array());
-
-
-	// bail early if not set
-	return empty( $filters[ $filter ] ) ? false : true;
-
+	
+	// get 
+	$filters = acf_get_filters();
+	
+	// return
+	return !empty($filters[ $filter ]);
 }
 
 
@@ -4741,50 +4855,50 @@ function acf_is_filter_enabled( $filter = '' ) {
 */
 
 function acf_send_ajax_results( $response ) {
-
+	
 	// validate
 	$response = wp_parse_args($response, array(
-		'results'	=> false,
+		'results'	=> array(),
 		'more'		=> false,
 		'limit'		=> 0
 	));
-
-
+	
+	
 	// limit
 	if( $response['limit'] && $response['results']) {
-
+		
 		// vars
 		$total = 0;
-
+		
 		foreach( $response['results'] as $result ) {
-
+			
 			// parent
 			$total++;
-
-
+			
+			
 			// children
 			if( !empty($result['children']) ) {
-
+				
 				$total += count( $result['children'] );
-
+				
 			}
-
+			
 		}
-
-
+		
+		
 		// calc
 		if( $total >= $response['limit'] ) {
-
+			
 			$response['more'] = true;
-
+			
 		}
-
+		
 	}
-
-
+	
+	
 	// return
 	wp_send_json( $response );
-
+	
 }
 
 
@@ -4803,23 +4917,23 @@ function acf_send_ajax_results( $response ) {
 */
 
 function acf_is_sequential_array( $array ) {
-
+	
 	// bail ealry if not array
 	if( !is_array($array) ) return false;
-
-
+	
+	
 	// loop
 	foreach( $array as $key => $value ) {
-
+		
 		// bail ealry if is string
 		if( is_string($key) ) return false;
-
+	
 	}
-
-
+	
+	
 	// return
 	return true;
-
+	
 }
 
 
@@ -4838,23 +4952,23 @@ function acf_is_sequential_array( $array ) {
 */
 
 function acf_is_associative_array( $array ) {
-
+	
 	// bail ealry if not array
 	if( !is_array($array) ) return false;
-
-
+	
+	
 	// loop
 	foreach( $array as $key => $value ) {
-
+		
 		// bail ealry if is string
 		if( is_string($key) ) return true;
-
+	
 	}
-
-
+	
+	
 	// return
 	return false;
-
+	
 }
 
 
@@ -4874,23 +4988,23 @@ function acf_is_associative_array( $array ) {
 */
 
 function acf_add_array_key_prefix( $array, $prefix ) {
-
+	
 	// vars
 	$array2 = array();
-
-
+	
+	
 	// loop
 	foreach( $array as $k => $v ) {
-
+		
 		$k2 = $prefix . $k;
 	    $array2[ $k2 ] = $v;
-
+	    
 	}
-
-
+	
+	
 	// return
 	return $array2;
-
+	
 }
 
 
@@ -4910,61 +5024,45 @@ function acf_add_array_key_prefix( $array, $prefix ) {
 */
 
 function acf_remove_array_key_prefix( $array, $prefix ) {
-
+	
 	// vars
 	$array2 = array();
 	$l = strlen($prefix);
-
-
+	
+	
 	// loop
 	foreach( $array as $k => $v ) {
-
+		
 		$k2 = (substr($k, 0, $l) === $prefix) ? substr($k, $l) : $k;
 	    $array2[ $k2 ] = $v;
-
+	    
 	}
-
-
+	
+	
 	// return
 	return $array2;
-
+	
 }
-
-
-
-
-add_filter("acf/settings/slug", '_acf_settings_slug');
-
-function _acf_settings_slug( $v ) {
-
-	$basename = acf_get_setting('basename');
-    $slug = explode('/', $basename);
-    $slug = current($slug);
-
-	return $slug;
-}
-
-
 
 
 /*
 *  acf_strip_protocol
 *
-*  This function will remove the proticol from a url
-*  Used to allow licences to remain active if a site is switched to https
+*  This function will remove the proticol from a url 
+*  Used to allow licences to remain active if a site is switched to https 
 *
 *  @type	function
 *  @date	10/01/2017
 *  @since	5.5.4
-*  @author	Aaron
+*  @author	Aaron 
 *
 *  @param	$url (string)
-*  @return	(string)
+*  @return	(string) 
 */
 
 function acf_strip_protocol( $url ) {
-
-	// strip the protical
+		
+	// strip the protical 
 	return str_replace(array('http://','https://'), '', $url);
 
 }
@@ -4973,7 +5071,7 @@ function acf_strip_protocol( $url ) {
 /*
 *  acf_connect_attachment_to_post
 *
-*  This function will connect an attacment (image etc) to the post
+*  This function will connect an attacment (image etc) to the post 
 *  Used to connect attachements uploaded directly to media that have not been attaced to a post
 *
 *  @type	function
@@ -4982,36 +5080,36 @@ function acf_strip_protocol( $url ) {
 *
 *  @param	$attachment_id (int)
 *  @param	$post_id (int)
-*  @return	(boolean)
+*  @return	(boolean) 
 */
 
 function acf_connect_attachment_to_post( $attachment_id = 0, $post_id = 0 ) {
-
+	
 	// bail ealry if $attachment_id is not valid
 	if( !$attachment_id || !is_numeric($attachment_id) ) return false;
-
-
+	
+	
 	// bail ealry if $post_id is not valid
 	if( !$post_id || !is_numeric($post_id) ) return false;
-
-
-	// vars
+	
+	
+	// vars 
 	$post = get_post( $attachment_id );
-
-
+	
+	
 	// check if valid post
 	if( $post && $post->post_type == 'attachment' && $post->post_parent == 0 ) {
-
+		
 		// update
 		wp_update_post( array('ID' => $post->ID, 'post_parent' => $post_id) );
-
-
+		
+		
 		// return
 		return true;
-
+		
 	}
-
-
+	
+	
 	// return
 	return true;
 
@@ -5034,26 +5132,26 @@ function acf_connect_attachment_to_post( $attachment_id = 0, $post_id = 0 ) {
 
 
 function acf_encrypt( $data = '' ) {
-
+	
 	// bail ealry if no encrypt function
 	if( !function_exists('openssl_encrypt') ) return base64_encode($data);
-
-
+	
+	
 	// generate a key
 	$key = wp_hash('acf_encrypt');
-
-
+	
+	
     // Generate an initialization vector
     $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
-
-
+    
+    
     // Encrypt the data using AES 256 encryption in CBC mode using our encryption key and initialization vector.
     $encrypted_data = openssl_encrypt($data, 'aes-256-cbc', $key, 0, $iv);
-
-
+    
+    
     // The $iv is just as important as the key for decrypting, so save it with our encrypted data using a unique separator (::)
     return base64_encode($encrypted_data . '::' . $iv);
-
+	
 }
 
 
@@ -5072,23 +5170,194 @@ function acf_encrypt( $data = '' ) {
 */
 
 function acf_decrypt( $data = '' ) {
-
+	
 	// bail ealry if no decrypt function
 	if( !function_exists('openssl_decrypt') ) return base64_decode($data);
-
-
+	
+	
 	// generate a key
 	$key = wp_hash('acf_encrypt');
-
-
+	
+	
     // To decrypt, split the encrypted data from our IV - our unique separator used was "::"
     list($encrypted_data, $iv) = explode('::', base64_decode($data), 2);
-
-
+    
+    
     // decrypt
     return openssl_decrypt($encrypted_data, 'aes-256-cbc', $key, 0, $iv);
-
+	
 }
 
+
+/*
+*  acf_get_post_templates
+*
+*  This function will return an array of all post templates (including parent theme templates)
+*
+*  @type	function
+*  @date	29/8/17
+*  @since	5.6.2
+*
+*  @param	n/a
+*  @return	(array)
+*/
+
+function acf_get_post_templates() {
+	
+	// vars
+	$post_types = acf_get_post_types();
+	$post_templates = array();
+	
+	
+	// loop
+	foreach( $post_types as $post_type ) {
+		$post_templates[ $post_type ] = wp_get_theme()->get_page_templates(null, $post_type);
+	}
+	
+	
+	// remove empty templates
+	$post_templates = array_filter( $post_templates );
+	
+	
+	// return
+	return $post_templates;
+	
+}
+
+/**
+*  acf_parse_markdown
+*
+*  A very basic regex-based Markdown parser function based off [slimdown](https://gist.github.com/jbroadway/2836900).
+*
+*  @date	6/8/18
+*  @since	5.7.2
+*
+*  @param	string $text The string to parse.
+*  @return	string
+*/
+
+function acf_parse_markdown( $text = '' ) {
+	
+	// trim
+	$text = trim($text);
+	
+	// rules
+	$rules = array (
+		'/=== (.+?) ===/'				=> '<h2>$1</h2>',					// headings
+		'/== (.+?) ==/'					=> '<h3>$1</h3>',					// headings
+		'/= (.+?) =/'					=> '<h4>$1</h4>',					// headings
+		'/\[([^\[]+)\]\(([^\)]+)\)/' 	=> '<a href="$2">$1</a>',			// links
+		'/(\*\*)(.*?)\1/' 				=> '<strong>$2</strong>',			// bold
+		'/(\*)(.*?)\1/' 				=> '<em>$2</em>',					// intalic
+		'/`(.*?)`/'						=> '<code>$1</code>',				// inline code
+		'/\n\*(.*)/'					=> "\n<ul>\n\t<li>$1</li>\n</ul>",	// ul lists
+		'/\n[0-9]+\.(.*)/'				=> "\n<ol>\n\t<li>$1</li>\n</ol>",	// ol lists
+		'/<\/ul>\s?<ul>/'				=> '',								// fix extra ul
+		'/<\/ol>\s?<ol>/'				=> '',								// fix extra ol
+	);
+	foreach( $rules as $k => $v ) {
+		$text = preg_replace($k, $v, $text);
+	}
+		
+	// autop
+	$text = wpautop($text);
+	
+	// return
+	return $text;
+}
+
+/**
+*  acf_get_sites
+*
+*  Returns an array of sites for a network.
+*
+*  @date	29/08/2016
+*  @since	5.4.0
+*
+*  @param	void
+*  @return	array
+*/
+function acf_get_sites() {
+	
+	// vars
+	$results = array();
+	
+	// function get_sites() was added in WP 4.6
+	if( function_exists('get_sites') ) {
+		
+		$_sites = get_sites(array(
+			'number' => 0
+		));
+		
+		if( $_sites ) {
+		foreach( $_sites as $_site ) {
+			$_site = get_site( $_site );
+	        $results[] = $_site->to_array();
+	    }}
+		
+	// function wp_get_sites() returns in the desired output
+	} else {
+		$results = wp_get_sites(array(
+			'limit' => 0
+		));
+	}
+	
+	// return
+	return $results;
+}
+
+/**
+*  acf_convert_rules_to_groups
+*
+*  Converts an array of rules from ACF4 to an array of groups for ACF5
+*
+*  @date	25/8/18
+*  @since	5.7.4
+*
+*  @param	array $rules An array of rules.
+*  @param	string $anyorall The anyorall setting used in ACF4. Defaults to 'any'.
+*  @return	array
+*/
+function acf_convert_rules_to_groups( $rules, $anyorall = 'any' ) {
+	
+	// vars
+	$groups = array();
+	$index = 0;
+	
+	// loop
+	foreach( $rules as $rule ) {
+		
+		// extract vars
+		$group = acf_extract_var( $rule, 'group_no' );
+		$order = acf_extract_var( $rule, 'order_no' );
+		
+		// calculate group if not defined
+		if( $group === null ) {
+			$group = $index;
+			
+			// use $anyorall to determine if a new group is needed
+			if( $anyorall == 'any' ) {
+				$index++;
+			}
+		}
+		
+		// calculate order if not defined
+		if( $order === null ) {
+			$order = isset($groups[ $group ]) ? count($groups[ $group ]) : 0;
+		}
+		
+		// append to group
+		$groups[ $group ][ $order ] = $rule;
+		
+		// sort groups
+		ksort( $groups[ $group ] );
+	}
+	
+	// sort groups
+	ksort( $groups );
+	
+	// return
+	return $groups;
+}
 
 ?>

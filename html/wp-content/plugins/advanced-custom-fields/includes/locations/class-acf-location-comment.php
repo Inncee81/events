@@ -1,12 +1,12 @@
-<?php
+<?php 
 
 if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if( ! class_exists('acf_location_comment') ) :
 
 class acf_location_comment extends acf_location {
-
-
+	
+	
 	/*
 	*  __construct
 	*
@@ -19,16 +19,16 @@ class acf_location_comment extends acf_location {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function initialize() {
-
+		
 		// vars
 		$this->name = 'comment';
 		$this->label = __("Comment",'acf');
 		$this->category = 'forms';
-
+    	
 	}
-
+	
 
 	/*
 	*  rule_match
@@ -39,27 +39,27 @@ class acf_location_comment extends acf_location {
 	*  @date	3/01/13
 	*  @since	3.5.7
 	*
-	*  @param	$match (boolean)
+	*  @param	$match (boolean) 
 	*  @param	$rule (array)
 	*  @return	$options (array)
 	*/
-
+	
 	function rule_match( $result, $rule, $screen ) {
-
+		
 		// vars
 		$comment = acf_maybe_get( $screen, 'comment' );
-
-
+		
+		
 		// bail early if not comment
 		if( !$comment ) return false;
-
-
+				
+		
         // return
         return $this->compare( $comment, $rule );
-
+		
 	}
-
-
+	
+	
 	/*
 	*  rule_operators
 	*
@@ -72,22 +72,24 @@ class acf_location_comment extends acf_location {
 	*  @param	n/a
 	*  @return	(array)
 	*/
-
+	
 	function rule_values( $choices, $rule ) {
-
+		
 		// vars
 		$choices = array( 'all' => __('All', 'acf') );
 		$choices = array_merge( $choices, acf_get_pretty_post_types() );
-		// change this to post types that support comments
-
+		// change this to post types that support comments				
+		
 		// return
 		return $choices;
-
+		
 	}
-
+	
 }
 
 // initialize
 acf_register_location_rule( 'acf_location_comment' );
 
 endif; // class_exists check
+
+?>

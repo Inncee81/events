@@ -1,12 +1,12 @@
-<?php
+<?php 
 
 if( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if( ! class_exists('acf_location_page_type') ) :
 
 class acf_location_page_type extends acf_location {
-
-
+	
+	
 	/*
 	*  __construct
 	*
@@ -19,17 +19,17 @@ class acf_location_page_type extends acf_location {
 	*  @param	n/a
 	*  @return	n/a
 	*/
-
+	
 	function initialize() {
-
+		
 		// vars
 		$this->name = 'page_type';
 		$this->label = __("Page Type",'acf');
 		$this->category = 'page';
-
+    	
 	}
-
-
+	
+	
 	/*
 	*  rule_match
 	*
@@ -39,55 +39,56 @@ class acf_location_page_type extends acf_location {
 	*  @date	3/01/13
 	*  @since	3.5.7
 	*
-	*  @param	$match (boolean)
+	*  @param	$match (boolean) 
 	*  @param	$rule (array)
 	*  @return	$options (array)
 	*/
-
+	
 	function rule_match( $result, $rule, $screen ) {
-
+		
 		// vars
 		$post_id = acf_maybe_get( $screen, 'post_id' );
-
-
+		
 		// bail early if no post id
 		if( !$post_id ) return false;
-
-
+		
 		// get post
 		$post = get_post( $post_id );
-
-
-		// compare
+		
+		// bail early if no post
+		if( !$post ) return false;
+		
+		
+		// compare   
         if( $rule['value'] == 'front_page') {
-
+        	
         	// vars
 	        $front_page = (int) get_option('page_on_front');
-
-
+	        
+	        
 	        // compare
-	        $match = ( $front_page === $post->ID );
-
+	        $result = ( $front_page === $post->ID );
+	        
         } elseif( $rule['value'] == 'posts_page') {
-
+        	
         	// vars
 	        $posts_page = (int) get_option('page_for_posts');
-
-
+	        
+	        
 	        // compare
-	        $match = ( $posts_page === $post->ID );
-
+	        $result = ( $posts_page === $post->ID );
+	        
         } elseif( $rule['value'] == 'top_level') {
-
+        	
         	// vars
         	$page_parent = acf_maybe_get( $screen, 'page_parent', $post->post_parent );
-
-
+        	
+        	
         	// compare
-			$match = ( $page_parent == 0 );
-
+			$result = ( $page_parent == 0 );
+	            
         } elseif( $rule['value'] == 'parent' ) {
-
+        	
         	// get children
         	$children = get_posts(array(
         		'post_type' 		=> $post->post_type,
@@ -95,37 +96,37 @@ class acf_location_page_type extends acf_location {
         		'posts_per_page'	=> 1,
 				'fields'			=> 'ids',
         	));
-
-
+        	
+	        
 	        // compare
-	        $match = !empty( $children );
-
+	        $result = !empty( $children );
+	        
         } elseif( $rule['value'] == 'child') {
-
+        	
         	// vars
         	$page_parent = acf_maybe_get( $screen, 'page_parent', $post->post_parent );
-
-
+        	
+	        
 	        // compare
-			$match = ( $page_parent > 0 );
-
+			$result = ( $page_parent > 0 );
+	        
         }
-
-
+        
+        
         // reverse if 'not equal to'
-        if( $rule['operator'] === '!=' ) {
-
-        	$match = !$match;
-
+        if( $rule['operator'] == '!=' ) {
+	        	
+        	$result = !$result;
+        
         }
-
-
+        
+        
         // return
-        return $match;
-
+        return $result;
+        
 	}
-
-
+	
+	
 	/*
 	*  rule_operators
 	*
@@ -138,9 +139,9 @@ class acf_location_page_type extends acf_location {
 	*  @param	n/a
 	*  @return	(array)
 	*/
-
+	
 	function rule_values( $choices, $rule ) {
-
+		
 		return array(
 			'front_page'	=> __("Front Page",'acf'),
 			'posts_page'	=> __("Posts Page",'acf'),
@@ -148,12 +149,14 @@ class acf_location_page_type extends acf_location {
 			'parent'		=> __("Parent Page (has children)",'acf'),
 			'child'			=> __("Child Page (has parent)",'acf'),
 		);
-
+		
 	}
-
+	
 }
 
 // initialize
 acf_register_location_rule( 'acf_location_page_type' );
 
 endif; // class_exists check
+
+?>

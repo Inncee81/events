@@ -1,7 +1,5 @@
 <?php
 
-
-
 ### Get General Information
 function fvm_get_generalinfo() {
     global $is_IIS;
@@ -108,19 +106,22 @@ function fvm_get_generalinfo() {
 ### Function: Format Bytes Into TiB/GiB/MiB/KiB/Bytes
 if(!function_exists('fvm_format_filesize')) {
     function fvm_format_filesize($rawSize) {
-		if(!is_numeric($rawSize)) { return __('unknown', 'fvm-serverinfo'); }
-        if($rawSize / 1099511627776 > 1) {
-            return number_format_i18n($rawSize/1099511627776, 1).' '.__('TiB', 'fvm-serverinfo');
-        } elseif($rawSize / 1073741824 > 1) {
-            return number_format_i18n($rawSize/1073741824, 1).' '.__('GiB', 'fvm-serverinfo');
-        } elseif($rawSize / 1048576 > 1) {
-            return number_format_i18n($rawSize/1048576, 1).' '.__('MiB', 'fvm-serverinfo');
-        } elseif($rawSize / 1024 > 1) {
-            return number_format_i18n($rawSize/1024, 1).' '.__('KiB', 'fvm-serverinfo');
-        } elseif($rawSize > 1) {
-            return number_format_i18n($rawSize, 0).' '.__('bytes', 'fvm-serverinfo');
-        } else {
-            return __('unknown', 'fvm-serverinfo');
+		if(is_numeric($rawSize)) {
+			if($rawSize / 1099511627776 > 1) {
+				return number_format_i18n($rawSize/1099511627776, 1).' '.__('TiB', 'fvm-serverinfo');
+			} elseif($rawSize / 1073741824 > 1) {
+				return number_format_i18n($rawSize/1073741824, 1).' '.__('GiB', 'fvm-serverinfo');
+			} elseif($rawSize / 1048576 > 1) {
+				return number_format_i18n($rawSize/1048576, 1).' '.__('MiB', 'fvm-serverinfo');
+			} elseif($rawSize / 1024 > 1) {
+				return number_format_i18n($rawSize/1024, 1).' '.__('KiB', 'fvm-serverinfo');
+			} elseif($rawSize > 1) {
+				return number_format_i18n($rawSize, 0).' '.__('bytes', 'fvm-serverinfo');
+			} else {
+				return __('N/A', 'fvm-serverinfo');
+			}
+		} else {
+            return __('N/A', 'fvm-serverinfo');
         }
     }
 }
@@ -232,8 +233,8 @@ if(!function_exists('fvm_get_mysql_data_usage')) {
         global $wpdb;
         $data_usage = 0;
         $tablesstatus = $wpdb->get_results("SHOW TABLE STATUS");
-        foreach($tablesstatus as $tablestatus) {
-			if(is_numeric($tablestatus->Data_length)) { $data_usage += $tablestatus->Data_length; }
+        foreach($tablesstatus as  $tablestatus) {
+			if(is_numeric($tablestatus->Data_length)) { $data_usage += $tablestatus->Data_length; } else { $data_usage += 0; }
         }
         if (!$data_usage) {
             $data_usage = __('N/A', 'fvm-serverinfo');
@@ -250,7 +251,7 @@ if(!function_exists('fvm_get_mysql_index_usage')) {
         $index_usage = 0;
         $tablesstatus = $wpdb->get_results("SHOW TABLE STATUS");
         foreach($tablesstatus as  $tablestatus) {
-            if(is_numeric($tablestatus->Index_length)) { $index_usage +=  $tablestatus->Index_length; }
+            if(is_numeric($tablestatus->Index_length)) { $index_usage +=  $tablestatus->Index_length; } else { $index_usage += 0; }
         }
         if (!$index_usage){
             $index_usage = __('N/A', 'fvm-serverinfo');
@@ -304,7 +305,7 @@ if(!function_exists('fvm_get_mysql_query_cache_size')) {
 ### Function: Get The Server Load
 if(!function_exists('fvm_get_serverload')) {
     function fvm_get_serverload() {
-        $server_load = '';
+        $server_load = 0;
 		$numCpus = 'N/A';
         if(PHP_OS != 'WINNT' && PHP_OS != 'WIN32') {
 			clearstatcache();
@@ -315,19 +316,25 @@ if(!function_exists('fvm_get_serverload')) {
                     $load_avg = explode( " ", $data );
                     $server_load = trim($load_avg[0]);
                 }
-			} else if ('WIN' == strtoupper(substr(PHP_OS, 0, 3))) {
+			} else if ('WIN' == strtoupper(substr(PHP_OS, 0, 3)) && function_exists('popen') && fvm_function_available('popen')) {
 				$process = @popen('wmic cpu get NumberOfCores', 'rb');
 				if (false !== $process && null !== $process) {
 					fgets($process);
 					$numCpus = intval(fgets($process));
 					pclose($process);
 				}
-			} else {
+			} else if (function_exists('system') && fvm_function_available('system')){
                 $data = @system('uptime');
                 preg_match('/(.*):{1}(.*)/', $data, $matches);
-                $load_arr = explode(',', $matches[2]);
-                $server_load = trim($load_arr[0]);
-            }
+				if(isset($matches[2])) {
+					$load_arr = explode(',', $matches[2]);
+					$server_load = trim($load_arr[0]);
+				} else {
+					$server_load = __('N/A', 'fvm-serverinfo');
+				}
+            } else {
+				$server_load = __('N/A', 'fvm-serverinfo');
+			}
         }
         if(empty($server_load)) {
             $server_load = __('N/A', 'fvm-serverinfo');
@@ -340,14 +347,14 @@ if(!function_exists('fvm_get_serverload')) {
 ### Function: Get The Server CPU's
 if(!function_exists('fvm_get_servercpu')) {
     function fvm_get_servercpu() {
-		$numCpus = '';
+		$numCpus = 0;
         if(PHP_OS != 'WINNT' && PHP_OS != 'WIN32') {
 			clearstatcache();
 			if (is_file('/proc/cpuinfo')) {
 				$cpuinfo = file_get_contents('/proc/cpuinfo');
 				preg_match_all('/^processor/m', $cpuinfo, $matches);
 				$numCpus = count($matches[0]);
-			} else {
+			} else if (function_exists('popen') && fvm_function_available('popen')) {
 				$process = @popen('sysctl -a', 'rb');
 				if (false !== $process && null !== $process) {
 					$output = stream_get_contents($process);
@@ -355,8 +362,10 @@ if(!function_exists('fvm_get_servercpu')) {
 					if ($matches) { $numCpus = intval($matches[1][0]); }
 					pclose($process);
 				}
-			}			
-        }
+			} else {
+					$numCpus = __('N/A', 'fvm-serverinfo');
+			}
+		}
         if(empty($numCpus)) {
             $numCpus = __('N/A', 'fvm-serverinfo');
         }

@@ -82,132 +82,79 @@ this["wp"] = this["wp"] || {}; this["wp"]["blockSerializationDefaultParser"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./node_modules/@wordpress/block-serialization-default-parser/build-module/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = 197);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js ***!
-  \*******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _arrayWithHoles; });
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js ***!
-  \*************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _iterableToArrayLimit; });
-function _iterableToArrayLimit(arr, i) {
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js ***!
-  \********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _nonIterableRest; });
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance");
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _slicedToArray; });
-/* harmony import */ var _arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithHoles */ "./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js");
-/* harmony import */ var _iterableToArrayLimit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArrayLimit */ "./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js");
-/* harmony import */ var _nonIterableRest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nonIterableRest */ "./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js");
-
-
-
-function _slicedToArray(arr, i) {
-  return Object(_arrayWithHoles__WEBPACK_IMPORTED_MODULE_0__["default"])(arr) || Object(_iterableToArrayLimit__WEBPACK_IMPORTED_MODULE_1__["default"])(arr, i) || Object(_nonIterableRest__WEBPACK_IMPORTED_MODULE_2__["default"])();
-}
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/block-serialization-default-parser/build-module/index.js":
-/*!******************************************************************************************!*\
-  !*** ./node_modules/@wordpress/block-serialization-default-parser/build-module/index.js ***!
-  \******************************************************************************************/
-/*! exports provided: parse */
+/***/ 197:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parse", function() { return parse; });
-/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
 
 var document;
 var offset;
 var output;
 var stack;
-var tokenizer = /<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?!}\s+-->)[^])+?}\s+)?(\/)?-->/g;
+/**
+ * Matches block comment delimiters
+ *
+ * While most of this pattern is straightforward the attribute parsing
+ * incorporates a tricks to make sure we don't choke on specific input
+ *
+ *  - since JavaScript has no possessive quantifier or atomic grouping
+ *    we are emulating it with a trick
+ *
+ *    we want a possessive quantifier or atomic group to prevent backtracking
+ *    on the `}`s should we fail to match the remainder of the pattern
+ *
+ *    we can emulate this with a positive lookahead and back reference
+ *    (a++)*c === ((?=(a+))\1)*c
+ *
+ *    let's examine an example:
+ *      - /(a+)*c/.test('aaaaaaaaaaaaad') fails after over 49,000 steps
+ *      - /(a++)*c/.test('aaaaaaaaaaaaad') fails after 85 steps
+ *      - /(?>a+)*c/.test('aaaaaaaaaaaaad') fails after 126 steps
+ *
+ *    this is because the possessive `++` and the atomic group `(?>)`
+ *    tell the engine that all those `a`s belong together as a single group
+ *    and so it won't split it up when stepping backwards to try and match
+ *
+ *    if we use /((?=(a+))\1)*c/ then we get the same behavior as the atomic group
+ *    or possessive and prevent the backtracking because the `a+` is matched but
+ *    not captured. thus, we find the long string of `a`s and remember it, then
+ *    reference it as a whole unit inside our pattern
+ *
+ *    @cite http://instanceof.me/post/52245507631/regex-emulate-atomic-grouping-with-lookahead
+ *    @cite http://blog.stevenlevithan.com/archives/mimic-atomic-groups
+ *    @cite https://javascript.info/regexp-infinite-backtracking-problem
+ *
+ *    once browsers reliably support atomic grouping or possessive
+ *    quantifiers natively we should remove this trick and simplify
+ *
+ * @type RegExp
+ *
+ * @since 3.8.0
+ * @since 4.6.1 added optimization to prevent backtracking on attribute parsing
+ */
 
-function Block(blockName, attrs, innerBlocks, innerHTML) {
+var tokenizer = /<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g;
+
+function Block(blockName, attrs, innerBlocks, innerHTML, innerContent) {
   return {
     blockName: blockName,
     attrs: attrs,
     innerBlocks: innerBlocks,
-    innerHTML: innerHTML
+    innerHTML: innerHTML,
+    innerContent: innerContent
   };
 }
 
 function Freeform(innerHTML) {
-  return Block(null, {}, [], innerHTML);
+  return Block(null, {}, [], innerHTML, [innerHTML]);
 }
 
 function Frame(block, tokenStart, tokenLength, prevOffset, leadingHtmlStart) {
@@ -236,7 +183,7 @@ var parse = function parse(doc) {
 function proceed() {
   var next = nextToken();
 
-  var _next = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(next, 5),
+  var _next = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(next, 5),
       tokenType = _next[0],
       blockName = _next[1],
       attrs = _next[2],
@@ -283,19 +230,19 @@ function proceed() {
           output.push(Freeform(document.substr(leadingHtmlStart, startOffset - leadingHtmlStart)));
         }
 
-        output.push(Block(blockName, attrs, [], ''));
+        output.push(Block(blockName, attrs, [], '', []));
         offset = startOffset + tokenLength;
         return true;
       } // otherwise we found an inner block
 
 
-      addInnerBlock(Block(blockName, attrs, [], ''), startOffset, tokenLength);
+      addInnerBlock(Block(blockName, attrs, [], '', []), startOffset, tokenLength);
       offset = startOffset + tokenLength;
       return true;
 
     case 'block-opener':
       // track all newly-opened blocks on the stack
-      stack.push(Frame(Block(blockName, attrs, [], ''), startOffset, tokenLength, startOffset + tokenLength, leadingHtmlStart));
+      stack.push(Frame(Block(blockName, attrs, [], '', []), startOffset, tokenLength, startOffset + tokenLength, leadingHtmlStart));
       offset = startOffset + tokenLength;
       return true;
 
@@ -321,7 +268,9 @@ function proceed() {
 
 
       var stackTop = stack.pop();
-      stackTop.block.innerHTML += document.substr(stackTop.prevOffset, startOffset - stackTop.prevOffset);
+      var html = document.substr(stackTop.prevOffset, startOffset - stackTop.prevOffset);
+      stackTop.block.innerHTML += html;
+      stackTop.block.innerContent.push(html);
       stackTop.prevOffset = startOffset + tokenLength;
       addInnerBlock(stackTop.block, stackTop.tokenStart, stackTop.tokenLength, startOffset + tokenLength);
       offset = startOffset + tokenLength;
@@ -368,13 +317,15 @@ function nextToken() {
 
   var startedAt = matches.index;
 
-  var _matches = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__["default"])(matches, 6),
+  var _matches = Object(_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(matches, 7),
       match = _matches[0],
       closerMatch = _matches[1],
       namespaceMatch = _matches[2],
       nameMatch = _matches[3],
       attrsMatch = _matches[4],
-      voidMatch = _matches[5];
+
+  /* internal/unused */
+  voidMatch = _matches[6];
 
   var length = match.length;
   var isCloser = !!closerMatch;
@@ -413,7 +364,14 @@ function addFreeform(rawLength) {
 function addInnerBlock(block, tokenStart, tokenLength, lastOffset) {
   var parent = stack[stack.length - 1];
   parent.block.innerBlocks.push(block);
-  parent.block.innerHTML += document.substr(parent.prevOffset, tokenStart - parent.prevOffset);
+  var html = document.substr(parent.prevOffset, tokenStart - parent.prevOffset);
+
+  if (html) {
+    parent.block.innerHTML += html;
+    parent.block.innerContent.push(html);
+  }
+
+  parent.block.innerContent.push(null);
   parent.prevOffset = lastOffset ? lastOffset : tokenStart + tokenLength;
 }
 
@@ -424,10 +382,11 @@ function addBlockFromStack(endOffset) {
       prevOffset = _stack$pop.prevOffset,
       tokenStart = _stack$pop.tokenStart;
 
-  if (endOffset) {
-    block.innerHTML += document.substr(prevOffset, endOffset - prevOffset);
-  } else {
-    block.innerHTML += document.substr(prevOffset);
+  var html = endOffset ? document.substr(prevOffset, endOffset - prevOffset) : document.substr(prevOffset);
+
+  if (html) {
+    block.innerHTML += html;
+    block.innerContent.push(html);
   }
 
   if (null !== leadingHtmlStart) {
@@ -438,7 +397,76 @@ function addBlockFromStack(endOffset) {
 }
 
 
+/***/ }),
+
+/***/ 25:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithHoles.js
+var arrayWithHoles = __webpack_require__(35);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArrayLimit.js
+function _iterableToArrayLimit(arr, i) {
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+// EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableRest.js
+var nonIterableRest = __webpack_require__(36);
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _slicedToArray; });
+
+
+
+function _slicedToArray(arr, i) {
+  return Object(arrayWithHoles["a" /* default */])(arr) || _iterableToArrayLimit(arr, i) || Object(nonIterableRest["a" /* default */])();
+}
+
+/***/ }),
+
+/***/ 35:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _arrayWithHoles; });
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+/***/ }),
+
+/***/ 36:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _nonIterableRest; });
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
+
 /***/ })
 
 /******/ });
-//# sourceMappingURL=block-serialization-default-parser.js.map
