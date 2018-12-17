@@ -5,7 +5,10 @@ import 'foundation/js/foundation.util.motion';
 import 'foundation/js/foundation.util.keyboard';
 import 'foundation/js/foundation.util.triggers';
 import 'foundation/js/foundation.util.mediaQuery';
+
+import flatpickr from 'flatpickr';
 import LazyLoad from 'vanilla-lazyload';
+import { Spanish } from 'flatpickr/dist/l10n/es.js'
 
 const mobileWidth =  640;
 const lazyLoad = new LazyLoad({
@@ -101,7 +104,27 @@ const lazyLoad = new LazyLoad({
 
   //
   $(() => $(document).foundation());
-
+  
+  //
+  var localized = {
+     altFormat: 'd/m',
+     locale: Spanish
+  }
+  
+  if ( $('html').attr('lang') == 'en-US') {
+    localized = {
+      altFormat: 'm/d',
+    }
+  }
+  
+  $('.flatpickr').flatpickr({
+     wrap: true,
+     mode: 'range',
+     altInput: true,
+     minDate: 'today',
+     dateFormat: 'm-d-Y',
+     ...localized
+  });
 
 } )( jQuery, document );
 

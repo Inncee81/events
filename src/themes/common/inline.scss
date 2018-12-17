@@ -19,6 +19,7 @@ $breakpoint-classes: (small medium);
 @import 'grid/grid';
 @import 'components/visibility';
 @import 'typography/typography';
+@import 'flatpickr/dist/flatpickr';
 @import 'font-awesome/scss/variables';
 
 @include foundation-global-styles;

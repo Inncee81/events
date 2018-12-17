@@ -1,17 +1,100 @@
-/*!
-Theme Name: Visita
-Theme URI: https://xparkmedia.com/themes/xclusive/
-Description: The XClusive theme is a fully responsive theme that looks great on any device. It supports all custom formats, Image header, custom logo and provides 4 color schemes. Provides 2 page template, No sidebar and Landing to create your custom home page.
-Version: 2.3.1
-Author: Xpark Media
-Author URI: http://xparkmedia.com/
-Tags: black, gray, green, orange, blue, dark, light, custom-menu, custom-header, featured-images, flexible-header, rtl-language-support, photoblogging, custom-background, one-column, two-columns, right-sidebar, flexible-width, threaded-comments, full-width-template, theme-options, post-formats
-Copyright (C) 2015-2018 Hafid R. Trujillo - Xpark Media
-License URI: license.txt
-Text Domain: visita
+@media print, screen and (min-width: 64em) {
+  .large-text-left {
+    text-align: left; }
+  .large-text-right {
+    text-align: right; }
+  .large-text-center {
+    text-align: center; }
+  .large-text-justify {
+    text-align: justify; } }
 
-Images:
-https://colorlib.com/tyche/
-https://pixabay.com/en/las-vegas-night-lights-strip-573600/
-https://pixabay.com/en/architecture-buildings-casino-city-1846684/
-!*/@media print,screen and (min-width:64em){.large-text-left{text-align:left}.large-text-right{text-align:right}.large-text-center{text-align:center}.large-text-justify{text-align:justify}}@media screen and (min-width:75em){.xlarge-text-left{text-align:left}.xlarge-text-right{text-align:right}.xlarge-text-center{text-align:center}.xlarge-text-justify{text-align:justify}}@media screen and (min-width:40em){.gallery{margin:0 -.75em}.gallery-columns-2 .gallery-item{max-width:50%}.gallery-columns-3 .gallery-item{max-width:33.33%}.gallery-columns-4 .gallery-item{max-width:25%}.gallery-columns-5 .gallery-item{max-width:20%}.gallery-columns-6 .gallery-item{max-width:16.66%}}@media print,screen and (min-width:64em){.hide-for-large{display:none!important}}@media screen and (max-width:63.9375em){.show-for-large{display:none!important}}@media screen and (min-width:64em) and (max-width:74.9375em){.hide-for-large-only{display:none!important}}@media screen and (max-width:63.9375em),screen and (min-width:75em){.show-for-large-only{display:none!important}}@media screen and (min-width:75em){.hide-for-xlarge{display:none!important}}@media screen and (max-width:74.9375em){.show-for-xlarge{display:none!important}}@media screen and (min-width:75em) and (max-width:89.9375em){.hide-for-xlarge-only{display:none!important}}@media screen and (max-width:74.9375em),screen and (min-width:90em){.show-for-xlarge-only{display:none!important}}@media screen and (min-width:40em){.menu-main .sub-menu{position:absolute;width:200px;z-index:10}.menu-main .sub-menu li{text-align:left}.menu-main:after{content:"";clear:both;display:block}.menu-main li{display:inline-block}.menu-main li:hover .sub-menu li{display:block}.menu-main li a{display:block;padding:.65rem 1.35em!important}.menu-main li.show{background-color:#1a8bd5}}
+@media screen and (min-width: 75em) {
+  .xlarge-text-left {
+    text-align: left; }
+  .xlarge-text-right {
+    text-align: right; }
+  .xlarge-text-center {
+    text-align: center; }
+  .xlarge-text-justify {
+    text-align: justify; } }
+
+/**
+ * 6.0 Galleries
+ */
+@media screen and (min-width: 40em) {
+  .gallery {
+    margin: 0 -.75em; }
+  .gallery-columns-2 .gallery-item {
+    max-width: 50%; }
+  .gallery-columns-3 .gallery-item {
+    max-width: 33.33%; }
+  .gallery-columns-4 .gallery-item {
+    max-width: 25%; }
+  .gallery-columns-5 .gallery-item {
+    max-width: 20%; }
+  .gallery-columns-6 .gallery-item {
+    max-width: 16.66%; } }
+
+@media print, screen and (min-width: 64em) {
+  .hide-for-large {
+    display: none !important; } }
+
+@media screen and (max-width: 63.9375em) {
+  .show-for-large {
+    display: none !important; } }
+
+@media screen and (min-width: 64em) and (max-width: 74.9375em) {
+  .hide-for-large-only {
+    display: none !important; } }
+
+@media screen and (max-width: 63.9375em), screen and (min-width: 75em) {
+  .show-for-large-only {
+    display: none !important; } }
+
+@media screen and (min-width: 75em) {
+  .hide-for-xlarge {
+    display: none !important; } }
+
+@media screen and (max-width: 74.9375em) {
+  .show-for-xlarge {
+    display: none !important; } }
+
+@media screen and (min-width: 75em) and (max-width: 89.9375em) {
+  .hide-for-xlarge-only {
+    display: none !important; } }
+
+@media screen and (max-width: 74.9375em), screen and (min-width: 90em) {
+  .show-for-xlarge-only {
+    display: none !important; } }
+
+@media screen and (min-width: 40em) {
+  .menu-main .sub-menu {
+    position: absolute;
+    width: 200px;
+    z-index: 10; }
+    .menu-main .sub-menu li {
+      text-align: left; }
+  .menu-main:after {
+    content: '';
+    clear: both;
+    display: block; }
+  .menu-main li {
+    display: inline-block; }
+    .menu-main li:hover .sub-menu li {
+      display: block; }
+    .menu-main li a {
+      display: block;
+      padding: .65rem 1.35em !important; }
+    .menu-main li.show {
+      background-color: #1a8bd5; }
+  .search-form:after {
+    left: 64%; }
+  .search-form .button {
+    width: 8%;
+    display: inline-block; }
+  .search-field[type], .search-date-range[type] {
+    font-size: 1em; }
+  .search-field[type] {
+    width: 62%; }
+  .search-date-range[type] {
+    width: 30%; } }

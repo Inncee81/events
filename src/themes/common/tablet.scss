@@ -1,21 +1,3 @@
-/*!
-Theme Name: Visita
-Theme URI: https://xparkmedia.com/themes/xclusive/
-Description: The XClusive theme is a fully responsive theme that looks great on any device. It supports all custom formats, Image header, custom logo and provides 4 color schemes. Provides 2 page template, No sidebar and Landing to create your custom home page.
-Version: 2.3.1
-Author: Xpark Media
-Author URI: http://xparkmedia.com/
-Tags: black, gray, green, orange, blue, dark, light, custom-menu, custom-header, featured-images, flexible-header, rtl-language-support, photoblogging, custom-background, one-column, two-columns, right-sidebar, flexible-width, threaded-comments, full-width-template, theme-options, post-formats
-Copyright (C) 2015-2018 Hafid R. Trujillo - Xpark Media
-License URI: license.txt
-Text Domain: visita
-
-Images:
-https://colorlib.com/tyche/
-https://pixabay.com/en/las-vegas-night-lights-strip-573600/
-https://pixabay.com/en/architecture-buildings-casino-city-1846684/
-!*/
-
 @import '../_vendor/sassy-lists/stylesheets/helpers/missing-dependencies';
 @import '../_vendor/sassy-lists/stylesheets/helpers/true';
 @import '../_vendor/sassy-lists/stylesheets/functions/purge';
@@ -100,6 +82,30 @@ $breakpoint-classes: (large xlarge);
       &.show {
         background-color: lighten( $primary-color, 6 );
       }
+    }
+  }
+  
+  .search { 
+    &-form:after {
+      left: 64%;
+    }
+    
+    &-form .button {
+      width: 8%;
+      display: inline-block;
+    }
+    
+    &-field[type],
+    &-date-range[type] {
+      font-size: 1em;
+    }
+    
+    &-field[type] {
+      width: 62%;
+    }
+    
+    &-date-range[type] {
+      width: 30%;
     }
   }
 }

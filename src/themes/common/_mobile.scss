@@ -37,40 +37,63 @@ main {
   }
 }
 
+span.flatpickr-day.endRange.endRange,
+span.flatpickr-day.selected.startRange,
+span.flatpickr-day.endRange.startRange, 
+span.flatpickr-day.startRange.startRange {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
 .search {
   &-form {
     margin: auto;
     position: relative;
   }
 
-  &-form:before {
+  &-form:before,
+  &-form:after {
     color: $gray-dark;
-    content: $fa-var-search;
-    left: .75em;
     position: absolute;
-    top: 15%;
+    top: 16%;
+  }
+  
+  &-form:before {
+    content: $fa-var-bolt;
+    left: 2%;
+  }
+  
+  &-form:after {
+    content: $fa-var-calendar;
+    left: 64%;
   }
 
-  &-field[type='search'] {
-    font-size: 1.1em;
-    height: 2em;
+  &-form .button {
+    display: none;
+    background-color: lighten($primary-color, 14);
+  }
+  
+  &-field[type],
+  &-date-range[type] {
+    font-size: .9em;
+    height: 2.5em;
+    padding-left: 2.35em;
     margin-bottom: .5em;
-    padding-left: 2.5em;
+    display: inline-block;
+    vertical-align: top; 
     border: 1px solid $gray-light;
     background-color: #fefefe;
-    width: 100%;
-
-    @include breakpoint(small down) {
-      padding: 0 .5em 0 2em;
-    }
-
-    &::placeholder {
-      color: $gray-medium;
-    }
-
     &:focus,
     &:active {
       border-color: #4d0ff1;
     }
+  }
+  
+  &-field[type] {
+    width: 60%;
+  }
+  
+  &-date-range[type] {
+    width: 40%;
   }
 }

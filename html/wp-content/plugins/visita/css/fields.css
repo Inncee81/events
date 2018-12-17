@@ -7,4 +7,50 @@ Author: Xpark Media
 Author URI: http://xparkmedia.com/
 Copyright (C) 2015-2018 Hafid R. Trujillo - Xpark Media
 Text Domain: admin
-!*/.ui-timepicker-div.ui-timepicker-oneLine dl{text-align:center}.ui-timepicker-div.ui-timepicker-oneLine .ui-widget-header,.ui-timepicker-div.ui-timepicker-oneLine .ui_tpicker_time_label{display:none}.acf-field-performer .acf-label{width:19%}.acf-field-performer .acf-input{width:80%}.acf-field-performer .acf-input,.acf-field-performer .acf-label{display:inline-block;margin:.5em 0}@media screen and (max-width:782px){.acf-postbox .acf-field input[type=email],.acf-postbox .acf-field input[type=number],.acf-postbox .acf-field input[type=password],.acf-postbox .acf-field input[type=text]{height:34px;padding:8px 5px}}.acf-postbox>.inside{padding-bottom:10px!important}.acf-field-true-false{display:inline-block}.acf-field--24h,.acf-field--city,.acf-field--close,.acf-field--currency,.acf-field--day,.acf-field--duration,.acf-field--from,.acf-field--open,.acf-field--phone,.acf-field--price,.acf-field--price-max,.acf-field--state,.acf-field--to,.acf-field--zip{width:24.433%;display:inline-block}@media screen and (max-width:782px){.acf-field--24h,.acf-field--city,.acf-field--close,.acf-field--currency,.acf-field--day,.acf-field--duration,.acf-field--from,.acf-field--open,.acf-field--phone,.acf-field--price,.acf-field--price-max,.acf-field--state,.acf-field--to,.acf-field--zip{width:49.333%}}.acf-field--availability,.acf-field--date,.acf-field--from,.acf-field--time,.acf-field--to{width:30.433%;display:inline-block;vertical-align:middle}@media screen and (max-width:782px){.acf-field--availability,.acf-field--date,.acf-field--from,.acf-field--time,.acf-field--to{width:49.333%}}
+!*/
+.ui-timepicker-div.ui-timepicker-oneLine dl {
+  text-align: center; }
+
+.ui-timepicker-div.ui-timepicker-oneLine .ui-widget-header,
+.ui-timepicker-div.ui-timepicker-oneLine .ui_tpicker_time_label {
+  display: none; }
+
+.acf-field-performer .acf-label {
+  width: 19%; }
+
+.acf-field-performer .acf-input {
+  width: 80%; }
+
+.acf-field-performer .acf-input,
+.acf-field-performer .acf-label {
+  display: inline-block;
+  margin: 0.5em 0; }
+
+@media screen and (max-width: 782px) {
+  .acf-postbox .acf-field input[type="email"],
+  .acf-postbox .acf-field input[type="number"],
+  .acf-postbox .acf-field input[type="password"],
+  .acf-postbox .acf-field input[type="text"] {
+    height: 34px;
+    padding: 8px 5px; } }
+
+.acf-postbox > .inside {
+  padding-bottom: 10px !important; }
+
+.acf-field-true-false {
+  display: inline-block; }
+
+.acf-field--to, .acf-field--day, .acf-field--from, .acf-field--city, .acf-field--24h, .acf-field--open, .acf-field--close, .acf-field--currency, .acf-field--duration, .acf-field--phone, .acf-field--price, .acf-field--price-max, .acf-field--state, .acf-field--zip {
+  width: 24.433%;
+  display: inline-block; }
+  @media screen and (max-width: 782px) {
+    .acf-field--to, .acf-field--day, .acf-field--from, .acf-field--city, .acf-field--24h, .acf-field--open, .acf-field--close, .acf-field--currency, .acf-field--duration, .acf-field--phone, .acf-field--price, .acf-field--price-max, .acf-field--state, .acf-field--zip {
+      width: 49.333%; } }
+
+.acf-field--to, .acf-field--from, .acf-field--time, .acf-field--date, .acf-field--availability {
+  width: 30.433%;
+  display: inline-block;
+  vertical-align: middle; }
+  @media screen and (max-width: 782px) {
+    .acf-field--to, .acf-field--from, .acf-field--time, .acf-field--date, .acf-field--availability {
+      width: 49.333%; } }
