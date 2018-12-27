@@ -152,9 +152,9 @@ function excerpt_remove_blocks( $content ) {
 	 * @param array $allowed_blocks The list of allowed blocks.
 	 */
 	$allowed_blocks = apply_filters( 'excerpt_allowed_blocks', $allowed_blocks );
-	$blocks = parse_blocks( $content );
-	$output = '';
-	 foreach ( $blocks as $block ) {
+	$blocks         = parse_blocks( $content );
+	$output         = '';
+	foreach ( $blocks as $block ) {
 		if ( in_array( $block['blockName'], $allowed_blocks, true ) ) {
 			$output .= render_block( $block );
 		}

@@ -25,15 +25,17 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<p class="about-text"><?php printf( __( 'Thank you for updating to the latest version! WordPress %s introduces a robust new content creation experience.' ), $display_version ); ?></p>
 
-		<?php if (
+		<?php
+		if (
 			// Was the Gutenberg plugin installed before upgrading to 5.0.x?
-			get_option( 'upgrade_500_was_gutenberg_active' ) == '1'  &&
+			get_option( 'upgrade_500_was_gutenberg_active' ) == '1' &&
 			current_user_can( 'activate_plugins' ) &&
 			// Has it not been reactivated since?
 			is_plugin_inactive( 'gutenberg/gutenberg.php' ) &&
 			// Is it still installed?
 			file_exists( WP_PLUGIN_DIR . '/gutenberg/gutenberg.php' )
-		) : ?>
+		) :
+			?>
 			<div class="about-text" style="font-style:italic;">
 				<?php
 				printf(
@@ -59,20 +61,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<a href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
 			<a href="freedoms.php?privacy-notice" class="nav-tab"><?php _e( 'Privacy' ); ?></a>
 		</h2>
-
-		<div class="changelog point-releases">
-			<h3><?php _e( 'Maintenance and Security Releases' ); ?></h3>
-			<p>
-				<?php
-				/* translators: %s: WordPress version number */
-				printf( __( '<strong>Version %s</strong> addressed some security issues.' ), '5.0.1' );
-				?>
-				<?php
-				/* translators: %s: Codex URL */
-				printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_5.0.1' );
-				?>
-			</p>
-		</div>
 
 		<div class="feature-section one-col">
 			<div class="col">
@@ -141,7 +129,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<video controls>
 					<source src="https://s.w.org/images/core/5.0/videos/add-block.mp4" type="video/mp4">
 					<source src="https://s.w.org/images/core/5.0/videos/add-block.webm" type="video/webm">
-					<p><?php printf( __('Your browser doesn&#8217;t support HTML5 video. Here is a %1$slink to the video%2$s instead.'), '<a href="https://wordpress.org/gutenberg/files/2018/11/add-block.mp4">', '</a>'); ?></p>
+					<p><?php printf( __( 'Your browser doesn&#8217;t support HTML5 video. Here is a %1$slink to the video%2$s instead.' ), '<a href="https://wordpress.org/gutenberg/files/2018/11/add-block.mp4">', '</a>' ); ?></p>
 				</video>
 				<p><?php _e( 'We have tons of blocks available by default, and more get added by the community every day. Here are a few of the blocks to help you get started:' ); ?></p>
 			</div>
@@ -301,7 +289,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<video controls>
 					<source src="https://s.w.org/images/core/5.0/videos/build.mp4" type="video/mp4">
 					<source src="https://s.w.org/images/core/5.0/videos/build.webm" type="video/webm">
-					<p><?php printf( __('Your browser doesn&#8217;t support HTML5 video. Here is a %1$slink to the video%2$s instead.'), '<a href="https://wordpress.org/gutenberg/files/2018/11/build.mp4">', '</a>'); ?></p>
+					<p><?php printf( __( 'Your browser doesn&#8217;t support HTML5 video. Here is a %1$slink to the video%2$s instead.' ), '<a href="https://wordpress.org/gutenberg/files/2018/11/build.mp4">', '</a>' ); ?></p>
 				</video>
 			</div>
 		</div>
@@ -574,16 +562,22 @@ __( '<strong>Version %s</strong> addressed one security issue.' );
 __( '<strong>Version %s</strong> addressed some security issues.' );
 
 /* translators: 1: WordPress version number, 2: plural number of bugs. */
-_n_noop( '<strong>Version %1$s</strong> addressed %2$s bug.',
-         '<strong>Version %1$s</strong> addressed %2$s bugs.' );
+_n_noop(
+	'<strong>Version %1$s</strong> addressed %2$s bug.',
+	'<strong>Version %1$s</strong> addressed %2$s bugs.'
+);
 
 /* translators: 1: WordPress version number, 2: plural number of bugs. Singular security issue. */
-_n_noop( '<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug.',
-         '<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs.' );
+_n_noop(
+	'<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug.',
+	'<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs.'
+);
 
 /* translators: 1: WordPress version number, 2: plural number of bugs. More than one security issue. */
-_n_noop( '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
-         '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.' );
+_n_noop(
+	'<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
+	'<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.'
+);
 
 /* translators: %s: Codex URL */
 __( 'For more information, see <a href="%s">the release notes</a>.' );

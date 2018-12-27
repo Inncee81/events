@@ -99,7 +99,7 @@ wp_add_inline_script(
  * but should be included in its save payload.
  */
 $initial_edits = null;
-$is_new_post = false;
+$is_new_post   = false;
 if ( 'auto-draft' === $post->post_status ) {
 	$is_new_post = true;
 	// Override "(Auto Draft)" new post default title with empty string, or filtered value.
