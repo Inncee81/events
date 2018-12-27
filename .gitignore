@@ -19,3 +19,4 @@ html/wp-content/plugins/debug-*
 wp-config.php
 mu-plugins
 p3-profiler
+package-lock.json

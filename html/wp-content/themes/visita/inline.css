@@ -1673,6 +1673,11 @@ span.flatpickr-day.startRange.startRange {
   background-color: #200042;
   border-color: #200042; }
 
+.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)),
+.flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)),
+.flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1)) {
+  box-shadow: -10px 0 0 #200042; }
+
 .search-form {
   margin: auto;
   position: relative; }
