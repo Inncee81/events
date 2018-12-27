@@ -56,8 +56,10 @@
 
         <form action="<?php echo home_url() ?>" class="search-form" method="get">
           <label class="screen-reader-text" for="topsearch"><?php esc_html_e( 'Search', 'visita' ) ?></label>
-          <input type="search" id="topsearch" class="search-field" name="s" /><span></span>
-          <input type="submit" class="hidden" value="<?php esc_html_e( 'Submit', 'visita' ) ?>" aria-hidden="true" />
+          <input type="search" class="search-field" name="s" />
+          <button type="submit" class="button" title="<?php esc_html_e( 'Search', 'visita' ) ?>">
+            <i class="fa fa-search"></i>
+          </button>
         </form>
 
       </div>

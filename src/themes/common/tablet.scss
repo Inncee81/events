@@ -102,4 +102,17 @@ $breakpoint-classes: (large xlarge);
       }
     }
   }
+
+  .search {
+
+    &-form .button {
+      width: 8%;
+      display: inline-block;
+    }
+
+    &-field[type]{
+      width: 92%;
+      font-size: 1em;
+    }
+  }
 }

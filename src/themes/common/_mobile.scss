@@ -37,6 +37,20 @@ main {
   }
 }
 
+span.flatpickr-day.endRange.endRange,
+span.flatpickr-day.selected.startRange,
+span.flatpickr-day.endRange.startRange,
+span.flatpickr-day.startRange.startRange {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)),
+.flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)),
+.flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1)) {
+  box-shadow: -10px 0 0 $primary-color;
+}
+
 .search {
   &-form {
     margin: auto;
@@ -48,17 +62,31 @@ main {
     content: $fa-var-search;
     left: .75em;
     position: absolute;
-    top: 15%;
+    top: 16%;
   }
 
-  &-field[type='search'] {
-    font-size: 1.1em;
-    height: 2em;
+  &-form:before {
+    content: $fa-var-bolt;
+    left: 2%;
+    @include breakpoint(small down) {
+      left: 5%;
+    }
+  }
+
+  &-form .button {
+    background-color: lighten($primary-color, 14);
+  }
+
+  &-field[type] {
+    font-size: .9em;
+    height: 2.75em;
+    padding-left: 2.35em;
     margin-bottom: .5em;
-    padding-left: 2.5em;
+    display: inline-block;
+    vertical-align: top;
     border: 1px solid $gray-light;
     background-color: #fefefe;
-    width: 100%;
+    width: 85%;
 
     @include breakpoint(small down) {
       padding: 0 .5em 0 2em;
