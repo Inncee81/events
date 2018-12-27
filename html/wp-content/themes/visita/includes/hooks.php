@@ -155,8 +155,8 @@ function visita_inline_styles( ) {
   if ( $content = file_get_contents( get_stylesheet_directory() . "/inline.css") ) {
     printf(
       '<link rel="preload" href="%4$s" as="style">
-       <link rel="preload" href="%2$s?ver=%1$s" as="style">
-       <link rel="prefetch" href="%3$s?ver=%1$s" as="style">',
+       <link rel="preload" href="%2$s?v=%1$s" as="style">
+       <link rel="prefetch" href="%3$s?v=%1$s" as="style">',
        wp_get_theme()->version,
        get_stylesheet_directory_uri() . "/style.css",
        get_stylesheet_directory_uri() . "/tablet.css",
@@ -202,8 +202,8 @@ function visita_scripts_enqueues( ) {
     'weather_text' => ($lang == 'es') ? 'celsius' : 'freiheit',
     'weather' => esc_url( "/wp-content/cache/_json/{$lang}.json" ),
     'fonts' => "https://fonts.googleapis.com/css?family=Roboto:300,400,500",
-    'styles' => get_stylesheet_directory_uri() . "/style.css?ver=" . $theme->version,
-    'tablet' => get_stylesheet_directory_uri() . "/tablet.css?ver=" . $theme->version,
+    'styles' => get_stylesheet_directory_uri() . "/style.css?v=" . $theme->version,
+    'tablet' => get_stylesheet_directory_uri() . "/tablet.css?v=" . $theme->version,
   ) );
 }
 add_action( 'wp_enqueue_scripts', 'visita_scripts_enqueues' );
