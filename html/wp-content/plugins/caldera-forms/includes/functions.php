@@ -29,7 +29,7 @@ function caldera_forms_sanitize( $input, $params = array() ){
  * @return string
  */
 function caldera_forms_very_safe_string( $string ){
-	return trim( strip_tags( stripslashes_deep( $string ) ) );
+	return Caldera_Forms_Sanitize::remove_scripts(trim( strip_tags( stripslashes_deep( $string ) ) ) );
 }
 
 
@@ -64,7 +64,7 @@ add_filter('nonce_user_logged_out', 'caldera_forms_woo_nonce_fix', 100, 2 );
  */
 function caldera_forms_woo_nonce_fix( $user_id, $action) {
 	if ( class_exists( 'WooCommerce' ) ) {
-		if ( $user_id && $user_id != 0 && $action && $action == 'caldera_forms_front' ) {
+		if ( $user_id && 0 !== $user_id && $action && 0 === strpos( $action, 'caldera_forms_front' ) ) {
 			$user_id = 0;
 		}
 
@@ -213,4 +213,77 @@ if ( ! function_exists( 'boolval' ) ) {
 		return (bool) $val;
 	}
 
+}
+
+/**
+ * Check if CF Pro is active
+ *
+ * @since 1.6.0
+ *
+ * @return bool
+ */
+function caldera_forms_pro_is_active(){
+    return  ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) && defined( 'CF_PRO_LOADED' ) && CF_PRO_LOADED && \calderawp\calderaforms\pro\settings\active::get_status();
+}
+
+/**
+ * Validate a number is between 0 and $max or return $default
+ *
+ * Return $number if its greater than 0 and less than max value.
+ * Returns $default if not.
+ *
+ * @since 1.7.0
+ *
+ * @param int|string $number
+ * @param int $default Default value
+ * @param int $max Maximum allowed value.
+ * @return int
+ */
+function caldera_forms_validate_number( $number, $default, $max ){
+    return intval(absint($number) > $max || $number <= 0 ? $default : absint($number));
+}
+
+/**
+ * Get privacy page URL
+ *
+ * Defaults to get_privacy_policy_url() if WP 4.9.6 or later
+ *
+ * @since 1.7.0
+ *
+ * @return string Privacy policy page url
+ */
+function caldera_forms_privacy_policy_page_url(){
+
+    $url = function_exists('get_privacy_policy_url') ? get_privacy_policy_url() : '';
+    /**
+     * Change URL of privacy page
+     *
+     * @since 1.7.0
+     *
+     * @param string $url URL of privacy page, by default, is value of get_privacy_policy_url()
+     */
+    return apply_filters( 'caldera_forms_privacy_policy_page_url', $url );
+}
+
+//Copied from WordPress core to provide polyfill of polyfill to WordPress 4.9.5 or below
+if ( ! function_exists( 'is_countable' ) ) {
+    /**
+     * Polyfill for is_countable() function added in PHP 7.3.
+     *
+     * Verify that the content of a variable is an array or an object
+     * implementing the Countable interface.
+     *
+     * @since 4.9.6
+     *
+     * @param mixed $var The value to check.
+     *
+     * @return bool True if `$var` is countable, false otherwise.
+     */
+    function is_countable( $var ) {
+        return ( is_array( $var )
+            || $var instanceof Countable
+            || $var instanceof SimpleXMLElement
+            || $var instanceof ResourceBundle
+        );
+    }
 }

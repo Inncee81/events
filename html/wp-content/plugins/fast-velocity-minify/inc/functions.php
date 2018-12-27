@@ -7,7 +7,8 @@ if(function_exists('mb_internal_encoding')) { mb_internal_encoding('UTF-8'); }
 @ini_set('pcre.backtrack_limit',5000000); 
 @ini_set('pcre.recursion_limit',5000000);
 
-# Consider fallback to PHP Minify [2018.12.03] from https://github.com/matthiasmullie/minify (must be defined on the outer scope)
+# PHP Minify [1.3.60] (must be defined on the outer scope)
+# https://github.com/matthiasmullie/minify
 $path = $plugindir . 'libs/matthiasmullie';
 require_once $path . '/minify/src/Minify.php';
 require_once $path . '/minify/src/CSS.php';
@@ -131,8 +132,8 @@ function fastvelocity_plugin_activate() {
 		# increment time
 		fvm_cache_increment();
 		
-		# default options to enable
-		$options_enable_default = array('fastvelocity_min_remove_print_mediatypes',  'fastvelocity_fvm_clean_header_one', 'fastvelocity_min_skip_google_fonts', 'fastvelocity_gfonts_method', 'fastvelocity_min_force_inline_css_footer');
+		# default options to enable (1)
+		$options_enable_default = array('fastvelocity_min_remove_print_mediatypes',  'fastvelocity_fvm_clean_header_one', 'fastvelocity_min_skip_google_fonts', 'fastvelocity_min_force_inline_css_footer', 'fastvelocity_min_skip_cssorder', 'fastvelocity_gfonts_method', 'fastvelocity_fontawesome_method');
 		foreach($options_enable_default as $option) {
 			update_option($option, 1, 'yes');
 		}
@@ -1157,6 +1158,15 @@ if (class_exists("WpeCommon")) {
 
 	if (method_exists('WpeCommon', 'purge_memcached') || method_exists('WpeCommon', 'clear_maxcdn_cache') || method_exists('WpeCommon', 'purge_varnish_cache')) {
 		return __('<div class="notice notice-info is-dismissible"><p>A cache purge request has been sent to <strong>WP Engine</strong></p></div><div class="notice notice-info is-dismissible"><p>Please note that it may not work 100% of the time, due to cache rate limiting by your host!</p></div>');
+	}
+}
+
+# add breeze cache purge support
+add_action('fvm_after_purge_all', 'extra_fvm_purge_breeze_support');
+function extra_fvm_purge_breeze_support() {
+	if (class_exists("Breeze_PurgeCache")) {
+		Breeze_PurgeCache::breeze_cache_flush();
+		return __( '<div class="notice notice-info is-dismissible"><p>All caches from <strong>Breeze</strong> have also been purged.</p></div>');
 	}
 }
 

@@ -17,9 +17,10 @@ function caldera_forms_pro_client_init(){
 	if ( ! version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
         $admin = new Caldera_Forms_Admin_Pro( );
         $admin->add_hooks();
+        define( 'CF_PRO_NOT_LOADED',true);
 	} else {
 		if ( ! defined( 'CF_PRO_VER' ) ) {
-
+            define( 'CF_PRO_LOADED',true);
 			/**
 			 * Define Plugin basename for updater
 			 *
@@ -30,7 +31,7 @@ function caldera_forms_pro_client_init(){
 			/**
 			 * Caldera Forms Pro Client Version
 			 */
-			define( 'CF_PRO_VER', '1.1.1' );
+			define( 'CF_PRO_VER', CFCORE_VER );
 
 			include_once dirname( __FILE__ ) . '/bootstrap-cf-pro.php';
 

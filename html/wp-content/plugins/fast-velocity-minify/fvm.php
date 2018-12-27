@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.5.0
+Version: 2.5.1
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -923,7 +923,7 @@ I know what I'm doing... <span class="note-info">[ Load my JS files from the CDN
 <th scope="row">Exclude CSS files from PSI</th>
 <td><fieldset><label for="fastvelocity_min_excludecsslist"><span class="fvm-label-pad">Files will be loaded Async and excluded from PSI:</span></label>
 <p>
-<textarea name="fastvelocity_min_excludecsslist" rows="7" cols="50" id="fastvelocity_min_excludecsslist" class="large-text code" placeholder="ex: /wp-content/themes/my-theme/css/fontawesome.css"><?php echo get_option('fastvelocity_min_excludecsslist'); ?></textarea>
+<textarea name="fastvelocity_min_excludecsslist" rows="7" cols="50" id="fastvelocity_min_excludecsslist" class="large-text code" placeholder="ex: /wp-content/themes/my-theme/css/some-other-font.min.css"><?php echo get_option('fastvelocity_min_excludecsslist'); ?></textarea>
 </p>
 <p class="description">[ Any CSS file that can load completely independent, such as fontawesome or other icons ]</p>
 
@@ -1828,7 +1828,7 @@ $mediatype = $process[$handle]['mediatype'];
 	# skip ignore list, conditional css, external css, font-awesome merge
 	if ( (!fastvelocity_min_in_arrayi($hurl, $ignore) && !isset($conditional) && fvm_internal_url($hurl, $wp_home)) 
 		|| empty($hurl) 
-		|| ($fvm_fawesome_method == 1 && stripos($href, 'font-awesome') !== false)) {
+		|| ($fvm_fawesome_method == 1 && stripos($hurl, 'font-awesome') !== false)) {
 	
 	# colect inline css for this handle
 	if(isset($wp_styles->registered[$handle]->extra['after']) && is_array($wp_styles->registered[$handle]->extra['after'])) { 
@@ -2196,7 +2196,7 @@ foreach( $styles->to_do as $handle ) :
 	# skip ignore list, conditional css, external css, font-awesome merge
 	if ( (!fastvelocity_min_in_arrayi($hurl, $ignore) && !isset($conditional) && fvm_internal_url($hurl, $wp_home)) 
 		|| empty($hurl) 
-		|| ($fvm_fawesome_method == 1 && stripos($href, 'font-awesome') !== false)) {
+		|| ($fvm_fawesome_method == 1 && stripos($hurl, 'font-awesome') !== false)) {
 			
 		# colect inline css for this handle
 		if(isset($wp_styles->registered[$handle]->extra['after']) && is_array($wp_styles->registered[$handle]->extra['after'])) { 

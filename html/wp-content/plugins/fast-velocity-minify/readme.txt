@@ -2,8 +2,8 @@
 Contributors: Alignak
 Tags: PHP Minify, Lighthouse, GTmetrix, Pingdom, Pagespeed, CSS Merging, JS Merging, CSS Minification, JS Minification, Speed Optimization, HTML Minification, Performance, Optimization, Speed, Fast
 Requires at least: 4.5
-Stable tag: 2.5.0
-Tested up to: 5.0
+Stable tag: 2.5.1
+Tested up to: 5.0.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -47,7 +47,7 @@ I can offer you aditional `custom made` optimization on top of this plugin. If y
 *	Support for preconnect and preload headers
 *	CDN option, to rewrite all static assets inside the JS or CSS files
 *	WP CLI support to check stats and purge the cache
-*	Auto purging of cache files for W3 Total Cache, WP Supercache, WP Rocket, Wp Fastest Cache, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, Nginx Cache (by Till Krüss ), SG Optimizer, HyperCache, Cache Enabler, Godaddy Managed WordPress Hosting and WP Engine (read the FAQs)
+*	Auto purging of cache files for W3 Total Cache, WP Supercache, WP Rocket, Wp Fastest Cache, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, Nginx Cache (by Till Krüss ), SG Optimizer, HyperCache, Cache Enabler, Breeze (Cloudways), Godaddy Managed WordPress Hosting and WP Engine (read the FAQs)
 *	and some more...
 
 
@@ -62,8 +62,7 @@ I can offer you aditional `custom made` optimization on top of this plugin. If y
 
 = Notes =
 *	The JavaScript minification is by [PHP Minify](https://github.com/matthiasmullie/minify)
-*	The alternative JavaScript minification is by [YUI Compressor](http://yui.github.io/yuicompressor/)
-*	Compatible with Nginx, HHVM and PHP 7. 
+*	Compatible with Nginx, HHVM and PHP 7
 *	Minimum requirements are PHP 5.5 and WP 4.4, from version 1.4.0 onwards
 
 
@@ -109,7 +108,7 @@ The ignore list "is" working, just try to use partial paths (see wildcard help a
 
 = Is it compatible with other caching plugins? =
 
-Please note, you must disable any features on your theme or cache plugins, which perform minification of css, html and js. Double minification not only slows the whole process, but also has the high potential of causing conflicts in javascript. The plugin will try to automatically purge several popular cache plugins, however if you have a cache on the server side (some hosting services have this) you may need to purge it manually, after you purge FVM. The automatic purge is active for the following plugins and hosting: W3 Total Cache, WP Supercache, WP Rocket, Wp Fastest Cache, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, Cache Enabler, SG Optimizer, Godaddy Managed WordPress Hosting and WP Engine
+Please note, you must disable any features on your theme or cache plugins, which perform minification of css, html and js. Double minification not only slows the whole process, but also has the high potential of causing conflicts in javascript. The plugin will try to automatically purge several popular cache plugins, however if you have a cache on the server side (some hosting services have this) you may need to purge it manually, after you purge FVM. The automatic purge is active for the following plugins and hosting: W3 Total Cache, WP Supercache, WP Rocket, Wp Fastest Cache, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, Cache Enabler, SG Optimizer, Breeze (Cloudways), Godaddy Managed WordPress Hosting and WP Engine
 
 = Do you recommend a specific Cache Plugin? =
 Yes! Currently FVM recommends the "Cache Enabler" plugin, for it's simplicity, compatibility with most systems and performance. 
@@ -186,7 +185,7 @@ Before getting angry because you have no answer within a few hours (even with pa
 Support is provided by plugin authors on their free time and without warranty of a reply, so you can experience different levels of support level from plugin to plugin. As the author of this plugin I strive to provide support on a daily basis and I can take a look and help you with some issues related with my plugin, but please note that this is done out of my goodwill and in no way I have any legal or moral obligation for doing this. Sometimes I am extremely busy and may take a few days to reply, but I will always reply. 
 
 = But I really need fast support right now, is there any other way? =
-I am also available for hiring if you need custom-made speed optimizations. After you have isntalled the plugin, check the "Help" tab for contact information, or check my profile links here on WordPress. 
+I am also available for hiring if you need custom-made speed optimizations. After you have installed the plugin, check the "Help" tab for contact information, or check my profile links here on WordPress. 
 
 
 = Where can I report bugs? =
@@ -201,6 +200,10 @@ If you would like to donate any amount to the plugin author (thank you in advanc
 
 
 == Changelog ==
+
+= 2.5.1 [2018.12.17] =
+* minor bug fix related to the font awesome option
+* added cache purging support to Breeze (Cloudways)
 
 = 2.5.0 [2018.12.13] =
 * bug fixes with the google fonts merging option

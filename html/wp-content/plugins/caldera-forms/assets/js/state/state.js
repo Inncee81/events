@@ -250,14 +250,33 @@ function CFState(formId, $ ){
 			});
 			calcVals[id] = findCalcVal( $( document.getElementById( id ) ) );
 			self.mutateState([$field.attr('id')],$field.val());
+			$field.trigger('cf.bind', {
+				field: $field.attr('id')
+			});
 
 			return true;
 		} else {
 			$field = $('.' + id);
 			if ($field.length) {
 
+                                //Rebind checkbox options when the checkbow field is unhidden
+                                    if( 'object' == typeof  $field  ){
+                                        var val = [];
+                                        var allSums = 0;
+                                        $field.each(function ( i, el ) {
+                                            var $this = $(el);
+                                            var sum = 0;
+                                            if ($this.prop('checked')) {
+                                                sum += parseFloat(findCalcVal($this));
+                                                allSums += sum;
+                                                val.push($this.val());
+                                            }
+                                            calcVals[id] = allSums;
+                                        });
+                                    }
 
-				$field.on('change', function () {
+
+                                    $field.on('change', function () {
 					var val = [];
 					var $el = $(this),
 					 	id,
@@ -317,6 +336,10 @@ function CFState(formId, $ ){
 
 
 					self.mutateState(id,val);
+					
+					$field.trigger('cf.bind', {
+						field: $field.attr('id')
+					});
 
 				});
 				return true;
