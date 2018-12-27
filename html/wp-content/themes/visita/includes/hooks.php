@@ -24,10 +24,10 @@ function visita_add_head_metatags( ) {
   echo '<link rel="dns-prefetch" href="https://s.' . esc_attr($visita_options['domain']) . '" />' . "\n";
 
   echo '<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" as="font" />' . "\n";
-  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" />' . "\n";
-  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.woff?v=4.7.0" as="font" />' . "\n";
-  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.ttf?v=4.7.0" as="font" />' . "\n";
-  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/tablet.css?v=" ' . wp_get_theme()->version . ' as="style"  />' . "\n";
+  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" crossorigin="anonymous" />' . "\n";
+  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.woff?v=4.7.0" as="font" crossorigin="anonymous" />' . "\n";
+  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.ttf?v=4.7.0" as="font" crossorigin="anonymous" />' . "\n";
+  echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/tablet.css?v=" ' . wp_get_theme()->version . ' as="style" crossorigin="anonymous"  />' . "\n";
 }
 add_action( 'wp_head', 'visita_add_head_metatags', 2 );
 
