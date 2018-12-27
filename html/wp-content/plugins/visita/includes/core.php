@@ -39,7 +39,7 @@ class Visita_Core {
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
     add_action( 'acf/init', array( $this, 'disable_save_action' ) );
     add_filter( 'cron_schedules', array( $this, 'add_cron_schedule') );
-    add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 5, 2 );
+    add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 5 );
 
     //short code
     add_shortcode( 'clima', array( $this, 'shortcode_clima' ) );
@@ -428,7 +428,7 @@ class Visita_Core {
   * @since 3.0.0
   */
   function disable_save_action( ) {
-    remove_action( 'acf/save_post', array( acf()->input, 'save_post' ), 10, 2 );
+    remove_action( 'acf/save_post', array( acf()->instances['acf_form'], '_save_post' ), 10, 2 );
   }
 
   /**
@@ -478,17 +478,17 @@ class Visita_Core {
   * Save ACF fields
   *
   * @param $post_id int
-  * @param $values array
+  *
   * @return void
   * @since 3.0.0
   */
-  function save_acf_data( $post_id, $values ) {
+  function save_acf_data( $post_id ) {
     if ( ! in_array( get_current_screen()->post_type, array('page', 'post') ) ) {
       return;
     }
 
     //save each field
-    foreach ( $values as $meta_key => $meta_value ) {
+    foreach ( (array) $_POST['acf'] as $meta_key => $meta_value ) {
       update_post_meta( $post_id, $meta_key, $meta_value );
     }
   }

@@ -318,8 +318,8 @@ class VisitaEvents extends VisitaBase {
 
     //fields
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
-    add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 5, 2 );
-    add_action( 'acf/save_post', array( $this, 'save_unix_time_data' ), 10, 2 );
+    add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 5 );
+    add_action( 'acf/save_post', array( $this, 'save_unix_time_data' ), 10 );
     add_filter( 'acf/load_value/key=_times', array( $this, 'load_repeater_values' ), 50, 3 );
     add_filter( 'acf/load_value/key=_performers', array( $this, 'load_repeater_values' ), 50, 4 );
 
@@ -524,11 +524,11 @@ class VisitaEvents extends VisitaBase {
   * Save ACF fields
   *
   * @param $post_id int
-  * @param $values array
+  *
   * @return void
   * @since 3.0.0
   */
-  function save_unix_time_data( $post_id, $values ) {
+  function save_unix_time_data( $post_id ) {
 
     // only affect events
     if ( get_current_screen()->post_type !== $this->post_type ) {
@@ -536,7 +536,7 @@ class VisitaEvents extends VisitaBase {
     }
 
     //save each field
-    foreach ( $values as $meta_key => $meta_value ) {
+    foreach ( (array) $_POST['acf'] as $meta_key => $meta_value ) {
 
       $starts = $ends = false;
 

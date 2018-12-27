@@ -461,17 +461,17 @@ class VisitaBase {
   * Save ACF fields
   *
   * @param $post_id int
-  * @param $values array
+  *
   * @return void
   * @since 1.0.0
   */
-  function save_acf_data( $post_id, $values ) {
+  function save_acf_data( $post_id ) {
     if ( get_current_screen()->post_type !== $this->post_type ) {
       return;
     }
 
     //save each field
-    foreach ( $values as $meta_key => $meta_value ) {
+    foreach ( (array) $_POST['acf'] as $meta_key => $meta_value ) {
       update_post_meta( $post_id, $meta_key, $meta_value );
     }
   }

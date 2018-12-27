@@ -227,7 +227,7 @@ class VisitaClubs extends VisitaBase {
 
     //fields
     add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
-    add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 10, 2 );
+    add_action( 'acf/save_post', array( $this, 'save_acf_data' ), 10 );
     add_filter( 'acf/load_value/key=_hours', array( $this, 'load_repeater_values' ), 50, 3 );
 
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
