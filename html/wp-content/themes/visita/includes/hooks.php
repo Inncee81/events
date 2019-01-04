@@ -19,6 +19,7 @@ function visita_add_head_metatags( ) {
 
   echo '<link rel="dns-prefetch" href="//cdn.apixu.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//fonts.gstatic.com" />' . "\n";
+  echo '<link rel="dns-prefetch" href="//youtube.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//fonts.googleapis.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//pagead2.googlesyndication.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="https://s.' . esc_attr($visita_options['domain']) . '" />' . "\n";

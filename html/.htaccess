@@ -26,7 +26,7 @@
 </FilesMatch>
 
 SetEnvIf Origin "^(.*\.?(visita\.(vegas|com)))$" ORIGIN_SUB_DOMAIN=$1
-<FilesMatch "\.(woff2?|ttf|eot|svg|json)$">
+<FilesMatch "\.(woff2?|ttf|eot|svg|json|css)$">
   Header set Access-Control-Request-Method "GET,OPTIONS"
   Header set Access-Control-Allow-Origin "%{ORIGIN_SUB_DOMAIN}e" env=ORIGIN_SUB_DOMAIN
   Header set Access-Control-Allow-Headers "X-Custom-Header,Upgrade-Insecure-Requests,Keep-Alive"
