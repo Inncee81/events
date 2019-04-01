@@ -71,10 +71,6 @@ abstract class NextendSocialProviderDummy {
         return $this->color;
     }
 
-    public function import() {
-        return true;
-    }
-
     /**
      * @return int
      */

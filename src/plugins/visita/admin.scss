@@ -10,3 +10,17 @@ Text Domain: admin
 !*/
 
 @import "sass/variables";
+
+.edit-post-layout__content {
+  overscroll-behavior-y: auto;
+}
+
+body.modal-open {
+  overflow: auto;
+}
+
+#wp-link-backdrop {
+  position: sticky;
+  height: 100vh;
+  width: 100vw;
+}

@@ -198,7 +198,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 /**
  * Returns only allowed post data fields
  *
- * @since 4.9.9
+ * @since 5.0.1
  *
  * @param array $post_data Array of post data. Defaults to the contents of $_POST.
  * @return object|bool WP_Error on failure, true on success.
@@ -610,8 +610,10 @@ function bulk_edit_posts( $post_data = null ) {
 
 		if ( isset( $shared_post_data['post_format'] ) ) {
 			set_post_format( $post_ID, $shared_post_data['post_format'] );
-			unset( $post_data['tax_input']['post_format'] );
 		}
+
+		// Prevent wp_insert_post() from overwriting post format with the old data.
+		unset( $post_data['tax_input']['post_format'] );
 
 		$updated[] = wp_update_post( $post_data );
 
@@ -729,23 +731,26 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 }
 
 /**
- * Determine if a post exists based on title, content, and date
+ * Determines if a post exists based on title, content, date and type.
  *
  * @since 2.0.0
+ * @since 5.2.0 Added the `$type` parameter.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $title Post title
- * @param string $content Optional post content
- * @param string $date Optional post date
+ * @param string $title   Post title.
+ * @param string $content Optional post content.
+ * @param string $date    Optional post date.
+ * @param string $type    Optional post type.
  * @return int Post ID if post exists, 0 otherwise.
  */
-function post_exists( $title, $content = '', $date = '' ) {
+function post_exists( $title, $content = '', $date = '', $type = '' ) {
 	global $wpdb;
 
 	$post_title   = wp_unslash( sanitize_post_field( 'post_title', $title, 0, 'db' ) );
 	$post_content = wp_unslash( sanitize_post_field( 'post_content', $content, 0, 'db' ) );
 	$post_date    = wp_unslash( sanitize_post_field( 'post_date', $date, 0, 'db' ) );
+	$post_type    = wp_unslash( sanitize_post_field( 'post_type', $type, 0, 'db' ) );
 
 	$query = "SELECT ID FROM $wpdb->posts WHERE 1=1";
 	$args  = array();
@@ -763,6 +768,11 @@ function post_exists( $title, $content = '', $date = '' ) {
 	if ( ! empty( $content ) ) {
 		$query .= ' AND post_content = %s';
 		$args[] = $post_content;
+	}
+
+	if ( ! empty( $type ) ) {
+		$query .= ' AND post_type = %s';
+		$args[] = $post_type;
 	}
 
 	if ( ! empty( $args ) ) {
@@ -1732,16 +1742,16 @@ function _admin_notice_post_locked() {
 		<?php if ( $preview_link ) { ?>
 		<a class="button<?php echo $tab_last; ?>" href="<?php echo esc_url( $preview_link ); ?>"><?php _e( 'Preview' ); ?></a>
 			<?php
-}
+		}
 
 		// Allow plugins to prevent some users overriding the post lock
-if ( $override ) {
-	?>
+		if ( $override ) {
+			?>
 	<a class="button button-primary wp-tab-last" href="<?php echo esc_url( add_query_arg( 'get-post-lock', '1', wp_nonce_url( get_edit_post_link( $post->ID, 'url' ), 'lock-post_' . $post->ID ) ) ); ?>"><?php _e( 'Take over' ); ?></a>
 			<?php
-}
+		}
 
-?>
+		?>
 		</p>
 		</div>
 		<?php
@@ -1994,19 +2004,19 @@ function redirect_post( $post_id = '' ) {
 /**
  * Sanitizes POST values from a checkbox taxonomy metabox.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @param mixed $terms Raw term data from the 'tax_input' field.
  * @return array
  */
-function taxonomy_meta_box_sanitize_cb_checkboxes( $taxonmy, $terms ) {
+function taxonomy_meta_box_sanitize_cb_checkboxes( $taxonomy, $terms ) {
 	return array_map( 'intval', $terms );
 }
 
 /**
  * Sanitizes POST values from an input taxonomy metabox.
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @param mixed $terms Raw term data from the 'tax_input' field.
  * @return array
@@ -2069,7 +2079,7 @@ function use_block_editor_for_post( $post ) {
 
 	// We're in the meta box loader, so don't use the block editor.
 	if ( isset( $_GET['meta-box-loader'] ) ) {
-		check_admin_referer( 'meta-box-loader' );
+		check_admin_referer( 'meta-box-loader', 'meta-box-loader-nonce' );
 		return false;
 	}
 

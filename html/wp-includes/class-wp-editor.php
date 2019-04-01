@@ -1151,7 +1151,6 @@ final class _WP_Editors {
 				// Link plugin
 				'Link'                                 => __( 'Link' ),
 				'Insert link'                          => __( 'Insert link' ),
-				'Insert/edit link'                     => __( 'Insert/edit link' ),
 				'Target'                               => __( 'Target' ),
 				'New window'                           => __( 'New window' ),
 				'Text to display'                      => __( 'Text to display' ),
@@ -1284,6 +1283,7 @@ final class _WP_Editors {
 				'Link options'                         => __( 'Link options' ), // Tooltip for the 'link options' button in the inline link dialog
 				'Visual'                               => _x( 'Visual', 'Name for the Visual editor tab' ), // Editor switch tab label
 				'Text'                                 => _x( 'Text', 'Name for the Text editor tab (formerly HTML)' ), // Editor switch tab label
+				'Add Media'                            => array( __( 'Add Media' ), 'accessM' ), // Tooltip for the 'Add Media' button in the Block Editor Classic block
 
 				// Shortcuts help modal
 				'Keyboard Shortcuts'                   => array( __( 'Keyboard Shortcuts' ), 'accessH' ),

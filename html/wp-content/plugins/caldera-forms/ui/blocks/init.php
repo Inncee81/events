@@ -37,25 +37,30 @@ function caldera_forms_enqueue_block_assets() {
  * @param string $script_handle Handle of script to use with wp_localize_script()
  */
 function caldera_forms_print_cf_forms_var($script_handle){
-    $form_options = array();
-    $forms = Caldera_Forms_Forms::get_forms(true);
-    $forms = array_reverse($forms);
-    foreach ($forms as $form) {
-        $form_options[] = array(
-            'name' => esc_html($form['name']),
-            'formId' => esc_attr($form['ID']),
-            'ID' => esc_attr($form['ID'])
-        );
-    }
+	$form_options = array();
+	$forms = Caldera_Forms_Forms::get_forms(true);
+	$forms = array_reverse($forms);
+	foreach ($forms as $form) {
+		if( !empty( $form['form_draft'] ) ) {
+			continue;
+		}
+		$form_options[] = array(
+			'name' => esc_html($form['name']),
+			'formId' => esc_attr($form['ID']),
+			'ID' => esc_attr($form['ID'])
+		);
 
-    wp_localize_script(
-        Caldera_Forms_Render_Assets::make_slug($script_handle),
-        'CF_FORMS',
-        array(
-            'forms' => $form_options
-        )
-    );
+	}
+
+	wp_localize_script(
+		Caldera_Forms_Render_Assets::make_slug($script_handle),
+		'CF_FORMS',
+		array(
+			'forms' => $form_options
+		)
+	);
 }
+
 
 
 /**
@@ -68,6 +73,12 @@ function caldera_forms_print_cf_forms_var($script_handle){
  */
 function caldera_forms_render_cform_block($atts ) {
     if( ! empty( $atts[ 'formId' ] ) ){
+		if ( ! empty( $atts[ 'className' ] ) ){
+			add_filter( 'caldera_forms_render_form_wrapper_classes', function( $wrapper_classes ) use ( $atts ){
+				$wrapper_classes[] = $atts[ 'className' ];
+				return $wrapper_classes;
+			} );
+		}
         return Caldera_Forms::render_form(
             array(
                 'ID' => caldera_forms_very_safe_string( $atts[ 'formId' ] )
@@ -89,15 +100,21 @@ function caldera_forms_register_block(){
     if( ! function_exists( 'register_block_type' ) ){
         return;
     }
-    register_block_type( 'calderaforms/cform', array(
-        'render_callback' => 'caldera_forms_render_cform_block',
-        'attributes' => array(
-            'formId' => array(
-                'type' => 'string',
-                'default' => ''
-            )
-        )
-    ) );
+	$script = Caldera_Forms_Render_Assets::make_slug('blocks');
+	wp_register_script($script, Caldera_Forms_Render_Assets::make_url('blocks'), [
+		'wp-components',
+		'wp-blocks',
+		'wp-editor',
+	], CFCORE_VER);
+	register_block_type('calderaforms/cform', [
+		'render_callback' => 'caldera_forms_render_cform_block',
+		'attributes' => [
+			'formId' => [
+				'type' => 'string',
+				'default' => '',
+			],
+		],
+	]);
 }
 
 

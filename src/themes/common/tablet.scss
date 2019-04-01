@@ -107,7 +107,8 @@ $breakpoint-classes: (large xlarge);
 
     &-form .button {
       width: 8%;
-      display: inline-block;
+      height: 2.9em;
+      margin-top: -1px
     }
 
     &-field[type]{

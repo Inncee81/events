@@ -8,7 +8,6 @@
  * @link
  * @copyright 2014 David Cramer
  */
-
 /**
  * Caldera_Forms Plugin class.
  * @package Caldera_Forms
@@ -140,7 +139,7 @@ class Caldera_Forms_Admin {
 			add_action( "wp_ajax_cf_bulk_action", array( $this, 'bulk_action' ) );
 		}
 		add_action("wp_ajax_cf_get_form_preview", array( $this, 'get_form_preview') );
-		add_action( 'admin_footer', array( $this, 'add_shortcode_inserter'));
+        add_action( 'admin_footer', array( $this, 'add_shortcode_inserter'));
 
 		$this->addons = apply_filters( 'caldera_forms_get_active_addons', array() );
 
@@ -154,11 +153,11 @@ class Caldera_Forms_Admin {
 
 		add_action( 'init', array( 'Caldera_Forms_Admin_Resend', 'watch_for_resend' ) );
 
-		add_action( 'caldera_forms_admin_footer', array( 'Caldera_Forms_Email_Settings', 'ui' ) );
+        add_action( 'caldera_forms_admin_footer', array( 'Caldera_Forms_Email_Settings', 'ui' ) );
 
 		add_action(  'caldera_forms_admin_init', array( __CLASS__ , 'init_privacy_settings' ) );
 
-		add_action( 'admin_init', array( __CLASS__, 'add_suggested_privacy_content' ), 35 );
+        add_action( 'admin_init', array( __CLASS__, 'add_suggested_privacy_content' ), 35 );
 
 		/**
 		 * Runs after Caldera Forms admin is initialized
@@ -172,15 +171,15 @@ class Caldera_Forms_Admin {
 
 	public function render_editor_template(){
 		?>
-        <script type="text/html" id="tmpl-editor-caldera-forms">
-            <# if ( data.html ) { #>
-            {{{ data.html }}}
-            <# } else { #>
-            <div class="wpview-error">
-                <div class="dashicons dashicons-cf-logo"></div><p style="font-size: 13px;"><?php _e( 'Invalid Form.', 'caldera-forms' ); ?></p>
-            </div>
-            <# } #>
-        </script>
+		<script type="text/html" id="tmpl-editor-caldera-forms">
+			<# if ( data.html ) { #>
+				{{{ data.html }}}
+				<# } else { #>
+					<div class="wpview-error">
+						<div class="dashicons dashicons-cf-logo"></div><p style="font-size: 13px;"><?php _e( 'Invalid Form.', 'caldera-forms' ); ?></p>
+					</div>
+					<# } #>
+		</script>
 		<?php
 
 	}
@@ -193,13 +192,13 @@ class Caldera_Forms_Admin {
 	 *
 	 * @return    array array of presets
 	 */
-	public function load_option_presets( $presets ){
+	 public function load_option_presets( $presets ){
 
-		$internal = array_merge( $presets, array(
-			'countries_iso_alpha_2' => array(
-				'name' => __( 'Countries (ISO Alpha-2)', 'caldera-forms'),
-				'data' => file_get_contents( CFCORE_PATH . 'includes/presets/countries_iso_alpha_2.txt' ),
-			),
+	 	$internal = array_merge( $presets, array(
+	 		'countries_iso_alpha_2' => array(
+	 			'name' => __( 'Countries (ISO Alpha-2)', 'caldera-forms'),
+	 			'data' => file_get_contents( CFCORE_PATH . 'includes/presets/countries_iso_alpha_2.txt' ),
+	 		),
 			'countries_names' => array(
 				'name' => __( 'Countries (Names Only)', 'caldera-forms'),
 				'data' => file_get_contents( CFCORE_PATH . 'includes/presets/countries_names.txt' ),
@@ -234,14 +233,14 @@ class Caldera_Forms_Admin {
 					"Yukon",
 				),
 			),
-			'us_states' => array(
-				'name' => __( 'US States', 'caldera-forms'),
-				'data' => file_get_contents( CFCORE_PATH . 'includes/presets/us_states.txt' ),
-			),
-		));
+		    'us_states' => array(
+			    'name' => __( 'US States', 'caldera-forms'),
+			    'data' => file_get_contents( CFCORE_PATH . 'includes/presets/us_states.txt' ),
+		    ),
+	    ));
 
-		return $internal;
-	}
+	 	return $internal;
+	 }
 
 	/**
 	 * Returns the array of form templates.
@@ -297,7 +296,7 @@ class Caldera_Forms_Admin {
 		$form_templates = self::internal_form_templates();
 
 		?>
-        <div class="cf-templates-wrapper">
+		<div class="cf-templates-wrapper">
 			<?php
 			$selected_field = '';//' checked="checked"';
 			$selected_template = '';//' selected';
@@ -306,53 +305,53 @@ class Caldera_Forms_Admin {
 				if( !empty( $template['template'] ) && !empty( $template['name'] ) ){
 
 					echo '<label class="caldera-grid cf-form-template' . $selected_template . '">';
-					echo '<small>' . $template['name'] . '</small>';
+						echo '<small>' . $template['name'] . '</small>';
 
-					echo '<input type="radio" name="template" value="' . $template_slug . '" class="cf-template-select"' . $selected_field . '>';
+						echo '<input type="radio" name="template" value="' . $template_slug . '" class="cf-template-select"' . $selected_field . '>';
 
 
-					// check a layout exists
-					if( !empty( $template['preview'] ) ){
-						echo '<img src="' . esc_url( $template['preview'] ) . '"></label>';
-						continue;
-					}
-					if( empty( $template['template']['layout_grid'] ) || empty( $template['template']['layout_grid']['structure'] ) || empty( $template['template']['layout_grid']['fields'] ) ){
-						echo '<p class="description" style="padding: 50px 0px; text-align: center;">' . esc_html__( 'Preview not available', 'caldera-forms' ) . '</p></label>';
-						continue;
-					}
-
-					$struct = explode('|', $template['template']['layout_grid']['structure'] );
-
-					foreach ($struct as $row_num=>$row) {
-
-						$columns = explode( ':', $row );
-						echo '<div class="row" style="margin: 6px 0px;">';
-						foreach ($columns as $column_num=>$column) {
-							//var_dump( $template['template']['layout_grid']['fields'][ ( $row_num+1) . ':' . ( $column_num+1) ] );
-							$fields = array_keys( $template['template']['layout_grid']['fields'], ( $row_num+1) . ':' . ( $column_num+1) );
-							echo '<div class="col-sm-' . $column . '" style="padding: 0px 3px;">';
-							echo '<div class="cf-template-column">';
-							foreach( $fields as $field ){
-								if( isset( $template['template']['fields'][ $field ] ) ){
-									if( $template['template']['fields'][ $field ]['type'] == 'button'){
-										echo '<small class="cf-preview-field cf-preview-button">' . $template['template']['fields'][ $field ]['label'] .'</small>';
-									}elseif( $template['template']['fields'][ $field ]['type'] == 'html'){
-										echo '<small class="cf-preview-field cf-preview-field-html"></small>';
-									}elseif( $template['template']['fields'][ $field ]['type'] == 'paragraph'){
-										echo '<small class="cf-preview-field" style="height:50px;">' . $template['template']['fields'][ $field ]['label'] .'</small>';
-									}elseif( $template['template']['fields'][ $field ]['type'] == 'hidden'){
-										// nope- nothing
-									}else{
-										echo '<small class="cf-preview-field">' . $template['template']['fields'][ $field ]['label'] .'</small>';
-									}
-								}
-							}
-							echo '</div>';
-							echo '</div>';
+						// check a layout exists
+						if( !empty( $template['preview'] ) ){
+							echo '<img src="' . esc_url( $template['preview'] ) . '"></label>';
+							continue;
+						}
+						if( empty( $template['template']['layout_grid'] ) || empty( $template['template']['layout_grid']['structure'] ) || empty( $template['template']['layout_grid']['fields'] ) ){
+							echo '<p class="description" style="padding: 50px 0px; text-align: center;">' . esc_html__( 'Preview not available', 'caldera-forms' ) . '</p></label>';
+							continue;
 						}
 
-						echo '</div>';
-					}
+						$struct = explode('|', $template['template']['layout_grid']['structure'] );
+
+						foreach ($struct as $row_num=>$row) {
+
+							$columns = explode( ':', $row );
+							echo '<div class="row" style="margin: 6px 0px;">';
+								foreach ($columns as $column_num=>$column) {
+									//var_dump( $template['template']['layout_grid']['fields'][ ( $row_num+1) . ':' . ( $column_num+1) ] );
+									$fields = array_keys( $template['template']['layout_grid']['fields'], ( $row_num+1) . ':' . ( $column_num+1) );
+									echo '<div class="col-sm-' . $column . '" style="padding: 0px 3px;">';
+									echo '<div class="cf-template-column">';
+									foreach( $fields as $field ){
+										if( isset( $template['template']['fields'][ $field ] ) ){
+											if( $template['template']['fields'][ $field ]['type'] == 'button'){
+												echo '<small class="cf-preview-field cf-preview-button">' . $template['template']['fields'][ $field ]['label'] .'</small>';
+											}elseif( $template['template']['fields'][ $field ]['type'] == 'html'){
+												echo '<small class="cf-preview-field cf-preview-field-html"></small>';
+											}elseif( $template['template']['fields'][ $field ]['type'] == 'paragraph'){
+												echo '<small class="cf-preview-field" style="height:50px;">' . $template['template']['fields'][ $field ]['label'] .'</small>';
+											}elseif( $template['template']['fields'][ $field ]['type'] == 'hidden'){
+												// nope- nothing
+											}else{
+												echo '<small class="cf-preview-field">' . $template['template']['fields'][ $field ]['label'] .'</small>';
+											}
+										}
+									}
+									echo '</div>';
+									echo '</div>';
+								}
+
+							echo '</div>';
+						}
 
 					echo '</label>';
 					// unset selection
@@ -362,31 +361,31 @@ class Caldera_Forms_Admin {
 			}
 
 			?>
-            <label class="caldera-grid cf-form-template">
-                <small><?php echo esc_html__( 'Blank Form', 'caldera-forms' ); ?></small>
-                <input type="radio" name="template" value="" class="cf-template-select">
-            </label>
-            <div class="caldera-grid cf-form-create" style="display:none; visibility: hidden;" aria-hidden="true">
-                <div class="cf-template-title"></div>
+			<label class="caldera-grid cf-form-template">
+				<small><?php echo esc_html__( 'Blank Form', 'caldera-forms' ); ?></small>
+				<input type="radio" name="template" value="" class="cf-template-select">
+			</label>
+			<div class="caldera-grid cf-form-create" style="display:none; visibility: hidden;" aria-hidden="true">
+				<div class="cf-template-title"></div>
 
-                <div class="caldera-config-field">
-                    <input type="text" class="new-form-name block-input field-config" name="name" value="" required="required" autofocus="true" autocomplete="off" placeholder="<?php echo esc_html__('Form Name', 'caldera-forms' ); ?>">
-                </div>
+				<div class="caldera-config-field">
+					<input type="text" class="new-form-name block-input field-config" name="name" value="" required="required" autofocus="true" autocomplete="off" placeholder="<?php echo esc_html__('Form Name', 'caldera-forms' ); ?>">
+				</div>
 
-                <button type="button" class="cf-change-template-button"><span class="dashicons dashicons-arrow-left-alt"></span> <?php echo esc_html__( 'Change Template', 'caldera-forms' ); ?></button>
-                <button type="button" class="cf-create-form-button ajax-trigger"
-                        data-action="create_form"
-                        data-active-class="disabled"
-                        data-load-class="disabled"
-                        data-callback="new_form_redirect"
-                        data-before="serialize_modal_form"
-                        data-modal-autoclose="new_form"
-                        data-nonce=<?php echo wp_create_nonce( 'cf_create_form' ); ?>
-                ><?php echo esc_html__( 'Create Form', 'caldera-forms' ); ?> <span class="dashicons dashicons-yes"></span><span class="spinner"></span></button>
+				<button type="button" class="cf-change-template-button"><span class="dashicons dashicons-arrow-left-alt"></span> <?php echo esc_html__( 'Change Template', 'caldera-forms' ); ?></button>
+				<button type="button" class="cf-create-form-button ajax-trigger"
+				 data-action="create_form"
+				 data-active-class="disabled"
+				 data-load-class="disabled"
+				 data-callback="new_form_redirect"
+				 data-before="serialize_modal_form"
+				 data-modal-autoclose="new_form"
+				 data-nonce=<?php echo wp_create_nonce( 'cf_create_form' ); ?>
+				><?php echo esc_html__( 'Create Form', 'caldera-forms' ); ?> <span class="dashicons dashicons-yes"></span><span class="spinner"></span></button>
 
-            </div>
+			</div>
 
-        </div>
+		</div>
 		<?php
 		/**
 		 * Runs at the bottom of the new form modal
@@ -844,7 +843,7 @@ class Caldera_Forms_Admin {
 			return;
 		}
 
-		global $form;
+        global $form;
 		$form = $form_or_id;
 
 		global $wpdb;
@@ -972,12 +971,12 @@ class Caldera_Forms_Admin {
 							// check view handler
 							$field = Caldera_Forms_Field_Util::get_field(  $row->slug, $form, true );
 
-							// maybe json?
-							if ( is_string($row->value) ) {
-								$is_json = json_decode( $row->value, ARRAY_A );
-							} else if ( is_array($row->value) ) { //Process all checkbox values
-								$is_json = $row->value;
-							}
+                                                        // maybe json?
+                                                        if ( is_string($row->value) ) {
+                                                            $is_json = json_decode( $row->value, ARRAY_A );
+                                                        } else if ( is_array($row->value) ) { //Process all checkbox values
+                                                            $is_json = $row->value;
+                                                        }
 
 							if ( ! empty( $is_json ) ) {
 								$row->value = $is_json;
@@ -1166,30 +1165,30 @@ class Caldera_Forms_Admin {
 
 		wp_enqueue_style( $this->plugin_slug . '-admin-icon-styles', CFCORE_URL . 'assets/css/dashicon.css', array(), self::VERSION );
 
-		add_action( 'caldera_forms_admin_enqueue_post_editor', ['Caldera_Forms_Admin_Assets', 'post_editor' ]);
-		add_action( 'caldera_forms_admin_main_enqueue', ['Caldera_Forms_Admin_Assets', 'admin_common' ],1);
-		add_action( 'caldera_forms_admin_enqueue_form_editor', ['Caldera_Forms_Admin_Assets', 'form_editor' ]);
+        add_action( 'caldera_forms_admin_enqueue_post_editor', ['Caldera_Forms_Admin_Assets', 'post_editor' ]);
+        add_action( 'caldera_forms_admin_main_enqueue', ['Caldera_Forms_Admin_Assets', 'admin_common' ],1);
+        add_action( 'caldera_forms_admin_enqueue_form_editor', ['Caldera_Forms_Admin_Assets', 'form_editor' ]);
 
-		/**
-		 * Runs directly before assets MIGHT be enqueued in the WordPress admin
+        /**
+         * Runs directly before assets MIGHT be enqueued in the WordPress admin
 		 *
 		 * @since 1.7.3
-		 */
-		do_action( 'caldera_forms_admin_pre_enqueue' );
+         */
+        do_action( 'caldera_forms_admin_pre_enqueue' );
 		/**
 		 * Control if Caldera Forms assets run in post editor
-		 *
-		 * @since 1.5.7
-		 *
-		 * @param bool $use Return false to disable.
-		 * @param string $post_type Current post type
+         *
+         * @since 1.5.7
+         *
+         * @param bool $use Return false to disable.
+         * @param string $post_type Current post type
 		 */
 		if ( $screen->base === 'post' && apply_filters( 'caldera_forms_insert_button_include', true, get_post_type() ) ) {
-			/**
-			 * This action causes the assets Caldera Forms loads in the post editor to be enqueued
+            /**
+             * This action causes the assets Caldera Forms loads in the post editor to be enqueued
 			 *
 			 * @since 1.7.3
-			 */
+             */
 			do_action( 'caldera_forms_admin_enqueue_post_editor' );
 		}
 
@@ -1204,21 +1203,21 @@ class Caldera_Forms_Admin {
 		}
 
 
-		/**
-		 * This action causes the assets Caldera Forms loads in the main admin page to be enqueued
-		 *
-		 * @since 1.7.3
-		 */
-		do_action( 'caldera_forms_admin_main_enqueue' );
+        /**
+         * This action causes the assets Caldera Forms loads in the main admin page to be enqueued
+         *
+         * @since 1.7.3
+         */
+        do_action( 'caldera_forms_admin_main_enqueue' );
 
 		if ( Caldera_Forms_Admin::is_edit() ) {
 
-			/**
-			 * This action causes the assets Caldera Forms loads in the form editor to be enqueued
-			 *
-			 * @since 1.7.3
-			 */
-			do_action( 'caldera_forms_admin_enqueue_form_editor' );
+            /**
+             * This action causes the assets Caldera Forms loads in the form editor to be enqueued
+             *
+             * @since 1.7.3
+             */
+            do_action( 'caldera_forms_admin_enqueue_form_editor' );
 
 		} else {
 
@@ -1228,9 +1227,9 @@ class Caldera_Forms_Admin {
 			if ( ! empty( $_GET[ 'edit-entry' ] ) ) {
 				Caldera_Forms_Render_Assets::enqueue_style( 'grid' );
 			}else{
-				$clippy = new Caldera_Forms_Admin_Clippy( $this->plugin_slug, site_url() );
-				$clippy->assets();
-			}
+                $clippy = new Caldera_Forms_Admin_Clippy( $this->plugin_slug, site_url() );
+                $clippy->assets();
+            }
 		}
 
 		Caldera_Forms_Admin_Assets::panels();
@@ -1301,16 +1300,16 @@ class Caldera_Forms_Admin {
 			if ( check_admin_referer( 'cf-import', 'cfimporter' ) ) {
 				if ( isset( $_FILES[ 'import_file' ] ) && ! empty( $_FILES[ 'import_file' ][ 'size' ] ) ) {
 					$loc = wp_upload_dir();
-					$temp_name = $_FILES[ 'import_file' ][ 'tmp_name' ];
-					$name = $_FILES[ 'import_file' ][ 'name' ];
+                    $temp_name = $_FILES[ 'import_file' ][ 'tmp_name' ];
+                    $name = $_FILES[ 'import_file' ][ 'name' ];
 					$type_check = wp_check_filetype_and_ext($temp_name,$name, [
-						'json' => 'application/json',
-					]);
+					        'json' => 'application/json',
+                    ]);
 					if( ! $type_check['type'] ){
 						$type_check = wp_check_filetype_and_ext($temp_name,$name, [
 							'json' => 'text/plain',
 						]);
-					}
+                    }
 
 					if( ! 'json' === $type_check[ 'ext'] ){
 						wp_die( esc_html__( 'Form could not be imported. File type must be JSON.', 'caldera-forms' ) );
@@ -1328,14 +1327,14 @@ class Caldera_Forms_Admin {
 						}
 
 						$data[ 'name' ] = strip_tags( $_POST[ 'name' ] );
-						$trusted = isset( $_POST[ 'import_trusted' ] ) ? boolval( $_POST[ 'import_trusted' ] ) : false;
+                        $trusted = isset( $_POST[ 'import_trusted' ] ) ? boolval( $_POST[ 'import_trusted' ] ) : false;
 						$new_form_id = Caldera_Forms_Forms::import_form( $data, $trusted );
 						if( is_string( $new_form_id )  ){
 
 							cf_redirect( add_query_arg(array(
 								'page' => 'caldera-forms',
 								'edit' => $new_form_id,
-								't' => $trusted
+                                't' => $trusted
 							), admin_url( 'admin.php' ) ), 302 );
 							exit;
 
@@ -1406,12 +1405,12 @@ class Caldera_Forms_Admin {
                         $forms["%s"] = apply_filters( "caldera_forms_get_form-%s", array() );
                         return $forms;
                     };',
-					$callback_function,
-					$callback_function,
-					$callback_function,
-					$form_id,
-					$form_id
-				);
+                    $callback_function,
+                    $callback_function,
+                    $callback_function,
+                    $form_id,
+                    $form_id
+                );
 				$structure = ltrim($structure) . "\r\n\r\n";
 
 				$structure .= "/**\r\n * Filter form request to include form structure to be rendered\r\n *\r\n * @since 1.3.1\r\n *\r\n * @param \$form array form structure\r\n */\r\n";
@@ -1481,7 +1480,8 @@ class Caldera_Forms_Admin {
 			WHERE `entry`.`form_id` = %s
 			" . $filter . "
 			AND `entry`.`status` = 'active'
-			ORDER BY `entry`.`datestamp` DESC;", $_GET['export']));
+			ORDER BY `entry`.`datestamp` DESC;", Caldera_Forms_Sanitize::sanitize($_GET['export'])));
+
 
 			$data = array();
 
@@ -1495,7 +1495,10 @@ class Caldera_Forms_Admin {
 				}
 
 				foreach ($structure as $slug => $field_id) {
-					$data[$entry->_entryid][$slug] = ( isset( $submission['data'][$field_id]['value'] ) ? $submission['data'][$field_id]['value'] : null );
+					$data[$entry->_entryid][$slug] = (
+					        isset( $submission['data'][$field_id]['view'] ) ? $submission['data'][$field_id]['view']
+                                : ( isset( $submission['data'][$field_id]['value'] ) ? $submission['data'][$field_id]['value'] : null )
+                    );
 				}
 
 			}
@@ -1543,6 +1546,9 @@ class Caldera_Forms_Admin {
 								if( is_array( $row_part ) && isset( $row_part['label'] ) ){
 									$subs[] = $row_part['value'];
 								}else{
+									if( is_string( $row_part ) && '{"opt' == substr( $row_part, 0, 5 ) ){
+									    continue;
+									}
 									$subs[] = $row_part;
 								}
 							}
@@ -1625,34 +1631,34 @@ class Caldera_Forms_Admin {
 	}
 
 
-	/**
-	 * Get the additional fields of form that are not used in the editor
+    /**
+     * Get the additional fields of form that are not used in the editor
 	 *
 	 * @since 1.7.1
 	 *
 	 * @param array $form Form config to get saved field values from
-	 * @return array
-	 */
+     * @return array
+     */
 	public static function get_editor_extra_fields(array $form )
 	{
-		return array_merge(
-			[
-				'email_identifying_fields' => Caldera_Forms_Forms::email_identifying_fields($form, true ),
-				'personally_identifying_fields' => Caldera_Forms_Forms::personally_identifying_fields($form,true),
-				'is_privacy_export_enabled' => Caldera_Forms_Forms::is_privacy_export_enabled($form),
-			],
-			/**
-			 * Add additional fields to the non-editor fields
-			 *
-			 * These values will be saved with the form, unedited.
-			 *
-			 * @since 1.7.0
-			 *
-			 * @param array $field Extra fields.
-			 */
-			apply_filters( 'caldera_forms_editor_extra_fields', [] )
+        return array_merge(
+            [
+                'email_identifying_fields' => Caldera_Forms_Forms::email_identifying_fields($form, true ),
+                'personally_identifying_fields' => Caldera_Forms_Forms::personally_identifying_fields($form,true),
+                'is_privacy_export_enabled' => Caldera_Forms_Forms::is_privacy_export_enabled($form),
+            ],
+            /**
+             * Add additional fields to the non-editor fields
+             *
+             * These values will be saved with the form, unedited.
+             *
+             * @since 1.7.0
+             *
+             * @param array $field Extra fields.
+             */
+            apply_filters( 'caldera_forms_editor_extra_fields', [] )
 
-		);
+        );
 	}
 
 	/**
@@ -1768,16 +1774,16 @@ class Caldera_Forms_Admin {
 							'text' => __( 'Processors getting started guide', 'caldera-forms' )
 						)
 					),
-					"antispam" => array(
-						"name" => __( 'Anti-Spam', 'caldera-forms' ),
-						"location" => "lower",
-						"label" => __( 'Anti Spam', 'caldera-forms' ),
-						"canvas" => $path . "anti-spam.php",
-						'tip' => array(
-							'link' => 'https://calderaforms.com/doc/protect-form-spam-caldera-forms/?utm_source=wp-admin&utm_medium=form-editor&utm_term=tabs',
-							'text' => __( 'Anti-spam documentation', 'caldera-forms' )
-						)
-					),
+                    "antispam" => array(
+                        "name" => __( 'Anti-Spam', 'caldera-forms' ),
+                        "location" => "lower",
+                        "label" => __( 'Anti Spam', 'caldera-forms' ),
+                        "canvas" => $path . "anti-spam.php",
+                        'tip' => array(
+                            'link' => 'https://calderaforms.com/doc/protect-form-spam-caldera-forms/?utm_source=wp-admin&utm_medium=form-editor&utm_term=tabs',
+                            'text' => __( 'Anti-spam documentation', 'caldera-forms' )
+                        )
+                    ),
 					"conditions" => array(
 						"name" => __( 'Conditions', 'caldera-forms' ),
 						"location" => "lower",
@@ -1924,19 +1930,19 @@ class Caldera_Forms_Admin {
 			$content = wp_kses( $content, wp_kses_allowed_html( 'post' ) );
 		}
 		?>
-        <div
-                class="ajax-trigger"
-                data-modal="cf-admin-notice"
-                data-modal-title="<?php echo esc_html( $title ); ?>"
-                data-template="#<?php echo esc_attr( sanitize_key( 'admin-modal' .  $title ) ); ?>"
-                data-modal-height="300"
-                data-modal-width="650"
-                data-autoload="true"
-        >
-        </div>
-        <script type="text/html" id="<?php echo esc_attr( sanitize_key('admin-modal' . $title ) ); ?>">
+		<div
+			class="ajax-trigger"
+			data-modal="cf-admin-notice"
+			data-modal-title="<?php echo esc_html( $title ); ?>"
+			data-template="#<?php echo esc_attr( sanitize_key( 'admin-modal' .  $title ) ); ?>"
+			data-modal-height="300"
+			data-modal-width="650"
+			data-autoload="true"
+		>
+		</div>
+		<script type="text/html" id="<?php echo esc_attr( sanitize_key('admin-modal' . $title ) ); ?>">
 			<?php echo $content; ?>
-        </script>
+		</script>
 		<?php
 	}
 
@@ -1960,20 +1966,20 @@ class Caldera_Forms_Admin {
 
 	}
 
-	/**
-	 * Remove hooks for admin notices while in Caldera Forms admin
-	 *
-	 * Caldera Forms admin does not play nice with admin notices, so we use a series of steps to remove most of them, sadly can not beat them all.
-	 *
-	 * @since 1.4.7
-	 * @uses "admin_head" action
-	 */
+    /**
+     * Remove hooks for admin notices while in Caldera Forms admin
+     *
+     * Caldera Forms admin does not play nice with admin notices, so we use a series of steps to remove most of them, sadly can not beat them all.
+     *
+     * @since 1.4.7
+     * @uses "admin_head" action
+     */
 	public static function remove_notice_actions(){
-		remove_all_actions( 'admin_notices' );
-		remove_all_actions( 'network_admin_notices' );
-		remove_all_actions( 'user_admin_notices' );
-		remove_all_actions( 'all_admin_notices' );
-	}
+        remove_all_actions( 'admin_notices' );
+        remove_all_actions( 'network_admin_notices' );
+        remove_all_actions( 'user_admin_notices' );
+        remove_all_actions( 'all_admin_notices' );
+    }
 
 	/**
 	 * Check if is a Caldera Forms page
@@ -2108,77 +2114,77 @@ class Caldera_Forms_Admin {
 
 	/**
 	 * Setup privacy settings
-	 *
-	 * @since 1.6.1
-	 *
-	 * @uses "caldera_forms_admin_init" action
+     *
+     * @since 1.6.1
+     *
+     * @uses "caldera_forms_admin_init" action
 	 */
-	public static function init_privacy_settings()
+    public static function init_privacy_settings()
 	{
-		Caldera_Forms_Admin_Factory::menu_page('privacy', __('Privacy Settings', 'caldera-forms'), '<div id="caldera-forms-privacy-settings"></div>', [
-			'scripts' => [
-				'privacy',
-				'admin',
+        Caldera_Forms_Admin_Factory::menu_page('privacy', __('Privacy Settings', 'caldera-forms'), '<div id="caldera-forms-privacy-settings"></div>', [
+            'scripts' => [
+                'privacy',
+                'admin',
 
-			],
-			'styles' => [
-				'editor-grid'
-			]
-		]);
+            ],
+            'styles' => [
+                'editor-grid'
+            ]
+        ]);
 
-	}
-
-
-	/**
-	 * Return the default suggested privacy policy content.
-	 *
-	 * @since 1.7.0
-	 *
-	 * @return string The default policy content.
-	 */
-	protected static function core_privacy_content() {
-		return
-			'<h2>' . esc_html__( 'Caldera Forms: Data Collection', 'caldera-forms') . '</h2>' .
-			'<em>' . esc_html__( 'Suggested Text (if you have entry tracking enabled) -', 'caldera-forms' ) . '</em>' .
-			'<p>' . esc_html__( 'Caldera Forms stores a record of all form submissions. Your data may be deleted by the site administrator. You may request a report of saved data related to your email address.', 'caldera-forms' ) . '</p>' .
-			'<em>' . esc_html__( 'Suggested Text (if you do not have entry tracking enabled) -', 'caldera-forms' ) . '</em>' .
-			'<p>' . esc_html__( 'Caldera Forms stores data only briefly for each submission. Uploaded media files may remain on the server' ) . '</p>' .
-			'<em>' . esc_html__( 'Suggested Text (if you use add-ons that interact with third party services) -', 'caldera-forms' ) . '</em>' .
-			'<p>' . esc_html__( 'Some data may be shared with other services including [list services such as MailChimp, PayPal]', 'caldera-forms' ) . '</p>';
-	}
-
-	/**
-	 * Return the default suggested privacy policy content for Caldera Forms Pro.
-	 *
-	 * @since 1.7.0
-	 *
-	 * @return string The default policy content.
-	 */
-	protected static function pro_privacy_content() {
-		return
-			'<h2>' . esc_html__( 'Caldera Forms Pro: Data Collection', 'caldera-forms') . '</h2>' .
-			'<p>' . esc_html__( 'This site uses a third-party service to deliver some emails.', 'caldera-forms' ) . '</p>' .
-			'<p>' . esc_html__( 'This data will be stored on servers controlled by CalderaWP LLC, the makers of Caldera Forms, and operated by Linode and Amazon Web Services. Meta data about emails will be stored by SendGrid and Amazon Web Services', 'caldera-forms' ) . '</p>';
-		'<p>' . esc_html__( 'If you request that personal data shared with this site is deleted, the corresponding data shared with CalderaWP will also be deleted when the request is fulfilled.', 'caldera-forms' ) . '</p>';
-	}
+    }
 
 
+    /**
+     * Return the default suggested privacy policy content.
+     *
+     * @since 1.7.0
+     *
+     * @return string The default policy content.
+     */
+    protected static function core_privacy_content() {
+        return
+            '<h2>' . esc_html__( 'Caldera Forms: Data Collection', 'caldera-forms') . '</h2>' .
+            '<em>' . esc_html__( 'Suggested Text (if you have entry tracking enabled) -', 'caldera-forms' ) . '</em>' .
+            '<p>' . esc_html__( 'Caldera Forms stores a record of all form submissions. Your data may be deleted by the site administrator. You may request a report of saved data related to your email address.', 'caldera-forms' ) . '</p>' .
+            '<em>' . esc_html__( 'Suggested Text (if you do not have entry tracking enabled) -', 'caldera-forms' ) . '</em>' .
+            '<p>' . esc_html__( 'Caldera Forms stores data only briefly for each submission. Uploaded media files may remain on the server' ) . '</p>' .
+            '<em>' . esc_html__( 'Suggested Text (if you use add-ons that interact with third party services) -', 'caldera-forms' ) . '</em>' .
+            '<p>' . esc_html__( 'Some data may be shared with other services including [list services such as MailChimp, PayPal]', 'caldera-forms' ) . '</p>';
+    }
 
-	/**
-	 * Add the suggested privacy policy text to the policy postbox.
-	 *
-	 * @uses "caldera_forms_admin_init" action
-	 *
-	 * @since 1.7.0
-	 */
-	public static function add_suggested_privacy_content() {
-		if( function_exists( 'wp_add_privacy_policy_content' ) ){
-			wp_add_privacy_policy_content( esc_html__( 'Caldera Forms', 'caldera-forms' ), self::core_privacy_content() );
-			if ( caldera_forms_pro_is_active() ) {
-				wp_add_privacy_policy_content(esc_html__('Caldera Forms Pro', 'caldera-forms'), self::pro_privacy_content());
-			}
-		}
-	}
+    /**
+     * Return the default suggested privacy policy content for Caldera Forms Pro.
+     *
+     * @since 1.7.0
+     *
+     * @return string The default policy content.
+     */
+    protected static function pro_privacy_content() {
+        return
+            '<h2>' . esc_html__( 'Caldera Forms Pro: Data Collection', 'caldera-forms') . '</h2>' .
+            '<p>' . esc_html__( 'This site uses a third-party service to deliver some emails.', 'caldera-forms' ) . '</p>' .
+            '<p>' . esc_html__( 'This data will be stored on servers controlled by CalderaWP LLC, the makers of Caldera Forms, and operated by Linode and Amazon Web Services. Meta data about emails will be stored by SendGrid and Amazon Web Services', 'caldera-forms' ) . '</p>';
+            '<p>' . esc_html__( 'If you request that personal data shared with this site is deleted, the corresponding data shared with CalderaWP will also be deleted when the request is fulfilled.', 'caldera-forms' ) . '</p>';
+    }
+
+
+
+    /**
+     * Add the suggested privacy policy text to the policy postbox.
+     *
+     * @uses "caldera_forms_admin_init" action
+     *
+     * @since 1.7.0
+     */
+    public static function add_suggested_privacy_content() {
+        if( function_exists( 'wp_add_privacy_policy_content' ) ){
+            wp_add_privacy_policy_content( esc_html__( 'Caldera Forms', 'caldera-forms' ), self::core_privacy_content() );
+            if ( caldera_forms_pro_is_active() ) {
+                wp_add_privacy_policy_content(esc_html__('Caldera Forms Pro', 'caldera-forms'), self::pro_privacy_content());
+            }
+        }
+    }
 
 
 

@@ -33,7 +33,7 @@ function get_query_template( $type, $templates = array() ) {
 	 * The last element in the array should always be the fallback template for this query type.
 	 *
 	 * Possible values for `$type` include: 'index', '404', 'archive', 'author', 'category', 'tag', 'taxonomy', 'date',
-	 * 'embed', 'home', 'frontpage', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
+	 * 'embed', 'home', 'frontpage', 'privacypolicy', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
 	 *
 	 * @since 4.7.0
 	 *
@@ -51,7 +51,7 @@ function get_query_template( $type, $templates = array() ) {
 	 * This hook also applies to various types of files loaded as part of the Template Hierarchy.
 	 *
 	 * Possible values for `$type` include: 'index', '404', 'archive', 'author', 'category', 'tag', 'taxonomy', 'date',
-	 * 'embed', 'home', 'frontpage', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
+	 * 'embed', 'home', 'frontpage', 'privacypolicy', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
 	 *
 	 * @since 1.5.0
 	 * @since 4.8.0 The `$type` and `$templates` parameters were added.
@@ -377,6 +377,24 @@ function get_front_page_template() {
 }
 
 /**
+ * Retrieve path of Privacy Policy page template in current or parent template.
+ *
+ * The template hierarchy and template path are filterable via the {@see '$type_template_hierarchy'}
+ * and {@see '$type_template'} dynamic hooks, where `$type` is 'privacypolicy'.
+ *
+ * @since 5.2.0
+ *
+ * @see get_query_template()
+ *
+ * @return string Full path to front page template file.
+ */
+function get_privacy_policy_template() {
+	$templates = array( 'privacy-policy.php' );
+
+	return get_query_template( 'privacy_policy', $templates );
+}
+
+/**
  * Retrieve path of page template in current or parent template.
  *
  * The hierarchy for this template looks like:
@@ -684,6 +702,15 @@ function load_template( $_template_file, $require_once = true ) {
 	global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
 
 	if ( is_array( $wp_query->query_vars ) ) {
+		/*
+		 * This use of extract() cannot be removed. There are many possible ways that
+		 * templates could depend on variables that it creates existing, and no way to
+		 * detect and deprecate it.
+		 *
+		 * Passing the EXTR_SKIP flag is the safest option, ensuring globals and
+		 * function variables cannot be overwritten.
+		 */
+		// phpcs:ignore WordPress.PHP.DontExtract.extract_extract
 		extract( $wp_query->query_vars, EXTR_SKIP );
 	}
 

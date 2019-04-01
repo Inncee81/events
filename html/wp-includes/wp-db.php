@@ -18,6 +18,7 @@ define( 'EZSQL_VERSION', 'WP1.25' );
  * @since 0.71
  */
 define( 'OBJECT', 'OBJECT' );
+// phpcs:ignore Generic.NamingConventions.UpperCaseConstantName.ConstantNotUpperCase
 define( 'object', 'OBJECT' ); // Back compat.
 
 /**
@@ -417,7 +418,7 @@ class wpdb {
 	/**
 	 * Multisite Blog Metadata table
 	 *
-	 * @since 5.0.0
+	 * @since 5.1.0
 	 * @var string
 	 */
 	public $blogmeta;
@@ -1273,7 +1274,7 @@ class wpdb {
 	 *
 	 * Literal percentage signs (%) in the query string must be written as %%. Percentage wildcards (for example,
 	 * to use in LIKE syntax) must be passed via a substitution argument containing the complete LIKE string, these
-	 * cannot be inserted directly in the query string. Also see {@see wpdb::esc_like()}.
+	 * cannot be inserted directly in the query string. Also see wpdb::esc_like().
 	 *
 	 * Arguments may be passed as individual arguments to the method, or as a single array containing all arguments. A combination
 	 * of the two is not supported.
@@ -2040,7 +2041,7 @@ class wpdb {
 
 		/*
 		 * Add the filter to remove the placeholder escaper. Uses priority 0, so that anything
-		 * else attached to this filter will recieve the query with the placeholder string removed.
+		 * else attached to this filter will receive the query with the placeholder string removed.
 		 */
 		if ( ! has_filter( 'query', array( $this, 'remove_placeholder_escape' ) ) ) {
 			add_filter( 'query', array( $this, 'remove_placeholder_escape' ), 0 );

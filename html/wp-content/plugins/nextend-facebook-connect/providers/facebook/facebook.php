@@ -18,7 +18,8 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
     protected $sync_fields = array(
         'age_range' => array(
             'label' => 'Age range',
-            'node'  => 'me'
+            'node'  => 'me',
+            'scope' => 'user_age_range'
         ),
         'birthday'  => array(
             'label' => 'Birthday',
@@ -28,18 +29,7 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
         'link'      => array(
             'label' => 'Profile link',
             'node'  => 'me',
-        ),
-        'locale'    => array(
-            'label' => 'Locale',
-            'node'  => 'me'
-        ),
-        'timezone'  => array(
-            'label' => 'Timezone',
-            'node'  => 'me',
-        ),
-        'currency'  => array(
-            'label' => 'Currency',
-            'node'  => 'me',
+            'scope' => 'user_link'
         ),
         'hometown'  => array(
             'label' => 'Hometown',
@@ -54,6 +44,7 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
         'gender'    => array(
             'label' => 'Gender',
             'node'  => 'me',
+            'scope' => 'user_gender'
         )
     );
 
@@ -78,13 +69,8 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
             'secret'       => '',
             'login_label'  => 'Continue with <b>Facebook</b>',
             'link_label'   => 'Link account with <b>Facebook</b>',
-            'unlink_label' => 'Unlink account from <b>Facebook</b>',
-            'legacy'       => 0
+            'unlink_label' => 'Unlink account from <b>Facebook</b>'
         ));
-
-        if ($this->settings->get('legacy') == 1) {
-            $this->loadCompat();
-        }
     }
 
     protected function forTranslation() {
@@ -129,13 +115,6 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
         foreach ($postedData AS $key => $value) {
 
             switch ($key) {
-                case 'legacy':
-                    if ($postedData['legacy'] == 1) {
-                        $newData['legacy'] = 1;
-                    } else {
-                        $newData['legacy'] = 0;
-                    }
-                    break;
                 case 'tested':
                     if ($postedData[$key] == '1' && (!isset($newData['tested']) || $newData['tested'] != '0')) {
                         $newData['tested'] = 1;
@@ -252,73 +231,6 @@ class NextendSocialProviderFacebook extends NextendSocialProvider {
         }
 
         return parent::getUserData($user_id, $key);
-    }
-
-    public function getState() {
-        if ($this->settings->get('legacy') == 1) {
-            return 'legacy';
-        }
-
-        return parent::getState();
-    }
-
-    public function loadCompat() {
-
-        if (!is_admin()) {
-            require_once(dirname(__FILE__) . '/compat/nextend-facebook-connect.php');
-        } else {
-            if (basename($_SERVER['PHP_SELF']) !== 'plugins.php') {
-                require_once(dirname(__FILE__) . '/compat/nextend-facebook-connect.php');
-                add_action('admin_notices', 'NextendSocialLoginAdmin::show_facebook_compat_cessation_notice');
-            } else {
-
-                add_action('admin_menu', array(
-                    $this,
-                    'loadCompatMenu'
-                ), 1);
-            }
-        }
-    }
-
-    public function loadCompatMenu() {
-        add_options_page('Nextend FB Connect', 'Nextend FB Connect', 'manage_options', 'nextend-facebook-connect', array(
-            'NextendFBSettings',
-            'NextendFB_Options_Page'
-        ));
-    }
-
-    public function import() {
-        $oldSettings = maybe_unserialize(get_option('nextend_fb_connect'));
-        if ($oldSettings === false) {
-            $newSettings['legacy'] = 0;
-            $this->settings->update($newSettings);
-        } else if (!empty($oldSettings['fb_appid']) && !empty($oldSettings['fb_secret'])) {
-            $newSettings = array(
-                'appid'  => $oldSettings['fb_appid'],
-                'secret' => $oldSettings['fb_secret']
-            );
-
-            if (!empty($oldSettings['fb_user_prefix'])) {
-                $newSettings['user_prefix'] = $oldSettings['fb_user_prefix'];
-            }
-
-            $newSettings['legacy'] = 0;
-            $this->settings->update($newSettings);
-
-            delete_option('nextend_fb_connect');
-        }
-
-        return true;
-    }
-
-    public function adminDisplaySubView($subview) {
-        if ($subview == 'import' && $this->settings->get('legacy') == 1) {
-            $this->admin->render('import', false);
-
-            return true;
-        }
-
-        return parent::adminDisplaySubView($subview);
     }
 
     public function deleteLoginPersistentData() {

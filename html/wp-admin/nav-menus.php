@@ -627,7 +627,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<hr class="wp-header-end">
 
-	<h2 class="nav-tab-wrapper wp-clearfix">
+	<nav class="nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
 		<a href="<?php echo admin_url( 'nav-menus.php' ); ?>" class="nav-tab<?php echo $nav_tab_active_class; ?>"><?php esc_html_e( 'Edit Menus' ); ?></a>
 		<?php
 		if ( $num_locations && $menu_count ) {
@@ -640,7 +640,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<?php
 		}
 		?>
-	</h2>
+	</nav>
 	<?php
 	foreach ( $messages as $message ) :
 		echo $message . "\n";
@@ -742,7 +742,12 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		?>
 	<?php else : ?>
 	<div class="manage-menus">
-		<?php if ( $menu_count < 2 ) : ?>
+		<?php if ( $menu_count < 1 ) : ?>
+		<span class="first-menu-message">
+			<?php _e( 'Create your first menu below.' ); ?>
+			<span class="screen-reader-text"><?php _e( 'Fill in the Menu Name and click the Create Menu button to create your first menu.' ); ?></span>
+		</span><!-- /first-menu-message -->
+		<?php elseif ( $menu_count < 2 ) : ?>
 		<span class="add-edit-menu-action">
 			<?php
 			printf(
@@ -822,14 +827,14 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 				<span class="screen-reader-text"><?php _e( 'Click the Save Menu button to save your changes.' ); ?></span>
 			</span><!-- /add-new-menu-action -->
 		</form>
-	<?php
+			<?php
 		endif;
 
 		$metabox_holder_disabled_class = '';
-if ( isset( $_GET['menu'] ) && '0' == $_GET['menu'] ) {
-	$metabox_holder_disabled_class = ' metabox-holder-disabled';
-}
-?>
+		if ( isset( $_GET['menu'] ) && '0' == $_GET['menu'] ) {
+			$metabox_holder_disabled_class = ' metabox-holder-disabled';
+		}
+		?>
 	</div><!-- /manage-menus -->
 	<div id="nav-menus-frame" class="wp-clearfix">
 	<div id="menu-settings-column" class="metabox-holder<?php echo $metabox_holder_disabled_class; ?>">
@@ -914,10 +919,10 @@ if ( isset( $_GET['menu'] ) && '0' == $_GET['menu'] ) {
 								endif;
 
 								$no_menus_style = '';
-if ( $one_theme_location_no_menus ) {
-	$no_menus_style = 'style="display: none;"';
-}
-?>
+							if ( $one_theme_location_no_menus ) {
+								$no_menus_style = 'style="display: none;"';
+							}
+							?>
 							<div class="menu-settings" <?php echo $no_menus_style; ?>>
 								<h3><?php _e( 'Menu Settings' ); ?></h3>
 								<?php

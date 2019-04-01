@@ -165,13 +165,7 @@ Please click the following link to confirm the invite:
 		if ( is_wp_error( $user_details['errors'] ) && $user_details['errors']->has_errors() ) {
 			$add_user_errors = $user_details['errors'];
 		} else {
-			/**
-			 * Filters the user_login, also known as the username, before it is added to the site.
-			 *
-			 * @since 2.0.3
-			 *
-			 * @param string $user_login The sanitized username.
-			 */
+			/** This filter is documented in wp-includes/user.php */
 			$new_user_login = apply_filters( 'pre_user_login', sanitize_user( wp_unslash( $_REQUEST['user_login'] ), true ) );
 			if ( isset( $_POST['noconfirmation'] ) && current_user_can( 'manage_network_users' ) ) {
 				add_filter( 'wpmu_signup_user_notification', '__return_false' ); // Disable confirmation email
@@ -504,10 +498,11 @@ if ( current_user_can( 'create_users' ) ) {
 					<input type="password" name="pass1" id="pass1" class="regular-text" autocomplete="off" data-reveal="1" data-pw="<?php echo esc_attr( $initial_password ); ?>" aria-describedby="pass-strength-result" />
 				</span>
 				<button type="button" class="button wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
-					<span class="dashicons dashicons-hidden"></span>
+					<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
 					<span class="text"><?php _e( 'Hide' ); ?></span>
 				</button>
 				<button type="button" class="button wp-cancel-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Cancel password change' ); ?>">
+					<span class="dashicons dashicons-no" aria-hidden="true"></span>
 					<span class="text"><?php _e( 'Cancel' ); ?></span>
 				</button>
 				<div style="display:none" id="pass-strength-result" aria-live="polite"></div>

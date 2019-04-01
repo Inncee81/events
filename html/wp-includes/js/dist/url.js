@@ -82,34 +82,12 @@ this["wp"] = this["wp"] || {}; this["wp"]["url"] =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 300);
+/******/ 	return __webpack_require__(__webpack_require__.s = 354);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 15:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _defineProperty; });
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-/***/ }),
-
-/***/ 179:
+/***/ 201:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -345,7 +323,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 180:
+/***/ 202:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -371,7 +349,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 300:
+/***/ 354:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -394,11 +372,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "prependHTTP", function() { return prependHTTP; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "safeDecodeURI", function() { return safeDecodeURI; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "filterURLForDisplay", function() { return filterURLForDisplay; });
-/* harmony import */ var _babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(76);
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_1__);
-
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "safeDecodeURIComponent", function() { return safeDecodeURIComponent; });
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(86);
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * External dependencies
  */
@@ -411,6 +387,11 @@ var USABLE_HREF_REGEXP = /^(?:[a-z]+:|#|\?|\.|\/)/i;
  *
  * @param {string} url The string to scrutinise.
  *
+ * @example
+ * ```js
+ * const isURL = isURL( 'https://wordpress.org' ); // true
+ * ```
+ *
  * @return {boolean} Whether or not it looks like a URL.
  */
 
@@ -421,6 +402,12 @@ function isURL(url) {
  * Returns the protocol part of the URL.
  *
  * @param {string} url The full URL.
+ *
+ * @example
+ * ```js
+ * const protocol1 = getProtocol( 'tel:012345678' ); // 'tel:'
+ * const protocol2 = getProtocol( 'https://wordpress.org' ); // 'https:'
+ * ```
  *
  * @return {?string} The protocol part of the URL.
  */
@@ -437,6 +424,12 @@ function getProtocol(url) {
  *
  * @param {string} protocol The url protocol.
  *
+ * @example
+ * ```js
+ * const isValid = isValidProtocol( 'https:' ); // true
+ * const isNotValid = isValidProtocol( 'https :' ); // false
+ * ```
+ *
  * @return {boolean} True if the argument is a valid protocol (e.g. http:, tel:).
  */
 
@@ -451,6 +444,12 @@ function isValidProtocol(protocol) {
  * Returns the authority part of the URL.
  *
  * @param {string} url The full URL.
+ *
+ * @example
+ * ```js
+ * const authority1 = getAuthority( 'https://wordpress.org/help/' ); // 'wordpress.org'
+ * const authority2 = getAuthority( 'https://localhost:8080/test/' ); // 'localhost:8080'
+ * ```
  *
  * @return {?string} The authority part of the URL.
  */
@@ -467,6 +466,12 @@ function getAuthority(url) {
  *
  * @param {string} authority A string containing the URL authority.
  *
+ * @example
+ * ```js
+ * const isValid = isValidAuthority( 'wordpress.org' ); // true
+ * const isNotValid = isValidAuthority( 'wordpress#org' ); // false
+ * ```
+ *
  * @return {boolean} True if the argument contains a valid authority.
  */
 
@@ -481,6 +486,12 @@ function isValidAuthority(authority) {
  * Returns the path part of the URL.
  *
  * @param {string} url The full URL.
+ *
+ * @example
+ * ```js
+ * const path1 = getPath( 'http://localhost:8080/this/is/a/test?query=true' ); // 'this/is/a/test'
+ * const path2 = getPath( 'https://wordpress.org/help/faq/' ); // 'help/faq'
+ * ```
  *
  * @return {?string} The path part of the URL.
  */
@@ -497,6 +508,12 @@ function getPath(url) {
  *
  * @param {string} path The URL path.
  *
+ * @example
+ * ```js
+ * const isValid = isValidPath( 'test/path/' ); // true
+ * const isNotValid = isValidPath( '/invalid?test/path/' ); // false
+ * ```
+ *
  * @return {boolean} True if the argument contains a valid path
  */
 
@@ -511,6 +528,12 @@ function isValidPath(path) {
  * Returns the query string part of the URL.
  *
  * @param {string} url The full URL.
+ *
+ * @example
+ * ```js
+ * const queryString1 = getQueryString( 'http://localhost:8080/this/is/a/test?query=true#fragment' ); // 'query=true'
+ * const queryString2 = getQueryString( 'https://wordpress.org#fragment?query=false&search=hello' ); // 'query=false&search=hello'
+ * ```
  *
  * @return {?string} The query string part of the URL.
  */
@@ -527,6 +550,12 @@ function getQueryString(url) {
  *
  * @param {string} queryString The query string.
  *
+ * @example
+ * ```js
+ * const isValid = isValidQueryString( 'query=true&another=false' ); // true
+ * const isNotValid = isValidQueryString( 'query=true?another=false' ); // false
+ * ```
+ *
  * @return {boolean} True if the argument contains a valid query string.
  */
 
@@ -541,6 +570,12 @@ function isValidQueryString(queryString) {
  * Returns the fragment part of the URL.
  *
  * @param {string} url The full URL
+ *
+ * @example
+ * ```js
+ * const fragment1 = getFragment( 'http://localhost:8080/this/is/a/test?query=true#fragment' ); // '#fragment'
+ * const fragment2 = getFragment( 'https://wordpress.org#another-fragment?query=true' ); // '#another-fragment'
+ * ```
  *
  * @return {?string} The fragment part of the URL.
  */
@@ -557,6 +592,12 @@ function getFragment(url) {
  *
  * @param {string} fragment The url fragment.
  *
+ * @example
+ * ```js
+ * const isValid = isValidFragment( '#valid-fragment' ); // true
+ * const isNotValid = isValidFragment( '#invalid-#fragment' ); // false
+ * ```
+ *
  * @return {boolean} True if the argument contains a valid fragment.
  */
 
@@ -568,19 +609,43 @@ function isValidFragment(fragment) {
   return /^#[^\s#?\/]*$/.test(fragment);
 }
 /**
- * Appends arguments to the query string of the url
+ * Appends arguments as querystring to the provided URL. If the URL already
+ * includes query arguments, the arguments are merged with (and take precedent
+ * over) the existing set.
  *
- * @param {string} url  URL
- * @param {Object} args Query Args
+ * @param {?string} url  URL to which arguments should be appended. If omitted,
+ *                       only the resulting querystring is returned.
+ * @param {Object}  args Query arguments to apply to URL.
  *
- * @return {string} Updated URL
+ * @example
+ * ```js
+ * const newURL = addQueryArgs( 'https://google.com', { q: 'test' } ); // https://google.com/?q=test
+ * ```
+ *
+ * @return {string} URL with arguments applied.
  */
 
-function addQueryArgs(url, args) {
+function addQueryArgs() {
+  var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var args = arguments.length > 1 ? arguments[1] : undefined;
+
+  // If no arguments are to be appended, return original URL.
+  if (!args || !Object.keys(args).length) {
+    return url;
+  }
+
+  var baseUrl = url; // Determine whether URL already had query arguments.
+
   var queryStringIndex = url.indexOf('?');
-  var query = queryStringIndex !== -1 ? Object(qs__WEBPACK_IMPORTED_MODULE_1__["parse"])(url.substr(queryStringIndex + 1)) : {};
-  var baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
-  return baseUrl + '?' + Object(qs__WEBPACK_IMPORTED_MODULE_1__["stringify"])(Object(_babel_runtime_helpers_esm_objectSpread__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])({}, query, args));
+
+  if (queryStringIndex !== -1) {
+    // Merge into existing query arguments.
+    args = Object.assign(Object(qs__WEBPACK_IMPORTED_MODULE_0__["parse"])(url.substr(queryStringIndex + 1)), args); // Change working base URL to omit previous query arguments.
+
+    baseUrl = baseUrl.substr(0, queryStringIndex);
+  }
+
+  return baseUrl + '?' + Object(qs__WEBPACK_IMPORTED_MODULE_0__["stringify"])(args);
 }
 /**
  * Returns a single query argument of the url
@@ -588,12 +653,17 @@ function addQueryArgs(url, args) {
  * @param {string} url URL
  * @param {string} arg Query arg name
  *
+ * @example
+ * ```js
+ * const foo = getQueryArg( 'https://wordpress.org?foo=bar&bar=baz', 'foo' ); // bar
+ * ```
+ *
  * @return {Array|string} Query arg value.
  */
 
 function getQueryArg(url, arg) {
   var queryStringIndex = url.indexOf('?');
-  var query = queryStringIndex !== -1 ? Object(qs__WEBPACK_IMPORTED_MODULE_1__["parse"])(url.substr(queryStringIndex + 1)) : {};
+  var query = queryStringIndex !== -1 ? Object(qs__WEBPACK_IMPORTED_MODULE_0__["parse"])(url.substr(queryStringIndex + 1)) : {};
   return query[arg];
 }
 /**
@@ -602,7 +672,12 @@ function getQueryArg(url, arg) {
  * @param {string} url URL
  * @param {string} arg Query arg name
  *
- * @return {boolean} Whether or not the URL contains the query aeg.
+ * @example
+ * ```js
+ * const hasBar = hasQueryArg( 'https://wordpress.org?foo=bar&bar=baz', 'bar' ); // true
+ * ```
+ *
+ * @return {boolean} Whether or not the URL contains the query arg.
  */
 
 function hasQueryArg(url, arg) {
@@ -614,12 +689,17 @@ function hasQueryArg(url, arg) {
  * @param {string} url  URL
  * @param {...string} args Query Args
  *
+ * @example
+ * ```js
+ * const newUrl = removeQueryArgs( 'https://wordpress.org?foo=bar&bar=baz&baz=foobar', 'foo', 'bar' ); // https://wordpress.org?baz=foobar
+ * ```
+ *
  * @return {string} Updated URL
  */
 
 function removeQueryArgs(url) {
   var queryStringIndex = url.indexOf('?');
-  var query = queryStringIndex !== -1 ? Object(qs__WEBPACK_IMPORTED_MODULE_1__["parse"])(url.substr(queryStringIndex + 1)) : {};
+  var query = queryStringIndex !== -1 ? Object(qs__WEBPACK_IMPORTED_MODULE_0__["parse"])(url.substr(queryStringIndex + 1)) : {};
   var baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
 
   for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -629,12 +709,17 @@ function removeQueryArgs(url) {
   args.forEach(function (arg) {
     return delete query[arg];
   });
-  return baseUrl + '?' + Object(qs__WEBPACK_IMPORTED_MODULE_1__["stringify"])(query);
+  return baseUrl + '?' + Object(qs__WEBPACK_IMPORTED_MODULE_0__["stringify"])(query);
 }
 /**
  * Prepends "http://" to a url, if it looks like something that is meant to be a TLD.
  *
  * @param  {string} url The URL to test
+ *
+ * @example
+ * ```js
+ * const actualURL = prependHTTP( 'wordpress.org' ); // http://wordpress.org
+ * ```
  *
  * @return {string}     The updated URL
  */
@@ -652,6 +737,11 @@ function prependHTTP(url) {
  *
  * @param {string} uri URI to decode.
  *
+ * @example
+ * ```js
+ * const badUri = safeDecodeURI( '%z' ); // does not throw an Error, simply returns '%z'
+ * ```
+ *
  * @return {string} Decoded URI if possible.
  */
 
@@ -667,6 +757,11 @@ function safeDecodeURI(uri) {
  *
  * @param {string} url Original URL.
  *
+ * @example
+ * ```js
+ * const displayUrl = filterURLForDisplay( 'https://www.wordpress.org/gutenberg/' ); // wordpress.org/gutenberg
+ * ```
+ *
  * @return {string} Displayed URL.
  */
 
@@ -680,18 +775,34 @@ function filterURLForDisplay(url) {
 
   return filteredURL;
 }
+/**
+ * Safely decodes a URI component with `decodeURIComponent`. Returns the URI component unmodified if
+ * `decodeURIComponent` throws an error.
+ *
+ * @param {string} uriComponent URI component to decode.
+ *
+ * @return {string} Decoded URI component if possible.
+ */
+
+function safeDecodeURIComponent(uriComponent) {
+  try {
+    return decodeURIComponent(uriComponent);
+  } catch (uriComponentError) {
+    return uriComponent;
+  }
+}
 
 
 /***/ }),
 
-/***/ 301:
+/***/ 355:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(179);
-var formats = __webpack_require__(180);
+var utils = __webpack_require__(201);
+var formats = __webpack_require__(202);
 
 var arrayPrefixGenerators = {
     brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
@@ -934,13 +1045,13 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ 302:
+/***/ 356:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(179);
+var utils = __webpack_require__(201);
 
 var has = Object.prototype.hasOwnProperty;
 
@@ -1168,15 +1279,15 @@ module.exports = function (str, opts) {
 
 /***/ }),
 
-/***/ 76:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stringify = __webpack_require__(301);
-var parse = __webpack_require__(302);
-var formats = __webpack_require__(180);
+var stringify = __webpack_require__(355);
+var parse = __webpack_require__(356);
+var formats = __webpack_require__(202);
 
 module.exports = {
     formats: formats,
@@ -1184,34 +1295,6 @@ module.exports = {
     stringify: stringify
 };
 
-
-/***/ }),
-
-/***/ 8:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectSpread; });
-/* harmony import */ var _defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-    var ownKeys = Object.keys(source);
-
-    if (typeof Object.getOwnPropertySymbols === 'function') {
-      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      Object(_defineProperty__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
 
 /***/ })
 

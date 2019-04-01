@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ss3\n"
-"POT-Creation-Date: 2018-09-20 13:49+0200\n"
-"PO-Revision-Date: 2018-09-20 13:49+0200\n"
+"POT-Creation-Date: 2019-01-22 20:17+0100\n"
+"PO-Revision-Date: 2019-01-22 20:17+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2\n"
 "X-Poedit-Basepath: ../..\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -113,45 +113,45 @@ msgid ""
 msgstr ""
 
 #: nextend-facebook-connect/NSL/GDPR.php:97
-#: nextend-facebook-connect/admin/templates/settings/general-pro.php:65
+#: nextend-facebook-connect/admin/templates/settings/general-pro.php:55
 msgid "User"
 msgstr "用户"
 
-#: nextend-facebook-connect/admin/admin.php:203
+#: nextend-facebook-connect/admin/admin.php:200
 #, php-format
 msgid "%s needs json_decode function."
 msgstr "%s 需要 json_decode 函数。"
 
-#: nextend-facebook-connect/admin/admin.php:203
+#: nextend-facebook-connect/admin/admin.php:200
 msgid "Please contact your server administrator and ask for solution!"
 msgstr "请与服务器管理员联系并寻求解决方案!"
 
-#: nextend-facebook-connect/admin/admin.php:235
-#: nextend-facebook-connect/admin/admin.php:277
+#: nextend-facebook-connect/admin/admin.php:232
+#: nextend-facebook-connect/admin/admin.php:262
 msgid "Settings saved."
 msgstr "设置已保存。"
 
-#: nextend-facebook-connect/admin/admin.php:244
+#: nextend-facebook-connect/admin/admin.php:241
 #, fuzzy
 #| msgid "The authorization was successful"
 msgid "The activation was successful"
 msgstr "授权成功"
 
-#: nextend-facebook-connect/admin/admin.php:255
+#: nextend-facebook-connect/admin/admin.php:252
 #, fuzzy
 #| msgid "Deauthorize completed."
 msgid "Deactivate completed."
 msgstr "取消授权."
 
-#: nextend-facebook-connect/admin/admin.php:429
+#: nextend-facebook-connect/admin/admin.php:427
 #: nextend-facebook-connect/admin/templates-provider/menu.php:15
-#: nextend-facebook-connect/admin/templates/providers.php:84
-#: nextend-facebook-connect/admin/templates/providers.php:96
+#: nextend-facebook-connect/admin/templates/providers.php:81
+#: nextend-facebook-connect/admin/templates/providers.php:93
 #: nextend-facebook-connect/admin/templates/settings/comment.php:28
 msgid "Settings"
 msgstr "设置"
 
-#: nextend-facebook-connect/admin/admin.php:503
+#: nextend-facebook-connect/admin/admin.php:501
 #: nextend-facebook-connect/includes/oauth2.php:139
 #: nextend-facebook-connect/includes/oauth2.php:284
 #: nextend-facebook-connect/providers/facebook/facebook-client.php:84
@@ -160,7 +160,7 @@ msgstr "设置"
 msgid "Unexpected response: %s"
 msgstr "响应出现意外情况: %s"
 
-#: nextend-facebook-connect/admin/admin.php:561
+#: nextend-facebook-connect/admin/admin.php:560
 #: nextend-facebook-connect/admin/templates/fix-redirect-uri.php:21
 #, php-format
 msgid ""
@@ -170,15 +170,15 @@ msgstr ""
 "%s 检测到您的登录网址已更改。您必须更新相关社交应用程序中的Oauth redirect "
 "URIs."
 
-#: nextend-facebook-connect/admin/admin.php:562
+#: nextend-facebook-connect/admin/admin.php:561
 msgid "Fix Error"
 msgstr "修复错误"
 
-#: nextend-facebook-connect/admin/admin.php:562
+#: nextend-facebook-connect/admin/admin.php:561
 msgid "Oauth Redirect URI"
 msgstr "Oauth Redirect URI"
 
-#: nextend-facebook-connect/admin/admin.php:572
+#: nextend-facebook-connect/admin/admin.php:571
 #, php-format
 msgid ""
 "%1$s detected that %2$s installed on your site. You need the Pro Addon to "
@@ -187,15 +187,15 @@ msgstr ""
 "%1$s 检测到 %2$s 已经安装在你的网站. 你需要安装专业版本去显示社交登录按钮 "
 "%2$s 登录表单!"
 
-#: nextend-facebook-connect/admin/admin.php:573
+#: nextend-facebook-connect/admin/admin.php:572
 msgid "Dismiss and check Pro Addon"
 msgstr "解除并检查专业版本"
 
-#: nextend-facebook-connect/admin/admin.php:573
+#: nextend-facebook-connect/admin/admin.php:572
 msgid "Dismiss"
 msgstr "解除"
 
-#: nextend-facebook-connect/admin/admin.php:579
+#: nextend-facebook-connect/admin/admin.php:578
 #, php-format
 msgid ""
 "%1$s detected that %2$s installed on your site. You must set \"<b>Page for "
@@ -203,19 +203,19 @@ msgid ""
 "work properly."
 msgstr ""
 
-#: nextend-facebook-connect/admin/admin.php:580
+#: nextend-facebook-connect/admin/admin.php:579
 #, fuzzy
 #| msgid "Fix Error"
 msgid "Fix now"
 msgstr "修复错误"
 
-#: nextend-facebook-connect/admin/admin.php:604
+#: nextend-facebook-connect/admin/admin.php:603
 #, fuzzy
 #| msgid "Activate Pro Addon"
 msgid "Activate your Pro Addon"
 msgstr "启用专业版本插件"
 
-#: nextend-facebook-connect/admin/admin.php:605
+#: nextend-facebook-connect/admin/admin.php:604
 #, fuzzy
 #| msgid ""
 #| "To be able to use the Pro features, you need to authorize Nextend Social "
@@ -229,20 +229,20 @@ msgstr ""
 "要想使用专业版本功能，你需要 Nextend Social Connect 专业版本的授权。你可以点"
 "击下面的授权按钮，然后选择购买。"
 
-#: nextend-facebook-connect/admin/admin.php:610
+#: nextend-facebook-connect/admin/admin.php:609
 #: nextend-social-login-pro/nextend-social-login-pro.php:57
 msgid "Activate"
 msgstr ""
 
-#: nextend-facebook-connect/admin/admin.php:667
+#: nextend-facebook-connect/admin/admin.php:708
 msgid "License key"
 msgstr "密匙"
 
-#: nextend-facebook-connect/admin/admin.php:682
+#: nextend-facebook-connect/admin/admin.php:730
 msgid "OAuth proxy page"
 msgstr ""
 
-#: nextend-facebook-connect/admin/admin.php:685
+#: nextend-facebook-connect/admin/admin.php:733
 #, fuzzy
 #| msgid "Register"
 msgid "Register flow page"
@@ -294,32 +294,32 @@ msgstr "图标按钮"
 
 #: nextend-facebook-connect/admin/templates-provider/buttons.php:176
 #: nextend-facebook-connect/admin/templates-provider/settings-pro.php:140
-#: nextend-facebook-connect/admin/templates-provider/sync-data.php:93
-#: nextend-facebook-connect/admin/templates/settings/buddypress.php:65
-#: nextend-facebook-connect/admin/templates/settings/comment.php:54
+#: nextend-facebook-connect/admin/templates-provider/sync-data.php:104
+#: nextend-facebook-connect/admin/templates/settings/buddypress.php:84
+#: nextend-facebook-connect/admin/templates/settings/comment.php:73
 #: nextend-facebook-connect/admin/templates/settings/general-pro.php:7
-#: nextend-facebook-connect/admin/templates/settings/general-pro.php:79
+#: nextend-facebook-connect/admin/templates/settings/general-pro.php:82
 #: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:7
-#: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:136
-#: nextend-facebook-connect/admin/templates/settings/memberpress.php:153
+#: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:153
+#: nextend-facebook-connect/admin/templates/settings/memberpress.php:171
 #: nextend-facebook-connect/admin/templates/settings/privacy.php:108
-#: nextend-facebook-connect/admin/templates/settings/ultimate-member.php:168
-#: nextend-facebook-connect/admin/templates/settings/userpro.php:149
-#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:232
+#: nextend-facebook-connect/admin/templates/settings/ultimate-member.php:186
+#: nextend-facebook-connect/admin/templates/settings/userpro.php:167
+#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:254
 #: nextend-facebook-connect/providers/facebook/admin/settings.php:55
 #: nextend-facebook-connect/providers/google/admin/settings.php:49
 #: nextend-facebook-connect/providers/twitter/admin/settings.php:48
 #: nextend-social-login-pro/providers/amazon/admin/settings.php:47
 #: nextend-social-login-pro/providers/disqus/admin/settings.php:47
 #: nextend-social-login-pro/providers/linkedin/admin/settings.php:47
-#: nextend-social-login-pro/providers/paypal/admin/settings.php:47
+#: nextend-social-login-pro/providers/paypal/admin/settings.php:60
 #: nextend-social-login-pro/providers/vk/admin/settings.php:47
 #: nextend-social-login-pro/providers/wordpress/admin/settings.php:47
 msgid "Save Changes"
 msgstr "保存设置"
 
 #: nextend-facebook-connect/admin/templates-provider/menu.php:13
-#: nextend-facebook-connect/admin/templates/providers.php:64
+#: nextend-facebook-connect/admin/templates/providers.php:61
 #: nextend-facebook-connect/providers/facebook/admin/getting-started.php:15
 #: nextend-facebook-connect/providers/google/admin/getting-started.php:9
 #: nextend-facebook-connect/providers/twitter/admin/getting-started.php:9
@@ -426,7 +426,9 @@ msgstr "注册后自动连接现有帐户"
 #: nextend-facebook-connect/admin/templates-provider/settings-pro.php:85
 #: nextend-facebook-connect/admin/templates/providers.php:39
 #: nextend-facebook-connect/admin/templates/settings/general.php:53
-#: nextend-facebook-connect/admin/templates/settings/general.php:189
+#: nextend-facebook-connect/admin/templates/settings/general.php:193
+#: nextend-facebook-connect/admin/templates/settings/general.php:208
+#: nextend-facebook-connect/admin/templates/settings/general.php:226
 #: nextend-facebook-connect/includes/provider-admin.php:215
 msgid "Disabled"
 msgstr "禁用"
@@ -444,8 +446,8 @@ msgid "Default roles for user who registered with this provider"
 msgstr "为使用此提供商的用户设置默认角色"
 
 #: nextend-facebook-connect/admin/templates-provider/settings-pro.php:121
-#: nextend-facebook-connect/admin/templates/settings/buddypress.php:49
-#: nextend-facebook-connect/admin/templates/settings/comment.php:38
+#: nextend-facebook-connect/admin/templates/settings/buddypress.php:50
+#: nextend-facebook-connect/admin/templates/settings/comment.php:39
 #: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:33
 #: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:89
 #: nextend-facebook-connect/admin/templates/settings/memberpress.php:24
@@ -458,24 +460,24 @@ msgstr "为使用此提供商的用户设置默认角色"
 #: nextend-facebook-connect/admin/templates/settings/woocommerce.php:64
 #: nextend-facebook-connect/admin/templates/settings/woocommerce.php:122
 #: nextend-facebook-connect/admin/templates/settings/woocommerce.php:180
-#: nextend-facebook-connect/widget.php:40
+#: nextend-facebook-connect/widget.php:42
 msgid "Default"
 msgstr "默认"
 
-#: nextend-facebook-connect/admin/templates-provider/sync-data.php:39
-#: nextend-facebook-connect/includes/userData.php:172
+#: nextend-facebook-connect/admin/templates-provider/sync-data.php:50
+#: nextend-facebook-connect/includes/userData.php:174
 msgid "Register"
 msgstr "注册"
 
-#: nextend-facebook-connect/admin/templates-provider/sync-data.php:47
+#: nextend-facebook-connect/admin/templates-provider/sync-data.php:58
 msgid "Login"
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates-provider/sync-data.php:55
+#: nextend-facebook-connect/admin/templates-provider/sync-data.php:66
 msgid "Link"
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates-provider/sync-data.php:73
+#: nextend-facebook-connect/admin/templates-provider/sync-data.php:84
 msgid "Store in meta key"
 msgstr ""
 
@@ -506,79 +508,17 @@ msgstr "图片链接地址"
 msgid "Debug"
 msgstr "调试模式"
 
-#: nextend-facebook-connect/admin/templates/debug.php:40
+#: nextend-facebook-connect/admin/templates/debug.php:41
 msgid "Test network connection with providers"
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/debug.php:47
+#: nextend-facebook-connect/admin/templates/debug.php:48
 msgid "You don't have cURL support, please enable it in php.ini!"
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/debug.php:57
+#: nextend-facebook-connect/admin/templates/debug.php:58
 #, php-format
 msgid "Test %1$s connection"
-msgstr ""
-
-#: nextend-facebook-connect/admin/templates/domain-changed.php:7
-msgid "Pro Addon - Authorized domain has been changed"
-msgstr ""
-
-#: nextend-facebook-connect/admin/templates/domain-changed.php:15
-msgid ""
-"<b>You must authorize your new domain</b> to receive <b>updates and support</"
-"b> in the future."
-msgstr ""
-
-#: nextend-facebook-connect/admin/templates/domain-changed.php:21
-msgid "You can authorize your new domain by completing the following steps:"
-msgstr ""
-
-#: nextend-facebook-connect/admin/templates/domain-changed.php:25
-#: nextend-facebook-connect/providers/facebook/admin/fix-redirect-uri.php:8
-#: nextend-facebook-connect/providers/facebook/admin/getting-started.php:22
-#: nextend-facebook-connect/providers/google/admin/fix-redirect-uri.php:8
-#: nextend-facebook-connect/providers/google/admin/getting-started.php:16
-#: nextend-facebook-connect/providers/twitter/admin/fix-redirect-uri.php:8
-#: nextend-facebook-connect/providers/twitter/admin/getting-started.php:16
-#: nextend-social-login-pro/providers/amazon/admin/fix-redirect-uri.php:8
-#: nextend-social-login-pro/providers/amazon/admin/getting-started.php:22
-#: nextend-social-login-pro/providers/disqus/admin/fix-redirect-uri.php:8
-#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:15
-#: nextend-social-login-pro/providers/linkedin/admin/fix-redirect-uri.php:8
-#: nextend-social-login-pro/providers/linkedin/admin/getting-started.php:15
-#: nextend-social-login-pro/providers/paypal/admin/fix-redirect-uri.php:8
-#: nextend-social-login-pro/providers/paypal/admin/getting-started.php:15
-#: nextend-social-login-pro/providers/vk/admin/fix-redirect-uri.php:8
-#: nextend-social-login-pro/providers/vk/admin/getting-started.php:15
-#: nextend-social-login-pro/providers/wordpress/admin/fix-redirect-uri.php:8
-#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:15
-#, php-format
-msgid "Navigate to %s"
-msgstr "导航 %s"
-
-#: nextend-facebook-connect/admin/templates/domain-changed.php:26
-#, fuzzy
-#| msgid "Log in with your %s credentials if you are not logged in"
-msgid "Log in with your credentials if you are not logged in"
-msgstr "如果您未登录，请使用您的 %s 凭据登录"
-
-#: nextend-facebook-connect/admin/templates/domain-changed.php:27
-#, php-format
-msgid "Find your old domain name: <b>%s</b>"
-msgstr ""
-
-#: nextend-facebook-connect/admin/templates/domain-changed.php:28
-#, php-format
-msgid "Click on the %1$s next to your domain name."
-msgstr ""
-
-#: nextend-facebook-connect/admin/templates/domain-changed.php:29
-#, php-format
-msgid "Authorize your %1$s by clicking on the following button."
-msgstr ""
-
-#: nextend-facebook-connect/admin/templates/domain-changed.php:34
-msgid "The authorized domain name of your site is fine!"
 msgstr ""
 
 #: nextend-facebook-connect/admin/templates/fix-redirect-uri.php:2
@@ -753,81 +693,76 @@ msgstr "未验证"
 
 #: nextend-facebook-connect/admin/templates/providers.php:42
 #: nextend-facebook-connect/admin/templates/settings/general.php:56
-#: nextend-facebook-connect/admin/templates/settings/general.php:192
+#: nextend-facebook-connect/admin/templates/settings/general.php:196
+#: nextend-facebook-connect/admin/templates/settings/general.php:211
+#: nextend-facebook-connect/admin/templates/settings/general.php:229
 #: nextend-facebook-connect/includes/provider-admin.php:218
+#: nextend-social-login-pro/providers/paypal/admin/settings.php:51
 msgid "Enabled"
 msgstr "允许"
 
-#: nextend-facebook-connect/admin/templates/providers.php:45
-msgid "Legacy"
-msgstr "旧版"
-
-#: nextend-facebook-connect/admin/templates/providers.php:57
+#: nextend-facebook-connect/admin/templates/providers.php:54
 msgid "Upgrade Now"
 msgstr "现在更新"
 
-#: nextend-facebook-connect/admin/templates/providers.php:72
+#: nextend-facebook-connect/admin/templates/providers.php:69
 #: nextend-facebook-connect/includes/provider-admin.php:202
 msgid "Verify Settings"
 msgstr "验证设置"
 
-#: nextend-facebook-connect/admin/templates/providers.php:80
+#: nextend-facebook-connect/admin/templates/providers.php:77
 #: nextend-facebook-connect/includes/provider-admin.php:247
 msgid "Enable"
 msgstr "启用"
 
-#: nextend-facebook-connect/admin/templates/providers.php:92
+#: nextend-facebook-connect/admin/templates/providers.php:89
 #: nextend-facebook-connect/includes/provider-admin.php:255
 msgid "Disable"
 msgstr "禁止"
 
-#: nextend-facebook-connect/admin/templates/providers.php:103
-msgid "Import"
-msgstr "导入"
-
-#: nextend-facebook-connect/admin/templates/providers.php:124
+#: nextend-facebook-connect/admin/templates/providers.php:114
 msgid "Stay Updated"
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/providers.php:125
+#: nextend-facebook-connect/admin/templates/providers.php:115
 msgid ""
 "Receive info on the latest plugin updates and social provider related "
 "changes."
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/providers.php:126
+#: nextend-facebook-connect/admin/templates/providers.php:116
 #, fuzzy
 #| msgid "Please enter an email address."
 msgid "Enter your email address"
 msgstr "请输入电子邮箱."
 
-#: nextend-facebook-connect/admin/templates/providers.php:130
+#: nextend-facebook-connect/admin/templates/providers.php:120
 msgid "Subscribe"
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/providers.php:146
+#: nextend-facebook-connect/admin/templates/providers.php:136
 msgid "Saving..."
 msgstr "正在保存."
 
-#: nextend-facebook-connect/admin/templates/providers.php:147
+#: nextend-facebook-connect/admin/templates/providers.php:137
 msgid "Saving failed"
 msgstr "保存失败"
 
-#: nextend-facebook-connect/admin/templates/providers.php:148
+#: nextend-facebook-connect/admin/templates/providers.php:138
 msgid "Order Saved"
 msgstr "订单已保存"
 
-#: nextend-facebook-connect/admin/templates/providers.php:217
+#: nextend-facebook-connect/admin/templates/providers.php:207
 msgid "Successfully subscribed!"
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/providers.php:217
+#: nextend-facebook-connect/admin/templates/providers.php:207
 msgid ""
 "We'll be bringing you all the latest news and updates about Social Login - "
 "right to your inbox."
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/providers.php:224
+#: nextend-facebook-connect/admin/templates/providers.php:214
 #, fuzzy
 #| msgid "Please enter an email address."
 msgid "The entered email address is invalid!"
@@ -903,8 +838,8 @@ msgstr "连接按钮在注册之前"
 #: nextend-facebook-connect/admin/templates/settings/woocommerce.php:110
 #: nextend-facebook-connect/admin/templates/settings/woocommerce.php:163
 #: nextend-facebook-connect/admin/templates/settings/woocommerce.php:168
-#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:218
-#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:223
+#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:221
+#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:226
 msgid "Action:"
 msgstr "动作:"
 
@@ -916,14 +851,14 @@ msgstr "登录按钮在账户详情之前"
 msgid "Connect button after register"
 msgstr "登录按钮在注册之后"
 
-#: nextend-facebook-connect/admin/templates/settings/buddypress.php:43
+#: nextend-facebook-connect/admin/templates/settings/buddypress.php:44
 #, fuzzy
 #| msgid "Login form button style"
 msgid "Register button style"
 msgstr "登录界面按钮样式"
 
-#: nextend-facebook-connect/admin/templates/settings/buddypress.php:55
-#: nextend-facebook-connect/admin/templates/settings/comment.php:44
+#: nextend-facebook-connect/admin/templates/settings/buddypress.php:56
+#: nextend-facebook-connect/admin/templates/settings/comment.php:45
 #: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:39
 #: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:95
 #: nextend-facebook-connect/admin/templates/settings/memberpress.php:30
@@ -933,9 +868,57 @@ msgstr "登录界面按钮样式"
 #: nextend-facebook-connect/admin/templates/settings/userpro.php:57
 #: nextend-facebook-connect/admin/templates/settings/userpro.php:108
 #: nextend-facebook-connect/admin/templates/settings/woocommerce.php:30
-#: nextend-facebook-connect/widget.php:45
+#: nextend-facebook-connect/widget.php:47
 msgid "Icon"
 msgstr "图标"
+
+#: nextend-facebook-connect/admin/templates/settings/buddypress.php:64
+#: nextend-facebook-connect/admin/templates/settings/comment.php:53
+#: nextend-facebook-connect/admin/templates/settings/login-form.php:53
+#: nextend-facebook-connect/admin/templates/settings/memberpress.php:151
+#: nextend-facebook-connect/admin/templates/settings/ultimate-member.php:166
+#: nextend-facebook-connect/admin/templates/settings/userpro.php:147
+#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:233
+#, fuzzy
+#| msgid "Buttons"
+msgid "Button alignment"
+msgstr "按钮"
+
+#: nextend-facebook-connect/admin/templates/settings/buddypress.php:69
+#: nextend-facebook-connect/admin/templates/settings/comment.php:58
+#: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:138
+#: nextend-facebook-connect/admin/templates/settings/login-form.php:58
+#: nextend-facebook-connect/admin/templates/settings/memberpress.php:156
+#: nextend-facebook-connect/admin/templates/settings/ultimate-member.php:171
+#: nextend-facebook-connect/admin/templates/settings/userpro.php:152
+#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:238
+#: nextend-facebook-connect/widget.php:57
+msgid "Left"
+msgstr ""
+
+#: nextend-facebook-connect/admin/templates/settings/buddypress.php:72
+#: nextend-facebook-connect/admin/templates/settings/comment.php:61
+#: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:141
+#: nextend-facebook-connect/admin/templates/settings/login-form.php:61
+#: nextend-facebook-connect/admin/templates/settings/memberpress.php:159
+#: nextend-facebook-connect/admin/templates/settings/ultimate-member.php:174
+#: nextend-facebook-connect/admin/templates/settings/userpro.php:155
+#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:241
+#: nextend-facebook-connect/widget.php:62
+msgid "Center"
+msgstr ""
+
+#: nextend-facebook-connect/admin/templates/settings/buddypress.php:76
+#: nextend-facebook-connect/admin/templates/settings/comment.php:65
+#: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:145
+#: nextend-facebook-connect/admin/templates/settings/login-form.php:65
+#: nextend-facebook-connect/admin/templates/settings/memberpress.php:163
+#: nextend-facebook-connect/admin/templates/settings/ultimate-member.php:178
+#: nextend-facebook-connect/admin/templates/settings/userpro.php:159
+#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:245
+#: nextend-facebook-connect/widget.php:67
+msgid "Right"
+msgstr ""
 
 #: nextend-facebook-connect/admin/templates/settings/comment.php:18
 #, fuzzy
@@ -965,7 +948,7 @@ msgstr "讨论"
 msgid "Users must be registered and logged in to comment"
 msgstr "必须是登录用户才能评论"
 
-#: nextend-facebook-connect/admin/templates/settings/comment.php:32
+#: nextend-facebook-connect/admin/templates/settings/comment.php:33
 #: nextend-facebook-connect/admin/templates/settings/woocommerce.php:18
 #, fuzzy
 #| msgid "Button style:"
@@ -988,33 +971,38 @@ msgstr "喜欢新选项卡"
 msgid "Prefer same window"
 msgstr "喜欢同窗口"
 
-#: nextend-facebook-connect/admin/templates/settings/general-pro.php:43
-msgid "Membership"
-msgstr "会员"
-
-#: nextend-facebook-connect/admin/templates/settings/general-pro.php:49
-msgid "Allow registration with Social login"
-msgstr "允许通过社交登录注册"
-
-#: nextend-facebook-connect/admin/templates/settings/general-pro.php:54
+#: nextend-facebook-connect/admin/templates/settings/general-pro.php:44
 msgid "Registration notification sent to"
 msgstr "注册通知发送到"
 
-#: nextend-facebook-connect/admin/templates/settings/general-pro.php:59
+#: nextend-facebook-connect/admin/templates/settings/general-pro.php:49
+#: nextend-facebook-connect/admin/templates/settings/general.php:223
 msgid "WordPress default"
 msgstr "WordPress 默认"
 
-#: nextend-facebook-connect/admin/templates/settings/general-pro.php:62
+#: nextend-facebook-connect/admin/templates/settings/general-pro.php:52
 msgid "Nobody"
 msgstr "没人"
 
-#: nextend-facebook-connect/admin/templates/settings/general-pro.php:68
+#: nextend-facebook-connect/admin/templates/settings/general-pro.php:58
 msgid "Admin"
 msgstr "管理员"
 
-#: nextend-facebook-connect/admin/templates/settings/general-pro.php:71
+#: nextend-facebook-connect/admin/templates/settings/general-pro.php:61
 msgid "User and Admin"
 msgstr "用户和管理员"
+
+#: nextend-facebook-connect/admin/templates/settings/general-pro.php:67
+#, fuzzy
+#| msgid "Unlink label"
+msgid "Unlink"
+msgstr "解除链接标签"
+
+#: nextend-facebook-connect/admin/templates/settings/general-pro.php:73
+#, fuzzy
+#| msgid "Social accounts"
+msgid "Allow Social account unlink"
+msgstr "社交账号"
 
 #: nextend-facebook-connect/admin/templates/settings/general.php:48
 msgid "Debug mode"
@@ -1027,81 +1015,134 @@ msgid "Page for register flow"
 msgstr "注册"
 
 #: nextend-facebook-connect/admin/templates/settings/general.php:65
-#: nextend-facebook-connect/admin/templates/settings/general.php:76
+#: nextend-facebook-connect/admin/templates/settings/general.php:78
 msgid "None"
 msgstr ""
 
 #: nextend-facebook-connect/admin/templates/settings/general.php:68
-#, php-format
 msgid ""
-"First create a new page for register flow and insert the following "
-"shortcode: %1$s then select this page above"
+"This setting is used when you request additional data from the users (such "
+"as email address) and to display the Terms and conditions."
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:72
+#: nextend-facebook-connect/admin/templates/settings/general.php:69
+#, php-format
+msgid ""
+"%2$s First create a new page and insert the following shortcode: %1$s then "
+"select this page above"
+msgstr ""
+
+#: nextend-facebook-connect/admin/templates/settings/general.php:69
+#: nextend-facebook-connect/admin/templates/settings/general.php:82
+#, fuzzy
+#| msgid "Usage"
+msgid "Usage:"
+msgstr "用法"
+
+#: nextend-facebook-connect/admin/templates/settings/general.php:70
+#: nextend-facebook-connect/admin/templates/settings/general.php:83
+#, php-format
+msgid ""
+"%1$s You won't be able to reach the selected page unless a social login/"
+"registration happens."
+msgstr ""
+
+#: nextend-facebook-connect/admin/templates/settings/general.php:70
+#: nextend-facebook-connect/admin/templates/settings/general.php:83
+#, fuzzy
+#| msgid "Import"
+msgid "Important:"
+msgstr "导入"
+
+#: nextend-facebook-connect/admin/templates/settings/general.php:74
 msgid "OAuth redirect uri proxy page"
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:79
+#: nextend-facebook-connect/admin/templates/settings/general.php:81
 msgid ""
-"If your wp-login.php is not available to handle the OAuth flow create a new "
-"page and select it here. Otherwise don't select any page."
+"You can use this setting when wp-login.php page is not available to handle "
+"the OAuth flow."
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:85
+#: nextend-facebook-connect/admin/templates/settings/general.php:82
+#, php-format
+msgid "%1$s First create a new page then select this page above."
+msgstr ""
+
+#: nextend-facebook-connect/admin/templates/settings/general.php:89
 msgid "Prevent external redirect overrides"
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:91
+#: nextend-facebook-connect/admin/templates/settings/general.php:95
 msgid "Disable external redirects"
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:98
+#: nextend-facebook-connect/admin/templates/settings/general.php:102
 #, fuzzy
 #| msgid "Oauth Redirect URI"
 msgid "Default redirect url"
 msgstr "Oauth Redirect URI"
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:111
-#: nextend-facebook-connect/admin/templates/settings/general.php:149
+#: nextend-facebook-connect/admin/templates/settings/general.php:115
+#: nextend-facebook-connect/admin/templates/settings/general.php:153
 #, fuzzy
 #| msgid "Social Login"
 msgid "for Login"
 msgstr "社交登录"
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:126
-#: nextend-facebook-connect/admin/templates/settings/general.php:164
+#: nextend-facebook-connect/admin/templates/settings/general.php:130
+#: nextend-facebook-connect/admin/templates/settings/general.php:168
 #, fuzzy
 #| msgid "Register"
 msgid "for Register"
 msgstr "注册"
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:136
+#: nextend-facebook-connect/admin/templates/settings/general.php:140
 #, fuzzy
 #| msgid "Fixed redirect url for login"
 msgid "Fixed redirect url"
 msgstr "修改登录后重定向URL"
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:173
+#: nextend-facebook-connect/admin/templates/settings/general.php:177
 #, fuzzy
 #| msgid "Fixed redirect url for login"
 msgid "Blacklisted redirects"
 msgstr "修改登录后重定向URL"
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:179
+#: nextend-facebook-connect/admin/templates/settings/general.php:183
 msgid "If you want to blacklist redirect url params. One pattern per line."
 msgstr ""
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:184
+#: nextend-facebook-connect/admin/templates/settings/general.php:188
 #, fuzzy
 #| msgid "Show login buttons"
 msgid "Support login restrictions"
 msgstr "显示登录按钮"
 
-#: nextend-facebook-connect/admin/templates/settings/general.php:194
+#: nextend-facebook-connect/admin/templates/settings/general.php:198
 #, php-format
 msgid "Please visit to our %1$s to check what plugins are supported!"
 msgstr ""
+
+#: nextend-facebook-connect/admin/templates/settings/general.php:203
+msgid "Display avatars in \"All media items\""
+msgstr ""
+
+#: nextend-facebook-connect/admin/templates/settings/general.php:213
+msgid ""
+"Enabling this option can speed up loading images in Media Library - Grid "
+"view!"
+msgstr ""
+
+#: nextend-facebook-connect/admin/templates/settings/general.php:218
+msgid "Membership"
+msgstr "会员"
+
+#: nextend-facebook-connect/admin/templates/settings/general.php:231
+#, fuzzy
+#| msgid "Allow registration with Social login"
+msgid "Allow registration with Social login."
+msgstr "允许通过社交登录注册"
 
 #: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:27
 #: nextend-facebook-connect/admin/templates/settings/memberpress.php:18
@@ -1186,12 +1227,18 @@ msgstr "嵌入式登录表单按钮样式"
 msgid "Embedded Login layout"
 msgstr "嵌入式登录表单布局"
 
+#: nextend-facebook-connect/admin/templates/settings/login-form-pro.php:133
+#, fuzzy
+#| msgid "Embedded Login form button style"
+msgid "Embedded login form button alignment"
+msgstr "嵌入式登录表单按钮样式"
+
 #: nextend-facebook-connect/admin/templates/settings/login-form.php:14
 #: nextend-facebook-connect/admin/templates/settings/login-form.php:27
 #: nextend-facebook-connect/admin/templates/settings/login-form.php:44
 #: nextend-facebook-connect/admin/templates/settings/userpro.php:23
 #: nextend-facebook-connect/admin/templates/settings/userpro.php:36
-#: nextend-facebook-connect/widget.php:55
+#: nextend-facebook-connect/widget.php:76
 msgid "Show login buttons"
 msgstr "显示登录按钮"
 
@@ -1204,7 +1251,7 @@ msgid "Hide login buttons"
 msgstr "隐藏登录按钮"
 
 #: nextend-facebook-connect/admin/templates/settings/login-form.php:22
-#: nextend-facebook-connect/includes/userData.php:122
+#: nextend-facebook-connect/includes/userData.php:124
 msgid "Registration Form"
 msgstr "注册信息表"
 
@@ -1269,7 +1316,7 @@ msgid "Link buttons after account details"
 msgstr "链接按钮在账户详情后面"
 
 #: nextend-facebook-connect/admin/templates/settings/privacy.php:6
-#: nextend-facebook-connect/nextend-social-login.php:158
+#: nextend-facebook-connect/nextend-social-login.php:130
 msgid ""
 "By clicking Register, you accept our <a href=\"#privacy_policy_url\" target="
 "\"_blank\">Privacy Policy</a>"
@@ -1297,12 +1344,12 @@ msgid "When not enabled, email will be empty."
 msgstr ""
 
 #: nextend-facebook-connect/admin/templates/settings/privacy.php:91
-#: nextend-facebook-connect/includes/avatar.php:46
+#: nextend-facebook-connect/includes/avatar.php:59
 msgid "Avatar"
 msgstr ""
 
 #: nextend-facebook-connect/admin/templates/settings/privacy.php:102
-#: nextend-facebook-connect/includes/provider.php:985
+#: nextend-facebook-connect/includes/provider.php:1038
 msgid "Access token"
 msgstr ""
 
@@ -1369,7 +1416,13 @@ msgid "Billing layout"
 msgstr "登录界面布局"
 
 #: nextend-facebook-connect/admin/templates/settings/woocommerce.php:217
-#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:222
+#, fuzzy
+#| msgid "Connect button before account details"
+msgid "No Connect buttons in account details form"
+msgstr "登录按钮在账户详情之前"
+
+#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:220
+#: nextend-facebook-connect/admin/templates/settings/woocommerce.php:225
 #, fuzzy
 #| msgid "Icon button"
 msgid "Link buttons on"
@@ -1392,11 +1445,11 @@ msgid ""
 "between your server and the provider."
 msgstr ""
 
-#: nextend-facebook-connect/includes/avatar.php:47
+#: nextend-facebook-connect/includes/avatar.php:60
 msgid "Manage Avatar"
 msgstr ""
 
-#: nextend-facebook-connect/includes/avatar.php:48
+#: nextend-facebook-connect/includes/avatar.php:61
 #, php-format
 msgid "Avatar <span class=\"count\">(%s)</span>"
 msgid_plural "Avatar <span class=\"count\">(%s)</span>"
@@ -1479,34 +1532,38 @@ msgid "Please save your changes before verifying settings."
 msgstr ""
 
 #: nextend-facebook-connect/includes/provider.php:347
-#: nextend-facebook-connect/includes/provider.php:643
-#: nextend-facebook-connect/includes/provider.php:648
+#: nextend-facebook-connect/includes/provider.php:664
+#: nextend-facebook-connect/includes/provider.php:669
 msgid "Authentication successful"
 msgstr "授权成功"
 
-#: nextend-facebook-connect/includes/provider.php:587
+#: nextend-facebook-connect/includes/provider.php:606
 #: nextend-facebook-connect/includes/user.php:109
 msgid "Authentication error"
 msgstr "授权认证出错"
 
-#: nextend-facebook-connect/includes/provider.php:602
+#: nextend-facebook-connect/includes/provider.php:621
 msgid "Unlink successful."
 msgstr "解除链接成功."
 
-#: nextend-facebook-connect/includes/provider.php:799
-#: nextend-facebook-connect/includes/provider.php:806
+#: nextend-facebook-connect/includes/provider.php:623
+msgid "Unlink is not allowed!"
+msgstr ""
+
+#: nextend-facebook-connect/includes/provider.php:827
+#: nextend-facebook-connect/includes/provider.php:834
 msgid "The test was successful"
 msgstr "测试成功"
 
-#: nextend-facebook-connect/includes/provider.php:852
+#: nextend-facebook-connect/includes/provider.php:880
 msgid "Authentication failed"
 msgstr "授权认证失败"
 
-#: nextend-facebook-connect/includes/provider.php:977
+#: nextend-facebook-connect/includes/provider.php:1030
 msgid "Identifier"
 msgstr ""
 
-#: nextend-facebook-connect/includes/provider.php:993
+#: nextend-facebook-connect/includes/provider.php:1046
 msgid "Profile picture"
 msgstr ""
 
@@ -1530,7 +1587,7 @@ msgstr ""
 msgid "This %s account is already linked to other user."
 msgstr "这个 %s 账号已经链接到了其他用户。"
 
-#: nextend-facebook-connect/includes/userData.php:122
+#: nextend-facebook-connect/includes/userData.php:124
 msgid "Register For This Site!"
 msgstr "注册此网站！"
 
@@ -1548,44 +1605,47 @@ msgid ""
 "version, the plugin is currently NOT ACTIVE."
 msgstr ""
 
-#: nextend-facebook-connect/nextend-social-login.php:80
-#: nextend-facebook-connect/nextend-social-login.php:87
+#: nextend-facebook-connect/nextend-social-login.php:53
+#: nextend-facebook-connect/nextend-social-login.php:60
 #, php-format
 msgid "Please update %1$s to version %2$s or newer."
 msgstr "请更新 %1$s 到 %2$s 版本."
 
-#: nextend-facebook-connect/nextend-social-login.php:80
-#: nextend-facebook-connect/nextend-social-login.php:87
+#: nextend-facebook-connect/nextend-social-login.php:53
+#: nextend-facebook-connect/nextend-social-login.php:60
 msgid "Update now!"
 msgstr "现在更新！"
 
-#: nextend-facebook-connect/nextend-social-login.php:94
-#, php-format
-msgid "Your domain name changed so you must authorize %1$s again."
-msgstr ""
-
-#: nextend-facebook-connect/nextend-social-login.php:488
-#, php-format
-msgid ""
-"%s took the place of Nextend Google Connect. You can delete Nextend Google "
-"Connect as it is not needed anymore."
-msgstr "%s 取代了Nextend Google Connect。 您可以删除Nextend Google Connect。"
-
-#: nextend-facebook-connect/nextend-social-login.php:499
-#, php-format
-msgid ""
-"%s took the place of Nextend Twitter Connect. You can delete Nextend Twitter "
-"Connect as it is not needed anymore."
-msgstr "%s取代了Nextend Twitter Connect.你可以删除 Nextend Twitter Connect 。"
-
-#: nextend-facebook-connect/nextend-social-login.php:763
-#: nextend-facebook-connect/nextend-social-login.php:1109
+#: nextend-facebook-connect/nextend-social-login.php:689
+#: nextend-facebook-connect/nextend-social-login.php:1057
 msgid "Social Login"
 msgstr "社交登录"
 
-#: nextend-facebook-connect/nextend-social-login.php:1090
+#: nextend-facebook-connect/nextend-social-login.php:1038
 msgid "Social Accounts"
 msgstr "社交账号"
+
+#: nextend-facebook-connect/providers/facebook/admin/fix-redirect-uri.php:8
+#: nextend-facebook-connect/providers/facebook/admin/getting-started.php:22
+#: nextend-facebook-connect/providers/google/admin/fix-redirect-uri.php:8
+#: nextend-facebook-connect/providers/google/admin/getting-started.php:16
+#: nextend-facebook-connect/providers/twitter/admin/fix-redirect-uri.php:8
+#: nextend-facebook-connect/providers/twitter/admin/getting-started.php:16
+#: nextend-social-login-pro/providers/amazon/admin/fix-redirect-uri.php:8
+#: nextend-social-login-pro/providers/amazon/admin/getting-started.php:22
+#: nextend-social-login-pro/providers/disqus/admin/fix-redirect-uri.php:8
+#: nextend-social-login-pro/providers/disqus/admin/getting-started.php:15
+#: nextend-social-login-pro/providers/linkedin/admin/fix-redirect-uri.php:8
+#: nextend-social-login-pro/providers/linkedin/admin/getting-started.php:15
+#: nextend-social-login-pro/providers/paypal/admin/fix-redirect-uri.php:8
+#: nextend-social-login-pro/providers/paypal/admin/getting-started.php:15
+#: nextend-social-login-pro/providers/vk/admin/fix-redirect-uri.php:8
+#: nextend-social-login-pro/providers/vk/admin/getting-started.php:15
+#: nextend-social-login-pro/providers/wordpress/admin/fix-redirect-uri.php:8
+#: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:15
+#, php-format
+msgid "Navigate to %s"
+msgstr "导航 %s"
 
 #: nextend-facebook-connect/providers/facebook/admin/fix-redirect-uri.php:9
 #: nextend-facebook-connect/providers/facebook/admin/getting-started.php:23
@@ -1617,6 +1677,7 @@ msgid ""
 msgstr "请将下面的URL填入\"Valid OAuth redirect URIs\" : <b>%s</b>"
 
 #: nextend-facebook-connect/providers/facebook/admin/fix-redirect-uri.php:13
+#: nextend-facebook-connect/providers/facebook/admin/getting-started.php:30
 #: nextend-facebook-connect/providers/facebook/admin/getting-started.php:33
 msgid "Click on \"Save Changes\""
 msgstr "点击\"保存设置\""
@@ -1681,33 +1742,36 @@ msgstr "点击蓝色的\"创建应用\"按钮"
 
 #: nextend-facebook-connect/providers/facebook/admin/getting-started.php:27
 msgid ""
-"Move your mouse over Facebook Login and click on the appearing \"Set Up\" "
-"button"
-msgstr "移动你的鼠标到 Facebook 登录 然后点击出现的\"设置\"按钮"
+"Select \"Integrate Facebook Login\" at the Select a Scenario page, then "
+"click Confirm."
+msgstr ""
 
 #: nextend-facebook-connect/providers/facebook/admin/getting-started.php:28
-msgid "Choose Web"
-msgstr "选择网站"
+msgid "Enter your domain name to the App Domains"
+msgstr "填写你的域名到 应用域名"
 
 #: nextend-facebook-connect/providers/facebook/admin/getting-started.php:29
-#, php-format
-msgid "Fill \"Site URL\" with the url of your homepage, probably: <b>%s</b>"
-msgstr "将你网站的首页URL填写到 \"网站URL\"，应该是 <b>%s</b>"
-
-#: nextend-facebook-connect/providers/facebook/admin/getting-started.php:30
-#: nextend-facebook-connect/providers/google/admin/fix-redirect-uri.php:13
-#: nextend-facebook-connect/providers/twitter/admin/fix-redirect-uri.php:13
-#: nextend-social-login-pro/providers/amazon/admin/fix-redirect-uri.php:14
-#: nextend-social-login-pro/providers/paypal/admin/fix-redirect-uri.php:15
-msgid "Click on \"Save\""
-msgstr "点击\"保存“"
+msgid ""
+"Fill up the \"Privacy Policy URL\". Provide a publicly available and easily "
+"accessible privacy policy that explains what data you are collecting and how "
+"you will use that data."
+msgstr ""
+"填写“隐私政策URL”。 提供公开可用且易于访问的隐私政策页面，解释您收集的数据以"
+"及您将如何使用该数据。"
 
 #: nextend-facebook-connect/providers/facebook/admin/getting-started.php:31
-msgid "In the left sidebar, click on \"Facebook Login\""
-msgstr "点击左边的\"Facebook 登录\""
+#, fuzzy
+#| msgid "In the left sidebar, click on \"Facebook Login/Settings\""
+msgid ""
+"In the left sidebar under the Products section, click on \"Facebook Login\" "
+"and select Settings"
+msgstr "在左侧，点击\"Facebook 登录/设置\""
 
 #: nextend-facebook-connect/providers/facebook/admin/getting-started.php:34
-msgid "In the top of the left sidebar, click on \"Settings\""
+#, fuzzy
+#| msgid "In the top of the left sidebar, click on \"Settings\""
+msgid ""
+"In the top of the left sidebar, click on \"Settings\" and select \"Basic\""
 msgstr "顶部左侧，点击\"设置”"
 
 #: nextend-facebook-connect/providers/facebook/admin/getting-started.php:35
@@ -1719,170 +1783,35 @@ msgstr ""
 "钮，这些都需要填写到插件的设置里。"
 
 #: nextend-facebook-connect/providers/facebook/admin/getting-started.php:36
-msgid "Enter your domain name to the App Domains"
-msgstr "填写你的域名到 应用域名"
-
-#: nextend-facebook-connect/providers/facebook/admin/getting-started.php:37
+#, fuzzy
+#| msgid ""
+#| "Your application is currently private, which means that only you can log "
+#| "in with it. In the left sidebar choose \"App Review\" and make your App "
+#| "public"
 msgid ""
-"Fill up the \"Privacy Policy URL\". Provide a publicly available and easily "
-"accessible privacy policy that explains what data you are collecting and how "
-"you will use that data."
-msgstr ""
-"填写“隐私政策URL”。 提供公开可用且易于访问的隐私政策页面，解释您收集的数据以"
-"及您将如何使用该数据。"
-
-#: nextend-facebook-connect/providers/facebook/admin/getting-started.php:38
-#: nextend-facebook-connect/providers/facebook/admin/import.php:19
-#: nextend-facebook-connect/providers/google/admin/import.php:19
-#: nextend-facebook-connect/providers/twitter/admin/import.php:19
-msgid "Save your changes."
-msgstr "保存你的更改."
-
-#: nextend-facebook-connect/providers/facebook/admin/getting-started.php:39
-msgid ""
-"Your application is currently private, which means that only you can log in "
-"with it. In the left sidebar choose \"App Review\" and make your App public"
+"Your application is currently private ( Status: In Development ), which "
+"means that only you can log in with it. In the top bar click on the \"OFF\" "
+"switcher and select a category for your App."
 msgstr ""
 "您的应用程序目前是私人的，这意味着只有您可以使用它登录。 在左侧栏中选择“应用"
 "程序审查”，并发布您的应用程序"
 
-#: nextend-facebook-connect/providers/facebook/admin/getting-started.php:43
+#: nextend-facebook-connect/providers/facebook/admin/getting-started.php:37
+msgid "By clicking \"Confirm\", the Status of your App will go Live."
+msgstr ""
+
+#: nextend-facebook-connect/providers/facebook/admin/getting-started.php:41
 #: nextend-facebook-connect/providers/google/admin/getting-started.php:36
 #: nextend-facebook-connect/providers/twitter/admin/getting-started.php:32
-#: nextend-social-login-pro/providers/amazon/admin/getting-started.php:38
+#: nextend-social-login-pro/providers/amazon/admin/getting-started.php:37
 #: nextend-social-login-pro/providers/disqus/admin/getting-started.php:30
 #: nextend-social-login-pro/providers/linkedin/admin/getting-started.php:29
-#: nextend-social-login-pro/providers/paypal/admin/getting-started.php:33
+#: nextend-social-login-pro/providers/paypal/admin/getting-started.php:34
 #: nextend-social-login-pro/providers/vk/admin/getting-started.php:31
 #: nextend-social-login-pro/providers/wordpress/admin/getting-started.php:30
 #, php-format
 msgid "I am done setting up my %s"
 msgstr "我已经设置完毕我的 %s"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:9
-msgid "Import Facebook configuration"
-msgstr "导入Facebook配置"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:10
-#: nextend-facebook-connect/providers/google/admin/import.php:10
-#: nextend-facebook-connect/providers/twitter/admin/import.php:10
-msgid "Be sure to read the following notices before you proceed."
-msgstr "继续之前，请务必阅读以下注意事项。"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:12
-#: nextend-facebook-connect/providers/google/admin/import.php:12
-#: nextend-facebook-connect/providers/twitter/admin/import.php:12
-msgid "Important steps before the import"
-msgstr "导入前的重要步骤"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:13
-#: nextend-facebook-connect/providers/google/admin/import.php:13
-#: nextend-facebook-connect/providers/twitter/admin/import.php:13
-msgid ""
-"Make sure that the redirect URI for your app is correct before proceeding."
-msgstr "在继续之前，请确保您的应用的重定向URI是正确的。"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:15
-#: nextend-facebook-connect/providers/google/admin/import.php:15
-#: nextend-facebook-connect/providers/twitter/admin/import.php:15
-#, php-format
-msgid "Visit %s."
-msgstr "访问 %s."
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:16
-#: nextend-facebook-connect/providers/twitter/admin/import.php:16
-msgid "Select your app."
-msgstr "选择你的应用程序."
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:17
-msgid ""
-"Go to the Settings menu which you can find below the Facebook Login in the "
-"left menu."
-msgstr "转到设置菜单，您可以在左侧菜单中的Facebook登录下找到它。"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:18
-#: nextend-facebook-connect/providers/google/admin/import.php:18
-#: nextend-facebook-connect/providers/twitter/admin/import.php:18
-#, php-format
-msgid "Make sure that the \"%1$s\" field contains %2$s"
-msgstr "确保 \"%1$s\" 包含 %2$s"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:22
-#: nextend-facebook-connect/providers/google/admin/import.php:22
-#: nextend-facebook-connect/providers/twitter/admin/import.php:22
-msgid "The following settings will be imported:"
-msgstr "以下设置将被导入："
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:24
-#: nextend-facebook-connect/providers/google/admin/import.php:24
-#: nextend-facebook-connect/providers/twitter/admin/import.php:24
-msgid "Your old API configurations"
-msgstr "您的旧API配置"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:25
-#: nextend-facebook-connect/providers/google/admin/import.php:25
-#: nextend-facebook-connect/providers/twitter/admin/import.php:25
-msgid "The user prefix you set"
-msgstr "您设置的用户前缀"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:28
-#: nextend-facebook-connect/providers/google/admin/import.php:28
-#: nextend-facebook-connect/providers/twitter/admin/import.php:28
-msgid "Create a backup of the old settings"
-msgstr "创建旧设置的备份"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:31
-#: nextend-facebook-connect/providers/google/admin/import.php:31
-#: nextend-facebook-connect/providers/twitter/admin/import.php:31
-msgid "Other changes"
-msgstr "其他更改"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:33
-#: nextend-facebook-connect/providers/google/admin/import.php:33
-#: nextend-facebook-connect/providers/twitter/admin/import.php:33
-msgid ""
-"The custom redirect URI is now handled globally for all providers, so it "
-"won't be imported from the previous version. Visit \"Nextend Social Login > "
-"Global settings\" to set the new redirect URIs."
-msgstr ""
-"自定义重定向URI现在全部为所有提供商处理，因此不会从先前版本导入。 访"
-"问“Nextend Social login>全局设置”来设置新的重定向URI。"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:34
-#: nextend-facebook-connect/providers/google/admin/import.php:34
-#: nextend-facebook-connect/providers/twitter/admin/import.php:34
-msgid ""
-"The login button's layout will be changed to a new, more modern look. If you "
-"used any custom buttons that won't be imported."
-msgstr ""
-"如果您使用了任何不会导入的自定义按钮。登录按钮布局将更改为新的更现代的外观。"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:35
-#: nextend-facebook-connect/providers/google/admin/import.php:35
-#: nextend-facebook-connect/providers/twitter/admin/import.php:35
-msgid ""
-"The old version's PHP functions are not available anymore. This means if you "
-"used any custom codes where you used these old functions, you need to remove "
-"them."
-msgstr ""
-"旧版本的PHP函数不再可用。 这意味着如果您在使用这些旧功能的地方使用了任何自定"
-"义代码，则需要将其删除。"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:37
-#: nextend-facebook-connect/providers/google/admin/import.php:37
-#: nextend-facebook-connect/providers/twitter/admin/import.php:37
-msgid ""
-"After the importing process finishes, you will need to <b>test</b> your app "
-"and <b>enable</b> the provider. You can do both in the next screen."
-msgstr ""
-"导入过程完成后，您需要<b>测试</b>您的应用和<b>启用</b>提供商。 您可以在下一个"
-"页面中执行这两个操作。"
-
-#: nextend-facebook-connect/providers/facebook/admin/import.php:44
-#: nextend-facebook-connect/providers/google/admin/import.php:44
-#: nextend-facebook-connect/providers/twitter/admin/import.php:45
-msgid "Import Configuration"
-msgstr "导入配置"
 
 #: nextend-facebook-connect/providers/facebook/admin/settings.php:33
 msgid "App ID"
@@ -1927,25 +1856,25 @@ msgstr "如果你不确定，什么是你的 %1$s, 请转到 <a href=\"%2$s\">�
 msgid "App Secret"
 msgstr "App 密匙"
 
-#: nextend-facebook-connect/providers/facebook/facebook.php:91
+#: nextend-facebook-connect/providers/facebook/facebook.php:77
 msgid "Continue with <b>Facebook</b>"
 msgstr "通过 <b>Facebook</b>"
 
-#: nextend-facebook-connect/providers/facebook/facebook.php:92
+#: nextend-facebook-connect/providers/facebook/facebook.php:78
 msgid "Link account with <b>Facebook</b>"
 msgstr "关联 <b>Facebook</b> 账号"
 
-#: nextend-facebook-connect/providers/facebook/facebook.php:93
+#: nextend-facebook-connect/providers/facebook/facebook.php:79
 msgid "Unlink account from <b>Facebook</b>"
 msgstr "解除关联 <b>Facebook</b> 账号"
 
-#: nextend-facebook-connect/providers/facebook/facebook.php:154
-#: nextend-facebook-connect/providers/google/google.php:144
-#: nextend-facebook-connect/providers/twitter/twitter.php:105
+#: nextend-facebook-connect/providers/facebook/facebook.php:133
+#: nextend-facebook-connect/providers/google/google.php:149
+#: nextend-facebook-connect/providers/twitter/twitter.php:93
 #: nextend-social-login-pro/providers/amazon/amazon.php:63
 #: nextend-social-login-pro/providers/disqus/disqus.php:110
 #: nextend-social-login-pro/providers/linkedin/linkedin.php:88
-#: nextend-social-login-pro/providers/paypal/paypal.php:125
+#: nextend-social-login-pro/providers/paypal/paypal.php:126
 #: nextend-social-login-pro/providers/vk/vk.php:60
 #: nextend-social-login-pro/providers/wordpress/wordpress.php:97
 #, php-format
@@ -1953,8 +1882,8 @@ msgid ""
 "The %1$s entered did not appear to be a valid. Please enter a valid %2$s."
 msgstr "输入的 %1$s 似乎不是有效的。 请输入有效的 %2$s."
 
-#: nextend-facebook-connect/providers/facebook/facebook.php:333
-#: nextend-social-login-pro/providers/paypal/paypal.php:201
+#: nextend-facebook-connect/providers/facebook/facebook.php:246
+#: nextend-social-login-pro/providers/paypal/paypal.php:206
 #, php-format
 msgid "Required scope: %1$s"
 msgstr ""
@@ -1992,6 +1921,13 @@ msgstr "点击 OAuth 2.0 client ID: %s"
 msgid ""
 "Add the following URL to the \"Authorised redirect URIs\" field: <b>%s</b>"
 msgstr "将旁边的URL 填入\"Authorised redirect URIs\" 应该是 <b>%s</b>"
+
+#: nextend-facebook-connect/providers/google/admin/fix-redirect-uri.php:13
+#: nextend-facebook-connect/providers/twitter/admin/fix-redirect-uri.php:13
+#: nextend-social-login-pro/providers/amazon/admin/fix-redirect-uri.php:14
+#: nextend-social-login-pro/providers/paypal/admin/fix-redirect-uri.php:15
+msgid "Click on \"Save\""
+msgstr "点击\"保存“"
 
 #: nextend-facebook-connect/providers/google/admin/getting-started.php:18
 #, fuzzy
@@ -2088,18 +2024,6 @@ msgstr ""
 "通过单击其名称选择您的应用程序，然后您可以从那里复制粘贴客户端ID和客户端密"
 "钥。"
 
-#: nextend-facebook-connect/providers/google/admin/import.php:9
-msgid "Import Google configuration"
-msgstr "导入Google配置"
-
-#: nextend-facebook-connect/providers/google/admin/import.php:16
-msgid "If you have more projects, select the one where your app is."
-msgstr "如果您有更多项目，请选择您的应用程序所在的项目。"
-
-#: nextend-facebook-connect/providers/google/admin/import.php:17
-msgid "Click on Credentials at the left-hand menu then select your app."
-msgstr "在左侧菜单中点击凭据，然后选择您的应用程序。"
-
 #: nextend-facebook-connect/providers/google/admin/settings.php:27
 #: nextend-social-login-pro/providers/amazon/admin/settings.php:26
 #: nextend-social-login-pro/providers/linkedin/admin/settings.php:26
@@ -2115,19 +2039,19 @@ msgstr "客户端ID"
 msgid "Client Secret"
 msgstr "客户端密码"
 
-#: nextend-facebook-connect/providers/google/google.php:89
+#: nextend-facebook-connect/providers/google/google.php:101
 msgid "Continue with <b>Google</b>"
 msgstr "通过 <b>Google</b>"
 
-#: nextend-facebook-connect/providers/google/google.php:90
+#: nextend-facebook-connect/providers/google/google.php:102
 msgid "Link account with <b>Google</b>"
 msgstr "关联 <b>Google</b>"
 
-#: nextend-facebook-connect/providers/google/google.php:91
+#: nextend-facebook-connect/providers/google/google.php:103
 msgid "Unlink account from <b>Google</b>"
 msgstr "取消关联 <b>Google</b>"
 
-#: nextend-facebook-connect/providers/google/google.php:329
+#: nextend-facebook-connect/providers/google/google.php:269
 #, fuzzy, php-format
 #| msgid "Required"
 msgid "Required API: %1$s"
@@ -2214,14 +2138,6 @@ msgstr ""
 msgid "Go to the Keys and tokens tab and find the API key and API secret key"
 msgstr "转到密钥和访问密令选项卡，找到使用者密匙和密码"
 
-#: nextend-facebook-connect/providers/twitter/admin/import.php:9
-msgid "Import Twitter configuration"
-msgstr "导入Twitter配置"
-
-#: nextend-facebook-connect/providers/twitter/admin/import.php:17
-msgid "Go to the Settings tab."
-msgstr "去设置页."
-
 #: nextend-facebook-connect/providers/twitter/admin/settings.php:27
 #: nextend-social-login-pro/providers/disqus/admin/settings.php:26
 msgid "API Key"
@@ -2239,15 +2155,15 @@ msgstr ""
 msgid "Original"
 msgstr ""
 
-#: nextend-facebook-connect/providers/twitter/twitter.php:72
+#: nextend-facebook-connect/providers/twitter/twitter.php:67
 msgid "Continue with <b>Twitter</b>"
 msgstr "保持 <b>Twitter</b>"
 
-#: nextend-facebook-connect/providers/twitter/twitter.php:73
+#: nextend-facebook-connect/providers/twitter/twitter.php:68
 msgid "Link account with <b>Twitter</b>"
 msgstr "关联 <b>Twitter</b> 账号"
 
-#: nextend-facebook-connect/providers/twitter/twitter.php:74
+#: nextend-facebook-connect/providers/twitter/twitter.php:69
 msgid "Unlink account from <b>Twitter</b>"
 msgstr "从 <b>Twitter</b> 取消关联帐户"
 
@@ -2256,19 +2172,25 @@ msgstr "从 <b>Twitter</b> 取消关联帐户"
 msgid "%s Buttons"
 msgstr "%s 按钮"
 
-#: nextend-facebook-connect/widget.php:28
+#: nextend-facebook-connect/widget.php:30
 msgid "Title:"
 msgstr "标题:"
 
-#: nextend-facebook-connect/widget.php:36
+#: nextend-facebook-connect/widget.php:38
 msgid "Button style:"
 msgstr "按钮样式:"
 
-#: nextend-facebook-connect/widget.php:64
+#: nextend-facebook-connect/widget.php:53
+#, fuzzy
+#| msgid "Buttons"
+msgid "Button align:"
+msgstr "按钮"
+
+#: nextend-facebook-connect/widget.php:85
 msgid "Show link buttons"
 msgstr ""
 
-#: nextend-facebook-connect/widget.php:73
+#: nextend-facebook-connect/widget.php:94
 msgid "Show unlink buttons"
 msgstr ""
 
@@ -2377,6 +2299,20 @@ msgstr ""
 msgid "Install now!"
 msgstr ""
 
+#: nextend-social-login-pro/provider-extensions/facebook.php:74
+#, php-format
+msgid ""
+"The Facebook Sync data needs an approved %1$s and your App must use the "
+"latest %2$s version!"
+msgstr ""
+
+#: nextend-social-login-pro/provider-extensions/google.php:176
+#, php-format
+msgid ""
+"Most of these information can only be retrieved, when the field is marked as "
+"Public on the user's %s page!"
+msgstr ""
+
 #: nextend-social-login-pro/providers/amazon/admin/fix-redirect-uri.php:10
 #: nextend-social-login-pro/providers/amazon/admin/getting-started.php:24
 #, fuzzy, php-format
@@ -2471,19 +2407,22 @@ msgid ""
 msgstr "将你网站的首页URL填写到 \"网站URL\"，应该是 <b>%s</b>"
 
 #: nextend-social-login-pro/providers/amazon/admin/getting-started.php:32
-#: nextend-social-login-pro/providers/paypal/admin/getting-started.php:28
+#: nextend-social-login-pro/providers/paypal/admin/getting-started.php:29
 msgid "When all fields are filled, click \"Save\"."
 msgstr ""
 
 #: nextend-social-login-pro/providers/amazon/admin/getting-started.php:33
-msgid "Pick \"General\" tab, which is next to the \"Web Settings\" tab."
-msgstr ""
-
-#: nextend-social-login-pro/providers/amazon/admin/getting-started.php:34
+#, fuzzy
+#| msgid ""
+#| "Here you can see your \"APP ID\" and you can see your \"App secret\" if "
+#| "you click on the \"Show\" button. These will be needed in plugin's "
+#| "settings."
 msgid ""
 "Find the necessary \"Client ID\" and \"Client Secret\" at the middle of the "
-"page."
+"page, under the \"Web Settings\" tab."
 msgstr ""
+"然后，你可以看见你的 \"APP ID\" 和 \"APP secret\"密匙，你可以看到\"显示\"按"
+"钮，这些都需要填写到插件的设置里。"
 
 #: nextend-social-login-pro/providers/amazon/amazon.php:37
 msgid "Continue with <b>Amazon</b>"
@@ -2703,25 +2642,34 @@ msgstr ""
 
 #: nextend-social-login-pro/providers/paypal/admin/getting-started.php:24
 msgid ""
-"Click \"Advanced Options\" which can be found at the end of text \"Log In "
-"with PayPal\"."
+"Click \"Advanced Options\" which can be found at the end of text after "
+"\"Connect with PayPal (formerly Log In with PayPal)\"."
 msgstr ""
 
 #: nextend-social-login-pro/providers/paypal/admin/getting-started.php:25
 #, fuzzy
 #| msgid "Please enter an email address."
-msgid "Tick \"Full name\" and \"Email address\"."
+msgid "Tick \"Full name\"."
 msgstr "请输入电子邮箱."
 
-#: nextend-social-login-pro/providers/paypal/admin/getting-started.php:27
+#: nextend-social-login-pro/providers/paypal/admin/getting-started.php:26
+msgid ""
+"\"Email address\" now requires an App Review by PayPal. To get the email "
+"address as well, please submit your App for a review after your App "
+"configuration is finished. Once the App review is succesfull, you need to "
+"pick \"Email address\" here to retrieve the email of the user. Until then "
+"make sure the Email scope is not \"Enabled\" in our PayPal Settings tab."
+msgstr ""
+
+#: nextend-social-login-pro/providers/paypal/admin/getting-started.php:28
 msgid "Fill \"Privacy policy URL\" and  \"User agreement URL\"."
 msgstr ""
 
-#: nextend-social-login-pro/providers/paypal/admin/getting-started.php:29
+#: nextend-social-login-pro/providers/paypal/admin/getting-started.php:30
 msgid ""
 "Scroll up to \"LIVE API CREDENTIALS\" section and find the necessary "
 "\"Client ID\" and \"Secret\"! ( Make sure you are in \"Live\" mode and not "
-"\"Sandbox\" )."
+"\"Sandbox\". )"
 msgstr ""
 
 #: nextend-social-login-pro/providers/paypal/admin/settings.php:38
@@ -2730,15 +2678,25 @@ msgstr ""
 msgid "Secret"
 msgstr "App 密匙"
 
-#: nextend-social-login-pro/providers/paypal/paypal.php:99
+#: nextend-social-login-pro/providers/paypal/admin/settings.php:45
+#, fuzzy
+#| msgid "Email"
+msgid "Email scope"
+msgstr "Email"
+
+#: nextend-social-login-pro/providers/paypal/admin/settings.php:54
+msgid "Disable, when you have no rights for email address."
+msgstr ""
+
+#: nextend-social-login-pro/providers/paypal/paypal.php:100
 msgid "Continue with <b>PayPal</b>"
 msgstr "通过 <b>PayPal</b>"
 
-#: nextend-social-login-pro/providers/paypal/paypal.php:100
+#: nextend-social-login-pro/providers/paypal/paypal.php:101
 msgid "Link account with <b>PayPal</b>"
 msgstr "关联 <b>PayPal</b>"
 
-#: nextend-social-login-pro/providers/paypal/paypal.php:101
+#: nextend-social-login-pro/providers/paypal/paypal.php:102
 msgid "Unlink account from <b>PayPal</b>"
 msgstr "取消关联 <b>PayPal</b>"
 
@@ -2769,7 +2727,7 @@ msgid "Locate the blue \"Create application\" button and click on it."
 msgstr "找到黄色的“创建应用程序”按钮并点击它。"
 
 #: nextend-social-login-pro/providers/vk/admin/getting-started.php:18
-msgid "Enter the title of your app and select \"Websie\"."
+msgid "Enter the title of your app and select \"Website\"."
 msgstr ""
 
 #: nextend-social-login-pro/providers/vk/admin/getting-started.php:19
@@ -2954,6 +2912,133 @@ msgstr "或"
 #: nextend-social-login-pro/template-parts/woocommerce/edit-account-before.php:1
 msgid "Social accounts"
 msgstr "社交账号"
+
+#, fuzzy
+#~| msgid "Log in with your %s credentials if you are not logged in"
+#~ msgid "Log in with your credentials if you are not logged in"
+#~ msgstr "如果您未登录，请使用您的 %s 凭据登录"
+
+#~ msgid ""
+#~ "Move your mouse over Facebook Login and click on the appearing \"Set Up\" "
+#~ "button"
+#~ msgstr "移动你的鼠标到 Facebook 登录 然后点击出现的\"设置\"按钮"
+
+#~ msgid "Choose Web"
+#~ msgstr "选择网站"
+
+#~ msgid "Fill \"Site URL\" with the url of your homepage, probably: <b>%s</b>"
+#~ msgstr "将你网站的首页URL填写到 \"网站URL\"，应该是 <b>%s</b>"
+
+#~ msgid "In the left sidebar, click on \"Facebook Login\""
+#~ msgstr "点击左边的\"Facebook 登录\""
+
+#~ msgid "Save your changes."
+#~ msgstr "保存你的更改."
+
+#~ msgid "Legacy"
+#~ msgstr "旧版"
+
+#~ msgid ""
+#~ "%s took the place of Nextend Google Connect. You can delete Nextend "
+#~ "Google Connect as it is not needed anymore."
+#~ msgstr ""
+#~ "%s 取代了Nextend Google Connect。 您可以删除Nextend Google Connect。"
+
+#~ msgid ""
+#~ "%s took the place of Nextend Twitter Connect. You can delete Nextend "
+#~ "Twitter Connect as it is not needed anymore."
+#~ msgstr ""
+#~ "%s取代了Nextend Twitter Connect.你可以删除 Nextend Twitter Connect 。"
+
+#~ msgid "Import Facebook configuration"
+#~ msgstr "导入Facebook配置"
+
+#~ msgid "Be sure to read the following notices before you proceed."
+#~ msgstr "继续之前，请务必阅读以下注意事项。"
+
+#~ msgid "Important steps before the import"
+#~ msgstr "导入前的重要步骤"
+
+#~ msgid ""
+#~ "Make sure that the redirect URI for your app is correct before proceeding."
+#~ msgstr "在继续之前，请确保您的应用的重定向URI是正确的。"
+
+#~ msgid "Visit %s."
+#~ msgstr "访问 %s."
+
+#~ msgid "Select your app."
+#~ msgstr "选择你的应用程序."
+
+#~ msgid ""
+#~ "Go to the Settings menu which you can find below the Facebook Login in "
+#~ "the left menu."
+#~ msgstr "转到设置菜单，您可以在左侧菜单中的Facebook登录下找到它。"
+
+#~ msgid "Make sure that the \"%1$s\" field contains %2$s"
+#~ msgstr "确保 \"%1$s\" 包含 %2$s"
+
+#~ msgid "The following settings will be imported:"
+#~ msgstr "以下设置将被导入："
+
+#~ msgid "Your old API configurations"
+#~ msgstr "您的旧API配置"
+
+#~ msgid "The user prefix you set"
+#~ msgstr "您设置的用户前缀"
+
+#~ msgid "Create a backup of the old settings"
+#~ msgstr "创建旧设置的备份"
+
+#~ msgid "Other changes"
+#~ msgstr "其他更改"
+
+#~ msgid ""
+#~ "The custom redirect URI is now handled globally for all providers, so it "
+#~ "won't be imported from the previous version. Visit \"Nextend Social Login "
+#~ "> Global settings\" to set the new redirect URIs."
+#~ msgstr ""
+#~ "自定义重定向URI现在全部为所有提供商处理，因此不会从先前版本导入。 访"
+#~ "问“Nextend Social login>全局设置”来设置新的重定向URI。"
+
+#~ msgid ""
+#~ "The login button's layout will be changed to a new, more modern look. If "
+#~ "you used any custom buttons that won't be imported."
+#~ msgstr ""
+#~ "如果您使用了任何不会导入的自定义按钮。登录按钮布局将更改为新的更现代的外"
+#~ "观。"
+
+#~ msgid ""
+#~ "The old version's PHP functions are not available anymore. This means if "
+#~ "you used any custom codes where you used these old functions, you need to "
+#~ "remove them."
+#~ msgstr ""
+#~ "旧版本的PHP函数不再可用。 这意味着如果您在使用这些旧功能的地方使用了任何自"
+#~ "定义代码，则需要将其删除。"
+
+#~ msgid ""
+#~ "After the importing process finishes, you will need to <b>test</b> your "
+#~ "app and <b>enable</b> the provider. You can do both in the next screen."
+#~ msgstr ""
+#~ "导入过程完成后，您需要<b>测试</b>您的应用和<b>启用</b>提供商。 您可以在下"
+#~ "一个页面中执行这两个操作。"
+
+#~ msgid "Import Configuration"
+#~ msgstr "导入配置"
+
+#~ msgid "Import Google configuration"
+#~ msgstr "导入Google配置"
+
+#~ msgid "If you have more projects, select the one where your app is."
+#~ msgstr "如果您有更多项目，请选择您的应用程序所在的项目。"
+
+#~ msgid "Click on Credentials at the left-hand menu then select your app."
+#~ msgstr "在左侧菜单中点击凭据，然后选择您的应用程序。"
+
+#~ msgid "Import Twitter configuration"
+#~ msgstr "导入Twitter配置"
+
+#~ msgid "Go to the Settings tab."
+#~ msgstr "去设置页."
 
 #~ msgid "Authorize your Pro Addon"
 #~ msgstr "授权你的专业版插件"

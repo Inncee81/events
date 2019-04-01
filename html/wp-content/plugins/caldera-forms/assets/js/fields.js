@@ -1693,7 +1693,14 @@ jQuery( document ).ajaxComplete(function() {
             e.preventDefault();
             $this.cfdatepicker('show')
                 .on('show', function(){ $(this).trigger('blur'); })
-                .on('hide', function(){ $(this).attr("disabled", false); })
+                .on('hide', function(){
+                    $(this).attr("disabled", false);
+                  if($this.hasClass('parsley-error') && $this.val() !== ''){
+                    $this.removeClass('parsley-error');
+                    $this.addClass('parsley-success');
+                    $('#parsley-id-' + $this.data('parsley-id')).hide();
+                  }
+                })
         }
     );
 
@@ -2707,3 +2714,8 @@ function toggle_button_init(id, el){
     }
 
 }
+
+jQuery(document).on( 'cf.init', function(){
+	toggle_button_init();
+});
+

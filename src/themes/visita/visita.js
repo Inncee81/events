@@ -8,9 +8,7 @@ import 'foundation/js/foundation.util.mediaQuery';
 import LazyLoad from 'vanilla-lazyload';
 
 const mobileWidth =  640;
-const lazyLoad = new LazyLoad({
-  threshold: 30
-});
+const lazyLoad = new LazyLoad();
 
 ( ( $, doc ) => {
 

@@ -4,7 +4,7 @@
   Plugin URI: https://CalderaForms.com
   Description: Easy to use, grid based responsive form builder for creating simple to complex forms.
   Author: Caldera Labs
-  Version: 1.7.5.1
+  Version: 1.8.4
   Author URI: http://CalderaLabs.org
   Text Domain: caldera-forms
   GitHub Plugin URI: https://github.com/CalderaWP/caldera-forms
@@ -12,18 +12,19 @@
 
 
 // If this file is called directly, abort.
-if (!defined('WPINC')) {
+if ( !defined('WPINC') ) {
 	die;
 }
 
 global $wp_version;
-if (!version_compare(PHP_VERSION, '5.6.0', '>=')) {
+if ( !version_compare(PHP_VERSION, '5.6.0', '>=') ) {
 	function caldera_forms_php_version_nag()
 	{
 		?>
         <div class="notice notice-error">
             <p>
-				<?php _e('Your version of PHP is incompatible with Caldera Forms and can not be used.', 'caldera-forms'); ?>
+				<?php _e('Your version of PHP is incompatible with Caldera Forms and can not be used.',
+					'caldera-forms'); ?>
 				<?php printf(' <a href="https://calderaforms.com/php?utm_source=wp-admin&utm_campaign=php_deprecated&utm_source=admin-nag" target="__blank">%s</a>',
 					esc_html__('Learn More', 'caldera-forms')
 				) ?></p>
@@ -34,13 +35,14 @@ if (!version_compare(PHP_VERSION, '5.6.0', '>=')) {
 	add_shortcode('caldera_form', 'caldera_forms_fallback_shortcode');
 	add_shortcode('caldera_form_modal', 'caldera_forms_fallback_shortcode');
 	add_action('admin_notices', 'caldera_forms_php_version_nag');
-} elseif (!version_compare($wp_version, '4.7.0', '>=')) {
+} elseif ( !version_compare($wp_version, '4.7.0', '>=') ) {
 	function caldera_forms_wp_version_nag()
 	{
 		?>
         <div class="notice notice-error">
             <p>
-				<?php _e('Your version of WordPress is incompatible with Caldera Forms and can not be used.', 'caldera-forms'); ?>
+				<?php _e('Your version of WordPress is incompatible with Caldera Forms and can not be used.',
+					'caldera-forms'); ?>
             </p>
         </div>
 		<?php
@@ -50,10 +52,9 @@ if (!version_compare(PHP_VERSION, '5.6.0', '>=')) {
 	add_shortcode('caldera_form_modal', 'caldera_forms_fallback_shortcode');
 	add_action('admin_notices', 'caldera_forms_wp_version_nag');
 } else {
-
 	define('CFCORE_PATH', plugin_dir_path(__FILE__));
 	define('CFCORE_URL', plugin_dir_url(__FILE__));
-	define( 'CFCORE_VER', '1.7.5.1' );
+	define( 'CFCORE_VER', '1.8.4' );
 	define('CFCORE_EXTEND_URL', 'https://api.calderaforms.com/1.0/');
 	define('CFCORE_BASENAME', plugin_basename(__FILE__));
 
@@ -64,14 +65,14 @@ if (!version_compare(PHP_VERSION, '5.6.0', '>=')) {
 	 *
 	 * PLEASE keep this an integer
 	 */
-	define('CF_DB', 7);
+	define('CF_DB', 8);
 
 	// init internals of CF
 	include_once CFCORE_PATH . 'classes/core.php';
 
-	add_action('init', array('Caldera_Forms', 'init_cf_internal'));
+	add_action('init', [ 'Caldera_Forms', 'init_cf_internal' ]);
 	// table builder
-	register_activation_hook(__FILE__, array('Caldera_Forms', 'activate_caldera_forms'));
+	register_activation_hook(__FILE__, [ 'Caldera_Forms', 'activate_caldera_forms' ]);
 
 
 	// load system
@@ -119,52 +120,31 @@ if (!version_compare(PHP_VERSION, '5.6.0', '>=')) {
 		 * @since 1.3.5.3
 		 */
 		do_action('caldera_forms_includes_complete');
+
+		/**
+		 * Start cf2 system
+		 *
+		 * @since 1.8.0
+		 */
+		add_action('caldera_forms_v2_init', 'caldera_forms_v2_container_setup' );
+		caldera_forms_get_v2_container();
 	}
 
-	add_action('plugins_loaded', array('Caldera_Forms', 'get_instance'));
-	add_action('plugins_loaded', array('Caldera_Forms_Tracking', 'get_instance'));
+	add_action('plugins_loaded', [ 'Caldera_Forms', 'get_instance' ]);
+
+
+	// Admin & Admin Ajax stuff.
+	if ( is_admin() || defined('DOING_AJAX') ) {
+		add_action('plugins_loaded', [ 'Caldera_Forms_Admin', 'get_instance' ]);
+		add_action('plugins_loaded', [ 'Caldera_Forms_Support', 'get_instance' ]);
+		include_once CFCORE_PATH . 'includes/plugin-page-banner.php';
+	}
+
 
 	//@see https://github.com/CalderaWP/Caldera-Forms/issues/2855
 	add_filter( 'caldera_forms_pro_log_mode', '__return_false' );
 	add_filter( 'caldera_forms_pro_mail_debug', '__return_false' );
 
-	// Admin & Admin Ajax stuff.
-	if (is_admin() || defined('DOING_AJAX')) {
-		add_action('plugins_loaded', array('Caldera_Forms_Admin', 'get_instance'));
-		add_action('plugins_loaded', array('Caldera_Forms_Support', 'get_instance'));
-		include_once CFCORE_PATH . 'includes/plugin-page-banner.php';
-	}
-
-
-	/**
-	 * Get the Caldera Forms Freemius instance
-	 *
-	 * @since 1.6.0
-	 * @deprecated 1.7.5
-	 *
-	 * @return Freemius
-	 * @throws Freemius_Exception
-	 */
-	function caldera_forms_freemius()
-	{
-		global $caldera_forms_freemius;
-		return $caldera_forms_freemius;
-	}
-
-
-
-	/**
-	 * Get the path for the icon used by Caldera Forms
-	 *
-	 * @since 1.6.0
-	 * @deprecated 1.7.5
-	 *
-	 * @return string
-	 */
-	function caldera_forms_freemius_icon_path()
-	{
-		return CFCORE_PATH . 'assets/build/images/new-icon.png';
-	}
 
 }
 
@@ -177,7 +157,7 @@ if (!version_compare(PHP_VERSION, '5.6.0', '>=')) {
  */
 function caldera_forms_fallback_shortcode()
 {
-	if (current_user_can('edit_posts')) {
+	if ( current_user_can('edit_posts') ) {
 		return esc_html__('Your version of WordPress or PHP is incompatible with Caldera Forms.', 'caldera-forms');
 	}
 

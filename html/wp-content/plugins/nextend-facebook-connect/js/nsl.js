@@ -168,55 +168,53 @@ function checkWebView() {
     return isWebView;
 }
 
-if (typeof jQuery !== 'undefined') {
-    var targetWindow = targetWindow || 'prefer-popup';
-    (function ($) {
-        $('a[data-plugin="nsl"][data-action="connect"],a[data-plugin="nsl"][data-action="link"]').on('click', function (e) {
-            var $target = $(this),
-                href = $target.attr('href'),
-                success = false;
-            if (href.indexOf('?') !== -1) {
-                href += '&';
-            } else {
-                href += '?';
-            }
-            var redirectTo = $target.data('redirect');
-            if (redirectTo === 'current') {
-                href += 'redirect=' + encodeURIComponent(window.location.href) + '&';
-            } else if (redirectTo && redirectTo !== '') {
-                href += 'redirect=' + encodeURIComponent(redirectTo) + '&';
-            }
+window._nsl.push(function ($) {
+    var targetWindow = _targetWindow || 'prefer-popup';
 
-            if (targetWindow !== 'prefer-same-window' && checkWebView()) {
-                targetWindow = 'prefer-same-window';
-            }
-
-            if (targetWindow === 'prefer-popup') {
-                if (NSLPopupCenter(href + 'display=popup', 'nsl-social-connect', $target.data('popupwidth'), $target.data('popupheight'))) {
-                    success = true;
-                    e.preventDefault();
-                }
-            } else if (targetWindow === 'prefer-new-tab') {
-                var newTab = window.open(href + 'display=popup', '_blank');
-                if (newTab) {
-                    if (window.focus) {
-                        newTab.focus();
-                    }
-                    success = true;
-                    e.preventDefault();
-                }
-            }
-
-            if (!success) {
-                window.location = href;
-                e.preventDefault();
-            }
-        });
-
-        var googleLoginButton = $('a[data-plugin="nsl"][data-provider="google"]');
-        if (googleLoginButton.length && checkWebView()) {
-            googleLoginButton.remove();
+    $('a[data-plugin="nsl"][data-action="connect"],a[data-plugin="nsl"][data-action="link"]').on('click', function (e) {
+        var $target = $(this),
+            href = $target.attr('href'),
+            success = false;
+        if (href.indexOf('?') !== -1) {
+            href += '&';
+        } else {
+            href += '?';
+        }
+        var redirectTo = $target.data('redirect');
+        if (redirectTo === 'current') {
+            href += 'redirect=' + encodeURIComponent(window.location.href) + '&';
+        } else if (redirectTo && redirectTo !== '') {
+            href += 'redirect=' + encodeURIComponent(redirectTo) + '&';
         }
 
-    })(jQuery);
-}
+        if (targetWindow !== 'prefer-same-window' && checkWebView()) {
+            targetWindow = 'prefer-same-window';
+        }
+
+        if (targetWindow === 'prefer-popup') {
+            if (NSLPopupCenter(href + 'display=popup', 'nsl-social-connect', $target.data('popupwidth'), $target.data('popupheight'))) {
+                success = true;
+                e.preventDefault();
+            }
+        } else if (targetWindow === 'prefer-new-tab') {
+            var newTab = window.open(href + 'display=popup', '_blank');
+            if (newTab) {
+                if (window.focus) {
+                    newTab.focus();
+                }
+                success = true;
+                e.preventDefault();
+            }
+        }
+
+        if (!success) {
+            window.location = href;
+            e.preventDefault();
+        }
+    });
+
+    var googleLoginButton = $('a[data-plugin="nsl"][data-provider="google"]');
+    if (googleLoginButton.length && checkWebView()) {
+        googleLoginButton.remove();
+    }
+});

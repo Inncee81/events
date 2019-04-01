@@ -4,7 +4,7 @@
         <fieldset>
             <label>
                 <input type="radio" name="skin"
-                       value="default" <?php if ($settings->get('skin') == 'uniform') : ?> checked="checked" <?php endif; ?>>
+                       value="uniform" <?php if ($settings->get('skin') == 'uniform') : ?> checked="checked" <?php endif; ?>>
                 <span><?php _e('Uniform', 'nextend-facebook-connect'); ?></span><br/>
                 <img src="<?php echo plugins_url('images/google/uniform.png', NSL_ADMIN_PATH) ?>"/>
             </label>

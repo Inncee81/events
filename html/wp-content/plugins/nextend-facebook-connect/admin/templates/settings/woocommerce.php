@@ -213,6 +213,9 @@ NextendSocialLoginAdmin::showProBox();
         <td>
             <fieldset>
                 <label><input type="radio" name="woocommerce_account_details"
+                              value="" <?php if ($settings->get('woocommerce_account_details') == '') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('No Connect buttons in account details form', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="woocommerce_account_details"
                               value="before" <?php if ($settings->get('woocommerce_account_details') == 'before') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
                     <span><?php _e('Link buttons on', 'nextend-facebook-connect'); ?></span>
                     <code><?php _e('Action:'); ?>
@@ -225,6 +228,25 @@ NextendSocialLoginAdmin::showProBox();
             </fieldset>
         </td>
     </tr>
+
+    <tr>
+        <th scope="row"><?php _e('Button alignment', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label><input type="radio" name="woocoommerce_form_button_align"
+                              value="left" <?php if ($settings->get('woocoommerce_form_button_align') == 'left') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Left', 'nextend-facebook-connect'); ?></span></label><br>
+                <label><input type="radio" name="woocoommerce_form_button_align"
+                              value="center" <?php if ($settings->get('woocoommerce_form_button_align') == 'center') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Center', 'nextend-facebook-connect'); ?></span></label><br>
+
+                <label><input type="radio" name="woocoommerce_form_button_align"
+                              value="right" <?php if ($settings->get('woocoommerce_form_button_align') == 'right') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Right', 'nextend-facebook-connect'); ?></span></label><br>
+            </fieldset>
+        </td>
+    </tr>
+
     </tbody>
 </table>
 <?php if ($isPRO): ?>

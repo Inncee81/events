@@ -52,6 +52,7 @@ function wp_get_active_network_plugins() {
 			$plugins[] = WP_PLUGIN_DIR . '/' . $plugin;
 		}
 	}
+
 	return $plugins;
 }
 
@@ -234,7 +235,8 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	}
 
 	$args = array(
-		'number' => 1,
+		'number'                 => 1,
+		'update_site_meta_cache' => false,
 	);
 
 	if ( count( $domains ) > 1 ) {

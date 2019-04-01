@@ -333,7 +333,7 @@ function is_taxonomy_hierarchical( $taxonomy ) {
  * @since 4.5.0 Introduced `publicly_queryable` argument.
  * @since 4.7.0 Introduced `show_in_rest`, 'rest_base' and 'rest_controller_class'
  *              arguments to register the Taxonomy in REST API.
- * @since 5.0.0 Introduced `meta_box_sanitize_cb` argument.
+ * @since 5.1.0 Introduced `meta_box_sanitize_cb` argument.
  *
  * @global array $wp_taxonomies Registered taxonomies.
  *
@@ -2295,7 +2295,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * to be created. Plugins with different uniqueness requirements may use this filter
 	 * to bypass or modify the duplicate-term check.
 	 *
-	 * @since 5.0.0
+	 * @since 5.1.0
 	 *
 	 * @param object $duplicate_term Duplicate term row from terms table, if found.
 	 * @param string $term           Term being inserted.
@@ -2666,7 +2666,7 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
  * The way this works is that if the taxonomy that the term belongs to is
  * hierarchical and has a parent, it will append that parent to the $slug.
  *
- * If that still doesn't return an unique slug, then it try to append a number
+ * If that still doesn't return a unique slug, then it tries to append a number
  * until it finds a number that is truly unique.
  *
  * The only purpose for `$term` is for appending a parent, if one exists.
@@ -3439,7 +3439,7 @@ function update_term_cache( $terms, $taxonomy = '' ) {
 /**
  * Retrieves children of taxonomy as Term IDs.
  *
- * @ignore
+ * @access private
  * @since 2.3.0
  *
  * @param string $taxonomy Taxonomy name.
@@ -4127,7 +4127,7 @@ function wp_get_split_term( $old_term_id, $taxonomy ) {
  *
  * @param int $term_id Term ID.
  * @return bool Returns false if a term is not shared between multiple taxonomies or
- *              if splittng shared taxonomy terms is finished.
+ *              if splitting shared taxonomy terms is finished.
  */
 function wp_term_is_shared( $term_id ) {
 	global $wpdb;
@@ -4574,7 +4574,7 @@ function wp_check_term_hierarchy_for_loops( $parent, $term_id, $taxonomy ) {
 /**
  * Determines whether a taxonomy is considered "viewable".
  *
- * @since 5.0.0
+ * @since 5.1.0
  *
  * @param string|WP_Taxonomy $taxonomy Taxonomy name or object.
  * @return bool Whether the taxonomy should be considered viewable.

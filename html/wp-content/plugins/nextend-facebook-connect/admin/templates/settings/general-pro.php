@@ -39,17 +39,7 @@ NextendSocialLoginAdmin::showProBox();
             </fieldset>
         </td>
     </tr>
-    <tr>
-        <th scope="row"><?php _e('Membership', 'nextend-facebook-connect'); ?></th>
-        <td>
-            <fieldset>
-                <label>
-                    <input type='hidden' name='allow_register' value='0'>
-                    <input type="checkbox" name="allow_register" value="1" <?php if ($settings->get('allow_register') != '0') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
-                    <span><?php _e('Allow registration with Social login', 'nextend-facebook-connect'); ?></span></label><br>
-            </fieldset>
-        </td>
-    </tr>
+
     <tr>
         <th scope="row"><?php _e('Registration notification sent to', 'nextend-facebook-connect'); ?></th>
         <td>
@@ -72,6 +62,47 @@ NextendSocialLoginAdmin::showProBox();
             </fieldset>
         </td>
     </tr>
+
+    <tr>
+        <th scope="row"><?php _e('Unlink', 'nextend-facebook-connect'); ?></th>
+        <td>
+            <fieldset>
+                <label>
+                    <input type='hidden' name='allow_unlink' value='0'>
+                    <input type="checkbox" name="allow_unlink" value="1" <?php if ($settings->get('allow_unlink') != '0') : ?> checked="checked" <?php endif; ?><?php echo $attr; ?>>
+                    <span><?php _e('Allow Social account unlink', 'nextend-facebook-connect'); ?></span></label><br>
+            </fieldset>
+        </td>
+    </tr>
+
+    <tr>
+        <th scope="row"><?php _e('Disable Admin bar for roles', 'nextend-facebook-connect'); ?></th>
+
+        <td>
+            <?php
+            $wp_roles = new WP_Roles();
+            $roles    = $wp_roles->get_names();
+
+            $adminbar_disabled_roles = $settings->get('admin_bar_roles');
+            foreach ($roles AS $roleKey => $label):
+                ?>
+                <fieldset><label for="admin_bar_roles_<?php echo esc_attr($roleKey); ?>">
+                        <input name="admin_bar_roles[]" type="checkbox"
+                               id="admin_bar_roles_<?php echo esc_attr($roleKey); ?>"
+                               value="<?php echo esc_attr($roleKey); ?>" <?php if (in_array($roleKey, $adminbar_disabled_roles)) : ?> checked="checked" <?php endif ?> <?php echo $attr; ?> />
+                        <?php echo $label; ?></label>
+                </fieldset>
+            <?php endforeach; ?>
+        <input type="hidden" name="admin_bar_roles[]" value=""/>
+        </td>
+
+        <td>
+            <fieldset>
+                <input type='hidden' name='admin_bar_roles[]' value='0'>
+            </fieldset>
+        </td>
+    </tr>
+
     </tbody>
 </table>
 <?php if ($isPRO): ?>

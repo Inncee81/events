@@ -27,6 +27,17 @@ NextendSocialLoginAdmin::showProBox();
         <input type="hidden" name="view" value="provider-<?php echo $provider->getId(); ?>"/>
         <input type="hidden" name="subview" value="sync-data"/>
         <input type="hidden" name="settings_saved" value="1"/>
+
+        <?php
+        $sync_warning_message = apply_filters('nsl_' . $provider->getId() . '_sync_warning', false);
+        if (!empty($sync_warning_message)): ?>
+            <div class="notice notice-warning">
+                <p>
+                    <?php echo $sync_warning_message; ?>
+                </p>
+            </div>
+        <?php endif; ?>
+
         <table class="form-table">
             <tbody>
             <tr>

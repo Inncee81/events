@@ -479,16 +479,15 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 	</div>
 
 	<div id="replysubmit" class="submit">
-		<p>
-			<a href="#comments-form" class="save button button-primary alignright">
+		<p class="reply-submit-buttons">
+			<button type="button" class="save button button-primary">
 				<span id="addbtn" style="display: none;"><?php _e( 'Add Comment' ); ?></span>
 				<span id="savebtn" style="display: none;"><?php _e( 'Update Comment' ); ?></span>
 				<span id="replybtn" style="display: none;"><?php _e( 'Submit Reply' ); ?></span>
-			</a>
-			<a href="#comments-form" class="cancel button alignleft"><?php _e( 'Cancel' ); ?></a>
+			</button>
+			<button type="button" class="cancel button"><?php _e( 'Cancel' ); ?></button>
 			<span class="waiting spinner"></span>
 		</p>
-		<br class="clear" />
 		<div class="notice notice-error notice-alt inline hidden">
 			<p class="error"></p>
 		</div>
@@ -775,20 +774,19 @@ function touch_time( $edit = 1, $for_post = 1, $tab_index = 0, $multi = 0 ) {
 	// todo: Remove this?
 	// echo '<label for="timestamp" style="display: block;"><input type="checkbox" class="checkbox" name="edit_date" value="1" id="timestamp"'.$tab_index_attribute.' /> '.__( 'Edit timestamp' ).'</label><br />';
 
-	$time_adj  = current_time( 'timestamp' );
 	$post_date = ( $for_post ) ? $post->post_date : get_comment()->comment_date;
-	$jj        = ( $edit ) ? mysql2date( 'd', $post_date, false ) : gmdate( 'd', $time_adj );
-	$mm        = ( $edit ) ? mysql2date( 'm', $post_date, false ) : gmdate( 'm', $time_adj );
-	$aa        = ( $edit ) ? mysql2date( 'Y', $post_date, false ) : gmdate( 'Y', $time_adj );
-	$hh        = ( $edit ) ? mysql2date( 'H', $post_date, false ) : gmdate( 'H', $time_adj );
-	$mn        = ( $edit ) ? mysql2date( 'i', $post_date, false ) : gmdate( 'i', $time_adj );
-	$ss        = ( $edit ) ? mysql2date( 's', $post_date, false ) : gmdate( 's', $time_adj );
+	$jj        = ( $edit ) ? mysql2date( 'd', $post_date, false ) : current_time( 'd' );
+	$mm        = ( $edit ) ? mysql2date( 'm', $post_date, false ) : current_time( 'm' );
+	$aa        = ( $edit ) ? mysql2date( 'Y', $post_date, false ) : current_time( 'Y' );
+	$hh        = ( $edit ) ? mysql2date( 'H', $post_date, false ) : current_time( 'H' );
+	$mn        = ( $edit ) ? mysql2date( 'i', $post_date, false ) : current_time( 'i' );
+	$ss        = ( $edit ) ? mysql2date( 's', $post_date, false ) : current_time( 's' );
 
-	$cur_jj = gmdate( 'd', $time_adj );
-	$cur_mm = gmdate( 'm', $time_adj );
-	$cur_aa = gmdate( 'Y', $time_adj );
-	$cur_hh = gmdate( 'H', $time_adj );
-	$cur_mn = gmdate( 'i', $time_adj );
+	$cur_jj = current_time( 'd' );
+	$cur_mm = current_time( 'm' );
+	$cur_aa = current_time( 'Y' );
+	$cur_hh = current_time( 'H' );
+	$cur_mn = current_time( 'i' );
 
 	$month = '<label><span class="screen-reader-text">' . __( 'Month' ) . '</span><select ' . ( $multi ? '' : 'id="mm" ' ) . 'name="mm"' . $tab_index_attribute . ">\n";
 	for ( $i = 1; $i < 13; $i = $i + 1 ) {
@@ -870,7 +868,7 @@ function page_template_dropdown( $default = '', $post_type = 'page' ) {
  * @param int         $level   Optional. Page depth level. Default 0.
  * @param int|WP_Post $post    Post ID or WP_Post object.
  *
- * @return null|false Boolean False if page has no children, otherwise print out html elements
+ * @return null|false Boolean False if page has no children, otherwise print out html elements.
  */
 function parent_dropdown( $default = 0, $parent = 0, $level = 0, $post = null ) {
 	global $wpdb;
@@ -1370,7 +1368,7 @@ function remove_meta_box( $id, $screen, $context ) {
 }
 
 /**
- * Meta Box Accordion Template Function
+ * Meta Box Accordion Template Function.
  *
  * Largely made up of abstracted code from do_meta_boxes(), this
  * function serves to build meta boxes as list items for display as
@@ -1450,7 +1448,7 @@ function do_accordion_sections( $screen, $context, $object ) {
  *
  * Part of the Settings API. Use this to define new settings sections for an admin page.
  * Show settings sections in your admin page callback function with do_settings_sections().
- * Add settings fields to your section with add_settings_field()
+ * Add settings fields to your section with add_settings_field().
  *
  * The $callback argument should be the name of a function that echoes out any
  * content you want to show at the top of the settings section before the actual
@@ -1458,7 +1456,7 @@ function do_accordion_sections( $screen, $context, $object ) {
  *
  * @since 2.7.0
  *
- * @global $wp_settings_sections Storage array of all settings sections added to admin pages
+ * @global $wp_settings_sections Storage array of all settings sections added to admin pages.
  *
  * @param string   $id       Slug-name to identify the section. Used in the 'id' attribute of tags.
  * @param string   $title    Formatted title of the section. Shown as the heading for the section.
@@ -1504,7 +1502,7 @@ function add_settings_section( $id, $title, $callback, $page ) {
 }
 
 /**
- * Add a new field to a section of a settings page
+ * Add a new field to a section of a settings page.
  *
  * Part of the Settings API. Use this to define a settings field that will show
  * as part of a settings section inside a settings page. The fields are shown using
@@ -1517,7 +1515,7 @@ function add_settings_section( $id, $title, $callback, $page ) {
  * @since 2.7.0
  * @since 4.2.0 The `$class` argument was added.
  *
- * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections
+ * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections.
  *
  * @param string   $id       Slug-name to identify the field. Used in the 'id' attribute of tags.
  * @param string   $title    Formatted title of the field. Shown as the label for the field
@@ -1582,11 +1580,11 @@ function add_settings_field( $id, $title, $callback, $page, $section = 'default'
  * to output all the sections and fields that were added to that $page with
  * add_settings_section() and add_settings_field()
  *
- * @global $wp_settings_sections Storage array of all settings sections added to admin pages
- * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections
+ * @global $wp_settings_sections Storage array of all settings sections added to admin pages.
+ * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections.
  * @since 2.7.0
  *
- * @param string $page The slug name of the page whose settings sections you want to output
+ * @param string $page The slug name of the page whose settings sections you want to output.
  */
 function do_settings_sections( $page ) {
 	global $wp_settings_sections, $wp_settings_fields;
@@ -1614,13 +1612,13 @@ function do_settings_sections( $page ) {
 }
 
 /**
- * Print out the settings fields for a particular settings section
+ * Print out the settings fields for a particular settings section.
  *
  * Part of the Settings API. Use this in a settings page to output
  * a specific section. Should normally be called by do_settings_sections()
  * rather than directly.
  *
- * @global $wp_settings_fields Storage array of settings fields and their pages/sections
+ * @global $wp_settings_fields Storage array of settings fields and their pages/sections.
  *
  * @since 2.7.0
  *
@@ -1657,7 +1655,7 @@ function do_settings_fields( $page, $section ) {
 }
 
 /**
- * Register a settings error to be displayed to the user
+ * Register a settings error to be displayed to the user.
  *
  * Part of the Settings API. Use this to show messages to users about settings validation
  * problems, missing settings or anything else.
@@ -1673,7 +1671,7 @@ function do_settings_fields( $page, $section ) {
  *
  * @global array $wp_settings_errors Storage array of errors registered during this pageload
  *
- * @param string $setting Slug title of the setting to which this error applies
+ * @param string $setting Slug title of the setting to which this error applies.
  * @param string $code    Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
  * @param string $message The formatted message text to display to the user (will be shown inside styled
  *                        `<div>` and `<p>` tags).
@@ -1692,7 +1690,7 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
 }
 
 /**
- * Fetch settings errors registered by add_settings_error()
+ * Fetch settings errors registered by add_settings_error().
  *
  * Checks the $wp_settings_errors array for any errors declared during the current
  * pageload and returns them.
@@ -1712,7 +1710,7 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  *
  * @param string $setting Optional slug title of a specific setting whose errors you want.
  * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
- * @return array Array of settings errors
+ * @return array Array of settings errors.
  */
 function get_settings_errors( $setting = '', $sanitize = false ) {
 	global $wp_settings_errors;
@@ -2239,7 +2237,7 @@ function compression_test() {
  *                                       id attribute is given in $other_attributes below, $name will be
  *                                       used as the button's id.
  * @param bool         $wrap             True if the output button should be wrapped in a paragraph tag,
- *                                       false otherwise. Defaults to true
+ *                                       false otherwise. Defaults to true.
  * @param array|string $other_attributes Other attributes that should be output with the button, mapping
  *                                       attributes to their values, such as setting tabindex to 1, etc.
  *                                       These key/value attribute pairs will be output as attribute="value",

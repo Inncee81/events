@@ -687,14 +687,24 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 		 * @param array $commentdata Comment data.
 		 */
 		do_action( 'comment_duplicate_trigger', $commentdata );
+
+		/**
+		 * Filters duplicate comment error message.
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param string $comment_duplicate_message Duplicate comment error message.
+		 */
+		$comment_duplicate_message = apply_filters( 'comment_duplicate_message', __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ) );
+
 		if ( true === $avoid_die ) {
-			return new WP_Error( 'comment_duplicate', __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ), 409 );
+			return new WP_Error( 'comment_duplicate', $comment_duplicate_message, 409 );
 		} else {
 			if ( wp_doing_ajax() ) {
-				die( __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ) );
+				die( $comment_duplicate_message );
 			}
 
-			wp_die( __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ), 409 );
+			wp_die( $comment_duplicate_message, 409 );
 		}
 	}
 
@@ -744,7 +754,10 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	);
 
 	if ( $is_flood ) {
-		return new WP_Error( 'comment_flood', __( 'You are posting comments too quickly. Slow down.' ), 429 );
+		/** This filter is documented in wp-includes/comment-template.php */
+		$comment_flood_message = apply_filters( 'comment_flood_message', __( 'You are posting comments too quickly. Slow down.' ) );
+
+		return new WP_Error( 'comment_flood', $comment_flood_message, 429 );
 	}
 
 	if ( ! empty( $commentdata['user_id'] ) ) {
@@ -888,14 +901,24 @@ function wp_check_comment_flood( $is_flood, $ip, $email, $date, $avoid_die = fal
 			 * @param int $time_newcomment  Timestamp of when the new comment was posted.
 			 */
 			do_action( 'comment_flood_trigger', $time_lastcomment, $time_newcomment );
+
 			if ( true === $avoid_die ) {
 				return true;
 			} else {
+				/**
+				 * Filters the comment flood error message.
+				 *
+				 * @since 5.2.0
+				 *
+				 * @param string $comment_flood_message Comment flood error message.
+				 */
+				$comment_flood_message = apply_filters( 'comment_flood_message', __( 'You are posting comments too quickly. Slow down.' ) );
+
 				if ( wp_doing_ajax() ) {
-					die( __( 'You are posting comments too quickly. Slow down.' ) );
+					die( $comment_flood_message );
 				}
 
-				wp_die( __( 'You are posting comments too quickly. Slow down.' ), 429 );
+				wp_die( $comment_flood_message, 429 );
 			}
 		}
 	}
@@ -1766,6 +1789,35 @@ function wp_get_current_commenter() {
 	 * }
 	 */
 	return apply_filters( 'wp_get_current_commenter', compact( 'comment_author', 'comment_author_email', 'comment_author_url' ) );
+}
+
+/**
+ * Get unapproved comment author's email.
+ *
+ * Used to allow the commenter to see their pending comment.
+ *
+ * @since 5.1.0
+ *
+ * @return string The unapproved comment author's email (when supplied).
+ */
+function wp_get_unapproved_comment_author_email() {
+	$commenter_email = '';
+
+	if ( ! empty( $_GET['unapproved'] ) && ! empty( $_GET['moderation-hash'] ) ) {
+		$comment_id = (int) $_GET['unapproved'];
+		$comment    = get_comment( $comment_id );
+
+		if ( $comment && hash_equals( $_GET['moderation-hash'], wp_hash( $comment->comment_date_gmt ) ) ) {
+			$commenter_email = $comment->comment_author_email;
+		}
+	}
+
+	if ( ! $commenter_email ) {
+		$commenter       = wp_get_current_commenter();
+		$commenter_email = $commenter['comment_author_email'];
+	}
+
+	return $commenter_email;
 }
 
 /**
@@ -3214,6 +3266,8 @@ function wp_handle_comment_submission( $comment_data ) {
 			) {
 				kses_remove_filters(); // start with a clean slate
 				kses_init_filters(); // set up the filters
+				remove_filter( 'pre_comment_content', 'wp_filter_post_kses' );
+				add_filter( 'pre_comment_content', 'wp_filter_kses' );
 			}
 		}
 	} else {
@@ -3246,7 +3300,7 @@ function wp_handle_comment_submission( $comment_data ) {
 	/**
 	 * Filters whether an empty comment should be allowed.
 	 *
-	 * @since 5.0.0
+	 * @since 5.1.0
 	 *
 	 * @param bool  $allow_empty_comment Whether to allow empty comments. Default false.
 	 * @param array $commentdata         Array of comment data to be sent to wp_insert_comment().

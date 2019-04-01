@@ -313,7 +313,8 @@ function visita_get_description( ) {
 * @return void
 */
 function visita_get_performers( ) {
-  if ( $performers = get_post_meta( get_the_ID(), '_performers', true ) ) {
+  $performers = get_post_meta( get_the_ID(), '_performers', true );
+  if ( is_array( $performers ) ) {
     foreach ( $performers as $performer ) {
       printf(
         '<div itemprop="performer" itemscope itemtype="http://schema.org/%1$s">

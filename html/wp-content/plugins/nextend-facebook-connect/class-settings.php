@@ -38,10 +38,14 @@ class NextendSocialLoginSettings {
         return $this->settings[$storage][$key];
     }
 
+    public function set($key, $value) {
+        $this->settings['stored'][$key] = $value;
+        $this->storeSettings();
+    }
+
     public function getAll($storage = 'final') {
         return $this->settings[$storage];
     }
-
 
     public function update($postedData) {
         if (is_array($postedData)) {

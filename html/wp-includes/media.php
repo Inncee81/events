@@ -104,8 +104,7 @@ function image_constrain_size_for_editor( $width, $height, $size = 'medium', $co
 		if ( intval( $content_width ) > 0 && 'edit' === $context ) {
 			$max_width = min( intval( $content_width ), $max_width );
 		}
-	} // $size == 'full' has no constraint
-	else {
+	} else { // $size == 'full' has no constraint
 		$max_width  = $width;
 		$max_height = $height;
 	}
@@ -1498,7 +1497,7 @@ add_shortcode( 'caption', 'img_caption_shortcode' );
  *
  * @since 2.6.0
  * @since 3.9.0 The `class` attribute was added.
- * @since 5.0.0 The `caption_id` attribute was added.
+ * @since 5.1.0 The `caption_id` attribute was added.
  *
  * @param array  $attr {
  *     Attributes of the caption shortcode.
@@ -2872,7 +2871,7 @@ function get_attachment_taxonomies( $attachment, $output = 'names' ) {
 	}
 
 	$file     = get_attached_file( $attachment->ID );
-	$filename = basename( $file );
+	$filename = wp_basename( $file );
 
 	$objects = array( 'attachment' );
 
@@ -3577,10 +3576,18 @@ function wp_enqueue_media( $args = array() ) {
 		$month_year->text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month_year->month ), $month_year->year );
 	}
 
+	// Filter to show only available mime types.
+	$avail_post_mime_types = get_available_post_mime_types( 'attachment' );
+	$mimeTypes             = wp_list_pluck( get_post_mime_types(), 0 );
+	foreach ( $mimeTypes as $mime_type => $label ) {
+		if ( ! wp_match_mime_types( $mime_type, $avail_post_mime_types ) ) {
+			unset( $mimeTypes[ $mime_type ] );
+		}
+	}
 	$settings = array(
 		'tabs'             => $tabs,
 		'tabUrl'           => add_query_arg( array( 'chromeless' => true ), admin_url( 'media-upload.php' ) ),
-		'mimeTypes'        => wp_list_pluck( get_post_mime_types(), 0 ),
+		'mimeTypes'        => $mimeTypes,
 		/** This filter is documented in wp-admin/includes/media.php */
 		'captions'         => ! apply_filters( 'disable_captions', '' ),
 		'nonce'            => array(
@@ -3755,6 +3762,9 @@ function wp_enqueue_media( $args = array() ) {
 		'updateVideoPlaylist'         => __( 'Update video playlist' ),
 		'addToVideoPlaylist'          => __( 'Add to video playlist' ),
 		'addToVideoPlaylistTitle'     => __( 'Add to Video Playlist' ),
+
+		// Headings
+		'attachmentsList'             => __( 'Attachments list' ),
 	);
 
 	/**

@@ -59,13 +59,8 @@ class NextendSocialProviderTwitter extends NextendSocialProvider {
             'login_label'        => 'Continue with <b>Twitter</b>',
             'link_label'         => 'Link account with <b>Twitter</b>',
             'unlink_label'       => 'Unlink account from <b>Twitter</b>',
-            'profile_image_size' => 'normal',
-            'legacy'             => 0
+            'profile_image_size' => 'normal'
         ));
-
-        if ($this->settings->get('legacy') == 1) {
-            $this->loadCompat();
-        }
     }
 
     protected function forTranslation() {
@@ -80,13 +75,6 @@ class NextendSocialProviderTwitter extends NextendSocialProvider {
         foreach ($postedData AS $key => $value) {
 
             switch ($key) {
-                case 'legacy':
-                    if ($postedData['legacy'] == 1) {
-                        $newData['legacy'] = 1;
-                    } else {
-                        $newData['legacy'] = 0;
-                    }
-                    break;
                 case 'tested':
                     if ($postedData[$key] == '1' && (!isset($newData['tested']) || $newData['tested'] != '0')) {
                         $newData['tested'] = 1;
@@ -212,72 +200,6 @@ class NextendSocialProviderTwitter extends NextendSocialProvider {
         }
 
         $this->storeAccessToken($user_id, $access_token);
-    }
-
-    public function getState() {
-        if ($this->settings->get('legacy') == 1) {
-            return 'legacy';
-        }
-
-        return parent::getState();
-    }
-
-    public function loadCompat() {
-        if (!is_admin()) {
-            require_once(dirname(__FILE__) . '/compat/nextend-twitter-connect.php');
-        } else {
-            if (basename($_SERVER['PHP_SELF']) !== 'plugins.php') {
-                require_once(dirname(__FILE__) . '/compat/nextend-twitter-connect.php');
-                add_action('admin_notices', 'NextendSocialLoginAdmin::show_twitter_compat_cessation_notice');
-            } else {
-
-                add_action('admin_menu', array(
-                    $this,
-                    'loadCompatMenu'
-                ), 1);
-            }
-        }
-    }
-
-    public function loadCompatMenu() {
-        add_options_page('Nextend Twitter Connect', 'Nextend Twitter Connect', 'manage_options', 'nextend-twitter-connect', array(
-            'NextendTwitterSettings',
-            'NextendTwitter_Options_Page'
-        ));
-    }
-
-    public function import() {
-        $oldSettings = maybe_unserialize(get_option('nextend_twitter_connect'));
-        if ($oldSettings === false) {
-            $newSettings['legacy'] = 0;
-            $this->settings->update($newSettings);
-        } else if (!empty($oldSettings['twitter_consumer_key']) && !empty($oldSettings['twitter_consumer_secret'])) {
-            $newSettings = array(
-                'consumer_key'    => $oldSettings['twitter_consumer_key'],
-                'consumer_secret' => $oldSettings['twitter_consumer_secret']
-            );
-
-            if (!empty($oldSettings['twitter_user_prefix'])) {
-                $newSettings['user_prefix'] = $oldSettings['twitter_user_prefix'];
-            }
-
-            $newSettings['legacy'] = 0;
-            $this->settings->update($newSettings);
-
-            delete_option('nextend_twitter_connect');
-        }
-
-        return true;
-    }
-
-    public function adminDisplaySubView($subview) {
-        if ($subview == 'import' && $this->settings->get('legacy') == 1) {
-            $this->admin->render('import', false);
-
-            return true;
-        }
-
-        return parent::adminDisplaySubView($subview);
     }
 
     public function deleteLoginPersistentData() {

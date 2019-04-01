@@ -890,7 +890,7 @@ function get_theme_mods() {
  *
  * @param string      $name    Theme modification name.
  * @param bool|string $default
- * @return string
+ * @return mixed
  */
 function get_theme_mod( $name, $default = false ) {
 	$mods = get_theme_mods();
@@ -3057,7 +3057,7 @@ function _wp_customize_publish_changeset( $new_status, $old_status, $changeset_p
 	 * Trash the changeset post if revisions are not enabled. Unpublished
 	 * changesets by default get garbage collected due to the auto-draft status.
 	 * When a changeset post is published, however, it would no longer get cleaned
-	 * out. Ths is a problem when the changeset posts are never displayed anywhere,
+	 * out. This is a problem when the changeset posts are never displayed anywhere,
 	 * since they would just be endlessly piling up. So here we use the revisions
 	 * feature to indicate whether or not a published changeset should get trashed
 	 * and thus garbage collected.

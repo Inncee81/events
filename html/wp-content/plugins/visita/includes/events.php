@@ -390,7 +390,6 @@ class VisitaEvents extends VisitaBase {
   * @since 3.0.0
   */
   function after_posts_selection( ) {
-
     if ( ! is_singular( $this->post_type ) ) {
       return;
     }

@@ -59,14 +59,9 @@ span.flatpickr-day.startRange.startRange {
 
   &-form:before {
     color: $gray-dark;
-    content: $fa-var-search;
-    left: .75em;
+    content: $fa-var-bolt;
     position: absolute;
     top: 16%;
-  }
-
-  &-form:before {
-    content: $fa-var-bolt;
     left: 2%;
     @include breakpoint(small down) {
       left: 5%;

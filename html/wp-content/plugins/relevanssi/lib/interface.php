@@ -317,8 +317,22 @@ function update_relevanssi_options() {
 
 	if ( isset( $_REQUEST['relevanssi_excat'] ) ) {
 		if ( is_array( $_REQUEST['relevanssi_excat'] ) ) {
-			$csv_cats = implode( ',', $_REQUEST['relevanssi_excat'] );
-			update_option( 'relevanssi_excat', $csv_cats );
+			$array_excats = $_REQUEST['relevanssi_excat'];
+			$cat          = get_option( 'relevanssi_cat' );
+			if ( $cat ) {
+				$array_cats   = explode( ',', $cat );
+				$valid_excats = array();
+				foreach ( $array_excats as $excat ) {
+					if ( ! in_array( $excat, $array_cats, true ) ) {
+						$valid_excats[] = $excat;
+					}
+				}
+			} else {
+				// No category restrictions, so everything's good.
+				$valid_excats = $array_excats;
+			}
+			$csv_excats = implode( ',', $valid_excats );
+			update_option( 'relevanssi_excat', $csv_excats );
 		}
 	} else {
 		if ( isset( $_REQUEST['relevanssi_excat_active'] ) ) {
@@ -781,8 +795,8 @@ function relevanssi_options_form() {
 	<a href="<?php echo esc_attr( $this_page ); ?>&amp;tab=stopwords" class="nav-tab <?php echo 'stopwords' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Stopwords', 'relevanssi' ); ?></a>
 	<a href="<?php echo esc_attr( $this_page ); ?>&amp;tab=redirects" class="nav-tab <?php echo 'redirects' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Redirects', 'relevanssi' ); ?></a>
 	<?php if ( RELEVANSSI_PREMIUM ) : ?>
+	<a href="<?php echo esc_attr( $this_page ); ?>&amp;tab=related" class="nav-tab <?php echo 'related' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Related', 'relevanssi' ); ?></a>
 	<a href="<?php echo esc_attr( $this_page ); ?>&amp;tab=importexport" class="nav-tab <?php echo 'importexport' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Import / Export options', 'relevanssi' ); ?></a>
-	<a href="<?php echo esc_attr( $this_page ); ?>&amp;tab=search" class="nav-tab <?php echo 'search' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php echo esc_html_x( 'Search', 'noun', 'relevanssi' ); ?></a>
 	<?php endif; ?>
 </h2>
 
@@ -832,6 +846,12 @@ function relevanssi_options_form() {
 		if ( RELEVANSSI_PREMIUM ) {
 			require_once dirname( $relevanssi_variables['file'] ) . '/premium/tabs/import-export-tab.php';
 			relevanssi_import_export_tab();
+		}
+	}
+	if ( 'related' === $active_tab ) {
+		if ( RELEVANSSI_PREMIUM ) {
+			require_once dirname( $relevanssi_variables['file'] ) . '/premium/tabs/related-tab.php';
+			relevanssi_related_tab();
 		}
 	}
 	if ( 'redirects' === $active_tab ) {

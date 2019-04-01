@@ -41,9 +41,6 @@ wp_enqueue_script('jquery-ui-sortable');
                             case 'enabled':
                                 _e('Enabled', 'nextend-facebook-connect');
                                 break;
-                            case 'legacy':
-                                _e('Legacy', 'nextend-facebook-connect');
-                                break;
                         }
                         ?>
                     </div>
@@ -94,13 +91,6 @@ wp_enqueue_script('jquery-ui-sortable');
                             <a href="<?php echo $providerAdmin->getUrl('settings'); ?>"
                                class="button button-secondary">
 								<?php _e('Settings', 'nextend-facebook-connect'); ?>
-                            </a>
-                            <?php
-                            break;
-                        case 'legacy':
-                            ?>
-                            <a href="<?php echo $providerAdmin->getUrl('import'); ?>" class="button button-primary">
-								<?php _e('Import', 'nextend-facebook-connect'); ?>
                             </a>
                             <?php
                             break;

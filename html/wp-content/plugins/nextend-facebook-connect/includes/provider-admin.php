@@ -70,7 +70,7 @@ class NextendSocialProviderAdmin {
 
         if (isset($postedData['custom_icon_button'])) {
             if (isset($postedData['custom_icon_button_enabled']) && $postedData['custom_icon_button_enabled'] == '1') {
-                $newData['custom_icon_button'] = wp_kses_post($postedData['custom_icon_button']);
+                $newData['custom_icon_button'] = $postedData['custom_icon_button'];
             } else {
                 if ($postedData['custom_icon_button'] != '') {
                     $newData['custom_icon_button'] = '';
@@ -120,7 +120,7 @@ class NextendSocialProviderAdmin {
 
     /**
      * @param $subview
-     * Display the requested subview if it is not a legacy/import subview.
+     * Display the requested subview
      */
     protected function displaySubView($subview) {
         if (!$this->provider->adminDisplaySubView($subview)) {

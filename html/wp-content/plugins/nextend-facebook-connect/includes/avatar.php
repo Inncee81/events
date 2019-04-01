@@ -2,6 +2,19 @@
 
 class NextendSocialLoginAvatar {
 
+    /**
+     * @return NextendSocialLoginAvatar
+     */
+    public static function getInstance() {
+        static $inst = null;
+        if ($inst === null) {
+            $inst = new self();
+        }
+
+        return $inst;
+    }
+
+
     public function __construct() {
         if (NextendSocialLogin::$settings->get('avatar_store')) {
             add_action('nsl_update_avatar', array(
@@ -11,7 +24,7 @@ class NextendSocialLoginAvatar {
 
             // WP User Avatar https://wordpress.org/plugins/wp-user-avatar/
             // Ultimate member
-            if (!defined('WPUA_VERSION') && !class_exists('UM', false)) {
+            if (!defined('WPUA_VERSION') && !class_exists('UM', false) && !class_exists('buddypress', false)) {
                 add_filter('get_avatar', array(
                     $this,
                     'renderAvatar'
@@ -63,11 +76,16 @@ class NextendSocialLoginAvatar {
                 'compare' => 'EXISTS'
             );
         } else {
-            $query['meta_query']['relation'] = 'AND';
-            $query['meta_query'][]           = array(
-                'key'     => '_wp_attachment_wp_user_avatar',
-                'compare' => 'NOT EXISTS'
-            );
+            $avatars_in_all_media = NextendSocialLogin::$settings->get('avatars_in_all_media');
+
+            //Avatars will be loaded in Media Libray Grid view - All media items if $avatars_in_all_media is disabled!
+            if (!$avatars_in_all_media) {
+                $query['meta_query']['relation'] = 'AND';
+                $query['meta_query'][]           = array(
+                    'key'     => '_wp_attachment_wp_user_avatar',
+                    'compare' => 'NOT EXISTS'
+                );
+            }
         }
 
         return $query;
@@ -123,6 +141,9 @@ class NextendSocialLoginAvatar {
                     $avatarTempPath = download_url($avatarUrl);
 
                     if (!is_wp_error($avatarTempPath)) {
+                        if (!function_exists('xprofile_avatar_upload_dir')) {
+                            require_once(buddypress()->plugin_dir . '/bp-xprofile/bp-xprofile-functions.php');
+                        }
                         $pathInfo = xprofile_avatar_upload_dir('avatars', $user_id);
 
                         if (wp_mkdir_p($pathInfo['path'])) {
@@ -378,4 +399,4 @@ class NextendSocialLoginAvatar {
     }
 }
 
-new NextendSocialLoginAvatar();
+NextendSocialLoginAvatar::getInstance();

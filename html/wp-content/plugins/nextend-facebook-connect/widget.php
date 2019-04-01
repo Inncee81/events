@@ -16,6 +16,8 @@ class Nextend_Social_Login_Widget extends WP_Widget {
 
         $style = isset($instance['style']) ? $instance['style'] : 'default';
 
+        $align = isset($instance['align']) ? $instance['align'] : 'left';
+
         $loginButtons = isset($instance['login-buttons']) ? !!intval($instance['login-buttons']) : true;
 
         $linkButtons = isset($instance['link-buttons']) ? !!intval($instance['link-buttons']) : false;
@@ -46,6 +48,25 @@ class Nextend_Social_Login_Widget extends WP_Widget {
                 <br>
             </p>
         <?php endif; ?>
+
+        <p>
+                <label for="<?php echo $this->get_field_id('align'); ?>"><?php _e('Button align:', 'nextend-facebook-connect'); ?></label><br>
+                <input class="widefat" id="<?php echo $this->get_field_id('align_left'); ?>"
+                       name="<?php echo $this->get_field_name('align'); ?>" type="radio" value="left"
+                       <?php if ($align == 'left'): ?>checked<?php endif; ?>/>
+                <label for="<?php echo $this->get_field_id('align_left'); ?>"><?php _e('Left', 'nextend-facebook-connect'); ?></label>
+                <br>
+                <input class="widefat" id="<?php echo $this->get_field_id('align_center'); ?>"
+                       name="<?php echo $this->get_field_name('align'); ?>" type="radio" value="center"
+                       <?php if ($align == 'center'): ?>checked<?php endif; ?>/>
+                <label for="<?php echo $this->get_field_id('align_center'); ?>"><?php _e('Center', 'nextend-facebook-connect'); ?></label>
+                <br>
+                <input class="widefat" id="<?php echo $this->get_field_id('align_right'); ?>"
+                       name="<?php echo $this->get_field_name('align'); ?>" type="radio" value="right"
+                       <?php if ($align == 'right'): ?>checked<?php endif; ?>/>
+                <label for="<?php echo $this->get_field_id('align_right'); ?>"><?php _e('Right', 'nextend-facebook-connect'); ?></label>
+                <br>
+            </p>
 
         <p>
             <input name="<?php echo $this->get_field_name('login-buttons'); ?>" type="hidden" value="0"/>
@@ -83,6 +104,8 @@ class Nextend_Social_Login_Widget extends WP_Widget {
 
         $style = !empty($instance['style']) ? $instance['style'] : 'default';
 
+        $align = !empty($instance['align']) ? $instance['align'] : 'left';
+
         $loginButtons  = isset($instance['login-buttons']) ? intval($instance['login-buttons']) : 1;
         $linkButtons   = isset($instance['link-buttons']) ? intval($instance['link-buttons']) : 0;
         $unlinkButtons = isset($instance['unlink-buttons']) ? intval($instance['unlink-buttons']) : 0;
@@ -92,7 +115,7 @@ class Nextend_Social_Login_Widget extends WP_Widget {
             echo $args['before_title'] . $title . $args['after_title'];
         }
 
-        echo do_shortcode('[nextend_social_login style="' . $style . '" login="' . $loginButtons . '" link="' . $linkButtons . '" unlink="' . $unlinkButtons . '"]');
+        echo do_shortcode('[nextend_social_login style="' . $style . '" login="' . $loginButtons . '" link="' . $linkButtons . '" unlink="' . $unlinkButtons . '" align="' . $align . '"]');
 
         echo $args['after_widget'];
     }

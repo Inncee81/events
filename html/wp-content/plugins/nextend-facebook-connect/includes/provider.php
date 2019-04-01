@@ -348,13 +348,27 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                     <script type="text/javascript">
 						try {
                             if (window.opener !== null && window.opener !== window) {
-                                window.opener.location = <?php echo wp_json_encode($this->getLoginUrl()); ?>;
-                                window.close();
+                                var sameOrigin = true;
+                                try {
+                                    var currentOrigin = window.location.protocol + '//' + window.location.hostname;
+                                    if (window.opener.location.href.substring(0, currentOrigin.length) !== currentOrigin) {
+                                        sameOrigin = false;
+                                    }
+
+                                } catch (e) {
+                                    // Blocked cross origin
+                                    sameOrigin = false;
+                                }
+                                if (sameOrigin) {
+                                    window.opener.location = <?php echo wp_json_encode($this->getLoginUrl()); ?>;
+                                    window.close();
+                                } else {
+                                    window.location.reload(true);
+                                }
                             } else {
                                 window.location.reload(true);
                             }
-                        }
-                        catch (e) {
+                        } catch (e) {
                             window.location.reload(true);
                         }
                     </script>
@@ -463,11 +477,16 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     }
 
     protected function unlinkUser() {
-        $user_info = wp_get_current_user();
-        if ($user_info->ID) {
-            $this->removeConnectionByUserID($user_info->ID);
+        //Filter to disable unlinking social accounts
+        $unlinkAllowed = apply_filters('nsl_allow_unlink', true);
+        
+        if ($unlinkAllowed) {
+            $user_info = wp_get_current_user();
+            if ($user_info->ID) {
+                $this->removeConnectionByUserID($user_info->ID);
 
-            return true;
+                return true;
+            }
         }
 
         return false;
@@ -600,6 +619,8 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             if (isset($_GET['action']) && $_GET['action'] == 'unlink') {
                 if ($this->unlinkUser()) {
                     \NSL\Notices::addSuccess(__('Unlink successful.', 'nextend-facebook-connect'));
+                } else {
+                    \NSL\Notices::addError(__('Unlink is not allowed!', 'nextend-facebook-connect'));
                 }
             }
 
@@ -722,6 +743,13 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                 } else {
                     $redirect_to = $requested_redirect_to;
                 }
+                $redirect_to = wp_sanitize_redirect($redirect_to);
+                $redirect_to = wp_validate_redirect($redirect_to, site_url());
+
+                $redirect_to = $this->validateRedirect($redirect_to);
+            } else if (!empty($_GET['redirect']) && NextendSocialLogin::isAllowedRedirectUrl($_GET['redirect'])) {
+                $redirect_to = $_GET['redirect'];
+
                 $redirect_to = wp_sanitize_redirect($redirect_to);
                 $redirect_to = wp_validate_redirect($redirect_to, site_url());
 
@@ -853,10 +881,22 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
                 <script type="text/javascript">
 					try {
                         if (window.opener !== null && window.opener !== window) {
-                            window.close();
+                            var sameOrigin = true;
+                            try {
+                                var currentOrigin = window.location.protocol + '//' + window.location.hostname;
+                                if (window.opener.location.href.substring(0, currentOrigin.length) !== currentOrigin) {
+                                    sameOrigin = false;
+                                }
+
+                            } catch (e) {
+                                // Blocked cross origin
+                                sameOrigin = false;
+                            }
+                            if (sameOrigin) {
+                                window.close();
+                            }
                         }
-                    }
-                    catch (e) {
+                    } catch (e) {
                     }
                     window.location = <?php echo wp_json_encode($url); ?>;
                 </script>
@@ -930,8 +970,21 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             <script type="text/javascript">
 				try {
                     if (window.opener !== null && window.opener !== window) {
-                        window.opener.location = <?php echo wp_json_encode($url); ?>;
-                        window.close();
+                        var sameOrigin = true;
+                        try {
+                            var currentOrigin = window.location.protocol + '//' + window.location.hostname;
+                            if (window.opener.location.href.substring(0, currentOrigin.length) !== currentOrigin) {
+                                sameOrigin = false;
+                            }
+
+                        } catch (e) {
+                            // Blocked cross origin
+                            sameOrigin = false;
+                        }
+                        if (sameOrigin) {
+                            window.opener.location = <?php echo wp_json_encode($url); ?>;
+                            window.close();
+                        }
                     }
                 }
                 catch (e) {

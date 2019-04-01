@@ -9,19 +9,20 @@
 
 
     if (NextendSocialLoginAdmin::isPro()) {
+        $activation_data = NextendSocialLogin::getLicense();
+
         $proAddonState = NextendSocialLoginAdmin::getProState();
         echo "<p><b>Pro Addon State</b>: " . $proAddonState . "</p>";
 
-        $authorizedDomain = NextendSocialLogin::$settings->get('authorized_domain');
-        echo "<p><b>Authorized Domain</b>: " . $authorizedDomain . "</p>";
+        echo "<p><b>Authorized Domain</b>: " . $activation_data['domain'] . "</p>";
 
         $currentDomain = NextendSocialLogin::getDomain();
         echo "<p><b>Current Domain</b>: " . $currentDomain . "</p><br>";
 
-        $licenseKey = substr(NextendSocialLogin::$settings->get('license_key'), 0, 8);
+        $licenseKey = substr($activation_data['license_key'], 0, 8);
         echo "<p><b>License Key</b>: " . $licenseKey . "...</p>";
 
-        $isLicenseKeyOk = NextendSocialLogin::$settings->get('license_key_ok');
+        $isLicenseKeyOk = NextendSocialLogin::hasLicense();
         echo "<p><b>License Key OK</b>: " . (boolval($isLicenseKeyOk) ? 'Yes' : 'No') . "</p><br>";
     }
 

@@ -252,7 +252,7 @@ function iis7_save_url_rewrite_rules() {
 
 	// Using win_is_writable() instead of is_writable() because of a bug in Windows PHP
 	if ( iis7_supports_permalinks() && ( ( ! file_exists( $web_config_file ) && win_is_writable( $home_path ) && $wp_rewrite->using_mod_rewrite_permalinks() ) || win_is_writable( $web_config_file ) ) ) {
-		$rule = $wp_rewrite->iis7_url_rewrite_rules( false, '', '' );
+		$rule = $wp_rewrite->iis7_url_rewrite_rules( false );
 		if ( ! empty( $rule ) ) {
 			return iis7_add_rewrite_rule( $web_config_file, $rule );
 		} else {
@@ -313,6 +313,10 @@ function wp_make_theme_file_tree( $allowed_files ) {
  * @since 4.9.0
  * @access private
  *
+ * @global string $relative_file Name of the file being edited relative to the
+ *                               theme directory.
+ * @global string $stylesheet    The stylesheet name of the theme being edited.
+ *
  * @param array|string $tree  List of file/folder paths, or filename.
  * @param int          $level The aria-level for the current iteration.
  * @param int          $size  The aria-setsize for the current iteration.
@@ -358,7 +362,7 @@ function wp_print_theme_file_tree( $tree, $level = 2, $size = 1, $index = 1 ) {
 				aria-posinset="<?php echo esc_attr( $index ); ?>">
 				<?php
 				$file_description = esc_html( get_file_description( $filename ) );
-				if ( $file_description !== $filename && basename( $filename ) !== $file_description ) {
+				if ( $file_description !== $filename && wp_basename( $filename ) !== $file_description ) {
 					$file_description .= '<br /><span class="nonessential">(' . esc_html( $filename ) . ')</span>';
 				}
 
@@ -380,7 +384,7 @@ function wp_print_theme_file_tree( $tree, $level = 2, $size = 1, $index = 1 ) {
  * @since 4.9.0
  * @access private
  *
- * @param string $plugin_editable_files List of plugin file paths.
+ * @param array $plugin_editable_files List of plugin file paths.
  * @return array Tree structure for listing plugin files.
  */
 function wp_make_plugin_file_tree( $plugin_editable_files ) {
@@ -647,7 +651,7 @@ function set_screen_options() {
 				 *
 				 * @see set_screen_options()
 				 *
-				 * @param bool|int $value  Screen option value. Default false to skip.
+				 * @param bool     $keep   Whether to save or skip saving the screen option value. Default false.
 				 * @param string   $option The option name.
 				 * @param int      $value  The number of rows to use.
 				 */
@@ -1078,8 +1082,6 @@ function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 function wp_refresh_heartbeat_nonces( $response ) {
 	// Refresh the Rest API nonce.
 	$response['rest_nonce'] = wp_create_nonce( 'wp_rest' );
-	// TEMPORARY: Compat with api-fetch library
-	$response['rest-nonce'] = $response['rest_nonce'];
 
 	// Refresh the Heartbeat nonce.
 	$response['heartbeat_nonce'] = wp_create_nonce( 'heartbeat-nonce' );
@@ -1640,7 +1642,7 @@ final class WP_Privacy_Policy_Content {
 			/* translators: 1: Privacy Policy guide URL, 2: additional link attributes, 3: accessibility text */
 			printf(
 				__( 'Need help putting together your new Privacy Policy page? <a href="%1$s" %2$s>Check out our guide%3$s</a> for recommendations on what content to include, along with policies suggested by your plugins and theme.' ),
-				admin_url( 'tools.php?wp-privacy-policy-guide=1' ),
+				esc_url( admin_url( 'tools.php?wp-privacy-policy-guide=1' ) ),
 				'target="_blank"',
 				sprintf(
 					'<span class="screen-reader-text"> %s</span>',
@@ -1667,7 +1669,7 @@ final class WP_Privacy_Policy_Content {
 		$content       = '';
 		$toc           = array( '<li><a href="#wp-privacy-policy-guide-introduction">' . __( 'Introduction' ) . '</a></li>' );
 		$date_format   = __( 'F j, Y' );
-		$copy          = __( 'Copy' );
+		$copy          = __( 'Copy this section to clipboard' );
 		$return_to_top = '<a href="#" class="return-to-top">' . __( '&uarr; Return to Top' ) . '</a>';
 
 		foreach ( $content_array as $section ) {
@@ -1837,7 +1839,7 @@ final class WP_Privacy_Policy_Content {
 		/* translators: default privacy policy text. */
 		$strings[] = '<p>' . $suggested_text . __( 'If you leave a comment on our site you may opt-in to saving your name, email address and website in cookies. These are for your convenience so that you do not have to fill in your details again when you leave another comment. These cookies will last for one year.' ) . '</p>';
 		/* translators: default privacy policy text. */
-		$strings[] = '<p>' . __( 'If you have an account and you log in to this site, we will set a temporary cookie to determine if your browser accepts cookies. This cookie contains no personal data and is discarded when you close your browser.' ) . '</p>';
+		$strings[] = '<p>' . __( 'If you visit our login page, we will set a temporary cookie to determine if your browser accepts cookies. This cookie contains no personal data and is discarded when you close your browser.' ) . '</p>';
 		/* translators: default privacy policy text. */
 		$strings[] = '<p>' . __( 'When you log in, we will also set up several cookies to save your login information and your screen display choices. Login cookies last for two days, and screen options cookies last for a year. If you select &quot;Remember Me&quot;, your login will persist for two weeks. If you log out of your account, the login cookies will be removed.' ) . '</p>';
 		/* translators: default privacy policy text. */
@@ -1989,10 +1991,10 @@ final class WP_Privacy_Policy_Content {
 		 * @since 4.9.6
 		 * @since 5.0.0 Added the `$strings`, `$description`, and `$blocks` parameters.
 		 *
-		 * @param $content     string The default policy content.
-		 * @param $strings     array  An array of privacy policy content strings.
-		 * @param $description bool   Whether policy descriptions should be included.
-		 * @param $blocks      bool   Whether the content should be formatted for the block editor.
+		 * @param string $content     The default policy content.
+		 * @param array  $strings     An array of privacy policy content strings.
+		 * @param bool   $description Whether policy descriptions should be included.
+		 * @param bool   $blocks      Whether the content should be formatted for the block editor.
 		 */
 		return apply_filters( 'wp_get_default_privacy_policy_content', $content, $strings, $description, $blocks );
 	}
@@ -2006,4 +2008,67 @@ final class WP_Privacy_Policy_Content {
 		$content = self::get_default_content( true, false );
 		wp_add_privacy_policy_content( __( 'WordPress' ), $content );
 	}
+}
+
+/**
+ * Checks if the user needs to update PHP.
+ *
+ * @since 5.1.0
+ * @since 5.1.1 Added the {@see 'wp_is_php_version_acceptable'} filter.
+ *
+ * @return array|false $response Array of PHP version data. False on failure.
+ */
+function wp_check_php_version() {
+	$version = phpversion();
+	$key     = md5( $version );
+
+	$response = get_site_transient( 'php_check_' . $key );
+	if ( false === $response ) {
+		$url = 'http://api.wordpress.org/core/serve-happy/1.0/';
+		if ( wp_http_supports( array( 'ssl' ) ) ) {
+			$url = set_url_scheme( $url, 'https' );
+		}
+
+		$url = add_query_arg( 'php_version', $version, $url );
+
+		$response = wp_remote_get( $url );
+
+		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			return false;
+		}
+
+		/**
+		 * Response should be an array with:
+		 *  'recommended_version' - string - The PHP version recommended by WordPress.
+		 *  'is_supported' - boolean - Whether the PHP version is actively supported.
+		 *  'is_secure' - boolean - Whether the PHP version receives security updates.
+		 *  'is_acceptable' - boolean - Whether the PHP version is still acceptable for WordPress.
+		 */
+		$response = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		if ( ! is_array( $response ) ) {
+			return false;
+		}
+
+		set_site_transient( 'php_check_' . $key, $response, WEEK_IN_SECONDS );
+	}
+
+	if ( isset( $response['is_acceptable'] ) && $response['is_acceptable'] ) {
+		/**
+		 * Filters whether the active PHP version is considered acceptable by WordPress.
+		 *
+		 * Returning false will trigger a PHP version warning to show up in the admin dashboard to administrators.
+		 *
+		 * This filter is only run if the wordpress.org Serve Happy API considers the PHP version acceptable, ensuring
+		 * that this filter can only make this check stricter, but not loosen it.
+		 *
+		 * @since 5.1.1
+		 *
+		 * @param bool   $is_acceptable Whether the PHP version is considered acceptable. Default true.
+		 * @param string $version       PHP version checked.
+		 */
+		$response['is_acceptable'] = (bool) apply_filters( 'wp_is_php_version_acceptable', true, $version );
+	}
+
+	return $response;
 }

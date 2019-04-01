@@ -62,9 +62,6 @@ class NextendSocialLoginAdmin {
             case 'fix-redirect-uri':
                 self::display_admin_area('fix-redirect-uri');
                 break;
-            case 'domain-changed':
-                self::display_admin_area('domain-changed');
-                break;
             case 'debug':
                 self::display_admin_area('debug');
                 break;
@@ -240,7 +237,7 @@ class NextendSocialLoginAdmin {
 
                 NextendSocialLogin::$settings->update($_POST);
 
-                if (NextendSocialLogin::$settings->get('license_key_ok') == '1') {
+                if (NextendSocialLogin::hasLicense()) {
                     \NSL\Notices::addSuccess(__('The activation was successful', 'nextend-facebook-connect'));
                 }
 
@@ -257,18 +254,6 @@ class NextendSocialLoginAdmin {
                 wp_redirect(self::getAdminUrl('pro-addon'));
                 exit;
 
-            } else if ($view == 'import') {
-                $provider = isset($_GET['provider']) ? $_GET['provider'] : '';
-                if (!empty($provider) && isset(NextendSocialLogin::$providers[$provider]) && NextendSocialLogin::$providers[$provider]->getState() == 'legacy') {
-                    NextendSocialLogin::$providers[$provider]->import();
-
-                    wp_redirect(NextendSocialLogin::$providers[$provider]->getAdmin()
-                                                                         ->getUrl('settings'));
-                    exit;
-                }
-
-                wp_redirect(NextendSocialLoginAdmin::getAdminUrl());
-                exit;
             } else if (substr($view, 0, 9) == 'provider-') {
                 $providerID = substr($view, 9);
                 if (isset(NextendSocialLogin::$providers[$providerID])) {
@@ -344,6 +329,7 @@ class NextendSocialLoginAdmin {
             switch ($key) {
                 case 'debug':
                 case 'login_restriction':
+                case 'avatars_in_all_media':
                 case 'terms_show':
                 case 'store_name':
                 case 'store_email':
@@ -363,8 +349,10 @@ class NextendSocialLoginAdmin {
                     $newData[$key] = sanitize_textarea_field($postedData[$key]);
                     break;
                 case 'show_login_form':
+                case 'login_form_button_align':
                 case 'show_registration_form':
                 case 'show_embedded_login_form':
+                case 'embedded_login_form_button_align':
                     $newData[$key] = sanitize_text_field($value);
                     break;
                 case 'enabled':
@@ -381,31 +369,29 @@ class NextendSocialLoginAdmin {
                     \NSL\Notices::clear();
 
                     $value = trim(sanitize_text_field($value));
-                    if ($value != NextendSocialLogin::$settings->get('license_key') || NextendSocialLogin::$settings->get('license_key_ok') == '0') {
-                        $newData['license_key_ok'] = '0';
 
-                        if (!empty($value)) {
-                            try {
-                                $response = self::apiCall('test-license', array('license_key' => $value));
-                                if ($response === 'OK') {
-                                    $newData[$key]             = $value;
-                                    $newData['license_key_ok'] = '1';
-
-                                    $newData['authorized_domain'] = NextendSocialLogin::getDomain();
-                                }
-                            } catch (Exception $e) {
-                                \NSL\Notices::addError($e->getMessage());
+                    if (!empty($value)) {
+                        try {
+                            $response = self::apiCall('test-license', array('license_key' => $value));
+                            if ($response === 'OK') {
+                                $newData['licenses'] = array(
+                                    array(
+                                        'license_key' => $value,
+                                        'domain'      => NextendSocialLogin::getDomain()
+                                    )
+                                );
                             }
+                        } catch (Exception $e) {
+                            \NSL\Notices::addError($e->getMessage());
                         }
+                    } else {
+                        delete_site_transient('update_plugins');
+                        $newData['licenses'] = array();
                     }
                     break;
                 case 'review_state':
                 case 'woocommerce_dismissed':
                     $newData[$key] = intval($value);
-                    break;
-
-                case 'authorized_domain':
-                    $newData[$key] = $value;
                     break;
                 case 'register-flow-page':
                 case 'proxy-page':
@@ -415,6 +401,18 @@ class NextendSocialLoginAdmin {
                         $newData[$key] = '';
                     }
                     break;
+
+                case 'allow_register':
+                    if ($value == '0') {
+                        $newData[$key] = 0;
+                    } else if ($value == '1') {
+                        $newData[$key] = 1;
+                    } else {
+                        $newData[$key] = -1;
+                    }
+                    break;
+
+
             }
         }
 
@@ -474,14 +472,22 @@ class NextendSocialLoginAdmin {
      */
     public static function apiCall($action, $args = array()) {
 
+        $body = array(
+            'platform' => 'wordpress',
+            'domain'   => NextendSocialLogin::getDomain()
+        );
+
+        $activation_data = NextendSocialLogin::getLicense();
+        if ($activation_data !== false) {
+            $body['license_key'] = $activation_data['license_key'];
+        } else {
+            $body['license_key'] = '';
+        }
+
         $http_args = array(
             'timeout'    => 15,
             'user-agent' => 'WordPress',
-            'body'       => array_merge(array(
-                'platform'    => 'wordpress',
-                'domain'      => NextendSocialLogin::getDomain(),
-                'license_key' => NextendSocialLogin::$settings->get('license_key')
-            ), $args)
+            'body'       => array_merge($body, $args)
         );
 
         $request = wp_remote_get(self::getEndpoint($action), $http_args);
@@ -515,11 +521,14 @@ class NextendSocialLoginAdmin {
     }
 
     public static function getProState() {
-        if (NextendSocialLogin::$settings->get('license_key_ok') == '1') {
+
+        if (NextendSocialLogin::hasLicense()) {
             if (self::isPro()) {
                 return 'activated';
             } else if (!current_user_can('install_plugins')) {
                 return 'no-capability';
+            } else if (class_exists('NextendSocialLoginPRO', false) && version_compare(NextendSocialLoginPRO::$version, NextendSocialLogin::$nslPROMinVersion, '<')) {
+                return 'not-compatible';
             } else {
                 if (file_exists(WP_PLUGIN_DIR . '/nextend-social-login-pro/nextend-social-login-pro.php')) {
                     return 'installed';
@@ -566,44 +575,6 @@ class NextendSocialLoginAdmin {
         }
     }
 
-    /* Legacy compatibility cessation notice */
-    public static function show_facebook_compat_cessation_notice() {
-        global $pagenow;
-        if (!($pagenow == 'options-general.php' && $_GET['view'] == 'provider-facebook' && $_GET['subview'] == 'import' )) {
-            echo '<div class="error">
-                <p>' . sprintf(__('%2$s detected that you have saved configurations related to %1$s, which is discontinued and the backwards compatibility will be removed in the next release of %2$s. Please import the current settings of %1$s and replace your old social buttons with NSL!', 'nextend-facebook-connect'), 'Nextend Facebook Connect', '<b>Nextend Social Login</b>') . '</p>
-                <p class="submit"><a href="' . add_query_arg(array(
-                    'subview' => 'import'
-                ), NextendSocialLoginAdmin::getAdminUrl('provider-google')) . '" class="button button-primary">' . __('Import', 'nextend-facebook-connect') . ' - Facebook ' . __('Legacy Settings', 'nextend-facebook-connect') . '</a></p>
-            </div>';
-        }
-    }
-
-    public static function show_google_compat_cessation_notice() {
-        global $pagenow;
-        if (!($pagenow == 'options-general.php' && $_GET['view'] == 'provider-google' && $_GET['subview'] == 'import' )) {
-            echo '<div class="error">
-                <p>' . sprintf(__('%2$s detected that you have saved configurations related to %1$s, which is discontinued and the backwards compatibility will be removed in the next release of %2$s. Please import the current settings of %1$s and replace your old social buttons with NSL!', 'nextend-facebook-connect'), 'Nextend Google Connect', '<b>Nextend Social Login</b>') . '</p>
-                <p class="submit"><a href="' . add_query_arg(array(
-                    'subview' => 'import'
-                ), NextendSocialLoginAdmin::getAdminUrl('provider-google')) . '" class="button button-primary">' . __('Import', 'nextend-facebook-connect') . ' - Google ' . __('Legacy Settings', 'nextend-facebook-connect') . '</a></p>
-            </div>';
-        }
-    }
-
-    public static function show_twitter_compat_cessation_notice() {
-        global $pagenow;
-        if (!($pagenow == 'options-general.php' && $_GET['view'] == 'provider-twitter' && $_GET['subview'] == 'import' )) {
-            echo '<div class="error">
-                <p>' . sprintf(__('%2$s detected that you have saved configurations related to %1$s, which is discontinued and the backwards compatibility will be removed in the next release of %2$s. Please import the current settings of %1$s  and replace your old social buttons with NSL!', 'nextend-facebook-connect'), 'Nextend Twitter Connect', '<b>Nextend Social Login</b>') . '</p>
-                <p class="submit"><a href="' . add_query_arg(array(
-                    'subview' => 'import'
-                ), NextendSocialLoginAdmin::getAdminUrl('provider-twitter')) . '" class="button button-primary">' . __('Import', 'nextend-facebook-connect') . ' - Twitter ' . __('Legacy Settings', 'nextend-facebook-connect') . '</a></p>
-            </div>';
-        }
-    }
-    /* Legacy compatibility cessation notice end */
-
     public static function show_woocommerce_notice() {
         $dismissUrl = wp_nonce_url(add_query_arg(array('redirect_to' => NextendSocialLogin::getCurrentPageURL()), NextendSocialLoginAdmin::getAdminUrl('dismiss_woocommerce')), 'nsl_dismiss_woocommerce');
         echo '<div class="notice notice-info">
@@ -644,7 +615,7 @@ class NextendSocialLoginAdmin {
 
         <p>
             <a href="#"
-               onclick="window.authorizeWindow = NSLPopupCenter('<?php echo $authorizeUrl; ?>', 'authorize-window', 800, 800);return false;"
+               onclick="NSLActivate()"
                class="button button-primary"><?php _e('Activate', 'nextend-facebook-connect'); ?></a>
         </p>
     </div>
@@ -681,14 +652,55 @@ class NextendSocialLoginAdmin {
                             }
 
                         }
-                    }
-                    catch (ex) {
+                    } catch (ex) {
                         console.error(ex);
                         console.log(e);
                     }
                 }
             });
         })(jQuery);
+
+        function NSLActivate() {
+            var isIE = (function detectIE() {
+                var ua = window.navigator.userAgent;
+
+                var msie = ua.indexOf('MSIE ');
+                if (msie > 0) {
+                    // IE 10 or older => return version number
+                    return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+                }
+
+                var trident = ua.indexOf('Trident/');
+                if (trident > 0) {
+                    // IE 11 => return version number
+                    var rv = ua.indexOf('rv:');
+                    return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+                }
+
+                var edge = ua.indexOf('Edge/');
+                if (edge > 0) {
+                    // Edge (IE 12+) => return version number
+                    return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+                }
+
+                // other browser
+                return false;
+            })();
+
+            if (isIE <= 11) {
+                /**
+                 * Trick for cross origin popup postMessage in IE 11
+                 * @see <https://stackoverflow.com/a/36630058/305604>
+                 */
+
+                window.authorizeWindow = NSLPopupCenter('/', 'authorize-window', 800, 800);
+                window.authorizeWindow.location.href = 'about:blank';
+                window.authorizeWindow.location.href = '<?php echo $authorizeUrl; ?>';
+            } else {
+                window.authorizeWindow = NSLPopupCenter('<?php echo $authorizeUrl; ?>', 'authorize-window', 800, 800);
+            }
+            return false;
+        }
     </script>
 
         <form id="nsl_license_form" method="post" action="<?php echo admin_url('admin-post.php'); ?>"
@@ -703,8 +715,15 @@ class NextendSocialLoginAdmin {
             <tr>
                 <th scope="row"><label
                             for="nsl_license_key"><?php _e('License key', 'nextend-facebook-connect'); ?></label></th>
+                <?php
+                $license_key    = '';
+                $authorizedData = NextendSocialLogin::getLicense();
+                if ($authorizedData !== false) {
+                    $license_key = $authorizedData['license_key'];
+                }
+                ?>
                 <td><input name="license_key" type="text" id="nsl_license_key"
-                           value="<?php echo esc_attr(NextendSocialLogin::$settings->get('license_key')); ?>"
+                           value="<?php echo esc_attr($license_key); ?>"
                            class="regular-text">
                 </td>
             </tr>

@@ -1,15 +1,15 @@
 <script type="text/javascript">
-	(function ($) {
-        $(document).ready(function () {
-            var $container = $('#<?php echo $containerID; ?>');
-            $container.find('.nsl-container')
-                .addClass('nsl-container-embedded-login-layout-below')
-                .css('display', 'block');
+  window._nsl.push(function ($) {
+      $(document).ready(function () {
+          var $container = $('#<?php echo $containerID; ?>');
+          $container.find('.nsl-container')
+              .addClass('nsl-container-embedded-login-layout-below')
+              .css('display', 'block');
 
-            $container
-                .appendTo($container.closest('form'));
-        });
-    }(jQuery));
+          $container
+              .appendTo($container.closest('form'));
+      });
+  });
 </script>
 <?php
 $style = '
