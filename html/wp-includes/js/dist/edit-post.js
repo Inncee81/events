@@ -405,14 +405,14 @@ function _objectWithoutProperties(source, excluded) {
 
 /***/ }),
 
-/***/ 23:
+/***/ 25:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["url"]; }());
 
 /***/ }),
 
-/***/ 24:
+/***/ 26:
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["hooks"]; }());
@@ -881,7 +881,7 @@ var external_this_wp_blockLibrary_ = __webpack_require__(226);
 var external_this_wp_data_ = __webpack_require__(5);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
-var external_this_wp_hooks_ = __webpack_require__(24);
+var external_this_wp_hooks_ = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/esm/classCallCheck.js
 var classCallCheck = __webpack_require__(10);
@@ -1365,7 +1365,7 @@ Object(external_this_wp_hooks_["addFilter"])('editor.BlockEdit', 'core/edit-post
 var external_this_wp_plugins_ = __webpack_require__(63);
 
 // EXTERNAL MODULE: external {"this":["wp","url"]}
-var external_this_wp_url_ = __webpack_require__(23);
+var external_this_wp_url_ = __webpack_require__(25);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/edit-post/build-module/plugins/copy-content-menu-item/index.js
 
@@ -2440,20 +2440,17 @@ var effects = {
       }
     });
     var wasSavingPost = Object(external_this_wp_data_["select"])('core/editor').isSavingPost();
-    var wasAutosavingPost = Object(external_this_wp_data_["select"])('core/editor').isAutosavingPost();
-    var wasPreviewingPost = Object(external_this_wp_data_["select"])('core/editor').isPreviewingPost(); // Save metaboxes when performing a full save on the post.
+    var wasAutosavingPost = Object(external_this_wp_data_["select"])('core/editor').isAutosavingPost(); // Save metaboxes when performing a full save on the post.
 
     Object(external_this_wp_data_["subscribe"])(function () {
       var isSavingPost = Object(external_this_wp_data_["select"])('core/editor').isSavingPost();
       var isAutosavingPost = Object(external_this_wp_data_["select"])('core/editor').isAutosavingPost();
-      var isPreviewingPost = Object(external_this_wp_data_["select"])('core/editor').isPreviewingPost();
       var hasActiveMetaBoxes = Object(external_this_wp_data_["select"])('core/edit-post').hasMetaBoxes(); // Save metaboxes on save completion, except for autosaves that are not a post preview.
 
-      var shouldTriggerMetaboxesSave = hasActiveMetaBoxes && (wasSavingPost && !isSavingPost && !wasAutosavingPost || wasAutosavingPost && wasPreviewingPost && !isPreviewingPost); // Save current state for next inspection.
+      var shouldTriggerMetaboxesSave = hasActiveMetaBoxes && wasSavingPost && !isSavingPost && !wasAutosavingPost; // Save current state for next inspection.
 
       wasSavingPost = isSavingPost;
       wasAutosavingPost = isAutosavingPost;
-      wasPreviewingPost = isPreviewingPost;
 
       if (shouldTriggerMetaboxesSave) {
         store.dispatch(requestMetaBoxUpdates());
@@ -3007,7 +3004,6 @@ function FeatureToggle(_ref) {
     isSelected: isActive,
     onClick: Object(external_lodash_["flow"])(onToggle, speakMessage),
     role: "menuitemcheckbox",
-    label: label,
     info: info
   }, label);
 }
@@ -3534,7 +3530,6 @@ function BlockInspectorButton(_ref) {
     className: "editor-block-settings-menu__control block-editor-block-settings-menu__control",
     onClick: Object(external_lodash_["flow"])(areAdvancedSettingsOpened ? closeSidebar : openEditorSidebar, speakMessage, onClick),
     icon: "admin-generic",
-    label: small ? label : undefined,
     shortcut: keyboard_shortcuts.toggleSidebar
   }, !small && label);
 }
@@ -3614,7 +3609,7 @@ PluginBlockSettingsMenuGroup.Slot = Object(external_this_wp_data_["withSelect"])
 function VisualEditor() {
   return Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockSelectionClearer"], {
     className: "edit-post-visual-editor editor-styles-wrapper"
-  }, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["VisualEditorGlobalKeyboardShortcuts"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["CopyHandler"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MultiSelectScrollIntoView"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["WritingFlow"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["ObserveTyping"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["PostTitle"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockList"], null))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["_BlockSettingsMenuFirstItem"], null, function (_ref) {
+  }, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["VisualEditorGlobalKeyboardShortcuts"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["MultiSelectScrollIntoView"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["WritingFlow"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["ObserveTyping"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["CopyHandler"], null, Object(external_this_wp_element_["createElement"])(external_this_wp_editor_["PostTitle"], null), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["BlockList"], null)))), Object(external_this_wp_element_["createElement"])(external_this_wp_blockEditor_["_BlockSettingsMenuFirstItem"], null, function (_ref) {
     var onClose = _ref.onClose;
     return Object(external_this_wp_element_["createElement"])(block_inspector_button, {
       onClick: onClose
@@ -3754,8 +3749,7 @@ var primary = external_this_wp_keycodes_["displayShortcutList"].primary,
     access = external_this_wp_keycodes_["displayShortcutList"].access,
     ctrl = external_this_wp_keycodes_["displayShortcutList"].ctrl,
     alt = external_this_wp_keycodes_["displayShortcutList"].alt,
-    ctrlShift = external_this_wp_keycodes_["displayShortcutList"].ctrlShift,
-    shiftAlt = external_this_wp_keycodes_["displayShortcutList"].shiftAlt;
+    ctrlShift = external_this_wp_keycodes_["displayShortcutList"].ctrlShift;
 var globalShortcuts = {
   title: Object(external_this_wp_i18n_["__"])('Global shortcuts'),
   shortcuts: [{
@@ -3786,10 +3780,10 @@ var globalShortcuts = {
     description: Object(external_this_wp_i18n_["__"])('Navigate to the previous part of the editor.'),
     ariaLabel: external_this_wp_keycodes_["shortcutAriaLabel"].ctrlShift('`')
   }, {
-    keyCombination: shiftAlt('n'),
+    keyCombination: access('n'),
     description: Object(external_this_wp_i18n_["__"])('Navigate to the next part of the editor (alternative).')
   }, {
-    keyCombination: shiftAlt('p'),
+    keyCombination: access('p'),
     description: Object(external_this_wp_i18n_["__"])('Navigate to the previous part of the editor (alternative).')
   }, {
     keyCombination: alt('F10'),
@@ -6500,7 +6494,7 @@ var plugin_block_settings_menu_item_PluginBlockSettingsMenuItem = function Plugi
       return null;
     }
 
-    return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["IconButton"], {
+    return Object(external_this_wp_element_["createElement"])(external_this_wp_components_["MenuItem"], {
       className: "editor-block-settings-menu__control",
       onClick: Object(external_this_wp_compose_["compose"])(onClick, onClose),
       icon: icon || 'admin-plugins',

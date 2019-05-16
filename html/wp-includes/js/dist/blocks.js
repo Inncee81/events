@@ -5362,14 +5362,14 @@ if (true) {
 /***/ 24:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["hooks"]; }());
+(function() { module.exports = this["wp"]["dom"]; }());
 
 /***/ }),
 
-/***/ 25:
+/***/ 26:
 /***/ (function(module, exports) {
 
-(function() { module.exports = this["wp"]["dom"]; }());
+(function() { module.exports = this["wp"]["hooks"]; }());
 
 /***/ }),
 
@@ -6322,7 +6322,7 @@ var v4 = __webpack_require__(65);
 var v4_default = /*#__PURE__*/__webpack_require__.n(v4);
 
 // EXTERNAL MODULE: external {"this":["wp","hooks"]}
-var external_this_wp_hooks_ = __webpack_require__(24);
+var external_this_wp_hooks_ = __webpack_require__(26);
 
 // EXTERNAL MODULE: ./node_modules/tinycolor2/tinycolor.js
 var tinycolor = __webpack_require__(45);
@@ -9736,7 +9736,7 @@ var parseWithGrammar = createParse(external_this_wp_blockSerializationDefaultPar
 /* harmony default export */ var parser = (parseWithGrammar);
 
 // EXTERNAL MODULE: external {"this":["wp","dom"]}
-var external_this_wp_dom_ = __webpack_require__(25);
+var external_this_wp_dom_ = __webpack_require__(24);
 
 // CONCATENATED MODULE: ./node_modules/@wordpress/blocks/build-module/api/raw-handling/phrasing-content.js
 /**
@@ -10974,10 +10974,15 @@ function pasteHandler(_ref3) {
       _ref3$canUserUseUnfil = _ref3.canUserUseUnfilteredHTML,
       canUserUseUnfilteredHTML = _ref3$canUserUseUnfil === void 0 ? false : _ref3$canUserUseUnfil;
   // First of all, strip any meta tags.
-  HTML = HTML.replace(/<meta[^>]+>/, ''); // If we detect block delimiters, parse entirely as blocks.
+  HTML = HTML.replace(/<meta[^>]+>/, ''); // If we detect block delimiters in HTML, parse entirely as blocks.
 
-  if (mode !== 'INLINE' && HTML.indexOf('<!-- wp:') !== -1) {
-    return parseWithGrammar(HTML);
+  if (mode !== 'INLINE') {
+    // Check plain text if there is no HTML.
+    var content = HTML ? HTML : plainText;
+
+    if (content.indexOf('<!-- wp:') !== -1) {
+      return parseWithGrammar(content);
+    }
   } // Normalize unicode to use composed characters.
   // This is unsupported in IE 11 but it's a nice-to-have feature, not mandatory.
   // Not normalizing the content will only affect older browsers and won't
