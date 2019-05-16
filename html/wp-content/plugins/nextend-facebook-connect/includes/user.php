@@ -106,8 +106,17 @@ class NextendSocialUser {
             if (apply_filters('nsl_is_register_allowed', true, $this->provider)) {
                 $this->register($providerUserID, $email);
             } else {
-                //unset the cookie SESSnsl so users can re-authenticate
-                \NSL\Persistent\Persistent::clear();
+                //unset the persistent data, so if an error happened, the user can re-authenticate with providers (Google) that offer account selector screen
+                \NSL\Persistent\Persistent::delete($this->provider->getId() . '_at');
+                \NSL\Persistent\Persistent::delete($this->provider->getId() . '_state');
+
+
+                if (!empty(NextendSocialLogin::$settings->get('proxy-page'))) {
+                    $errors = new WP_Error();
+                    $errors->add('registerdisabled', __('User registration is currently not allowed.'));
+                    \NSL\Notices::addError($errors->get_error_message());
+                }
+
 
                 NextendSocialProvider::redirect(__('Authentication error', 'nextend-facebook-connect'), add_query_arg('registration', 'disabled', NextendSocialLogin::getLoginUrl()));
                 exit;
@@ -244,6 +253,14 @@ class NextendSocialUser {
                 remove_action('register_post', array(
                     pw_new_user_approve::instance(),
                     'create_new_user'
+                ), 10);
+            }
+
+            //Ultimate Member redirects before we update the Avatar, we need to sync before the redirect
+            if (class_exists('UM', false)) {
+                add_action('um_registration_after_auto_login', array(
+                    $this,
+                    'syncProfileUser'
                 ), 10);
             }
 
@@ -600,5 +617,9 @@ class NextendSocialUser {
             ?>
         </p>
         <?php
+    }
+
+    public function syncProfileUser($user_id) {
+        $this->provider->syncProfile($user_id, $this->provider, $this->access_token);
     }
 }

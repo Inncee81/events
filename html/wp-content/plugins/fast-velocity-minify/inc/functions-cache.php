@@ -289,12 +289,6 @@ if (function_exists('rocket_clean_domain')) {
 	return __('<div class="notice notice-info is-dismissible"><p>All caches from <strong>WP Rocket</strong> have also been purged.</p></div>');
 }
 
-# Purge Wp Fastest Cache
-if(isset($GLOBALS['wp_fastest_cache']) && method_exists($GLOBALS['wp_fastest_cache'], 'deleteCache')){
-	$GLOBALS['wp_fastest_cache']->deleteCache();
-	return __('<div class="notice notice-info is-dismissible"><p>All caches from <strong>Wp Fastest Cache</strong> have also been purged.</p></div>');
-}
-
 # Purge Cachify
 if (function_exists('cachify_flush_cache')) {
 	cachify_flush_cache();
@@ -326,9 +320,9 @@ if (function_exists('sg_cachepress_purge_cache')) {
 }
 
 # Purge Hyper Cache
-if (function_exists('hyper_cache_flush_all')) {
-	hyper_cache_flush_all();
-	return __( '<div class="notice notice-info is-dismissible"><p>All caches from <strong>HyperCache</strong> have also been purged.</p></div>');
+if (class_exists( 'HyperCache' )) {
+    do_action( 'autoptimize_action_cachepurged' );
+    return __( '<div class="notice notice-info is-dismissible"><p>All caches from <strong>HyperCache</strong> have also been purged.</p></div>');
 }
 
 # Purge Godaddy Managed WordPress Hosting (Varnish + APC)

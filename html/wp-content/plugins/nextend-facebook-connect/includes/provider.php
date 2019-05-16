@@ -479,7 +479,7 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
     protected function unlinkUser() {
         //Filter to disable unlinking social accounts
         $unlinkAllowed = apply_filters('nsl_allow_unlink', true);
-        
+
         if ($unlinkAllowed) {
             $user_info = wp_get_current_user();
             if ($user_info->ID) {
@@ -552,6 +552,8 @@ abstract class NextendSocialProvider extends NextendSocialProviderDummy {
             $arg['redirect'] = urlencode($redirectTo);
         } else if (!empty($_GET['redirect_to'])) {
             $arg['redirect'] = urlencode($_GET['redirect_to']);
+        } else {
+            $arg['redirect'] = NextendSocialLogin::getCurrentPageURL();
         }
 
         if ($trackerData !== false) {

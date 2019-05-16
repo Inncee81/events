@@ -15,7 +15,6 @@ div.nsl-container .nsl-container-buttons a {
     text-decoration: none !important;
     box-shadow: none !important;
     border: 0;
-    box-shadow: none;
 }
 
 div.nsl-container .nsl-container-buttons {
@@ -48,6 +47,26 @@ div.nsl-container-inline .nsl-container-buttons {
 div.nsl-container-inline .nsl-container-buttons a {
     margin: 5px;
     display: inline-block;
+}
+
+div.nsl-container-grid .nsl-container-buttons {
+    flex-flow: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+div.nsl-container-grid .nsl-container-buttons a {
+    flex: 1 1 auto;
+    display: block;
+    margin: 5px;
+    max-width: 280px;
+    width: 100%;
+}
+
+@media only screen and (min-width: 650px) {
+    div.nsl-container-grid .nsl-container-buttons a {
+        width: auto;
+    }
 }
 
 div.nsl-container .nsl-button {
@@ -133,5 +152,26 @@ div.nsl-container-inline[data-align="center"] .nsl-container-buttons {
 
 div.nsl-container-inline[data-align="right"] .nsl-container-buttons {
     justify-content: flex-end;
+}
+
+
+div.nsl-container-grid[data-align="left"] .nsl-container-buttons {
+    justify-content: flex-start;
+}
+
+div.nsl-container-grid[data-align="center"] .nsl-container-buttons {
+    justify-content: center;
+}
+
+div.nsl-container-grid[data-align="right"] .nsl-container-buttons {
+    justify-content: flex-end;
+}
+
+div.nsl-container-grid[data-align="space-around"] .nsl-container-buttons {
+    justify-content: space-around;
+}
+
+div.nsl-container-grid[data-align="space-between"] .nsl-container-buttons {
+    justify-content: space-between;
 }
 /* Button align end*/

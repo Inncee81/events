@@ -16,9 +16,9 @@ require_once(NSL_PATH . '/compat.php');
 
 class NextendSocialLogin {
 
-    public static $version = '3.0.19';
+    public static $version = '3.0.20';
 
-    public static $nslPROMinVersion = '3.0.19';
+    public static $nslPROMinVersion = '3.0.20';
 
     public static $proxyPage = false;
 
@@ -79,6 +79,16 @@ class NextendSocialLogin {
                 'left',
                 'right',
                 'center',
+            )
+        ),
+        'grid'    => array(
+            'container' => 'nsl-container-grid',
+            'align'     => array(
+                'left',
+                'right',
+                'center',
+                'space-around',
+                'space-between',
             )
         )
     );
@@ -584,7 +594,7 @@ class NextendSocialLogin {
             $_REQUEST['loginTwitter'] = 'twitter';
         }
 
-        if (isset($_REQUEST['loginSocial']) && isset(self::$providers[$_REQUEST['loginSocial']]) && (self::$providers[$_REQUEST['loginSocial']]->isEnabled() || self::$providers[$_REQUEST['loginSocial']]->isTest())) {
+        if (isset($_REQUEST['loginSocial']) && is_string($_REQUEST['loginSocial']) && isset(self::$providers[$_REQUEST['loginSocial']]) && (self::$providers[$_REQUEST['loginSocial']]->isEnabled() || self::$providers[$_REQUEST['loginSocial']]->isTest())) {
 
             nocache_headers();
 
@@ -828,9 +838,6 @@ class NextendSocialLogin {
             $align = 'left';
         }
 
-        if ($redirect_to === false) {
-            $redirect_to = NextendSocialLogin::getCurrentPageURL();
-        }
 
         $enabledProviders = false;
         if (is_array($providers)) {

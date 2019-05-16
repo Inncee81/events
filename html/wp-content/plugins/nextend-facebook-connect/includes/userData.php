@@ -63,7 +63,17 @@ class NextendSocialUserData {
             }
         }
 
-        $this->userData = apply_filters('nsl_registration_user_data', $this->userData, $this->provider);
+        $this->errors   = new WP_Error();
+        $this->userData = apply_filters('nsl_registration_user_data', $this->userData, $this->provider, $this->errors);
+
+        if ($this->errors->get_error_code() != '') {
+            if ($this->errors->get_error_message() != '') {
+                \NSL\Notices::addError($this->errors->get_error_message());
+            }
+
+            wp_redirect( site_url( 'wp-login.php' ) );
+            exit();
+        }
     }
 
     public function toArray() {

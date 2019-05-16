@@ -3,8 +3,8 @@ Contributors: Alignak
 Tags: PHP Minify, Lighthouse, GTmetrix, Pingdom, Pagespeed, CSS Merging, JS Merging, CSS Minification, JS Minification, Speed Optimization, HTML Minification, Performance, Optimization, Speed, Fast
 Requires at least: 4.5
 Requires PHP: 5.5
-Stable tag: 2.6.4
-Tested up to: 5.1.1
+Stable tag: 2.6.5
+Tested up to: 5.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -48,7 +48,7 @@ I can offer you aditional `custom made` optimization on top of this plugin. If y
 *	Support for preconnect and preload headers
 *	CDN option, to rewrite all static assets inside the JS or CSS files
 *	WP CLI support to check stats and purge the cache
-*	Auto purging of cache files for W3 Total Cache, WP Supercache, WP Rocket, Wp Fastest Cache, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, Nginx Cache (by Till Krüss ), SG Optimizer, HyperCache, Cache Enabler, Breeze (Cloudways), Godaddy Managed WordPress Hosting and WP Engine (read the FAQs)
+*	Auto purging of cache files for W3 Total Cache, WP Supercache, WP Rocket, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, Nginx Cache (by Till Krüss ), SG Optimizer, HyperCache, Cache Enabler, Breeze (Cloudways), Godaddy Managed WordPress Hosting and WP Engine (read the FAQs)
 *	and some more...
 
 
@@ -102,7 +102,7 @@ The ignore list "is" working, just try to use partial paths (see previous faq) a
 
 
 = Is it compatible with other caching plugins? =
-You must disable any features on your theme or cache plugins which perform minification of css, html and js. Double minification not only slows the whole process, but also has the high potential of causing conflicts in javascript. The plugin will try to automatically purge several popular cache plugins, however if you have a cache on the server side (some hosting services have this) you may need to purge it manually, after you purge FVM to see the results you expect. The automatic purge is active for the following plugins and hosting: W3 Total Cache, WP Supercache, WP Rocket, Wp Fastest Cache, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, Cache Enabler, SG Optimizer, Breeze (Cloudways), Godaddy Managed WordPress Hosting and WP Engine
+You must disable any features on your theme or cache plugins which perform minification of css, html and js. Double minification not only slows the whole process, but also has the high potential of causing conflicts in javascript. The plugin will try to automatically purge several popular cache plugins, however if you have a cache on the server side (some hosting services have this) you may need to purge it manually, after you purge FVM to see the results you expect. The automatic purge is active for the following plugins and hosting: W3 Total Cache, WP Supercache, WP Rocket, Cachify, Comet Cache, Zen Cache, LiteSpeed Cache, Cache Enabler, SG Optimizer, Breeze (Cloudways), Godaddy Managed WordPress Hosting and WP Engine
 
 
 = Do you recommend a specific Cache Plugin? =
@@ -196,6 +196,11 @@ Please backup your site before updating. Version 3.0 will have a major code rewr
 
 
 == Changelog ==
+
+= 2.6.5 [2019.05.04] =
+* fixed cache purging on Hyper Cache plugin
+* removed support for WPFC (that plugin author implemented a notice stating that FVM is incompatible with WPFC)
+* improved the filtering engine for pagespeed insights on desktop
 
 = 2.6.4 [2019.03.31] =
 * fixed subdirectories permissions

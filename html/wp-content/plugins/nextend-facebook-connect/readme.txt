@@ -3,8 +3,8 @@ Contributors: nextendweb
 Tags: social login, facebook, google, twitter, linkedin, register, login, social, nextend facebook connect, social sign in
 Donate link: https://www.facebook.com/nextendweb
 Requires at least: 4.5
-Tested up to: 5.1
-Stable tag: 3.0.19
+Tested up to: 5.2
+Stable tag: 3.0.20
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -119,6 +119,18 @@ Using the Pro Addon you can set where the login buttons should appear on the Reg
 2. Nextend Social Login and Register in the profile page for account linking
 
 == Changelog ==
+= 3.0.20 =
+* Fix: Ultimate Member Auto Approve + Support Login Restriction - Avatars will be synchronized.
+* Fix: Error message didn't show up when an "OAuth redirect uri proxy page" was selected.
+* Feature: Shortcode - [Grid style](https://nextendweb.com/nextend-social-login-docs/theme-developer/#shortcode)
+* Feature: German translation files added.
+* Improvement: redirect_to URL parameter will be stronger than current page url
+* Improvement: [nsl_registration_user_data](https://nextendweb.com/nextend-social-login-docs/backend-developer/) filter can now be also used
+  for [preventing the registration](https://nextendweb.com/nextend-social-login-docs/backend-developer/#prevent-registration).
+
+* PRO: Improvement: PayPal updated endpoints. New Sync Data field: PayPal account ID (payer ID)
+* PRO: Removed: [PayPal Sync Data](https://nextendweb.com/nextend-social-login-docs/provider-paypal/#sync_data) fields: Date of birth, Age range, Phone, Account type, Account creation date, Time zone, Locale, Language.
+
 = 3.0.19 =
 * Fix: Shortcode - align parameter notice
 * Fix: Social buttons didn't show up properly when the action where we check jQuery was called multiple times.
