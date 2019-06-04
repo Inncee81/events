@@ -18,6 +18,7 @@ return array(
     'NilPortugues\\Sql\\QueryFormatter\\' => array($vendorDir . '/nilportugues/sql-query-formatter/src'),
     'NilPortugues\\Sql\\QueryBuilder\\' => array($vendorDir . '/nilportugues/sql-query-builder/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'MathParser\\' => array($vendorDir . '/mossadal/math-parser/src/MathParser'),
     'Inpsyde\\Wonolog\\' => array($vendorDir . '/inpsyde/wonolog/src'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
     '' => array($vendorDir . '/nesbot/carbon/src'),
