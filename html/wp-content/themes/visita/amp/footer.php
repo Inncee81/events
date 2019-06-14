@@ -4,6 +4,7 @@
 		<a href="#top" class="back-to-top"><?php _e( 'Back to top', 'visita' ); ?></a>
 	</div>
 </footer>
+
 <amp-analytics type="googleanalytics" id="analytics1">
 	<script type="application/json">
 	{
