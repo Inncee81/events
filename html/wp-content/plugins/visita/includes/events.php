@@ -535,10 +535,9 @@ class VisitaEvents extends VisitaBase {
     }
 
     //save each field
-    foreach ( (array) $_POST['acf'] as $meta_key => $meta_value ) {
+    foreach ( $values = (array) $_POST['acf'] as $meta_key => $meta_value ) {
 
       $starts = $ends = false;
-
       if ($meta_key == '_times' && is_array($meta_value)) {
         foreach ( $meta_value as $time ) {
           $time = strtotime( "{$time['_date']} {$time['_time']}" );

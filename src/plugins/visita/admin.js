@@ -1,6 +1,6 @@
 (($) => {
 
-  if (acf) {
+  if (typeof acf !== 'undefined') {
 
     const remove_button_panel = (args) => {
       args.stepMinute = 10

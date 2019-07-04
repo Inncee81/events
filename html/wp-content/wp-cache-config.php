@@ -5,6 +5,7 @@ WP-Cache Config Sample File
 See wp-cache.php for author details.
 */
 
+$wpsc_fix_164 = 1;
 $wp_cache_debug_username = '2148756cbc988faf5716fe09b2dfdc7b';
 $wp_super_cache_comments = 0;
 $cache_schedule_interval = 'daily';
