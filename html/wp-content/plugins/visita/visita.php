@@ -2,7 +2,7 @@
 /*
   Plugin Name: Visita
   Author: Hafid R. Trujillo Huizar
-  Version: 2.1.3
+  Version: 2.1.4
   Author URI:http://www.xparkmedia.com
   Requires at least: 3.1.0
 	Min WP Version: 2.7.0

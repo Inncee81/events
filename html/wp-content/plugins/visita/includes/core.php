@@ -428,7 +428,7 @@ class Visita_Core {
   * @since 3.0.0
   */
   function disable_save_action( ) {
-    remove_action( 'acf/save_post', array( acf()->instances['acf_form'], '_save_post' ), 10, 2 );
+    remove_action( 'acf/save_post', '_acf_do_save_post' );
   }
 
   /**

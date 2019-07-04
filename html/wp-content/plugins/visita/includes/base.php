@@ -692,4 +692,37 @@ class VisitaBase {
 
     printf('<script type="application/ld+json">%s</script>', wp_json_encode( $breadcrumbs ));
   }
+
+  /**
+   * Add lang param if it does exists
+   *
+   * @return array
+   * @since 2.1.4
+   */
+  function rest_parameter($params, $request) {
+    if ( isset( $request['lang'] ) ) {
+      $params['lang'] = $request['lang'];
+    }
+    return $params;
+  }
+
+  /**
+   * add lang param if it does exists
+   *
+   * @return array
+   * @since 2.1.4
+   */
+  function rest_collection_params( $params ) {
+    if ( empty( $params['lang'] ) ) {
+      $params['lang'] = array(
+        'type' => 'string',
+        'default' => 'es',
+        'description' => '',
+        'enum' => array(
+          'es', 'en'
+        )
+      );
+    }
+    return $params;
+  }
 }

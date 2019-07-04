@@ -180,6 +180,8 @@ class VisitaHotels extends VisitaBase {
 
     //translation
     add_filter( 'rewrite_rules_array', array( $this, 'rewrite_rules_array' ) );
+    add_filter( "rest_{$this->taxonomy}_query", array( $this, 'rest_parameter'), 50, 2 );
+    add_filter( "rest_{$this->taxonomy}_collection_params", array( $this, 'rest_collection_params') );
 
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
       return;

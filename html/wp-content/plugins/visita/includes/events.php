@@ -325,6 +325,10 @@ class VisitaEvents extends VisitaBase {
 
     add_action( 'caldera_forms_entry_saved', array( $this, 'save_user_event' ), 10, 2 );
 
+    //translation
+    add_filter( "rest_{$this->taxonomy}_query", array( $this, 'rest_parameter'), 50, 2 );
+    add_filter( "rest_{$this->taxonomy}_collection_params", array( $this, 'rest_collection_params') );
+
     if ( defined( 'DOING_AJAX' ) || defined( 'DOING_AUTOSAVE' ) ) {
       return;
     }
