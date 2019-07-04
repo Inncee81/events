@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.6.5
+Version: 2.6.7
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -160,7 +160,7 @@ if($fvm_gfonts_method != false) {
 
 
 # default ua list
-$fvmualist = array('x11.*fox\/54', 'x11.*ome\/39', 'x11.*ome\/62', 'oobot', 'ighth', 'tmetr', 'eadles');
+$fvmualist = array('x11.*fox\/54', 'oid\s4.*xus.*ome\/62', 'x11.*ome\/62', 'oobot', 'ighth', 'tmetr', 'eadles', 'ingdo');
 
 
 # add admin page and rewrite defaults
@@ -2099,6 +2099,8 @@ $done = $styles->done;
 $footer = array();
 $google_fonts = array();
 $inline_css = array();
+$code = '';
+$log = '';
 
 # dequeue all styles
 if($fvm_remove_css != false) {

@@ -39,22 +39,13 @@ function fvm_cachepath() {
 $fvm_change_cache_path = get_option('fastvelocity_min_change_cache_path');
 $fvm_change_cache_base = get_option('fastvelocity_min_change_cache_base_url');
 $upload = array();
-if($fvm_change_cache_path !== false && $fvm_change_cache_base !== false && strlen($fvm_change_cache_path) > 1) {
+if($fvm_change_cache_path !== false && $fvm_change_cache_base !== false && strlen($fvm_change_cache_path) > 1 && is_dir($fvm_change_cache_path) && is_writable(dirname($fvm_change_cache_path))) {
 	$upload['basedir'] = trim($fvm_change_cache_path);
 	$upload['baseurl'] = trim($fvm_change_cache_base);
 } else {
 	$up = wp_upload_dir(); # default 
-	
-	# upload path for multisite
 	$upload['basedir'] = rtrim($up['basedir']);
-	$upload['baseurl'] = rtrim($up['baseurl']);
-	
-	# for single sites, change to the cache directory
-	if(basename($up['basedir']) == 'uploads') {
-		$upload['basedir'] = dirname($upload['basedir']);
-		$upload['baseurl'] = dirname($upload['baseurl']);
-	}
-	
+	$upload['baseurl'] = rtrim($up['baseurl']);	
 }
 
 # last update or zero
@@ -134,33 +125,31 @@ function fvm_purge_all_uninstall() {
 	return true;
 }
 
-# purge cache files older than 3 months
-fvm_purge_old();
+# purge cache files older than 30 days
 function fvm_purge_old() {
 	
 	# get cache directories and urls
 	$cachepath = fvm_cachepath();
 	$cachebaseparent = dirname($cachepath['cachebase']);
 	$ctime = get_option('fvm-last-cache-update', '0');
-	$expires = time() - 86400 * 90; # three months
+	$expires = time() - 86400 * 30;
 	
 	# get all directories that are a direct child of current directory
-	if ($handle = opendir($cachebaseparent)) {
-		while (false !== ($d = readdir($handle))) {
-			if (strcmp($d, '.')==0 || strcmp($d, '..')==0) { continue; }
-			if($d != $ctime && (is_numeric($d) && $d <= $expires)) {
-				$dir = $cachebaseparent.'/'.$d;
-				if(is_dir($dir)) { 
-					fastvelocity_rrmdir($dir); 
-					rmdir($dir);
+	if(is_dir($cachebaseparent) && is_writable(dirname($cachebaseparent))) {
+		if ($handle = opendir($cachebaseparent)) {
+			while (false !== ($d = readdir($handle))) {
+				if (strcmp($d, '.')==0 || strcmp($d, '..')==0) { continue; }
+				if($d != $ctime && (is_numeric($d) && $d <= $expires)) {
+					$dir = $cachebaseparent.'/'.$d;
+					if(is_dir($dir)) { 
+						fastvelocity_rrmdir($dir); 
+						if(is_dir($dir)) { rmdir($dir); }
+					}
 				}
 			}
-			
+			closedir($handle);
 		}
-		
-		closedir($handle);
 	}
-	
 	return true;
 }
 
@@ -228,7 +217,6 @@ function fastvelocity_get_cachestats() {
 
 # remove all cache files
 function fastvelocity_rrmdir($path) {
-	# purge
 	clearstatcache();
 	if(is_dir($path)) {
 		$i = new DirectoryIterator($path);
@@ -236,9 +224,12 @@ function fastvelocity_rrmdir($path) {
 			if($f->isFile()){ unlink($f->getRealPath());
 			} else if(!$f->isDot() && $f->isDir()){
 				fastvelocity_rrmdir($f->getRealPath());
-				rmdir($f->getRealPath());
+				if(is_dir($f->getRealPath())) { rmdir($f->getRealPath()); }
 			}
 		}
+		
+		# self
+		if(is_dir($path)) { rmdir($path); }
 	}
 }
 
@@ -353,6 +344,15 @@ if (class_exists("WpeCommon")) {
 if (class_exists("Breeze_PurgeCache")) {
 	Breeze_PurgeCache::breeze_cache_flush();
 	return __( '<div class="notice notice-info is-dismissible"><p>All caches from <strong>Breeze</strong> have also been purged.</p></div>');
+}
+
+
+# other lesser plugins
+
+# swift
+if (class_exists("Swift_Performance_Cache")) {
+	Swift_Performance_Cache::clear_all_cache();
+	return __( '<div class="notice notice-info is-dismissible"><p>All caches from <strong>Swift Performance</strong> have also been purged.</p></div>');
 }
 
 }

@@ -3,8 +3,8 @@ Contributors: Alignak
 Tags: PHP Minify, Lighthouse, GTmetrix, Pingdom, Pagespeed, CSS Merging, JS Merging, CSS Minification, JS Minification, Speed Optimization, HTML Minification, Performance, Optimization, Speed, Fast
 Requires at least: 4.5
 Requires PHP: 5.5
-Stable tag: 2.6.5
-Tested up to: 5.2
+Stable tag: 2.6.7
+Tested up to: 5.2.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,14 +12,12 @@ Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insight
  
 
 == Description ==
-
-This plugin reduces HTTP requests by merging CSS & Javascript files into groups of files, while attempting to use the least amount of files as possible. It minifies CSS and JS files with PHP Minify (no extra requirements).
-
-There are also options to apply critical CSS and load CSS async, as well as to define HTTP preload and preconnect headers (server push).
+WP speed optimization plugin for developers and advanced users. This plugin reduces HTTP requests by merging CSS & Javascript files into groups of files, while attempting to use the least amount of files as possible. It minifies CSS and JS files with PHP Minify (no extra requirements).
 
 Minification is done on the frontend during the first uncached request. Once the first request is processed, any other pages that require the same set of CSS and JavaScript files, will be served that same (static) cache file.
 
 This plugin includes options for developers and advanced users, however the default settings should work just fine for most sites.
+Kindly read our faqs about possible issues with you theme or specific plugins.
 
 = Aditional Optimization =
 
@@ -125,11 +123,11 @@ Yes, it generates a new cache file for every different set of JS and CSS require
 If you are just inserting ads on your pages, yes. If you are using a custom script to inject those ads, please double check if it works. 
 
 
-= After installing, why are some images and sliders not working? =
+= After installing, why are some images, sections, sliders, galleries, menus (etc) not working? =
 
 a) You cannot do double minification, so make sure you have disabled any features on your theme or other plugins that perform minification of css, html and js files.
 
-b) If you enabled the option to defer JS or CSS, please note that some themes and plugins need jQuery and other libraries to be render blocking, so they are not "undefined" during page load.
+b) If you enabled the option to defer JS or CSS, please note that some themes and plugins need jQuery and other libraries to be render blocking. If you enable the option to defer, any javascript code on the page will trigger an "undefined" error on the google chrome console log after page load.
 
 c) The plugin relies on PHP Minify to minify JavaScript and css files, however it is not a perfect library and there are plugins that are already minified and do not output a "min.js" or "min.css" filename (and end up being minified again). Try to disable minification on JS and CSS files and purge the cache, then either dequeue it and enqueue an alternative file or add it to the ignore list.
 
@@ -137,7 +135,7 @@ d) Sometimes a plugin conflicts with another when merged (look at google chrome 
 
 e) If you have a conflict, try to add each CSS and each JS file to the ignore list one by one, until you find the one that causes the conflict. If you have no idea of which files to add, check the log file on the "status page" for a list of files being merged into each generated file.
 
-f) If you coded some inline JS code that depends on some JS file being loaded before it's execution, try to save that code into an external file and enqueue it as a dependency. It will be merged together, thus no longer being "undefined".
+f) If you coded some inline JS code that depends on a JS file being loaded before it's execution (render blocking), try to save that code into an external file and enqueue it as a dependency. It will be merged together and run after the other file, thus no longer being "undefined".
 
 
 = Why are some of the CSS and JS files not being merged? =
@@ -167,6 +165,9 @@ On the "Speed" tab, deselect the Auto Minify for JavaScript, CSS and HTML as wel
 = How can I load CSS async? =
 You are probably a developer if you are trying this. The answer is: make sure FVM is only generating 1 CSS file, because "async" means multiple files will load out of order (however CSS needs order most of the times). If FVM is generating more than 1 CSS file per mediatype, try to manually dequeue some of the CSS files that are breaking the series on FVM (such as external enqueued files), or add their domain to the settings to be merged together. Please note... this is an advanced option for skilled developers. Do not try to fiddle with these settings if you are not one, as it will almost certainly break your site layout and functionality.
 
+= Why is FVM using defer instead of async javascript? =
+The answer is simple. For compatibility reasons and to avoid some undefined javascript errors, we need to preserve the order of scripts. Async means that any js files will load in parallel without waiting for each other or without following a specific order. If FVM generates multiple JS files for your site, using Async could cause footer scripts to load before the header scripts in an inconsistent manner. By using defer, we make sure the scripts load in order, as defined by each plugin and theme developer.
+Your ads or scripts wich are already specifically async will continue to be so, unless you specifically mark them to be merged as well.
 
 = I have a complaint or I need support right now. =
 Before getting angry because you have no answer within a few hours (even with paid plugins, sometimes it takes weeks...), please be informed about how wordpress.org and the plugins directory work. The plugins directory is an open source, free service where developers and programmers contribute (on their free time) with plugins that can be downloaded and installed by anyone "at their own risk" and are all released under the GPL license. While all plugins have to be approved and reviewed by the WordPress team before being published (for dangerous code, spam, etc.) this does not change the license or add any warranty. All plugins are provided as they are, free of charge and should be used at your own risk (so you should make backups before installing any plugin or performing updates) and it is your sole responsibility if you break your site after installing a plugin from the plugins directory. For a full version of the license, please read: https://wordpress.org/about/gpl/
@@ -197,9 +198,18 @@ Please backup your site before updating. Version 3.0 will have a major code rewr
 
 == Changelog ==
 
+= 2.6.7 [2019.07.04] =
+* added cache purging support for the swift cache plugin
+* changed cache directory to the uploads directory for compatibility reasons
+* better cache purging checks
+
+= 2.6.6 [2019.06.20] =
+* cache purging bug fixes
+* php notice fixes
+
 = 2.6.5 [2019.05.04] =
 * fixed cache purging on Hyper Cache plugin
-* removed support for WPFC (that plugin author implemented a notice stating that FVM is incompatible with WPFC)
+* removed support for WPFC (plugin author implemented a notice stating that FVM is incompatible with WPFC)
 * improved the filtering engine for pagespeed insights on desktop
 
 = 2.6.4 [2019.03.31] =
