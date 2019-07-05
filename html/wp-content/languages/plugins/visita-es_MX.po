@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita Plugin\n"
-"POT-Creation-Date: 2018-11-06 03:22-0800\n"
-"PO-Revision-Date: 2018-11-06 03:22-0800\n"
+"POT-Creation-Date: 2019-07-04 17:19-0700\n"
+"PO-Revision-Date: 2019-07-04 17:20-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -41,8 +41,8 @@ msgstr "atracciones"
 msgid ""
 "What to do in Las Vegas attractions, shows, hotels and places of interest"
 msgstr ""
-"Información en español, que hacer en Las Vegas atracciones, shows, hoteles y "
-"lugares de interés"
+"Cosas que hacer en Las Vegas atracciones, actividades, shows, hoteles y "
+"lugares de interés para niños y adultos"
 
 #: includes/attractions.php:61 includes/attractions.php:142
 #: includes/clubs.php:61 includes/clubs.php:127 includes/events.php:81
@@ -238,19 +238,19 @@ msgstr "de"
 msgid "to"
 msgstr "a las"
 
-#: includes/base.php:570
+#: includes/base.php:571
 msgid "Sort:"
 msgstr "Ordenar:"
 
-#: includes/base.php:575
+#: includes/base.php:576
 msgid "order"
 msgstr "orden"
 
-#: includes/base.php:576
+#: includes/base.php:577
 msgid "orderby"
 msgstr "por"
 
-#: includes/base.php:637 includes/core.php:754
+#: includes/base.php:638 includes/core.php:764
 msgid "Home"
 msgstr "Inicio"
 
@@ -282,61 +282,61 @@ msgstr ""
 msgid "Night Club"
 msgstr "Night Club"
 
-#: includes/core.php:115
+#: includes/core.php:116
 msgid "Every 2 Hours"
 msgstr "Cada 2 horas"
 
-#: includes/core.php:201
+#: includes/core.php:209
 msgid "page"
 msgstr "pagina"
 
-#: includes/core.php:405
+#: includes/core.php:413
 msgid "Wind:"
 msgstr "Viento:"
 
-#: includes/core.php:406
+#: includes/core.php:414
 msgid "Humidity:"
 msgstr "Humedad:"
 
-#: includes/core.php:407
+#: includes/core.php:415
 msgid "Feels like:"
 msgstr "Sensación Térmica:"
 
-#: includes/core.php:434
+#: includes/core.php:442
 msgid "SEO"
 msgstr "SEO"
 
-#: includes/core.php:440
+#: includes/core.php:448
 msgid "Description"
 msgstr "Descripción"
 
-#: includes/core.php:448
+#: includes/core.php:456
 msgid "Keywords"
 msgstr "Palabras Clave"
 
-#: includes/core.php:523 includes/core.php:524
+#: includes/core.php:531 includes/core.php:532
 msgid "Visita Import"
 msgstr "Importar"
 
-#: includes/core.php:600
+#: includes/core.php:608
 #, php-format
 msgid "More %s"
 msgstr "Más %s"
 
-#: includes/core.php:622
+#: includes/core.php:630
 msgid "All Events"
 msgstr "Todos los Eventos"
 
-#: includes/core.php:703
+#: includes/core.php:711
 msgid "at"
 msgstr "en"
 
-#: includes/core.php:726 includes/events.php:68 includes/events.php:71
-#: includes/events.php:868
+#: includes/core.php:736 includes/events.php:68 includes/events.php:71
+#: includes/events.php:870
 msgid "Events"
 msgstr "Eventos"
 
-#: includes/core.php:765
+#: includes/core.php:775
 msgid "Blog"
 msgstr "Blog"
 
@@ -488,19 +488,19 @@ msgstr ""
 msgid "Theater Group"
 msgstr ""
 
-#: includes/events.php:843
+#: includes/events.php:845
 msgid "keyword.."
 msgstr "palabras clave.."
 
-#: includes/events.php:866
+#: includes/events.php:868
 msgid "site url.."
 msgstr ""
 
-#: includes/events.php:867 includes/shows.php:398
+#: includes/events.php:869 includes/shows.php:398
 msgid "json..."
 msgstr "json…"
 
-#: includes/events.php:955
+#: includes/events.php:957
 #, php-format
 msgid ""
 "%s Las Vegas. Tourist guide with the best events, shows and concerts. "
