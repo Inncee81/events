@@ -58,9 +58,11 @@ add_action( 'amp_post_template_head', 'visita_amp_post_template_add_fonts' );
 */
 function visita_amp_post_template_metadata( $metadata, $post ) {
 
-  if ( $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID), 'original' ) ) {
-    $metadata['image'] = array_combine(
-      array('@type', 'url', 'width', 'height'), array_slice( array_merge( array( 'ImageObject' ), $image ), 0, 4 )
+  if ( has_post_thumbnail( $post->ID ) ) {
+    $metadata['image'] = array(
+      get_the_post_thumbnail_url( $post->ID, 'medium' ),
+      get_the_post_thumbnail_url( $post->ID, 'original' ),
+      get_the_post_thumbnail_url( $post->ID, 'thumbnail' ),
     );
   }
 
