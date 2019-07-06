@@ -339,7 +339,6 @@ function visita_organization_schema( ) {
       'sameAs' => array(
         'https://twitter.com/visita_vegas',
         'https://www.facebook.com/VisitaVegas/',
-        'https://plus.google.com/106513602005672773042',
         'https://www.youtube.com/channel/UCjvmES5xtmea20CQnw2-m7A'
       )
     ))

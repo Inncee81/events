@@ -26,7 +26,6 @@
 <?php visita_site_metatags(); ?>
 
 <link rel="profile" href="http://gmpg.org/xfn/11" />
-<link href="https://plus.google.com/106513602005672773042" rel="publisher" />
 <link rel="manifest" href="<?php stylesheet_directory_uri('/manifest.json') ?>">
 <link rel="shortcut icon" sizes="192x192" href="<?php stylesheet_directory_uri('/icons/icon-192.png') ?>">
 <link rel="apple-touch-icon icon" sizes="72x72" href="<?php stylesheet_directory_uri('/icons/icon-72.png') ?>" />
