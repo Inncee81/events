@@ -538,6 +538,18 @@ class VisitaEvents extends VisitaBase {
       return;
     }
 
+    // update english version from Spanish
+    $tr_lang = false;
+    if ( !empty( $_POST['post_tr_lang']['en'] ) ) {
+      $tr_lang = $_POST['post_tr_lang']['en'];
+
+      foreach (array(
+        '_zip', '_city', '_street', '_location', '_phone', '_price', '_price_max', '_event_type', '_permanent'
+      ) as $post_meta_key) {
+        update_post_meta( $tr_lang, $post_meta_key, $_POST[$post_meta_key] );
+      }
+    }
+
     //save each field
     foreach ( $values = (array) $_POST['acf'] as $meta_key => $meta_value ) {
 
@@ -552,6 +564,12 @@ class VisitaEvents extends VisitaBase {
 
         update_post_meta( $post_id, '_ends', $ends );
         update_post_meta( $post_id, '_starts', $starts );
+
+        if ( $tr_lang ) {
+          update_post_meta( $tr_lang, '_ends', $ends );
+          update_post_meta( $tr_lang, '_starts', $starts );
+          update_post_meta( $tr_lang, $meta_key, $meta_value );
+        }
       }
 
       if ( $meta_key == '_times' && empty($meta_value)) {
@@ -574,7 +592,7 @@ class VisitaEvents extends VisitaBase {
       $event = array_replace_recursive( $this->event_data, $event )
     );
 
-    // post or image could not be created or download it, move on.
+    // post or image could not be created or downloaded, move on.
     if ( is_wp_error( $post_id ) || ! $event['image'] ) {
       return;
     }
