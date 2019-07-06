@@ -333,8 +333,8 @@ function visita_organization_schema( ) {
       ),
       'aggregateRating' => array(
         '@type'         => 'AggregateRating',
-        'ratingValue'   => '4.41',
-        'reviewCount'   => '1821'
+        'ratingValue'   => '4.43',
+        'reviewCount'   => '1852'
       ),
       'sameAs' => array(
         'https://twitter.com/visita_vegas',
@@ -392,6 +392,7 @@ function visita_head_metatags( ) {
 
   if ( has_post_thumbnail( get_the_ID() ) && is_singular() ) {
     if ( $image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ),  'large' ) ) {
+      echo '<meta name="thumbnail" content="'. esc_url($image[0])  .'" />';
       echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
       echo '<meta name="twitter:image:src" content="'. esc_url($image[0])  .'">'. "\n";
       echo '<meta property="og:image" content="'. esc_url($image[0])  .'" />'. "\n";

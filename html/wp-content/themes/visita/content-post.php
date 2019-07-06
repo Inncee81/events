@@ -13,7 +13,7 @@
  */
  ?>
 
-<article itemscope itemtype="https://schema.org/Article" <?php post_class(); ?>>
+<article id="article-<?php the_ID()?>" itemscope itemtype="https://schema.org/Article" <?php post_class(); ?>>
 
   <?php if ( has_post_thumbnail() ) : ?>
     <figure id="entry-media-<?php the_ID()?>" class="hmedia">
@@ -49,6 +49,8 @@
       <span itemprop="author" class="author vcard"><em class="fn"><?php bloginfo('name') ?></em></span>
       <span itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
         <meta itemprop="name" content="<?php bloginfo('name') ?>" />
+        <meta itemprop="sameAs" content="https://twitter.com/visita_vegas" />
+        <meta itemprop="sameAs" content="https://www.facebook.com/VisitaVegas/" />
         <span itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
           <meta itemprop="url" content="<?php stylesheet_directory_uri('/icons/icon-192.png')?>"  />
         </span>
@@ -59,7 +61,7 @@
   </header><!-- .entry-header -->
 
   <?php if ( is_single() ) : ?>
-    <div itemprop="description" class="entry-content">
+    <div class="entry-content">
       <?php the_content( __( 'Continue <span class="meta-nav">&rarr;</span>', 'visita' ) ); ?>
       <div class="entry-meta">
         <?php if ( is_single() ) visita_entry_tax( $post ) ?>
