@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2018-11-06 03:22-0800\n"
-"PO-Revision-Date: 2018-11-06 03:22-0800\n"
+"POT-Creation-Date: 2019-07-06 01:34-0700\n"
+"PO-Revision-Date: 2019-07-06 01:35-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Poedit-Basepath: ../../themes/visita\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_c:2c,1;_nx:4c,1,2;"
 "_n_noop:1,2;_nx_noop:4c,1,2;esc_attr__;esc_attr_x:1,2c;esc_attr_e;esc_html__;"
@@ -69,12 +69,12 @@ msgstr "Enlace a %s"
 
 #: content-event.php:34 content-hotel.php:34 content-page.php:29
 #: content-post.php:36 content-show.php:34 content.php:29
-#: includes/functions.php:610 parts/location.php:17
+#: includes/functions.php:611 parts/location.php:17
 msgid "Edit"
 msgstr "Editar"
 
 #: content-event.php:65 content-hotel.php:79 content-page.php:51
-#: content-post.php:63 content-show.php:69 content.php:51 parts/location.php:53
+#: content-post.php:65 content-show.php:69 content.php:51 parts/location.php:53
 msgid "Continue <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Continuar <span class=\"meta-nav\">&rarr;</span>"
 
@@ -94,21 +94,17 @@ msgstr " creado por"
 msgid "http://xparkmedia.com"
 msgstr "http://es.xparkmedia.com"
 
-#: header.php:52
+#: header.php:51
 msgid "/en/las-vegas-weather/"
 msgstr "/clima-las-vegas/"
 
-#: header.php:53
+#: header.php:52
 msgid "Weather"
 msgstr "Clima"
 
-#: header.php:58
+#: header.php:57 header.php:58
 msgid "Search"
 msgstr "Buscar"
-
-#: header.php:60
-msgid "Submit"
-msgstr "Enviar"
 
 #: header.php:68
 msgid "Skip to content"
@@ -118,7 +114,7 @@ msgstr "Ir al contenido"
 msgid "Menu"
 msgstr "Menú"
 
-#: includes/amp.php:112 includes/functions.php:214
+#: includes/amp.php:116 includes/functions.php:214
 msgid "Post navigation"
 msgstr "Navegación"
 
@@ -173,82 +169,87 @@ msgctxt "Next post link"
 msgid "%title"
 msgstr "%title"
 
-#: includes/functions.php:342
+#: includes/functions.php:343
 msgid "Prices in U.S. dollars"
 msgstr "Precios en dólares estadounidenses"
 
-#: includes/functions.php:343
+#: includes/functions.php:344
 msgid "prices may vary."
 msgstr "precios pueden variar."
 
-#: includes/functions.php:383
+#: includes/functions.php:384
 msgctxt "Google map language"
 msgid "en"
 msgstr "es-419"
 
-#: includes/functions.php:482
+#: includes/functions.php:483
 msgid "No dates currently available"
 msgstr "No fechas disponibles"
 
-#: includes/functions.php:515
+#: includes/functions.php:516
 msgid "l, F j Y"
 msgstr "l j \\d\\e F Y"
 
-#: includes/functions.php:540 includes/functions.php:570
+#: includes/functions.php:541 includes/functions.php:571
 msgid "Every Day"
 msgstr "Todos los días"
 
-#: includes/functions.php:541
+#: includes/functions.php:542
 msgid "24 Hours"
 msgstr "24 Horas"
 
-#: includes/functions.php:571
+#: includes/functions.php:572
 msgid " to "
 msgstr " a "
 
-#: includes/functions.php:597
+#: includes/functions.php:598
 msgid " : awaiting moderation"
 msgstr " : esperando moderación"
 
-#: includes/functions.php:605
+#: includes/functions.php:606
 #, php-format
 msgctxt "Human-readable time"
 msgid "%s ago"
 msgstr "hace %s"
 
-#: includes/hooks.php:100
+#: includes/hooks.php:107
 msgid "Top Menu"
 msgstr "Menú superior"
 
-#: includes/hooks.php:101
+#: includes/hooks.php:108
 msgid "Social Menu"
 msgstr "Menú de enlaces sociales"
 
-#: includes/hooks.php:102
+#: includes/hooks.php:109
 msgid "Header Menu"
 msgstr "Menú principal"
 
-#: includes/hooks.php:103
+#: includes/hooks.php:110
 msgid "Footer Menu"
 msgstr "Menú inferior"
 
-#: includes/hooks.php:117
+#: includes/hooks.php:124
 msgid "Main Widget Area"
 msgstr "Área de widgets"
 
-#: includes/hooks.php:119
+#: includes/hooks.php:126
 msgid "Main sidebar: displays on pages and posts."
 msgstr ""
 
-#: includes/hooks.php:255
+#: includes/hooks.php:203
+#, php-format
+msgid "Las Vegas Weather: %s"
+msgstr "Clima en Las Vegas: %s"
+
+#: includes/hooks.php:262
 msgid "Move Up"
 msgstr "Subir"
 
-#: includes/hooks.php:256
+#: includes/hooks.php:263
 msgid "Scroll to the top"
 msgstr "Subir hasta arriba de la pantalla"
 
-#: includes/hooks.php:364
+#: includes/hooks.php:370
 #, php-format
 msgid " Page %d"
 msgstr " Página %d"
@@ -310,3 +311,6 @@ msgid ""
 msgstr ""
 "Lo sentimos, pero no se encuentra nada con estos términos de búsqueda. Por "
 "favor, inténtalo de nuevo."
+
+#~ msgid "Submit"
+#~ msgstr "Enviar"

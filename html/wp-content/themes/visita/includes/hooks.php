@@ -200,7 +200,7 @@ function visita_scripts_enqueues( ) {
 
   wp_localize_script( 'visita', 'visita', array(
     'weather_unit' => ($lang == 'es') ? 'c' : 'f',
-    'weather_text' => ($lang == 'es') ? 'celsius' : 'freiheit',
+    'weather_text' => sprintf( __('Las Vegas Weather: %s', 'visita' ), ($lang == 'es') ? 'Celsius' : 'Freiheit'),
     'weather' => esc_url( "/wp-content/cache/_json/{$lang}.json" ),
     'fonts' => "https://fonts.googleapis.com/css?family=Roboto:300,400,500",
     'styles' => get_stylesheet_directory_uri() . "/style.css?v=" . $theme->version,
