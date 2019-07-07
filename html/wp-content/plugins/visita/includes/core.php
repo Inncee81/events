@@ -185,7 +185,8 @@ class Visita_Core {
     }
 
     if ( ! empty( $_GET['_starts'] ) ) {
-      array_push($query->query_vars['meta_query'], array(
+      $query->query_vars['meta_query'] = array();
+      array_push( $query->query_vars['meta_query'], array(
           'compare' => '<=',
           'key' => '_starts',
           'value' => trim($_GET['_starts']),
