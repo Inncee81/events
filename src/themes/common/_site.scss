@@ -69,6 +69,10 @@ iframe {
   border: none;
 }
 
+.d-inline {
+  display: inline-block;
+}
+
 .small-text-center {
   @include breakpoint(medium down) {
     text-align: center;
@@ -172,4 +176,24 @@ h1.entry-title {
 
 [aria-hidden=true]{
   display: none;
+}
+
+div.dp-below, div.dp-permanent {
+  z-index: 1015;
+  width: auto;
+}
+
+div.dr-cal-end {
+  display: none;
+}
+
+.dp-days .dr-in-range {
+  background: #75BCFC;
+  color: #fff;
+}
+
+.dp-days .dr-selected,
+.dp-days .dp-selected {
+  background: #3B99FC;
+  color: #fff;
 }

@@ -57,6 +57,7 @@ export default {
               options: {
                 sourceMap: true,
                 includePaths: [
+                  './node_modules/tiny-date-picker/',
                   './node_modules/foundation-sites/scss',
                   './node_modules/font-awesome/',
                   './node_modules/',
@@ -83,7 +84,7 @@ export default {
       'plugins': resolve('./src/plugins'),
       'themes': resolve('./src/template'),
       'font-awesome': resolve('./node_modules/font-awesome/'),
-      'foundation': resolve('./node_modules/foundation-sites/'),
+      'foundation': resolve('./node_modules/foundation-sites/')
     }
   }
 };

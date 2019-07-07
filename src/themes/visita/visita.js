@@ -5,6 +5,7 @@ import 'foundation/js/foundation.util.motion';
 import 'foundation/js/foundation.util.keyboard';
 import 'foundation/js/foundation.util.triggers';
 import 'foundation/js/foundation.util.mediaQuery';
+import {TinyDatePicker, DateRangePicker} from 'tiny-date-picker/dist/date-range-picker'
 import LazyLoad from 'vanilla-lazyload';
 
 const mobileWidth =  640;
@@ -97,6 +98,41 @@ const lazyLoad = new LazyLoad();
     }
   }
 
+  const end = $('#event-ends');
+  const start = $('#event-starts');
+  const toUnix = (date) => {
+    return Math.round(date.getTime() / 1000)
+  }
+
+  DateRangePicker( '.eventos-dates', {
+    startOpts: {
+      lang: {
+        days: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+        months: [
+          'Enero',
+          'Febrero',
+          'Marzo',
+          'Abril',
+          'Mayo',
+          'June',
+          'Julio',
+          'Agosto',
+          'Septiembre',
+          'Octubre',
+          'Noviembre',
+          'Diciembre',
+        ],
+        today: 'Hoy',
+        clear: 'Iniciar',
+        close: 'Cerrar',
+      }
+    }
+  }).on('statechange', function (_, rp) {
+    var range = rp.state;
+    start.val( range.start ? toUnix(range.start) : '' );
+    end.val( range.end ? toUnix(range.end) : '' );
+  });
+
   //
   $(() => $(document).foundation());
 
@@ -159,10 +195,12 @@ const lazyLoad = new LazyLoad();
     }
   })
 
+  const lang = $('html').attr('lang')
+
 	$('.search-field').autocomplete({
     minLength: 2,
     source: (query, suggest) => {
-      query.lang = $('html').attr('lang')
+      query.lang = lang
       $.get( '/wp-json/vv/v1/s', query, ( res ) => {
         suggest(res);
       })

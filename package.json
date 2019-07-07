@@ -51,6 +51,7 @@
     "webpack-dev-server": "~2.4.1"
   },
   "dependencies": {
+    "tiny-date-picker": "^3.2.8",
     "vanilla-lazyload": "^8.11.0"
   }
 }

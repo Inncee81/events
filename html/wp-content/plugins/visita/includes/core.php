@@ -180,6 +180,10 @@ class Visita_Core {
       return;
     }
 
+    if ( isset( $_GET['post_type'] ) ) {
+      $query->query_vars['post_type'] = $_GET['post_type'];
+    }
+
     if ( ! empty( $query->query_vars['tax_query'] ) ) {
       foreach( $query->query_vars['tax_query'] as $key => $tax_query ) {
         if ($tax_query['taxonomy'] == 'language') {

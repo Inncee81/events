@@ -34,6 +34,7 @@ $breakpoint-classes: (small medium);
 @import 'font-awesome/scss/mixins';
 @import 'path';
 @import 'font-awesome/scss/core';
+@import 'tiny-date-picker';
 
 @include foundation-typography-base;
 @include foundation-typography-helpers;
