@@ -93,7 +93,7 @@ const lazyLoad = new LazyLoad();
   })
 
   // Show reviews
-  if (location.hash.search(/comment-/) == 1) {
+  if (doc.location.hash.search(/comment-/) == 1) {
     const $link = $('[itemprop=aggregateRating]').attr('href')
     if ($link) {
       $.ajax($link)
@@ -106,8 +106,14 @@ const lazyLoad = new LazyLoad();
     }
   }
 
-  //
-  $(() => $(document).foundation());
+  // document loaded
+  $(() => {
+    $(document).foundation();
+
+    if (doc.location.hash == '#reviews') {
+      $('[data-reviews]').trigger('click');
+    }
+  });
 
 } )( jQuery, document );
 

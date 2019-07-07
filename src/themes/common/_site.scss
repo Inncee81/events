@@ -69,6 +69,10 @@ iframe {
   border: none;
 }
 
+#wpadminbar {
+  z-index: 1000;
+}
+
 .d-inline {
   display: inline-block;
 }

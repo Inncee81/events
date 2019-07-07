@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2019-07-07 00:11-0700\n"
-"PO-Revision-Date: 2019-07-07 00:14-0700\n"
+"POT-Creation-Date: 2019-07-07 12:49-0700\n"
+"PO-Revision-Date: 2019-07-07 12:56-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -102,7 +102,7 @@ msgstr "/clima-las-vegas/"
 msgid "Weather"
 msgstr "Clima"
 
-#: header.php:57 header.php:58 parts/search-advanced.php:22
+#: header.php:57 header.php:58 parts/search-advanced.php:25
 msgid "Search"
 msgstr "Buscar"
 
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Close Modal"
 msgstr "Cerrar Ventana"
 
-#: parts/search-advanced.php:8
+#: parts/search-advanced.php:10
 msgid "Types: "
 msgstr "Tipo: "
 
@@ -295,20 +295,27 @@ msgstr "Reseña: %s"
 msgid "Cancel Review"
 msgstr "Cancelar Reseña"
 
-#: reviews-form.php:18
+#: reviews-form.php:16
+#, php-format
+msgid "You must be <a href=\"%s\">logged in</a> to post a comment."
+msgstr ""
+"Lo sentimos, debes <a href=\"%s\">entrar a tu sesión</a> para añadir una "
+"reseña."
+
+#: reviews-form.php:20
 msgctxt "noun"
 msgid "Comment"
 msgstr "Reseña"
 
-#: reviews-form.php:24
+#: reviews-form.php:26
 msgid "Update Review"
 msgstr "Actualizar Reseña"
 
-#: reviews-form.php:24
+#: reviews-form.php:26
 msgid "Post Review"
 msgstr "Publicar Reseña"
 
-#: reviews-form.php:26
+#: reviews-form.php:28
 msgid "Delete"
 msgstr "Borrar"
 

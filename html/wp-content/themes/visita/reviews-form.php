@@ -13,6 +13,8 @@
       'title_reply_to'    => __( '%s review', 'visita' ),
       'cancel_reply_link' => __( 'Cancel Review', 'visita' ),
       'title_reply'       => sprintf( __( '%s review', 'visita' ) , get_the_title() ),
+      'must_log_in'       => sprintf( '<p class="must-log-in">%s</p>', sprintf( __( 'You must be <a href="%s">logged in</a> to post a comment.', 'visita' ),
+                          wp_login_url( get_permalink( $post_id ) ) ) ),
       'comment_field'     => sprintf( '<p class="comment-form-comment"><label for="comment">%s</label>
         <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true">%s</textarea></p>',
         esc_html( _x( 'Comment', 'noun' ) ),
