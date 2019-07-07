@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Visita\n"
-"POT-Creation-Date: 2019-07-06 01:34-0700\n"
-"PO-Revision-Date: 2019-07-06 01:35-0700\n"
+"POT-Creation-Date: 2019-07-07 00:11-0700\n"
+"PO-Revision-Date: 2019-07-07 00:14-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_MX\n"
@@ -102,15 +102,19 @@ msgstr "/clima-las-vegas/"
 msgid "Weather"
 msgstr "Clima"
 
-#: header.php:57 header.php:58
+#: header.php:57 header.php:58 parts/search-advanced.php:22
 msgid "Search"
 msgstr "Buscar"
 
-#: header.php:68
+#: header.php:61 parts/search-advanced.php:5
+msgid "Advaced Search"
+msgstr "Busca Avanzada"
+
+#: header.php:73
 msgid "Skip to content"
 msgstr "Ir al contenido"
 
-#: header.php:69
+#: header.php:74
 msgid "Menu"
 msgstr "Menú"
 
@@ -257,6 +261,14 @@ msgstr " Página %d"
 #: includes/theme-options.php:19
 msgid "Maximum page width"
 msgstr ""
+
+#: parts/search-advanced.php:3
+msgid "Close Modal"
+msgstr "Cerrar Ventana"
+
+#: parts/search-advanced.php:8
+msgid "Types: "
+msgstr "Tipo: "
 
 #: review.php:14
 msgid "Open add review modal"

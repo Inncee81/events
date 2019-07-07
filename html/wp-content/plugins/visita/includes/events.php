@@ -111,6 +111,12 @@ class VisitaEvents extends VisitaBase {
           'message' => __( 'Disable UTM', 'visita' ),
         ),
         array(
+          'key' => '_dont_sync',
+          'name' => '_dont_sync',
+          'type' => 'true_false',
+          'message' => __( 'Don\'t Sync', 'visita' ),
+        ),
+        array(
           'key' => '_link',
           'name' => '_link',
           'label' => __( 'Link', 'visita' ),
@@ -539,14 +545,16 @@ class VisitaEvents extends VisitaBase {
     }
 
     // update english version from Spanish
-    $tr_lang = false;
-    if ( !empty( $_POST['post_tr_lang']['en'] ) ) {
+    $tr_lang  = false;
+    $dont_sync = isset($_POST['_dont_sync']);
+
+    if ( !$dont_sync && !empty( $_POST['post_tr_lang']['en'] ) ) {
       $tr_lang = $_POST['post_tr_lang']['en'];
 
       foreach (array(
         '_zip', '_city', '_street', '_location', '_phone', '_price', '_price_max', '_event_type', '_permanent'
       ) as $post_meta_key) {
-        update_post_meta( $tr_lang, $post_meta_key, $_POST[$post_meta_key] );
+        update_post_meta( $tr_lang, $post_meta_key, $_POST['acf'][$post_meta_key] );
       }
     }
 
@@ -565,7 +573,7 @@ class VisitaEvents extends VisitaBase {
         update_post_meta( $post_id, '_ends', $ends );
         update_post_meta( $post_id, '_starts', $starts );
 
-        if ( $tr_lang ) {
+        if ( !$dont_sync && $tr_lang ) {
           update_post_meta( $tr_lang, '_ends', $ends );
           update_post_meta( $tr_lang, '_starts', $starts );
           update_post_meta( $tr_lang, $meta_key, $meta_value );

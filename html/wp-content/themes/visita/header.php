@@ -58,7 +58,7 @@
           <input id="topsearch" type="search" class="search-field" name="s" /><button type="submit" class="button" title="<?php esc_html_e( 'Search', 'visita' ) ?>">
             <i class="fa fa-search"></i>
           </button>
-          <button type="button" class="button" title="<?php esc_html_e( 'Advaced Search', 'visita' ) ?>" data-open="search-advaced">
+          <button type="button" class="button" title="<?php esc_html_e( 'Advaced Search', 'visita' ) ?>" data-open="search-advanced">
             <i class="fa fa-sliders"></i>
           </button>
         </form>

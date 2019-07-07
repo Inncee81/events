@@ -184,6 +184,24 @@ class Visita_Core {
       $query->query_vars['post_type'] = $_GET['post_type'];
     }
 
+    if ( ! empty( $_GET['_starts'] ) ) {
+      array_push($query->query_vars['meta_query'], array(
+          'compare' => '<=',
+          'key' => '_starts',
+          'value' => trim($_GET['_starts']),
+        )
+      );
+
+      if ( ! empty( $_GET['_ends'] ) ) {
+        array_push($query->query_vars['meta_query'], array(
+            'compare' => '>=',
+            'key' => '_ends',
+            'value' => trim($_GET['_ends']),
+          )
+        );
+      }
+    }
+
     if ( ! empty( $query->query_vars['tax_query'] ) ) {
       foreach( $query->query_vars['tax_query'] as $key => $tax_query ) {
         if ($tax_query['taxonomy'] == 'language') {

@@ -5,11 +5,14 @@ import 'foundation/js/foundation.util.motion';
 import 'foundation/js/foundation.util.keyboard';
 import 'foundation/js/foundation.util.triggers';
 import 'foundation/js/foundation.util.mediaQuery';
-import {TinyDatePicker, DateRangePicker} from 'tiny-date-picker/dist/date-range-picker'
+
+import {langs} from './langs';
 import LazyLoad from 'vanilla-lazyload';
+import {TinyDatePicker, DateRangePicker} from 'tiny-date-picker/dist/date-range-picker'
 
 const mobileWidth =  640;
 const lazyLoad = new LazyLoad();
+
 
 ( ( $, doc ) => {
 
@@ -71,6 +74,11 @@ const lazyLoad = new LazyLoad();
     delete window.top.onbeforeunload;
   }
 
+  // setup ajax calls
+  $.ajaxSetup({  headers: {
+    'Authorization': 'Basic c2VhcmNoOk9NcGowUXVlRippUSpwQnI5WGIwQndURw=='
+  } })
+
   // Add reviews
   var $modal = $('#reveal');
   $('[data-reviews]').click(function(e) {
@@ -98,52 +106,14 @@ const lazyLoad = new LazyLoad();
     }
   }
 
-  const end = $('#event-ends');
-  const start = $('#event-starts');
-  const toUnix = (date) => {
-    return Math.round(date.getTime() / 1000)
-  }
-
-  DateRangePicker( '.eventos-dates', {
-    startOpts: {
-      lang: {
-        days: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-        months: [
-          'Enero',
-          'Febrero',
-          'Marzo',
-          'Abril',
-          'Mayo',
-          'June',
-          'Julio',
-          'Agosto',
-          'Septiembre',
-          'Octubre',
-          'Noviembre',
-          'Diciembre',
-        ],
-        today: 'Hoy',
-        clear: 'Iniciar',
-        close: 'Cerrar',
-      }
-    }
-  }).on('statechange', function (_, rp) {
-    var range = rp.state;
-    start.val( range.start ? toUnix(range.start) : '' );
-    end.val( range.end ? toUnix(range.end) : '' );
-  });
-
   //
   $(() => $(document).foundation());
 
-
 } )( jQuery, document );
 
-
 /**
-* Enables menu toggle.
+* Enable menu toggle.
 */
-
 ( ( $, doc ) => {
 
   let nav = $( '#nav' );
@@ -189,15 +159,27 @@ const lazyLoad = new LazyLoad();
     }
   } );
 
-  $.ajaxSetup({
-    headers: {
-      'Authorization': 'Basic c2VhcmNoOk9NcGowUXVlRippUSpwQnI5WGIwQndURw=='
-    }
-  })
+} )( jQuery, document );
 
-  const lang = $('html').attr('lang')
 
-	$('.search-field').autocomplete({
+/**
+* Search Functionality
+*/
+( ( $, doc ) => {
+
+  // start search functionality
+  const lang = $('html').attr('lang');
+  const search = $('#search-advanced');
+  const end = search.find('[name=_ends]');
+  const start = search.find('[name=_starts]');
+
+  // change date time to unix time
+  const unixtime = function(date) {
+    return Math.round(date.getTime() / 1000)
+  }
+
+  // autocomplete
+  $('.search-field').autocomplete({
     minLength: 2,
     source: (query, suggest) => {
       query.lang = lang
@@ -209,5 +191,27 @@ const lazyLoad = new LazyLoad();
       window.location.href = ui.item.link;
     }
   })
+
+  // focus on modal open
+  $(document).on('open.zf.reveal', search, function() {
+    $('[name=s]').focus()
+  });
+
+  // show calendar only for events
+  search.on('change', 'select', function() {
+    $('.eventos-dates:visible').hide();
+    if ( $(this).val() == 'event' ) {
+      $('.eventos-dates:hidden').show();
+      search.find('[type=hidden]').attr('disabled', false);
+    } else search.find('[type=hidden]').attr('disabled', true);
+  });
+
+  // set calendar widget
+  DateRangePicker('.eventos-dates', {
+    startOpts: { min: new Date(), lang: langs[lang] }
+  }).on('statechange', (_, rp) => {
+    start.val( rp.state.start ? unixtime(rp.state.start) : '' );
+    end.val( rp.state.end ? unixtime(rp.state.end): '' );
+  });
 
 } )( jQuery, document );

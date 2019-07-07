@@ -1,10 +1,14 @@
 
-<form action="<?php echo home_url() ?>" method="get" class="reveal" id="search-advaced" data-reveal aria-hidden="true">
-  <button class="button float-right" data-close aria-label="Close Modal" type="button">&times;</button>
-  <h3><?php esc_html_e( 'Advaced Search', 'visita' ) ?></h3>
+<form action="<?php echo home_url() ?>" method="get" class="reveal" id="search-advanced" data-reveal aria-hidden="true">
+  <button class="button small float-right" data-close aria-label="<?php esc_html_e( 'Close Modal', 'visita' ) ?>" type="button">&times;</button>
+
+  <h4><?php esc_html_e( 'Advaced Search', 'visita' ) ?></h4>
   <input type="search" name="s" />
 
-  <label>Tipo:
+  <label>
+    <span class="screen-reader-text">
+      <?php esc_html_e( 'Types: ', 'visita' ) ?>
+    </span>
     <select name="post_type">
       <option value="event">Evento</option>
       <option value="show">Show</option>
@@ -14,13 +18,10 @@
     </select>
   </label>
 
-  <label>Fechas
-    <input name="_starts" type="hidden" id="event-starts"/>
-    <input name="_ends" type="hidden" id="event-ends" />
-  </label>
+  <input name="_ends" type="hidden" />
+  <input name="_starts" type="hidden" />
 
   <div class="eventos-dates"></div>
-
   <div><button type="submit" class="button expanded"><?php esc_html_e( 'Search', 'visita' ) ?></button></div>
 
 </form>

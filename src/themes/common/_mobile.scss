@@ -72,6 +72,10 @@ span.flatpickr-day.startRange.startRange {
     background-color: lighten($primary-color, 14);
   }
 
+  &-form [data-open]{
+    border-left: solid 1px $primary-color;
+  }
+
   &-field[type] {
     font-size: .9em;
     height: 2.5em;

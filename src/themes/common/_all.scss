@@ -8,6 +8,7 @@
 
 // Sass utilities
 @import 'util/util';
+@import 'tiny-date-picker';
 
 $breakpoint-classes: (small medium);
 
@@ -34,7 +35,6 @@ $breakpoint-classes: (small medium);
 @import 'font-awesome/scss/mixins';
 @import 'path';
 @import 'font-awesome/scss/core';
-@import 'tiny-date-picker';
 
 @include foundation-typography-base;
 @include foundation-typography-helpers;

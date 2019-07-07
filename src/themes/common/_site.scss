@@ -177,23 +177,3 @@ h1.entry-title {
 [aria-hidden=true]{
   display: none;
 }
-
-div.dp-below, div.dp-permanent {
-  z-index: 1015;
-  width: auto;
-}
-
-div.dr-cal-end {
-  display: none;
-}
-
-.dp-days .dr-in-range {
-  background: #75BCFC;
-  color: #fff;
-}
-
-.dp-days .dr-selected,
-.dp-days .dp-selected {
-  background: #3B99FC;
-  color: #fff;
-}

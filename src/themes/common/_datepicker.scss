@@ -12,19 +12,24 @@
   border-radius: 4px;
   direction: ltr;
 }
+
 .cfdatepicker-inline {
   width: 220px;
 }
+
 .cfdatepicker.cfdatepicker-rtl {
   direction: rtl;
 }
+
 .cfdatepicker.cfdatepicker-rtl table tr td span {
   float: right;
 }
+
 .cfdatepicker-dropdown {
   top: 0;
   left: 0;
 }
+
 .cfdatepicker-dropdown:before {
   content: '';
   display: inline-block;
@@ -35,6 +40,7 @@
   border-bottom-color: rgba(0, 0, 0, 0.2);
   position: absolute;
 }
+
 .cfdatepicker-dropdown:after {
   content: '';
   display: inline-block;
@@ -44,80 +50,99 @@
   border-top: 0;
   position: absolute;
 }
+
 .cfdatepicker-dropdown.cfdatepicker-orient-left:before {
   left: 6px;
 }
+
 .cfdatepicker-dropdown.cfdatepicker-orient-left:after {
   left: 7px;
 }
+
 .cfdatepicker-dropdown.cfdatepicker-orient-right:before {
   right: 6px;
 }
+
 .cfdatepicker-dropdown.cfdatepicker-orient-right:after {
   right: 7px;
 }
+
 .cfdatepicker-dropdown.cfdatepicker-orient-top:before {
   top: -7px;
 }
+
 .cfdatepicker-dropdown.cfdatepicker-orient-top:after {
   top: -6px;
 }
+
 .cfdatepicker-dropdown.cfdatepicker-orient-bottom:before {
   bottom: -7px;
   border-bottom: 0;
   border-top: 7px solid #999;
 }
+
 .cfdatepicker-dropdown.cfdatepicker-orient-bottom:after {
   bottom: -6px;
   border-bottom: 0;
   border-top: 6px solid #fff;
 }
+
 .cfdatepicker > div {
   display: none;
 }
+
 .cfdatepicker.days div.cfdatepicker-days {
   display: block;
 }
+
 .cfdatepicker.months div.cfdatepicker-months {
   display: block;
 }
+
 .cfdatepicker.years div.cfdatepicker-years {
   display: block;
 }
+
 .cfdatepicker table {
   border: 0 none;
   width: auto;
   margin: 0;
   user-select: none;
 }
+
 .cfdatepicker table tr {
   background: none;
 }
+
 .cfdatepicker table tr td,
 .cfdatepicker table tr th {
   text-align: center;
   width: 10px;
   height: 10px;
 }
-.cfdatepicker table tr td.day:hover,
-.cfdatepicker table tr td.day.focused {
+
+.cfdatepicker table tr td.day.focused,
+.cfdatepicker table tr td.day:hover {
   background: #eeeeee;
   cursor: pointer;
 }
-.cfdatepicker table tr td.old,
-.cfdatepicker table tr td.new {
+
+.cfdatepicker table tr td.new,
+.cfdatepicker table tr td.old {
   color: #999999;
 }
+
 .cfdatepicker table tr td.disabled,
 .cfdatepicker table tr td.disabled:hover {
   background: none;
   color: #b4b9be;
   cursor: default;
 }
+
 .cfdatepicker table tr td.today,
-.cfdatepicker table tr td.today:hover,
 .cfdatepicker table tr td.today.disabled,
-.cfdatepicker table tr td.today.disabled:hover {
+.cfdatepicker table tr td.today.disabled:hover,
+.cfdatepicker table tr td.today:hover {
   color: #000000;
   background-color: #ffdb99;
   border-color: #ffb733;
@@ -126,27 +151,31 @@
 .cfdatepicker table tr td.today:hover:hover {
   color: #000;
 }
+
 .cfdatepicker table tr td.today.active:hover {
   color: #fff;
 }
+
 .cfdatepicker table tr td.selected,
-.cfdatepicker table tr td.selected:hover,
 .cfdatepicker table tr td.selected.disabled,
-.cfdatepicker table tr td.selected.disabled:hover {
+.cfdatepicker table tr td.selected.disabled:hover,
+.cfdatepicker table tr td.selected:hover {
   color: #ffffff;
   background-color: #999999;
   border-color: #555555;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
+
 .cfdatepicker table tr td.active,
-.cfdatepicker table tr td.active:hover,
 .cfdatepicker table tr td.active.disabled,
-.cfdatepicker table tr td.active.disabled:hover {
+.cfdatepicker table tr td.active.disabled:hover,
+.cfdatepicker table tr td.active:hover {
   color: #ffffff;
   background-color: #428bca;
   border-color: #357ebd;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
+
 .cfdatepicker table tr td span {
   display: block;
   width: 23%;
@@ -157,63 +186,77 @@
   cursor: pointer;
   border-radius: 4px;
 }
+
 .cfdatepicker table tr td span:hover {
   background: #eeeeee;
 }
+
 .cfdatepicker table tr td span.disabled,
 .cfdatepicker table tr td span.disabled:hover {
   background: none;
   color: #999999;
   cursor: default;
 }
+
 .cfdatepicker table tr td span.active,
-.cfdatepicker table tr td span.active:hover,
 .cfdatepicker table tr td span.active.disabled,
-.cfdatepicker table tr td span.active.disabled:hover {
+.cfdatepicker table tr td span.active.disabled:hover,
+.cfdatepicker table tr td span.active:hover {
   color: #ffffff;
   background-color: #428bca;
   border-color: #357ebd;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-.cfdatepicker table tr td span.old,
-.cfdatepicker table tr td span.new {
+
+.cfdatepicker table tr td span.new,
+.cfdatepicker table tr td span.old {
   color: #999999;
 }
+
 .cfdatepicker th.cfdatepicker-switch {
   width: 145px;
 }
-.cfdatepicker thead tr:first-child th,
-.cfdatepicker tfoot tr th {
+
+.cfdatepicker tfoot tr th,
+.cfdatepicker thead tr:first-child th {
   cursor: pointer;
 }
-.cfdatepicker thead tr:first-child th:hover,
-.cfdatepicker tfoot tr th:hover {
+
+.cfdatepicker tfoot tr th:hover,
+.cfdatepicker thead tr:first-child th:hover {
   background: #eeeeee;
 }
+
 .cfdatepicker .cw {
   font-size: 10px;
   width: 12px;
   padding: 0 2px 0 5px;
   vertical-align: middle;
 }
+
 .cfdatepicker thead tr:first-child th.cw {
   cursor: default;
   background-color: transparent;
 }
+
 .input-group.date .input-group-addon i {
   cursor: pointer;
   width: 16px;
   height: 16px;
 }
+
 .input-daterange input {
   text-align: center;
 }
+
 .input-daterange input:first-child {
   border-radius: 3px 0 0 3px;
 }
+
 .input-daterange input:last-child {
   border-radius: 0 3px 3px 0;
 }
+
 .input-daterange .input-group-addon {
   width: auto;
   min-width: 16px;
@@ -229,6 +272,7 @@
   margin-left: -5px;
   margin-right: -5px;
 }
+
 .cfdatepicker.dropdown-menu {
   position: absolute;
   top: 100%;
@@ -247,7 +291,65 @@
   font-size: 13px;
   line-height: 1.42857143;
 }
-.cfdatepicker.dropdown-menu th,
-.cfdatepicker.dropdown-menu td {
+
+.cfdatepicker.dropdown-menu td,
+.cfdatepicker.dropdown-menu th {
   padding: 4px 5px;
+}
+
+.dr-cals {
+  margin-bottom: 10px;
+}
+
+.dp-cal {
+  min-height: 260px;
+}
+
+.dp-next, .dp-prev {
+  top: 6px;
+}
+
+.dp-cal-month,
+.dp-cal-year {
+  padding: 12px 8px;
+}
+.dp-cal-header {
+  padding-bottom: 0;
+}
+
+.dp-day-today:after {
+  border-color: $warning-color;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+
+div.dp-below,
+div.dp-permanent {
+  z-index: 1015;
+  width: auto;
+}
+
+div.dr-cal-end {
+  display: none;
+}
+
+.dr-in-range {
+  background: #d6cfde;
+}
+
+.dp-selected,
+.dr-selected,
+.dp-day:hover,
+.dp .dp-current,
+.dp-selected:focus,
+.dp-selected:hover,
+.dp-cal-year:active,
+.dp-today:hover, .dp-today:active,
+.dp-cal-year:hover, .dp-cal-year:active,
+.dp-cal-month:hover, .dp-cal-month:active,
+.dp-cal-month:hover, .dp-cal-month:active,
+.dp-next:active, .dp-next:hover,
+.dp-prev:active, .dp-prev:hover {
+  background: lighten($primary-color, 10);
+  color: #fff;
 }
