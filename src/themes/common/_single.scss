@@ -272,6 +272,11 @@ body.page .entry-title {
   content: $fa-var-google-plus;
 }
 
+.sh-wa:before {
+  content: $fa-var-whatsapp;
+  font-size: 1.2em;
+}
+
 .sh-tw:before {
   content: $fa-var-twitter;
 }

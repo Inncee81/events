@@ -111,7 +111,7 @@ function visita_share_button( ) {
   $sharelinks = array(
     'em' => array( 'name' => __( 'eMail', 'visita' ), 'url' => 'mailto:?body=%3$s%%20%1$s&subject=%2$s' ),
     'fb' => array( 'name' => __( 'Facebook', 'visita' ), 'url' => 'https://www.facebook.com/sharer/sharer.php?u=%1$s' ),
-    'gp' => array( 'name' => __( 'Google+', 'visita' ), 'url' => 'https://plus.google.com/share?url=%1$s&text=%3$s' ),
+    'wa' => array( 'name' => __( 'WhatsApp', 'visita' ), 'url' => 'https://api.whatsapp.com/send?text=%1$s' ),
     'tw' => array( 'name' => __( 'Twitter', 'visita' ), 'url' => 'http://twitter.com/share?url=%1$s&text=%3$s' ),
     'ri' => array( 'name' => __( 'Reddit', 'visita' ), 'url' => 'http://www.reddit.com/submit/?url=%1$s&title=%s' ),
     'tb' => array( 'name' => __( 'Tumblr', 'visita' ), 'url' => 'https://www.tumblr.com/widgets/share/tool?canonicalUrl=%1$s&title=%s' ),
