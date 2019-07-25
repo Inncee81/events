@@ -17,6 +17,9 @@
 function visita_add_head_metatags( ) {
   global $visita_options;
 
+  echo '<link rel="preconnect" href="//www.google.com" />' . "\n";
+  echo '<link rel="preconnect" href="//www.google-analytics.com" />' . "\n";
+
   echo '<link rel="dns-prefetch" href="//cdn.apixu.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//fonts.gstatic.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="//youtube.com" />' . "\n";
@@ -24,7 +27,7 @@ function visita_add_head_metatags( ) {
   echo '<link rel="dns-prefetch" href="//pagead2.googlesyndication.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="https://s.' . esc_attr($visita_options['domain']) . '" />' . "\n";
 
-  echo '<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" as="font" />' . "\n";
+  echo '<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=block" as="font" />' . "\n";
   echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" crossorigin="anonymous" />' . "\n";
   echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.woff?v=4.7.0" as="font" crossorigin="anonymous" />' . "\n";
   echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.ttf?v=4.7.0" as="font" crossorigin="anonymous" />' . "\n";
