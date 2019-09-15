@@ -36,10 +36,11 @@ function fastvelocity_fix_permission_bits($file){
 function fvm_cachepath() {
 
 # custom directory
-$fvm_change_cache_path = get_option('fastvelocity_min_change_cache_path');
-$fvm_change_cache_base = get_option('fastvelocity_min_change_cache_base_url');
+$fvm_change_cache_path = trim(rtrim(get_option('fastvelocity_min_change_cache_path', ''), '/'));
+$fvm_change_cache_base = trim(rtrim(get_option('fastvelocity_min_change_cache_base_url', ''), '/'));
 $upload = array();
-if($fvm_change_cache_path !== false && $fvm_change_cache_base !== false && strlen($fvm_change_cache_path) > 1 && is_dir($fvm_change_cache_path) && is_writable(dirname($fvm_change_cache_path))) {
+
+if(strlen($fvm_change_cache_path) > 1 && strlen($fvm_change_cache_base) > 10 && is_dir($fvm_change_cache_path) && is_writable($fvm_change_cache_path)) {
 	$upload['basedir'] = trim($fvm_change_cache_path);
 	$upload['baseurl'] = trim($fvm_change_cache_base);
 } else {
@@ -143,7 +144,7 @@ function fvm_purge_old() {
 					$dir = $cachebaseparent.'/'.$d;
 					if(is_dir($dir)) { 
 						fastvelocity_rrmdir($dir); 
-						if(is_dir($dir)) { rmdir($dir); }
+						if(is_dir($dir)) { @rmdir($dir); }
 					}
 				}
 			}
@@ -224,12 +225,12 @@ function fastvelocity_rrmdir($path) {
 			if($f->isFile()){ unlink($f->getRealPath());
 			} else if(!$f->isDot() && $f->isDir()){
 				fastvelocity_rrmdir($f->getRealPath());
-				if(is_dir($f->getRealPath())) { rmdir($f->getRealPath()); }
+				if(is_dir($f->getRealPath())) { @rmdir($f->getRealPath()); }
 			}
 		}
 		
 		# self
-		if(is_dir($path)) { rmdir($path); }
+		if(is_dir($path)) { @rmdir($path); }
 	}
 }
 

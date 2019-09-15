@@ -3,7 +3,7 @@ Contributors: Alignak
 Tags: PHP Minify, Lighthouse, GTmetrix, Pingdom, Pagespeed, CSS Merging, JS Merging, CSS Minification, JS Minification, Speed Optimization, HTML Minification, Performance, Optimization, Speed, Fast
 Requires at least: 4.5
 Requires PHP: 5.5
-Stable tag: 2.6.8
+Stable tag: 2.7.4
 Tested up to: 5.2.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -197,6 +197,25 @@ Please backup your site before updating. Version 3.0 will have a major code rewr
 
 
 == Changelog ==
+
+= 2.7.4 [2019.08.18] =
+* hange to open JS/CSS files suspected of having PHP code via HTTP request, instead of reading the file directly from disk
+
+= 2.7.3 [2019.07.29] =
+* Beaver Builder compatibility fix
+
+= 2.7.2 [2019.07.29] =
+* fixed a PHP notice when WP_DEBUG mode is enabled on wordpress
+* small improvements on google fonts merging
+
+= 2.7.1 [2019.07.27] =
+* fixed an AMP validation javascript error
+
+= 2.7.0 [2019.07.23] =
+* some score fixes when deferring to pagespeed is enabled
+
+= 2.6.9 [2019.07.15] =
+* custom cache path permissions fix (thanks to @fariazz)
 
 = 2.6.8 [2019.07.06] =
 * header preload fixes (thanks to @vandreev)

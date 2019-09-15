@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.6.8
+Version: 2.7.4
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -30,8 +30,7 @@ function fvm_compat_checker() {
 	
 	# defaults
 	$error = '';
-	$nwpv = implode('.', array_slice(explode('.', $wp_version), 0, 2)); # get 2 p only
-	
+
 	# php version requirements
 	if (version_compare( PHP_VERSION, '5.5', '<' )) { 
 		$error = 'Fast Velocity Minify requires PHP 5.5 or higher. You’re still on '. PHP_VERSION; 
@@ -43,10 +42,9 @@ function fvm_compat_checker() {
 	}
 	
 	# wp version requirements
-	if ( $nwpv < '4.5' ) { 
-		$error = 'Fast Velocity Minify requires WP 4.5 or higher. You’re still on ' . $wp_version; 
+	if ( version_compare( $GLOBALS['wp_version'], '4.5', '<' ) ) {
+		$error = 'Fast Velocity Minify requires WP 4.5 or higher. You’re still on ' . $GLOBALS['wp_version']; 
 	}
-
 	
 	if ((is_plugin_active(plugin_basename( __FILE__ )) && !empty($error)) || !empty($error)) { 
 		if (isset($_GET['activate'])) { unset($_GET['activate']); }
@@ -160,7 +158,22 @@ if($fvm_gfonts_method != false) {
 
 
 # default ua list
-$fvmualist = array('x11.*fox\/54', 'oid\s4.*xus.*ome\/62', 'x11.*ome\/62', 'oobot', 'ighth', 'tmetr', 'eadles', 'ingdo');
+$fvmualist = array('x11.*fox\/54', 'oid\s4.*xus.*ome\/62', 'oobot', 'ighth', 'tmetr', 'eadles', 'ingdo');
+
+# header and footer markers
+add_action('wp_head','fastvelocity_add_fvmuag', -PHP_INT_MAX);
+function fastvelocity_add_fvmuag() {
+	global $fvmualist;
+	if(!fastvelocity_exclude_contents() || fastvelocity_load_fvuag()) {
+		echo '<script>'.fastvelocity_get_fvmuag($fvmualist).'</script>';
+	}
+}
+
+# generate fvmuag js function
+function fastvelocity_get_fvmuag($fvmualist) {
+	return 'function fvmuag(){if(navigator.userAgent.match(/'.implode('|', $fvmualist).'/i))return!1;if(navigator.userAgent.match(/x11.*ome\/75\.0\.3770\.100/i)){var e=screen.width,t=screen.height;if("number"==typeof e&&"number"==typeof t&&862==t&&1367==e)return!1}return!0}';
+}
+
 
 
 # add admin page and rewrite defaults
@@ -181,7 +194,12 @@ if(is_admin()) {
 	register_uninstall_hook( __FILE__, 'fastvelocity_plugin_uninstall');
 	
 } else {
-		
+	add_action('setup_theme', 'fastvelocity_process_frontend' );
+}
+
+function fastvelocity_process_frontend() {
+	global $disable_js_merge, $disable_css_merge, $force_inline_css, $skip_emoji_removal, $fvm_clean_header_one, $skip_html_minification, $fvmloadcss, $fvm_fawesome_method, $fvm_gfonts_method;
+	
 	# skip on certain post_types or if there are specific keys on the url or if editor or admin
 	if(!fastvelocity_exclude_contents()) {
 	
@@ -238,26 +256,21 @@ if(is_admin()) {
 		# remove query from static assets and process defering (if enabled)
 		add_filter('style_loader_src', 'fastvelocity_remove_cssjs_ver', 10, 2);
 		add_filter('script_loader_tag', 'fastvelocity_min_defer_js', 10, 3); 
+		
+		# headers
+		add_action( 'send_headers', 'fvm_extra_preload_headers' );
+		add_action( 'wp_footer', 'fastvelocity_generate_preload_headers', PHP_INT_MAX);
+		add_filter( 'script_loader_tag', 'fastvelocity_collect_js_preload_headers', PHP_INT_MAX, 3 );
 
 	}
 }
 
-
 # exclude processing for editors and administrators (fix editors)
 add_action( 'plugins_loaded', 'fastvelocity_fix_editor' );
 function fastvelocity_fix_editor() {
-global $fvm_fix_editor, $disable_js_merge, $disable_css_merge, $skip_emoji_removal;
+global $fvm_fix_editor;
 	if($fvm_fix_editor == true && is_user_logged_in()) {
-		remove_action('wp_print_scripts', 'fastvelocity_min_merge_header_scripts', PHP_INT_MAX );
-		remove_action('wp_print_footer_scripts', 'fastvelocity_min_merge_footer_scripts', 9.999999 ); 
-		remove_action('wp_print_styles', 'fastvelocity_min_merge_header_css', PHP_INT_MAX ); 
-		remove_action('wp_print_footer_scripts', 'fastvelocity_min_merge_footer_css', 9.999999 );
-		remove_action('wp_print_styles', 'fastvelocity_add_google_fonts_merged', PHP_INT_MAX);
-		remove_action('wp_print_footer_scripts', 'fastvelocity_add_google_fonts_merged', PHP_INT_MAX );
-		remove_action('init', 'fastvelocity_min_disable_wp_emojicons');
-		remove_action('template_redirect', 'fastvelocity_min_html_compression_start', PHP_INT_MAX);
-		remove_filter('style_loader_src', 'fastvelocity_remove_cssjs_ver', 10, 2);
-		remove_filter('script_loader_tag', 'fastvelocity_min_defer_js', 10, 3); 
+		remove_action('setup_theme', 'fastvelocity_process_frontend' );
 	} 
 }
 
@@ -294,7 +307,7 @@ function fastvelocity_min_files_callback() {
 	
 	# default
 	$size = fastvelocity_get_cachestats();
-	$return = array('js' => array(), 'css' => array(), 'stamp' => $_POST['stamp'], 'cachesize'=> $size);
+	$return = array('js' => array(), 'css' => array(), 'cachesize'=> $size);
 	
 	# inspect directory with opendir, since glob might not be available in some systems
 	clearstatcache();
@@ -303,7 +316,7 @@ function fastvelocity_min_files_callback() {
 			$file = $cachedir.'/'.$file;
 			$ext = pathinfo($file, PATHINFO_EXTENSION);
 			if (in_array($ext, array('js', 'css'))) {
-				$log = file_get_contents($file.'.txt');
+				$log = ''; if (file_exists($file.'.txt')) { $log = file_get_contents($file.'.txt'); }
 				$mincss = substr($file, 0, -4).'.min.css';
 				$minjs = substr($file, 0, -3).'.min.js';
 				$filename = basename($file);
@@ -1230,7 +1243,7 @@ if (isset($wp_scripts->registered[$handle]->extra["group"]) || isset($wp_scripts
 		foreach($fvm_min_excludejslist as $l) {
 			if (stripos($hurl, $l) !== false) {
 				# print code if there are no linebreaks, or return
-				echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+				echo '<script type="text/javascript">if(fvmuag()){';
 				echo "loadAsync('$hurl', null);";			
 				echo '}</script>';
 				$skipjs = true;
@@ -1437,7 +1450,7 @@ foreach( $scripts->to_do as $handle ) :
 		foreach($fvm_min_excludejslist as $l) {
 			if (stripos($hurl, $l) !== false) {
 				# print code if there are no linebreaks, or return
-				echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+				echo '<script type="text/javascript">if(fvmuag()){';
 				echo "loadAsync('$hurl', null);";			
 				echo '}</script>';
 				$skipjs = true;
@@ -1611,7 +1624,7 @@ if (stripos($src, '?ver') !== false) {
 
 
 # fix page editors, admin, amp, etc
-if (is_admin() || is_preview() || is_customize_preview() || ($fvm_fix_editor == true && is_user_logged_in()) || (function_exists( 'is_amp_endpoint' ) && is_amp_endpoint())) { return $tag; }
+if(fastvelocity_exclude_contents()) { return $tag; }
 
 # return if defer option is not selected
 if ($defer_for_pagespeed != true && $enable_defer_js != true) { return $tag; }
@@ -1653,7 +1666,7 @@ if (stripos($tag, 'defer') === false && stripos($tag, 'async') === false) {
 	$jsdeferpsionly = '<script type="text/javascript">if(navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){document.write('.fastvelocity_escape_url_js($jsdeferpsi).');}else{document.write('.fastvelocity_escape_url_js($tag).');}</script>';
 	
 	# hide tag from PSI
-	$jsdeferhidepsi = '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){document.write('.fastvelocity_escape_url_js($tag).');}</script>';
+	$jsdeferhidepsi = '<script type="text/javascript">if(fvmuag()){document.write('.fastvelocity_escape_url_js($tag).');}</script>';
 	
 	# must return by this order...
 	
@@ -1752,7 +1765,7 @@ foreach( $styles->to_do as $handle):
 	# Exclude specific CSS files from PSI?
 	if($fvm_min_excludecsslist != false && is_array($fvm_min_excludecsslist) && fastvelocity_min_in_arrayi($hurl, $fvm_min_excludecsslist)) {
 		$cssguid = 'fvm'.hash('adler32', $hurl);
-		echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+		echo '<script type="text/javascript">if(fvmuag()){';
 		echo 'var '.$cssguid.'=document.createElement("link");'.$cssguid.'.rel="stylesheet",'.$cssguid.'.type="text/css",'.$cssguid.'.media="async",'.$cssguid.'.href="'.$hurl.'",'.$cssguid.'.onload=function(){'.$cssguid.'.media="'.$mediatype.'"},document.getElementsByTagName("head")[0].appendChild('.$cssguid.');';
 		echo '}</script>';
 		$done = array_merge($done, array($handle)); continue;
@@ -1769,7 +1782,7 @@ foreach( $styles->to_do as $handle):
 	# font awesome processing, async and exclude from PSI
 	if($fvm_fawesome_method == 3 && stripos($hurl, 'font-awesome') !== false) {
 		$cssguid = 'fvm'.hash('adler32', $hurl);
-		echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+		echo '<script type="text/javascript">if(fvmuag()){';
 		echo 'var '.$cssguid.'=document.createElement("link");'.$cssguid.'.rel="stylesheet",'.$cssguid.'.type="text/css",'.$cssguid.'.media="async",'.$cssguid.'.href="'.$hurl.'",'.$cssguid.'.onload=function(){'.$cssguid.'.media="'.$mediatype.'"},document.getElementsByTagName("head")[0].appendChild('.$cssguid.');';
 		echo '}</script>';
 		$done = array_merge($done, array($handle)); continue;
@@ -1817,7 +1830,7 @@ if(!$skip_google_fonts && count($google_fonts) > 0 || ($force_inline_googlefonts
 				
 				# make a stylesheet, hide from PSI
 				$cssguid = 'fvm'.hash('adler32', $gfurl);
-				echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+				echo '<script type="text/javascript">if(fvmuag()){';
 				echo 'var '.$cssguid.'=document.createElement("link");'.$cssguid.'.rel="stylesheet",'.$cssguid.'.type="text/css",'.$cssguid.'.media="async",'.$cssguid.'.href="'.$gfurl.'",'.$cssguid.'.onload=function(){'.$cssguid.'.media="all"},document.getElementsByTagName("head")[0].appendChild('.$cssguid.');';
 				echo '}</script>';	
 				
@@ -2164,7 +2177,7 @@ if(!$skip_google_fonts && count($google_fonts) > 0 || ($force_inline_googlefonts
 				
 				# make a stylesheet, hide from PSI
 				$cssguid = 'fvm'.hash('adler32', $gfurl);
-				echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+				echo '<script type="text/javascript">if(fvmuag()){';
 				echo 'var '.$cssguid.'=document.createElement("link");'.$cssguid.'.rel="stylesheet",'.$cssguid.'.type="text/css",'.$cssguid.'.media="async",'.$cssguid.'.href="'.$gfurl.'",'.$cssguid.'.onload=function(){'.$cssguid.'.media="all"},document.getElementsByTagName("head")[0].appendChild('.$cssguid.');';
 				echo '}</script>';	
 				
@@ -2255,7 +2268,7 @@ foreach( $styles->to_do as $handle ) :
 	# Exclude specific CSS files from PSI?
 	if($fvm_min_excludecsslist != false && is_array($fvm_min_excludecsslist) && fastvelocity_min_in_arrayi($hurl, $fvm_min_excludecsslist)) {
 		$cssguid = 'fvm'.hash('adler32', $hurl);
-		echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+		echo '<script type="text/javascript">if(fvmuag()){';
 		echo 'var '.$cssguid.'=document.createElement("link");'.$cssguid.'.rel="stylesheet",'.$cssguid.'.type="text/css",'.$cssguid.'.media="async",'.$cssguid.'.href="'.$hurl.'",'.$cssguid.'.onload=function(){'.$cssguid.'.media="'.$mediatype.'"},document.getElementsByTagName("head")[0].appendChild('.$cssguid.');';
 		echo '}</script>';
 		$done = array_merge($done, array($handle)); continue;
@@ -2272,7 +2285,7 @@ foreach( $styles->to_do as $handle ) :
 	# font awesome processing, async and exclude from PSI
 	if($fvm_fawesome_method == 3 && stripos($hurl, 'font-awesome') !== false) {
 		$cssguid = 'fvm'.hash('adler32', $hurl);
-		echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+		echo '<script type="text/javascript">if(fvmuag()){';
 		echo 'var '.$cssguid.'=document.createElement("link");'.$cssguid.'.rel="stylesheet",'.$cssguid.'.type="text/css",'.$cssguid.'.media="async",'.$cssguid.'.href="'.$hurl.'",'.$cssguid.'.onload=function(){'.$cssguid.'.media="'.$mediatype.'"},document.getElementsByTagName("head")[0].appendChild('.$cssguid.');';
 		echo '}</script>';
 		$done = array_merge($done, array($handle)); continue;
@@ -2530,7 +2543,6 @@ function fvm_add_criticial_path() {
 ###########################################
 # add preconnect and preload headers
 ###########################################
-add_action( 'send_headers', 'fvm_extra_preload_headers' );
 function fvm_extra_preload_headers() { 
 
 # fetch headers
@@ -2583,7 +2595,7 @@ function fastvelocity_optimizecss($html, $handle, $href, $media){
 		if($fvm_debug == true) { echo "<!-- FVM DEBUG: Inline CSS processing start $handle / $href -->" . PHP_EOL; }
 		
 		# prevent optimization for these locations
-		if (is_admin() || is_preview() || is_customize_preview() || ($fvm_fix_editor == true && is_user_logged_in()) || (function_exists( 'is_amp_endpoint' ) && is_amp_endpoint())) {
+		if(fastvelocity_exclude_contents()) {
 			return $html;
 		}
 		
@@ -2612,7 +2624,7 @@ function fastvelocity_optimizecss($html, $handle, $href, $media){
 		# Exclude specific CSS files from PSI?
 		if($fvm_min_excludecsslist != false && is_array($fvm_min_excludecsslist) && fastvelocity_min_in_arrayi($href, $fvm_min_excludecsslist)) {
 			$cssguid = 'fvm'.hash('adler32', $href);
-			echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+			echo '<script type="text/javascript">if(fvmuag()){';
 			echo 'var '.$cssguid.'=document.createElement("link");'.$cssguid.'.rel="stylesheet",'.$cssguid.'.type="text/css",'.$cssguid.'.media="async",'.$cssguid.'.href="'.$href.'",'.$cssguid.'.onload=function(){'.$cssguid.'.media="'.$media.'"},document.getElementsByTagName("head")[0].appendChild('.$cssguid.');';
 			echo '}</script>';
 			return false;
@@ -2637,7 +2649,7 @@ function fastvelocity_optimizecss($html, $handle, $href, $media){
 			# hide google fonts from PSI
 			if($css_hide_googlefonts == true) {
 				$cssguid = 'fvm'.hash('adler32', $href);
-				echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+				echo '<script type="text/javascript">if(fvmuag()){';
 				echo 'var '.$cssguid.'=document.createElement("link");'.$cssguid.'.rel="stylesheet",'.$cssguid.'.type="text/css",'.$cssguid.'.media="async",'.$cssguid.'.href="'.$href.'",'.$cssguid.'.onload=function(){'.$cssguid.'.media="all"},document.getElementsByTagName("head")[0].appendChild('.$cssguid.');';
 				echo '}</script>';
 				return false; 
@@ -2663,7 +2675,7 @@ function fastvelocity_optimizecss($html, $handle, $href, $media){
 		# font awesome processing, async and exclude from PSI
 		if($fvm_fawesome_method == 3 && stripos($href, 'font-awesome') !== false) {
 			$cssguid = 'fvm'.hash('adler32', $href);
-			echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+			echo '<script type="text/javascript">if(fvmuag()){';
 			echo 'var '.$cssguid.'=document.createElement("link");'.$cssguid.'.rel="stylesheet",'.$cssguid.'.type="text/css",'.$cssguid.'.media="async",'.$cssguid.'.href="'.$href.'",'.$cssguid.'.onload=function(){'.$cssguid.'.media="'.$media.'"},document.getElementsByTagName("head")[0].appendChild('.$cssguid.');';
 			echo '}</script>';
 			return false;
@@ -2818,7 +2830,7 @@ function fastvelocity_add_google_fonts_merged() {
 		
 		# make a stylesheet, hide from PSI
 		$cssguid = 'fvm'.hash('adler32', $gfurl);
-		echo '<script type="text/javascript">if(!navigator.userAgent.match(/'.implode('|', $fvmualist).'/i)){';
+		echo '<script type="text/javascript">if(fvmuag()){';
 		echo 'var '.$cssguid.'=document.createElement("link");'.$cssguid.'.rel="stylesheet",'.$cssguid.'.type="text/css",'.$cssguid.'.media="async",'.$cssguid.'.href="'.$gfurl.'",'.$cssguid.'.onload=function(){'.$cssguid.'.media="all"},document.getElementsByTagName("head")[0].appendChild('.$cssguid.');';
 		echo '}</script>';
 		
@@ -2843,7 +2855,6 @@ function fastvelocity_add_google_fonts_merged() {
 
 
 # collect all fvm JS files and save them to an headers file
-add_filter('script_loader_tag', 'fastvelocity_collect_js_preload_headers', PHP_INT_MAX, 3 );
 function fastvelocity_collect_js_preload_headers($html, $handle, $src){
 	global $cachedirurl, $collect_preload_js, $fvm_enabled_css_preload, $fvm_enabled_js_preload;
 	
@@ -2860,7 +2871,6 @@ function fastvelocity_collect_js_preload_headers($html, $handle, $src){
 }
 
 # generate preload headers file
-add_action('wp_footer', 'fastvelocity_generate_preload_headers', PHP_INT_MAX); 
 function fastvelocity_generate_preload_headers(){
 	global $cachedirurl, $collect_preload_css, $collect_preload_js, $fvm_enabled_css_preload, $fvm_enabled_js_preload;
 	

@@ -3,8 +3,9 @@ Contributors: 		lopo
 Donate link: 		https://duplicate-post.lopo.it/
 Tags: 				duplicate post, copy, clone
 Requires at least: 	3.6
-Tested up to: 		4.9
-Stable tag: 		3.2.2
+Tested up to: 		5.2
+Stable tag: 		3.2.3
+Requires PHP:		5.2.4
 License: 			GPLv2 or later
 License URI: 		http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +35,8 @@ There is also a **template tag**, so you can put it in your templates and clone 
 Duplicate Post has many useful settings to customize its behavior and restrict its use to certain roles or post types. Check out the extensive documentation on [the plugin's site](https://duplicate-post.lopo.it).
 
 **If you're a plugin developer**, I suggest you to read the [Developer's Guide](https://duplicate-post.lopo.it/docs/developers-guide/) to ensure compatibility between your plugin(s) and mine. Feel free to [contact me](https://duplicate-post.lopo.it/contact) so we can keep in touch and collaborate.
+
+Duplicate Post does not collect any information outside your WordPress installation, therefore it's 100% GDPR compliant.
 
 Thanks for all the suggestions, bug reports, translations and donations, they're frankly too many to be listed here!
 
@@ -75,6 +78,9 @@ If Duplicate Post is still in English, or if there are some untraslated strings,
 6. Bulk clone action.
 
 == Upgrade Notice ==
+
+= 3.2.3 =
+Fixes some bugs and incompatibilities with CF7, WPML, and custom post types with custom capabilities 
 
 = 3.2.2 =
 Adds compatibility with Gutenberg UI and fixes a problem with slugs on new installs
@@ -143,6 +149,11 @@ Some users have experienced a fatal error when upgrading to v1.1: this may fix i
 New features and customization, WP 3.0 compatibility: you should upgrade if you want to copy Custom Posts with Custom Taxonomies.
 
 == Changelog ==
+
+= 3.2.3 (2019-07-10) =
+* Fixes incompatibility with previous versions of CF7
+* Now roles without edit_posts capability but having equivalent capability for custom post types can be allowed to copy
+* Small other fixes to bugs that could lead to incompatibilities with WPML and others
 
 = 3.2.2 (2018-04-13) =
 * The "Admin bar" option shows the link in the post edit screen too, so you can use the plugin with Gutenberg enabled
