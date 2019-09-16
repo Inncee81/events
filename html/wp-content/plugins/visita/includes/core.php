@@ -51,6 +51,7 @@ class Visita_Core {
     }
 
     if ( ! is_admin() ) {
+      add_action( 'amp_init', array( $this, 'amp_init') );
       add_action( 'wp', array( $this, 'remove_code' ), 100 );
       add_filter( 'query_vars', array( $this, 'add_query_vars' ) );
       add_filter( 'locale', array( $this, 'change_language'), 500 );
@@ -141,6 +142,22 @@ class Visita_Core {
   function add_query_vars( $vars ) {
     array_push( $vars, 'orden', 'por' );
     return $vars;
+  }
+
+  /**
+  *
+  */
+  function amp_init() {
+    add_filter( 'send_headers', array( $this, 'send_amp_headers' ) );
+  }
+
+  /**
+  *
+  */
+  function send_amp_headers() {
+    if ( isset( $_GET[ amp_get_slug() ] ) ) {
+      header( 'cache-control: must-revalidate, max-age=72000' ); // 20 hours
+    }
   }
 
   /**
