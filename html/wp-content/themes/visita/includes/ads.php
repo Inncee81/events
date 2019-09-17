@@ -19,11 +19,11 @@ function visita_before_ad( ) {
   echo '
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <ins class="adsbygoogle top"
-   style="display:block"
+   style="display:block;max-height:120px"
    data-ad-client="ca-pub-1000685253996582"
    data-full-width-responsive="false"
    data-ad-slot="4059481352"
-   data-ad-format="auto"></ins>
+   data-ad-format="horizontal"></ins>
   <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
 }
 add_action( 'visita_before_loop', 'visita_before_ad', 5 );
