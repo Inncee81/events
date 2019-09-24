@@ -665,16 +665,17 @@ class VisitaBase {
         '@type' => 'ListItem',
         'position' =>	$count++,
         'item' => array(
-          '@id' => home_url($this->taxonomy_slug),
+          '@id' => home_url( $this->taxonomy_slug ),
           'name' => $this->taxonomy_label,
         )
       );
+      $object = get_queried_object();
       $breadcrumbs['itemListElement'][] = array(
         '@type' => 'ListItem',
         'position' =>	$count++,
         'item' => array(
-          '@id' => get_term_link(get_queried_object()->ID),
-          'name' => get_queried_object()->name,
+          '@id' => get_term_link( $object->term_id ),
+          'name' => $object->name,
         )
       );
     }
@@ -684,7 +685,7 @@ class VisitaBase {
         '@type' => 'ListItem',
         'position' =>	$count++,
         'item' => array(
-          '@id' => home_url($this->taxonomy_slug),
+          '@id' => home_url( $this->taxonomy_slug ),
           'name' => $this->taxonomy_label,
         )
       );
