@@ -146,7 +146,8 @@ function visita_style_enqueues( ) {
   if ( is_admin() ) {
     return;
   }
-  wp_register_style( 'font-open-sans', 'https://fonts.googleapis.com/css?family=Roboto:300,400,500' );
+
+  wp_register_style( 'font-open-sans', 'https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=block' );
   wp_register_style( 'visita', get_stylesheet_directory_uri() . "/style.css", false, wp_get_theme()->version, 'all' );
 }
 add_action( 'wp_enqueue_scripts', 'visita_style_enqueues' );
@@ -164,7 +165,7 @@ function visita_inline_styles( ) {
        wp_get_theme()->version,
        get_stylesheet_directory_uri() . "/style.css",
        get_stylesheet_directory_uri() . "/tablet.css",
-       'https://fonts.googleapis.com/css?family=Roboto:300,400,500'
+       'https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=block'
     );
     echo "<style>{$content}</style>";
   }
@@ -205,7 +206,7 @@ function visita_scripts_enqueues( ) {
     'weather_unit' => ($lang == 'es') ? 'c' : 'f',
     'weather_text' => sprintf( __('Las Vegas Weather: %s', 'visita' ), ($lang == 'es') ? 'Celsius' : 'Freiheit'),
     'weather' => esc_url( "/wp-content/cache/_json/{$lang}.json" ),
-    'fonts' => "https://fonts.googleapis.com/css?family=Roboto:300,400,500",
+    'fonts' => "https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=block",
     'styles' => get_stylesheet_directory_uri() . "/style.css?v=" . $theme->version,
     'tablet' => get_stylesheet_directory_uri() . "/tablet.css?v=" . $theme->version,
   ) );
