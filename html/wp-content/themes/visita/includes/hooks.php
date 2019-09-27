@@ -17,11 +17,11 @@
 function visita_add_head_metatags( ) {
   global $visita_options;
 
+  echo '<link rel="preconnect" href="https://www.gstatic.com" />' . "\n";
   echo '<link rel="preconnect" href="https://www.googleadservices.com" crossorigin="anonymous" />' . "\n";
 
   echo '<link rel="dns-prefetch" href="https://cdn.apixu.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="https://youtube.com" />' . "\n";
-  echo '<link rel="dns-prefetch" href="https://www.gstatic.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="https://fonts.gstatic.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="https://fonts.googleapis.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="https://adservice.google.com" />' . "\n";
