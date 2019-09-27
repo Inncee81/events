@@ -17,15 +17,15 @@
 function visita_add_head_metatags( ) {
   global $visita_options;
 
-  echo '<link rel="preconnect" href="https://www.google.com" crossorigin="anonymous" />' . "\n";
+  echo '<link rel="preconnect" href="https://adservice.google.com" crossorigin="anonymous" />' . "\n";
   echo '<link rel="preconnect" href="https://www.google-analytics.com" crossorigin="anonymous" />' . "\n";
   echo '<link rel="preconnect" href="https://www.googleadservices.com" crossorigin="anonymous" />' . "\n";
 
-  echo '<link rel="dns-prefetch" href="//cdn.apixu.com" />' . "\n";
-  echo '<link rel="dns-prefetch" href="//fonts.gstatic.com" />' . "\n";
-  echo '<link rel="dns-prefetch" href="//youtube.com" />' . "\n";
-  echo '<link rel="dns-prefetch" href="//fonts.googleapis.com" />' . "\n";
-  echo '<link rel="dns-prefetch" href="//pagead2.googlesyndication.com" />' . "\n";
+  echo '<link rel="dns-prefetch" href="https://cdn.apixu.com" />' . "\n";
+  echo '<link rel="dns-prefetch" href="https://youtube.com" />' . "\n";
+  echo '<link rel="dns-prefetch" href="https://www.gstatic.com" />' . "\n";
+  echo '<link rel="dns-prefetch" href="https://fonts.gstatic.com" />' . "\n";
+  echo '<link rel="dns-prefetch" href="https://fonts.googleapis.com" />' . "\n";
   echo '<link rel="dns-prefetch" href="https://s.' . esc_attr($visita_options['domain']) . '" />' . "\n";
 
   echo '<link rel="preload" href="' . get_stylesheet_directory_uri() . '/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" crossorigin="anonymous" />' . "\n";
