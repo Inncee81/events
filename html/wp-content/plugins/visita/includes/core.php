@@ -5,7 +5,7 @@
 * @file core.php
 * @package visita
 * @author Hafid Trujillo
-* @copyright 2010-2018 Xpark Media
+* @copyright 2010-2020 Xpark Media
 * @version release: 1.0.0
 * @filesource  wp-content/plugins/visita/includes/core.php
 * @since available since 0.1.0
@@ -773,7 +773,7 @@ class Visita_Core {
       '<h2><a href="/" title="%1$s" rel="bookmark">%2$s</a></h2>
       <ul class="event-list">%3$s</ul>',
       esc_attr($titulo),
-      __( 'Events', 'visita'),
+      __( 'Events', 'visita' ),
       $list
     );
   }
@@ -787,7 +787,7 @@ class Visita_Core {
 
     if (
       !is_category()
-      && !is_singular( 'post' )) {
+      && !is_singular( 'post' ) ) {
       return;
     }
 
@@ -801,7 +801,7 @@ class Visita_Core {
           'position' =>	$count,
           'item' => array(
             '@id' => home_url(''),
-            'name' => __('Home'),
+            'name' => __( 'Home', 'visita' ),
           )
         )
       )
@@ -811,8 +811,8 @@ class Visita_Core {
       '@type' => 'ListItem',
       'position' =>	$count++,
       'item' => array(
-        '@id' => home_url('blog'),
-        'name' => __('Blog'),
+        '@id' => home_url( 'blog' ),
+        'name' => __( 'Blog', 'visita' ),
       )
     );
 

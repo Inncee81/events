@@ -5,7 +5,7 @@
 * @file amp.php
 * @package visita
 * @author Hafid Trujillo
-* @copyright 2010-2018 Xpark Media
+* @copyright 2010-2020 Xpark Media
 * @version release: 1.0.3
 * @filesource  wp-content/themes/visita/includes/amp.php
 * @since available since 0.1.9

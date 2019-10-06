@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Image Store - image widget
+ * Visita -  widget
  *
  * @file widget.php
- * @package Image Store
+ * @package Visita
  * @author Hafid Trujillo
- * @copyright 2010-2015
+ * @copyright 2010-2020 Xpark Media
  * @filesource  wp-content/plugins/image-store/_inc/widget.php
  * @since 0.5.3
  */
