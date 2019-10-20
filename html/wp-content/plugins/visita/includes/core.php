@@ -415,7 +415,7 @@ class Visita_Core {
             <div class="text-center">
               <div class="strong text-cap">%4$s</div>
               <img src="%6$s" alt="%3$s" title="%3$s">
-              <div class="show-for-medium">%3$s</div>
+              <div class="show-for-medium small">%3$s</div>
               <div>%1$s&deg;%5$s / %2$s&deg;%5$s</div>
             </div>
           </div>',

@@ -13,6 +13,7 @@ html/wp-content/index.html
 html/wp-content/cache/
 html/wp-config.php
 html/wp-content/uploads
+html/wp-content/upgrade
 html/wp-content/plugins/developer
 html/wp-content/plugins/debug-*
 wp-config.php

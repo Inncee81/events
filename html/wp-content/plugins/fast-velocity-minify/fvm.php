@@ -5,7 +5,7 @@ Plugin URI: http://fastvelocity.com
 Description: Improve your speed score on GTmetrix, Pingdom Tools and Google PageSpeed Insights by merging and minifying CSS and JavaScript files into groups, compressing HTML and other speed optimizations. 
 Author: Raul Peixoto
 Author URI: http://fastvelocity.com
-Version: 2.7.4
+Version: 2.7.7
 License: GPL2
 
 ------------------------------------------------------------------------
@@ -303,6 +303,12 @@ function fastvelocity_admintoolbar() {
 
 # function to list all cache files
 function fastvelocity_min_files_callback() {
+	
+	# must be able to cleanup cache
+	if (!current_user_can('manage_options')) {
+		wp_die( __('You do not have sufficient permissions to access this page.')); 
+	}
+		
 	global $cachedir;
 	
 	# default
@@ -1340,16 +1346,23 @@ for($i=0,$l=count($header);$i<$l;$i++) {
 						continue;
 					}
 					
-					# append code to merged file
-					$code.= $res['code'];
-					$log.= $res['log'];
-					
 					# Add extra data from wp_add_inline_script before
 					if (!empty( $wp_scripts->registered[$handle]->extra)) {
 						if (!empty( $wp_scripts->registered[$handle]->extra['before'])){
 							$code.= PHP_EOL . implode(PHP_EOL, $wp_scripts->registered[$handle]->extra['before']);
 						}
-					}
+					}				
+					
+					# append code to merged file
+					$code.= $res['code'];
+					$log.= $res['log'];
+					
+					# Add extra data from wp_add_inline_script after
+					if (!empty( $wp_scripts->registered[$handle]->extra)) {
+						if (!empty( $wp_scripts->registered[$handle]->extra['after'])){
+							$code.= PHP_EOL . implode(PHP_EOL, $wp_scripts->registered[$handle]->extra['after']);
+						}
+					}	
 
 				# consider dependencies on handles with an empty src
 				} else {
@@ -1535,14 +1548,21 @@ for($i=0,$l=count($footer);$i<$l;$i++) {
 						continue;
 					}
 					
-					# append code to merged file
-					$code.= $res['code'];
-					$log.= $res['log'];
-					
 					# Add extra data from wp_add_inline_script before
 					if (!empty($wp_scripts->registered[$handle]->extra)){
 						if (!empty($wp_scripts->registered[$handle]->extra['before'])){
 							$code.= PHP_EOL.implode(PHP_EOL, $wp_scripts->registered[$handle]->extra['before']);
+						}
+					}
+					
+					# append code to merged file
+					$code.= $res['code'];
+					$log.= $res['log'];
+
+					# Add extra data from wp_add_inline_script after
+					if (!empty($wp_scripts->registered[$handle]->extra)){
+						if (!empty($wp_scripts->registered[$handle]->extra['after'])){
+							$code.= PHP_EOL.implode(PHP_EOL, $wp_scripts->registered[$handle]->extra['after']);
 						}
 					}
 			
