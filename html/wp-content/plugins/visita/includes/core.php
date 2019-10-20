@@ -114,7 +114,7 @@ class Visita_Core {
   function add_cron_schedule( $schedules ) {
     $schedules['every_two_half_hours'] = array(
       'interval'  => 9000,
-      'display'   => __( 'Every 2 Hours', 'textdomain' )
+      'display'   => __( 'Every 2 Hours', 'visita' )
     );
     return $schedules;
   }
@@ -310,10 +310,15 @@ class Visita_Core {
   function visita_get_weather( $lang ) {
 
     $responds = wp_remote_get(
-      "https://api.apixu.com/v1/forecast.json?key=d5c0c8ccdd194cf4b0003734172201&days=5&q=89109&lang=${lang}"
+      sprintf(
+        'https://api.darksky.net/forecast/%s/36.1719,-115.14/?exclude=[hourly,minutely,minutely,flags]&units=%s&lang=%s',
+        '8b18a1c80e95de95ae9dfb972574e0a9',
+        ( $lang == 'es' ) ? 'ca' : 'us',
+        $lang
+      )
     );
 
-    if (is_wp_error($responds)) {
+    if ( is_wp_error( $responds ) ) {
       return false;
     }
 
@@ -323,15 +328,14 @@ class Visita_Core {
 
     if ( $responds['body'] ) {
       if ( $fh = @fopen(WP_CONTENT_DIR . "/cache/_json/${lang}.json", "w" ) ) {
-        fwrite( $fh, $responds['body']);
+        fwrite( $fh, $responds['body'] );
         fclose( $fh );
 
-        if ( function_exists('wpsc_delete_url_cache') ) {
+        if ( function_exists( 'wpsc_delete_url_cache' ) ) {
           wpsc_delete_url_cache(
             get_permalink( ($lang == 'es' ? 7057 : 8041) )
           );
         }
-
       }
     }
   }
@@ -349,44 +353,44 @@ class Visita_Core {
 
     $file = WP_CONTENT_DIR . "/cache/_json/{$this->lang}.json";
 
-    if (file_exists($file) && $weather_data = file_get_contents($file) ) {
+    if ( file_exists( $file ) && $weather_data = file_get_contents( $file ) ) {
 
-      $weather_json = json_decode($weather_data);
-      $weather_json->unit = 'F';
-      $weather_json->lang = $this->lang;
-      $weather_json->now = round($weather_json->current->temp_f);
-      $weather_json->now_feelslike = round($weather_json->current->feelslike_f);
+      $json = json_decode( $weather_data );
 
-      if ($this->lang == 'es') {
-        $weather_json->unit = "C";
-        $weather_json->now = round($weather_json->current->temp_c);
-        $weather_json->now_feelslike = round($weather_json->current->feelslike_c);
-      }
+      $json->lang = $this->lang;
+      $json->region = __('NV', 'visita');
+      $json->location = __('Las Vegas', 'visita');
+      $json->now = current_time( 'timestamp' );
+      $json->unit = $this->lang == 'es' ? 'C' : 'F';
+      $json->currently->icon = plugins_url( "visita/img/64x64/{$json->currently->icon}.png" );
 
-      $weather_json->now_icon = str_replace(
-        '//cdn.apixu.com/weather', plugins_url( 'visita/img' ),
-        $weather_json->current->condition->icon
-      );
-
-      foreach ( $weather_json->forecast->forecastday as $key => $forecast ) {
-        $weather_json->forecast->forecastday[$key]->unit = 'F';
-        $weather_json->forecast->forecastday[$key]->avgtemp = $temp = round($forecast->day->avgtemp_f);
-
-        if ($this->lang == 'es') {
-          $weather_json->forecast->forecastday[$key]->unit = "C";
-          $weather_json->forecast->forecastday[$key]->avgtemp = $temp = round($forecast->day->avgtemp_c);
+      foreach ( $json->daily->data as $key => $forecast ) {
+        if ( in_array( $key, array(0, 7) )) {
+          unset( $json->daily->data[$key] );
+          continue;
         }
-
-        $weather_json->forecast->forecastday[$key]->icon = str_replace(
-          '//cdn.apixu.com/weather', plugins_url( 'visita/img' ),
-          $forecast->day->condition->icon
-        );
+        $json->daily->data[$key]->unit = $json->unit;
+        $json->daily->data[$key]->day = date_i18n( 'l', $forecast->time );
+        $json->daily->data[$key]->short = date_i18n( 'D', $forecast->time );
+        $json->daily->data[$key]->icon = plugins_url( "visita/img/64x64/{$forecast->icon}.png" );
       }
+      $json->daily = $json->daily->data;
 
-      return $this->weather_data = $weather_json;
+      return $json;
     }
 
     return false;
+  }
+
+  /**
+  *
+  * @return string
+  * @since 2.1.7
+  */
+  function compass_deg_to_text( $deg ){
+    $val = floor(($deg / 45) + 0.5);
+    $options = ["N","NE","E", "SE","S","SW","W","NW"];
+    return $options[($val % 8)];
   }
 
   /**
@@ -401,23 +405,24 @@ class Visita_Core {
       $forecast_days = '';
       $weather_icon = sprintf(
         '<img src="%1$s" alt="%2$s" title="%2$s">',
-        esc_url( $data->now_icon ),
-        esc_attr( $data->current->condition->text )
+        esc_url( $data->currently->icon ),
+        esc_attr( $data->currently->summary )
       );
 
-      foreach ($data->forecast->forecastday as $forecast) {
+      foreach ( $data->daily as $forecast ) {
         $forecast_days .= sprintf(
           '<div class="column column-block">
             <div class="text-center">
-              <div>%3$s</div>
-              <img src="%5$s" alt="%2$s" title="%2$s">
-              <div class="show-for-medium">%2$s</div>
-              <div>%1$s&deg;%4$s</div>
+              <div class="strong text-cap">%4$s</div>
+              <img src="%6$s" alt="%3$s" title="%3$s">
+              <div class="show-for-medium">%3$s</div>
+              <div>%1$s&deg;%5$s / %2$s&deg;%5$s</div>
             </div>
           </div>',
-          esc_html( $forecast->avgtemp ),
-          esc_attr( $forecast->day->condition->text ),
-          esc_attr( date_i18n( 'D', $forecast->date_epoch ) ),
+          esc_html( round($forecast->temperatureMin) ),
+          esc_html( round($forecast->temperatureMax) ),
+          esc_attr( $forecast->summary ),
+          esc_attr( $forecast->day ),
           esc_html( $forecast->unit ),
           esc_url( $forecast->icon )
         );
@@ -425,12 +430,12 @@ class Visita_Core {
 
       return sprintf(
         '<div class="row weather-current">
-          <div class="small-12 medium-4 columns text-center">
+          <div class="small-12 medium-5 columns text-center">
             <div class="weather-image">%13$s</div>
             <div class="weather-text">%4$s</div>
             <div>%1$s, %2$s</div>
           </div>
-          <div class="small-12 medium-8 columns text-center medium-text-left">
+          <div class="small-12 medium-7 columns text-center medium-text-left">
             <div class="weather-deg">%3$s&deg;%12$s</div>
             <div class="row weather-detail">
               <div class="small-12 columns">%10$s %5$s%%</div>
@@ -439,16 +444,16 @@ class Visita_Core {
             </div>
           </div>
         </div>
-        <div class="row small-up-5 weather-forecast">%14$s</div>',
-        esc_html( $data->location->name ),
-        esc_html( $data->location->region ),
-        esc_html( $data->now ),
-        esc_html( $data->current->condition->text ),
+        <div class="row small-up-3 weather-forecast">%14$s</div>',
+        esc_html( $data->location ),
+        esc_html( $data->region ),
+        esc_html( round($data->currently->temperature) ),
+        esc_html( $data->currently->summary ),
 
-        esc_html( $data->current->humidity ),
-        esc_html( $data->current->wind_kph ),
-        esc_html( $data->current->wind_dir ),
-        esc_html( $data->now_feelslike ),
+        esc_html( $data->currently->humidity * 100 ),
+        esc_html( round($data->currently->windSpeed) ),
+        $this->compass_deg_to_text( $data->currently->windBearing ),
+        esc_html( round($data->currently->apparentTemperature) ),
 
         esc_html__( 'Wind:', 'visita'),
         esc_html__( 'Humidity:', 'visita'),

@@ -83,6 +83,16 @@ iframe {
   }
 }
 
+.text {
+  &-cap {
+    text-transform: capitalize;
+  }
+}
+
+.strong, .bold {
+  font-weight: 800;
+}
+
 .adsbygoogle.top {
   margin: .75em auto;
   max-height: 120px;

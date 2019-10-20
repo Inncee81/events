@@ -37,19 +37,19 @@
 
   &-forecast,
   &-current {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    padding-top: $global-padding;
     padding-bottom: $global-padding;
     background-color: $gray-lightest;
   }
 
   &-forecast {
-    border-top: solid 1px $gray-light;
-    padding-top: $global-padding;
+    border-top: solid 4px $white;
+    padding-top: $global-padding * 2;
     margin-bottom: $global-margin * 2;
   }
 
   &-image img {
     max-width: 128px;
   }
+
 }
