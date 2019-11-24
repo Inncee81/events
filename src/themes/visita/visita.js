@@ -108,6 +108,7 @@ const mobileWidth =  640;
 
   // document loaded
   $(() => {
+    lazyLoad.update();
     $(document).foundation();
 
     if (doc.location.hash == '#reviews') {
