@@ -7,7 +7,7 @@
   "gcm_sender_id": "869729923775",
   "gcm_user_visible_only": true,
   "display": "standalone",
-  "start_url": "/",
+  "start_url": "https://visita.vegas/",
   "theme_color": "#200d35",
   "background_color": "#ffffff",
   "display": "standalone",
