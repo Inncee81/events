@@ -413,10 +413,6 @@ if ( ! class_exists( 'XparkMedia' ) ) {
 			return  site_url( str_replace( array('wp-login.php' ), 'access', $path ) );
 		}
 
-		function attachment_url($url) {
-			return str_replace( array('https://'), 'https://s.', $url );
-		}
-
 		/*
 		*
 		*/

@@ -6,9 +6,9 @@ import 'foundation/js/foundation.util.keyboard';
 import 'foundation/js/foundation.util.triggers';
 import 'foundation/js/foundation.util.mediaQuery';
 
-import {langs} from './langs';
+import { langs } from './langs';
 import LazyLoad from 'vanilla-lazyload';
-import {TinyDatePicker, DateRangePicker} from 'tiny-date-picker/dist/date-range-picker'
+import { TinyDatePicker, DateRangePicker } from 'tiny-date-picker/dist/date-range-picker'
 
 const mobileWidth =  640;
 const lazyLoad = new LazyLoad();
