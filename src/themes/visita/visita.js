@@ -11,8 +11,6 @@ import LazyLoad from 'vanilla-lazyload';
 import { TinyDatePicker, DateRangePicker } from 'tiny-date-picker/dist/date-range-picker'
 
 const mobileWidth =  640;
-const lazyLoad = new LazyLoad();
-
 
 ( ( $, doc ) => {
 
@@ -71,8 +69,8 @@ const lazyLoad = new LazyLoad();
     }
 	});
 
-  // Don't allow iframes to redirect parent page
-  if (window.top !== window.self) {
+  // Don't allow iframes
+  if ( window.top !== window.self ) {
     delete window.top.onbeforeunload;
   }
 
@@ -116,6 +114,8 @@ const lazyLoad = new LazyLoad();
       $('[data-reviews]').trigger('click');
     }
   });
+
+  const lazyLoad = new LazyLoad();
 
 } )( jQuery, document );
 
