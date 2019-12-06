@@ -1,7 +1,6 @@
 User-agent: *
 
 Disallow: /comments
-Disallow: */feed
 Disallow: */trackback
 Disallow: */comments
 Disallow: /*.txt
