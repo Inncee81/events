@@ -500,7 +500,6 @@ amp-sidebar a:visited {
 	padding: .35em 1.25em;
 }
 
-
 ul.event-list {
 	padding: 0;
   margin: 0 0 2em;
@@ -517,6 +516,10 @@ ul.event-list {
   display: block;
 }
 
+.event-list li .em {
+	display: block;
+}
+
 .event-list li strong {
   padding: 0 5px;
 }
@@ -527,6 +530,15 @@ ul.event-list {
   padding: 8px;
 	text-decoration: none;
 	line-height: 1.5em;
+}
+
+.event-list-title {
+	padding-top: 1em;
+	font-weight: 800;
+}
+
+.event-list-title a[rel] {
+  text-decoration: none;
 }
 
 .single .no-events {
@@ -620,7 +632,7 @@ ul.event-list {
 }
 
 .sh-links .sh-fb {
-  background-position: -24px 2px; 
+  background-position: -24px 2px;
 }
 
 .sh-links .sh-gp {

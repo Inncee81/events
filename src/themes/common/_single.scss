@@ -11,7 +11,7 @@ body.page .entry-title {
     font-weight: 700;
 
     &:before {
-      content: '\f041';
+      content     : '\f041';
       margin-right: 5px;
     }
   }
@@ -29,13 +29,13 @@ body.page .entry-title {
   }
 
   .price {
-    color: $primary-color;
+    color      : $primary-color;
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
   }
 
   .vary {
-    color: $gray-dark;
+    color    : $gray-dark;
     font-size: 70%;
   }
 
@@ -52,8 +52,8 @@ body.page .entry-title {
   }
 
   .hmedia {
-    max-height: 260px;
-    overflow: hidden;
+    max-height   : 260px;
+    overflow     : hidden;
     border-bottom: 1px solid $gray-light;
   }
 
@@ -71,7 +71,7 @@ body.page .entry-title {
   }
 
   .entry-header {
-    padding: 1.5em 1em;
+    padding : 1.5em 1em;
     position: relative;
     @include breakpoint(small down) {
       padding: 0.75em;
@@ -80,7 +80,7 @@ body.page .entry-title {
 
   .events-futuros {
     .share_button {
-      float: none;
+      float : none;
       margin: auto;
     }
   }
@@ -88,33 +88,33 @@ body.page .entry-title {
   .day a,
   .price-action {
     background-color: $warning-color;
-    border-top: 1px solid $white;
-    color: $gray-darker;
-    font-weight: 700;
-    display: block;
-    padding: 0.65em 0.75em;
-    text-shadow: 1px 1px rgba(255, 255, 255, 0.4);
+    border-top      : 1px solid $white;
+    color           : $gray-darker;
+    font-weight     : 700;
+    display         : block;
+    padding         : 0.65em 0.75em;
+    text-shadow     : 1px 1px rgba(255, 255, 255, 0.4);
     @include breakpoint(small down) {
       font-size: 0.9em;
     }
 
     &:after {
-      float: right;
+      float  : right;
       content: $fa-var-angle-right;
     }
 
     &:focus,
     &:hover {
-      color: $black;
-      box-shadow: 0 8px 34px rgba(0,0,0,.3);
-      -moz-transform: scale(1.03);
+      color            : $black;
+      box-shadow       : 0 8px 34px rgba(0,0,0,.3);
+      -moz-transform   : scale(1.03);
       -webkit-transform: scale(1.03);
-      transform: scale(1.03);
+      transform        : scale(1.03);
     }
   }
 
   .dates {
-    padding: 0 1em 1em;
+    padding      : 0 1em 1em;
     border-bottom: 1px solid $gray-light;
     @include breakpoint(small down) {
       padding: 0 0.5em 1em;
@@ -123,7 +123,7 @@ body.page .entry-title {
 
   .inactive,
   .no-events {
-    color: $gray-dark;
+    color           : $gray-dark;
     background-color: $gray-lightest;
 
     &:after {
@@ -132,7 +132,7 @@ body.page .entry-title {
   }
 
   .no-events {
-    color: #828282;
+    color     : #828282;
     text-align: center;
   }
 
@@ -146,8 +146,8 @@ body.page .entry-title {
       padding: 0 0.75em;
     }
 
-    > :first-child,
-    > .hidden ~ * {
+    > .hidden ~ *,
+    > :first-child {
       margin-top: 0.75em;
     }
 
@@ -173,21 +173,21 @@ body.page .entry-title {
 }
 
 .single-post .share_button {
-  float: none;
+  float     : none;
   margin-top: 0;
 }
 
 .taxonomy-links {
-  font-size: 0.7em;
+  font-size  : 0.7em;
   padding-top: 1em;
 
   a {
-    color: $gray-darker;
-    display: inline-block;
-    border: solid 1px $gray-medium;
+    color      : $gray-darker;
+    display    : inline-block;
+    border     : solid 1px $gray-medium;
     font-weight: 500;
     margin-left: -1px;
-    padding: 4px 6px;
+    padding    : 4px 6px;
   }
 }
 
@@ -201,8 +201,8 @@ body.page .entry-title {
 
 .error404 .no-results {
   margin-top: 14px;
-  padding: 1em 0.75em 0;
-  border: 1px solid $gray-light;
+  padding   : 1em 0.75em 0;
+  border    : 1px solid $gray-light;
   @include breakpoint(medium up) {
     padding: 1em;
   }
@@ -215,7 +215,7 @@ body.page .entry-title {
 .entry-tools {
   margin-top: 0.65em;
   @include breakpoint(medium up) {
-    float: right;
+    float     : right;
     margin-top: -5em;
 
     .share_button {
@@ -229,25 +229,25 @@ body.page .entry-title {
 }
 
 .share_button {
-  display: block;
+  display    : block;
   margin-left: -5px;
   padding-top: 0.65em;
   @include breakpoint(medium up) {
-    float: right;
+    float     : right;
     margin-top: -3em;
   }
 }
 
 .share_button a {
-  display: inline-block;
-  height: 34px;
-  margin: 0 5px 2px;
-  width: 34px;
+  display         : inline-block;
+  height          : 34px;
+  margin          : 0 5px 2px;
+  width           : 34px;
   background-color: #eee;
-  text-align: center;
-  line-height: 2.25em;
-  color: #a0a5aa;
-  overflow: hidden;
+  text-align      : center;
+  line-height     : 2.25em;
+  color           : #a0a5aa;
+  overflow        : hidden;
 
   &:before {
     margin: 0 22px 0 9px;
@@ -255,7 +255,7 @@ body.page .entry-title {
 
   &:focus,
   &:hover {
-    color: #fff;
+    color           : #fff;
     background-color: $primary-color;
   }
 }
@@ -273,7 +273,7 @@ body.page .entry-title {
 }
 
 .sh-wa:before {
-  content: $fa-var-whatsapp;
+  content  : $fa-var-whatsapp;
   font-size: 1.2em;
 }
 
@@ -290,52 +290,53 @@ body.page .entry-title {
 }
 
 .nav-previous {
-  text-align: left;
+  text-align  : left;
   padding-left: 10px;
 
   a::before {
-    content: $fa-var-angle-left;
-    left: -10px;
+    content : $fa-var-angle-left;
+    left    : -10px;
     position: absolute;
-    top: 0;
+    top     : 0;
   }
 }
 
 .nav-next {
-  text-align: right;
+  text-align   : right;
   padding-right: 10px;
 
   a::after {
-    content: $fa-var-angle-right;
+    content : $fa-var-angle-right;
     position: absolute;
-    right: -10px;
-    top: 0;
+    right   : -10px;
+    top     : 0;
   }
 }
 
 .caldera-grid label {
-  display: inline-block;
+  display  : inline-block;
   min-width: 9.5em;
   @include breakpoint(small down) {
     min-width: 45%;
-    padding: 0 2%;
+    padding  : 0 2%;
   }
 }
 
 .event-list {
   border-top: 2px solid $gray-medium;
-  margin: 0 0 2em;
+  margin    : 0 0 2em;
 
   &-title {
     padding-top: 1em;
     font-weight: 800;
+
     a[rel] {
       text-decoration: none;
     }
   }
 
   li {
-    display: block;
+    display   : block;
     list-style: none;
   }
 
@@ -351,11 +352,11 @@ body.page .entry-title {
   }
 
   li a.url {
-    display: block;
+    display        : block;
     text-decoration: none;
-    border-bottom: 2px solid #ddd;
-    padding: 8px;
-    position: relative;
+    border-bottom  : 2px solid #ddd;
+    padding        : 8px;
+    position       : relative;
     @include breakpoint(medium up) {
       padding: 8px 20px;
     }
@@ -366,9 +367,9 @@ body.page .entry-title {
   }
 
   li a:before {
-    content: $fa-var-angle-right;
-    right: 1em;
-    top: 35%;
+    content : $fa-var-angle-right;
+    right   : 1em;
+    top     : 35%;
     position: absolute;
   }
 }
