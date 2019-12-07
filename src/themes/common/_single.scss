@@ -326,6 +326,14 @@ body.page .entry-title {
   border-top: 2px solid $gray-medium;
   margin: 0 0 2em;
 
+  &-title {
+    padding-top: 1em;
+    font-weight: 800;
+    a[rel] {
+      text-decoration: none;
+    }
+  }
+
   li {
     display: block;
     list-style: none;
@@ -347,17 +355,21 @@ body.page .entry-title {
     text-decoration: none;
     border-bottom: 2px solid #ddd;
     padding: 8px;
+    position: relative;
     @include breakpoint(medium up) {
       padding: 8px 20px;
     }
   }
 
+  li .em {
+    display: block;
+  }
+
   li a:before {
     content: $fa-var-angle-right;
-    float: right;
-    @include breakpoint(small down) {
-      line-height: 3em;
-    }
+    right: 1em;
+    top: 35%;
+    position: absolute;
   }
 }
 

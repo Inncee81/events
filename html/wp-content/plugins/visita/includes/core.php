@@ -753,7 +753,7 @@ class Visita_Core {
         <a itemprop="url" class="url" href="%1$s" title="%2$s" rel="bookmark">
           <meta class="image" itemprop="image" content="%8$s" />
           <time itemprop="startDate" datetime="%4$s">%5$s</time> <strong itemprop="name">%3$s</strong>
-          <span class="%9$s" itemprop="location" itemscope itemtype="http://schema.org/Place">' . __( 'at', 'visita' ) . '
+          <span class="%9$s" itemprop="location" itemscope itemtype="http://schema.org/Place">
             <span itemprop="name">%6$s</span>
             <span class="hidden" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
               <span itemprop="streetAddress">%7$s</span>
@@ -775,7 +775,7 @@ class Visita_Core {
     }
 
     return sprintf(
-      '<h2><a href="/" title="%1$s" rel="bookmark">%2$s</a></h2>
+      '<h2 class="event-list-title"><a href="/" title="%1$s" rel="bookmark">%2$s</a></h2>
       <ul class="event-list">%3$s</ul>',
       esc_attr($titulo),
       __( 'Events', 'visita' ),

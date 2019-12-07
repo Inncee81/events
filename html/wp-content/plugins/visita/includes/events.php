@@ -225,6 +225,12 @@ class VisitaEvents extends VisitaBase {
           'type' => 'tab',
         ),
         array(
+          'key' => '_start_end',
+          'name' => '_start_end',
+          'type' => 'true_false',
+          'message' => __( 'Start/End Date', 'visita' ),
+        ),
+        array(
           'min'=> 0,
           'key' => '_times',
           'name' => '_times',
@@ -546,12 +552,13 @@ class VisitaEvents extends VisitaBase {
 
     // update english version from Spanish
     $tr_lang  = false;
-    $dont_sync = isset($_POST['_dont_sync']);
+    $dont_sync = isset( $_POST['acf']['_dont_sync' ]);
+    $start_end = isset( $_POST['acf']['_start_end' ]);
 
-    if ( !$dont_sync && !empty( $_POST['post_tr_lang']['en'] ) ) {
+    if ( ! $dont_sync && ! empty( $_POST['post_tr_lang']['en'] ) ) {
       $tr_lang = $_POST['post_tr_lang']['en'];
 
-      foreach (array(
+      foreach ( array(
         '_zip', '_city', '_street', '_location', '_phone', '_price', '_price_max', '_event_type', '_permanent'
       ) as $post_meta_key) {
         update_post_meta( $tr_lang, $post_meta_key, $_POST['acf'][$post_meta_key] );
@@ -562,12 +569,34 @@ class VisitaEvents extends VisitaBase {
     foreach ( $values = (array) $_POST['acf'] as $meta_key => $meta_value ) {
 
       $starts = $ends = false;
-      if ($meta_key == '_times' && is_array($meta_value)) {
+      if ( $meta_key == '_times' && is_array( $meta_value ) ) {
+
         foreach ( $meta_value as $time ) {
           $time = strtotime( "{$time['_date']} {$time['_time']}" );
 
           $starts = ( $time < $starts || ! $starts ) ? $time : $starts;
           $ends = ( $time >= $ends || ! $ends ) ? ( $time + ( $values['_duration'] * 60 ) ) : $ends;
+        }
+
+        // fill days
+        if ( $start_end ) {
+          $date_start = new DateTime();
+          $date_start->setTimestamp( $starts );
+
+          $date_ends = new DateTime();
+          $date_ends->setTimestamp( $ends );
+
+          $times = array();
+          foreach (new DatePeriod( $date_start, new DateInterval('P1D'), $date_ends ) as $dt ) {
+            $times[] = array(
+              '_date_link' => '',
+              '_date' => $dt->format('Ymd'),
+              '_time' => $dt->format('H:i'),
+              '_availability' => $time['_availability'],
+            );
+          }
+          
+          update_post_meta( $post_id, '_times',  $times );
         }
 
         update_post_meta( $post_id, '_ends', $ends );
@@ -580,7 +609,7 @@ class VisitaEvents extends VisitaBase {
         }
       }
 
-      if ( $meta_key == '_times' && empty($meta_value)) {
+      if ( $meta_key == '_times' && empty( $meta_value ) ) {
         update_post_meta( $post_id, '_ends', '' );
         update_post_meta( $post_id, '_starts', '' );
       }
@@ -957,7 +986,7 @@ class VisitaEvents extends VisitaBase {
     foreach ( $posts as $post ) {
       $times = array(); $starts = false;
 
-      foreach( (array) get_post_meta($post->ID, '_times', true) as $dates ) {
+      foreach( (array) get_post_meta( $post->ID, '_times', true ) as $dates ) {
         if ( $dates['_date'] > $yesterday ) {
           $time = strtotime( "{$dates['_date']} {$dates['_time']}" );
           $starts = ( $time < $starts || ! $starts ) ? $time : $starts;
@@ -965,8 +994,8 @@ class VisitaEvents extends VisitaBase {
         }
       }
 
-      update_post_meta($post->ID, '_times',  $times);
-      update_post_meta($post->ID, '_starts',  $starts);
+      update_post_meta( $post->ID, '_times',  $times );
+      update_post_meta( $post->ID, '_starts',  $starts );
 
       if ( empty( $times ) ) {
         if ( get_post_meta( $post->ID, '_permanent', true ) ) {
