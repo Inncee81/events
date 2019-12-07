@@ -552,8 +552,8 @@ class VisitaEvents extends VisitaBase {
 
     // update english version from Spanish
     $tr_lang  = false;
-    $dont_sync = isset( $_POST['acf']['_dont_sync' ]);
-    $start_end = isset( $_POST['acf']['_start_end' ]);
+    $dont_sync = ! empty( $_POST['acf']['_dont_sync' ] );
+    $start_end = ! empty( $_POST['acf']['_start_end' ] );
 
     if ( ! $dont_sync && ! empty( $_POST['post_tr_lang']['en'] ) ) {
       $tr_lang = $_POST['post_tr_lang']['en'];
@@ -595,7 +595,7 @@ class VisitaEvents extends VisitaBase {
               '_availability' => $time['_availability'],
             );
           }
-          
+
           update_post_meta( $post_id, '_times',  $times );
         }
 
